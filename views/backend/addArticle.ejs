@@ -39,16 +39,14 @@
                     <%for(var j=0;j<artInfo.types.length;j++){%>
                       <%if(artInfo.types[j].id==typeName[i].id){%>
                         <div class="radio3 radio-check radio-inline">
-                          <input type="radio" id=< %="radio_" +i %> name="arc_type" value=
-                          <%=typeName[i]._id%> checked>
+                          <input type="radio" id= <%="radio_"+ i %> name="arc_type" value=<%=typeName[i]._id%> checked>
                             <label for=<%="radio_" +i %>>
                               <%=typeName[i].type_name%>
                             </label>
                         </div>
                         <%break;}else{%>
                           <div class="radio3 radio-check radio-inline">
-                            <input type="radio" id=< %="radio_" +i %> name="arc_type" value=
-                            <%=typeName[i]._id%>>
+                            <input type="radio" id= <%="radio_"+ i %> name="arc_type" value=<%=typeName[i]._id%>>
                               <label for=<%="radio_" +i %>>
                                 <%=typeName[i].type_name%>
                               </label>
@@ -57,8 +55,7 @@
                             <%}%>
                               <%} else{%>
                                 <div class="radio3 radio-check radio-inline">
-                                  <input type="radio" id=< %="radio_" +i %> name="arc_type" value=
-                                  <%=typeName[i]._id%> >
+                                  <input type="radio" id= <%="radio_"+ i %> name="arc_type" value=<%=typeName[i]._id%> >
                                     <label for=<%="radio_" +i %>>
                                       <%=typeName[i].type_name%>
                                     </label>
@@ -78,7 +75,7 @@
                             <%if(artInfo.tags[j].id==tagName[i].id){%>
                               <input type="checkbox" checked id=<%="checkbox-fa-light-" +i %> value="
                               <%=tagName[i]._id %>" name="arc_tags" checked >
-                                <label for=<%="checkbox-fa-light-" +i %>>
+                                <label for=<%="checkbox-fa-light-"+i %>>
                                   <%=tagName[i].tag_name %>
                                 </label>
                                 <%select=true;%>
