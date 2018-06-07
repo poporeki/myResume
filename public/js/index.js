@@ -1,180 +1,201 @@
-;
+function opt(_color, _num, _text, _fontSize) {
+  return option = {
+    color: [_color],
+    series: [{
+      name: '值',
+      type: 'pie',
+      clockWise: true, //顺时加载
+      hoverAnimation: false, //鼠标移入变大
+      radius: ['60%', '61%'],
+      itemStyle: {
+        normal: {
+          label: {
+            show: true,
+            position: 'inside'
+          },
+          labelLine: {
+            show: false,
+            length: 0,
+            smooth: 0.5
+          },
+          borderWidth: 5,
+          shadowBlur: 40,
+          borderColor: _color,
+          shadowColor: 'rgba(0, 0, 0, 0)' //边框阴影
+        }
+      },
+      data: [{
+        value: _num,
+        /* name: _num + '0%' */
+      }, {
+        value: 10 - _num,
+        name: '',
+        itemStyle: {
+          normal: {
+            color: "rgba(0,0,0,0)",
+            borderColor: "rgba(0,0,0,0)",
+            borderWidth: 0
+          }
+        }
+      }]
+    }, {
+      name: '白',
+      type: 'pie',
+      clockWise: true,
+      hoverAnimation: true,
+      radius: [100, 100],
+      label: {
+        normal: {
+          position: 'center'
+        }
+      },
+      data: [{
+        value: 1,
+        label: {
+          normal: {
+            formatter: _text,
+            textStyle: {
+              color: '#666666',
+              fontSize: _fontSize
+            }
+          }
+        }
+      }]
+    }]
+  };
+}
 $(function () {
-	/* 背景图片地址 */
-	var imgurl = {
-		page1: "../images/bg-1.jpg",
-		page2: "../images/bg-2.jpg",
-		page3:"../images/bg-3.jpg",
-		page4:"../images/bg-4.jpg",
-		page5:"../images/bg-5.jpg",
-		page6:"../images/bg-6.jpg"
-	}
-	var $page = $('.page-item'),
-		$navbar = $('.navbar');
+  document.body.addEventListener('touchstart', function () {});
+  preloadImg(imgurl);
+  var $page = $('.page-item'),
+    $navbar = $('.navbar');
+  /* 得到jQuery元素 n为父元素或索引，ele为查找的元素 */
+  var get$Ele = function (n, ele) {
+    if (typeof n === 'object') {
+      return $(n).find(ele);
+    }
+    return $page.eq(n).find(ele);
+  }
+  var chartArr = [];
 
-	var $menu_sidebar = $(".menu-sidebar");
-	//侧边菜单
-	$('.control-menu,.menu-sidebar .s-mask,.menu-sidebar a').on('click', function () {
-		$menu_sidebar.fadeToggle();
-	})
-	/* 设置背景图片 */
-	$('.body-bg').css({
-		"background-image": 'url("' + imgurl['page1'] + '")'
-	})
+  function createEchars(el, ops) {
+    var dom = document.getElementById(el);
+    var myChart = echarts.init(dom);
+    myChart.setOption(ops);
+    chartArr.push(myChart);
+  }
+
+  function delayAni($el, t) { /* 延迟执行动画 $el=目标元素 t=延迟时间(单位：ms) */
+    var n = 0;
+    /* 遍历元素 */
+    $el.each(function (idx, ele) {
+      n += t;
+      move(this).scale(1).delay(n).duration('.5s').end();
+    });
+  }
+  /* fullpage */
+  var full = $('#fullpage').fullpage({
+    sectionSelector: '.page-item',
+    navigation: true,
+    navigationPosition: 'right',
+    showActiveTooltip: true,
+    navigationTooltips: ['Home', '关于我', '职业技能', '作品展示', '联系我', '底部'],
+    controlArrowColor: 'rgba(0,0,0,.4)',
+    /* paddingTop: 55, */
+    resize: true,
+    vertical: true,
+    sectionsColor: ['', '', 'rgba(0,0,0,.2)', 'rgba(0,0,0,.2)'],
+    anchors: ['p_home', 'p_aboutme', 'p_skills', 'p_show', 'p_contactme', 'p_footer'],
+    scrollOverflow: true,
+    css3: true,
+    animateAnchor: true,
+    normalScrollElements: '.menu-sidebar',
+    /* responsiveWidth: 600, */
+    afterRender: function () {
+      /* 移除载入动画 */
+      var $loadEle = $('#loading_animate');
+      $loadEle.animateCss('removeLoadAni', function (el) {
+        $(el).remove();
+        get$Ele(0, '.page-title').css('opacity', 1).animateCss('zoomInUp');
+        get$Ele(0, '.title-hr').animateCss('fadeInUp', function () {
+          get$Ele(0, 'h4').animateCss('fadeInUp', function () {
+            get$Ele(0, '.page-btn-block').animateCss('fadeInUp');
+            get$Ele(0, '.page-two-btn').animateCss('fadeInDown');
+          })
+        })
+      })
+      createEchars('echars_html', opt('#fc7a26', 8, 'HTML', '130%'));
+      createEchars('echars_css', opt('#4dc21f', 9, 'CSS', '130%'));
+      createEchars('echars_js', opt('#1fc2b5', 7, 'Javascript', '130%'));
+      createEchars('echars_ps', opt('#fcad26', 6, 'Photoshop', '130%'));
+      createEchars('echars_tools', opt('#588ad3', 6, '其他工具', '130%'));
+      window.onresize = function () {
+        for (var i in chartArr) {
+          chartArr[i].resize();
+        }
+        $.fn.fullpage.reBuild();
+      }
+    },
+    afterLoad: function (i, pageNum) {
+      var _idx = pageNum - 1,
+        $tit = get$Ele(this, '.page-title'),
+        /* 当页标题 */
+        $con = get$Ele(this, '.page-content'),
+        /* 当页内容块 */
+        $panel = $con.find('.under-panel'),
+        $mItem = $con.find('.masonry-item'),
+        $pageTwoBtn = get$Ele(this, '.page-two-btn');
+      /* Navbar在第一页的时候添加class(navtop) 其他页数移除class */
+      pageNum === 1 ? $navbar.addClass('navtop') : $navbar.removeClass('navtop');
 
 
-	/* 预加载背景图 */
-	function preloadImg(imgurl) {
-		var imgWrap = [];
-		var idx = 0;
-		for (var i in imgurl) {
-			imgWrap[idx] = new Image();
-			imgWrap[idx].src = imgurl[i];
-			idx++;
-		}
+      switch (pageNum) {
+        case 1:
+          move($pageTwoBtn[0]).scale(1).end();
+          break;
+        case 3:
+          $tit.addClass('page-title-ani');
+          delayAni($panel, 100);
+          break;
+        case 4:
+          delayAni($panel, 100);
+          move($tit[0]).scale(1).end();
+          break;
+        case 5:
+      }
+    },
+    onLeave: function (index, nextIndex, dire) {
+      var _idx = index - 1,
+        $tit = get$Ele(this, '.page-title'),
+        $con = get$Ele(this, '.page-content'),
+        $panel = $con.find('.under-panel'),
+        $pageTwoBtn = get$Ele(this, '.page-two-btn');
 
-	}
-	preloadImg(imgurl);
-	/* 改变背景 */
-	function changeBg(nextIndex, dire) {
-		var $pageBg = $('.body-bg'),/* 背景底层 */
-			$pageBgUp = $pageBg.find('.page-up-bg');/*背景上层  */
-		var aniName, _idx;/* aniName 动画效果名，_idx下一页索引 */
-		var arrbg = Object.keys(imgurl);
-		if (nextIndex > arrbg.length) return;/* 当下一页索引大于背景图片数量 则返回 */
-		_idx = nextIndex;
+      changeBg(nextIndex, dire); /* 改变背景图 */
+      switch (index) {
+        case 1:
+          move($pageTwoBtn[0]).scale(0).end();
+          break;
+        case 2:
+          break;
+        case 3:
+          $tit.removeClass('page-title-ani');
+          $panel.animateCss('bounceOut', function (el) {
+            $(el).css({
+              'transform': 'scale(0)'
+            });
+          });
+          break;
+        case 4:
+          if (dire != 'down') {
+            $panel.animateCss('bounceOut', function (el) {
+              $(el).css({
+                'transform': 'scale(0)'
+              });
+            });
+          }
+      }
 
-		dire === 'down' ? aniName = 'fadeInUp' : '';/* 鼠标滚轮向下滚动时 动画效果 */
-		dire === 'up' ? aniName = 'fadeInDown' : '';/* 鼠标滚轮向上滚动时 动画效果 */
-		/* 变更上层背景图片地址 */
-		$pageBgUp.css({
-			"background-image": 'url("' + imgurl['page' + _idx] + '")'
-		}).animateCss(aniName, function () {/* 执行动画，动画结束后,变更底层背景图片 */
-			$pageBg.css({
-				"background-image": 'url("' + imgurl['page' + _idx] + '")'
-			})
-		});
-	}
-	/* 得到jQuery元素 n为父元素或索引，ele为查找的元素 */
-	var get$Ele=function(n,ele){
-		if (typeof n === 'object') {
-			return $(n).find(ele);
-		}
-		return $page.eq(n).find(ele);
-	}
-	
-	/* fullpage */
-	var full = $('#fullpage').fullpage({
-		sectionSelector: '.page-item',
-		navigation: true,
-		navigationPosition: 'right',
-		showActiveTooltip: true,
-		navigationTooltips: ['Home', '关于我', '职业技能', '作品展示', '联系我', '底部'],
-		controlArrowColor: 'rgba(0,0,0,.4)',
-		/* paddingTop: 55, */
-		resize: true,
-		vertical: true,
-		sectionsColor: ['', '', 'rgba(0,0,0,.2)', 'rgba(0,0,0,.2)'],
-		anchors: ['fp-page1', 'fp-page2', 'fp-page3', 'fp-page4', 'fp-page5', 'fp-page6'],
-		scrollOverflow: true,
-		css3: true,
-		animateAnchor: true,
-		normalScrollElements: '.menu-sidebar',
-		/* responsiveWidth: 600, */
-		afterRender: function () {
-			/* 移除载入动画 */
-			move('.loading-animate')
-				.scale(.5)
-				.duration('.5s')
-				.end(function () {
-					move('.loading-animate')
-						.translate(3000, 0)
-						.ease('in')
-						.duration('.5s')
-						.end(function () {
-							$('#loading-animate').remove();/* 动画结束时移除 */
-							/* 载入首屏动画 */
-							get$Ele(0,'.page-title').animateCss('zoomInUp');
-							get$Ele(0,'.title-hr').animateCss('fadeInUp', function () {
-								get$Ele(0,'h4').animateCss('fadeInUp', function () {
-									get$Ele(0,'.page-btn-block').animateCss('fadeInUp');
-									get$Ele(0,'.page-two-btn').animateCss('fadeInDown');
-								})
-							})
-						});
-				})
-		},
-		afterLoad: function (i, pageNum) {
-			var _idx = pageNum - 1,
-				$tit = get$Ele(this,'.page-title'),/* 当页标题 */
-				$con = get$Ele(this,'.page-content'),/* 当页内容块 */
-				$panel = $con.find('.panel'),
-				$pageTwoBtn = get$Ele(this,'.page-two-btn');
-			/* Navbar在第一页的时候添加class(navtop) 其他页数移除class */
-			pageNum === 1 ? $navbar.addClass('navtop') : $navbar.removeClass('navtop');
-			/* 延迟执行动画 $el=目标元素 t=延迟时间(单位：ms) */
-			function delayAni($el,t) {
-				var n = 0;
-				/* 遍历元素 */
-				$.each($el, function () {
-					n += t;
-					move(this).scale(1).delay(n).duration('.5s').end();
-				});
-			}
-			switch (pageNum) {
-				case 1:
-					move($tit[0]).scale(1).end();
-					break;
-				case 3:
-					$tit
-						.css({"display": 'inline-block'})
-						.addClass('page-title-ani');
-					delayAni($panel,100);
-					break;
-				case 4:
-					delayAni($panel,100);
-					move($tit[0]).scale(1).end();
-					break;
-				case 5:
-			}
-		},
-		onLeave: function (index, nextIndex, dire) {
-			var _idx = index - 1,
-				$tit = get$Ele(this,'.page-title'),
-				$con = get$Ele(this,'.page-content'),
-				$panel = $con.find('.panel'),
-				$pageTwoBtn = get$Ele(this,'.page-two-btn');
-
-			changeBg(nextIndex, dire); /* 改变背景图 */
-			switch (index) {
-				case 1:
-					move($pageTwoBtn[0]).scale(0).end();
-					break;
-				case 2:
-					break;
-				case 3:
-					$tit
-						.removeClass('page-title-ani')
-						.css({"display": 'none'});
-					$panel.animateCss('bounceOut', function (el) {
-						$(el).css({
-							'transform': 'scale(0)'
-						});
-					});
-					break;
-			}
-
-		}
-	});
+    }
+  });
 });
-
-// $(function () {
-// 	/* keyCode */
-// 	var $codeInput = $('.keycode-input');
-// 	var $showKeycode = $('.show-keycode');
-// 	$($codeInput).keydown(function (ev) {
-// 		$codeInput.val('');
-// 		var keyCode = ev.which;
-// 		$showKeycode.text("keyCode为：" + keyCode);
-// 	})
-// });

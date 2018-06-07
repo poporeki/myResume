@@ -1,0 +1,304 @@
+@import 'mixin';
+/* loading animate */
+
+body {
+  @include transform(translate3d(0, 0, 0));
+}
+
+/* ----------页面载入等待动画------------ */
+
+.loading-animate {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 19998;
+  background-color: #222;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  .preloader {
+    position: relative;
+    width: 80px;
+    span {
+      position: absolute;
+      width: 16px;
+      border-radius: 2px;
+      background: rgb(223, 198, 60);
+      animation: bounces 1s infinite linear;
+      &:nth-child(1) {
+        left: 0;
+        animation-delay: 0;
+      }
+      &:nth-child(2) {
+        left: 20px;
+        animation-delay: .25s;
+      }
+      &:nth-child(3) {
+        left: 40px;
+        animation-delay: .5s;
+      }
+      &:nth-child(4) {
+        left: 60px;
+        animation-delay: .75s;
+      }
+      &:nth-child(5) {
+        left: 80px;
+        animation-delay: 1s;
+      }
+    }
+  }
+  .loading-num {
+    margin-top: 10vh;
+    font-size: 3rem;
+    color: #747474;
+  }
+}
+
+@keyframes bounces {
+  0% {
+    transform: translateY(0px);
+    opacity: .5;
+  }
+  50% {
+    transform: translateY(-30px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: .5;
+  }
+}
+
+/* ------------------------------------nav bar-------------------------------------- */
+
+.navbar-nav {
+  >li {
+    a {
+      animation-fill-mode: forwards;
+      &:hover,
+      &:active {
+        color: rgb(255, 255, 255) !important;
+        &:before,
+        &:after {
+          transform: scale(1);
+        }
+        &.control-menu {
+          &:after,
+          &:before {
+            transform: scale(0);
+          }
+        }
+      }
+      &:before,
+      &:after {
+        position: absolute;
+        transition: transform .3s ease;
+        transform: scale(0);
+      }
+      &:before {
+        content: '[';
+        left: 0;
+      }
+      &:after {
+        content: ']';
+        right: 0;
+      }
+    }
+  }
+}
+
+/* --------------------------page-item animate------------------------------------- */
+
+.home-page {
+  .page-title,
+  .title-hr,
+  h4 {
+    opacity: 0;
+    animation-fill-mode: forwards;
+  }
+}
+
+/* ------------------about-me------------------- */
+
+/* -------头像动画------- */
+
+@keyframes headAni {
+  0% {
+    transform: translateX(0vw);
+  }
+  55% {
+    transform: translateX(5vw);
+  }
+  90% {
+    transform: translateX(0vw);
+  }
+}
+
+.about-me {
+  .my-photo-block {
+    @include transition(all 1s);
+    animation: headAni 4s infinite;
+  }
+  .text-block {
+    .row {
+      >div {
+        transition: background-color 1s ease, color 1s ease;
+        &:hover,
+        &:active {
+          background-color: #333;
+          color: #e8e8e8;
+          i.iconfont {
+            transform: scale(1.2);
+          }
+        }
+        i.iconfont {
+          @include transition(transform .5s ease);
+        }
+      }
+    }
+  }
+}
+
+/* -------------skills-page------------------- */
+
+.skills-page,
+.works-show {
+  .page-content .panel {
+    transform: scale(0);
+  }
+}
+
+/* skills */
+
+.page-title-ani {
+  display: inline-block;
+  animation: titleAniTop 2s ease-in-out;
+}
+
+/* ------.page-title-ani 标题进入动画----------- */
+
+@keyframes titleAniTop {
+  0% {
+    opacity: 1;
+    transform: translateY(-100vh);
+  }
+  20% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-30vh);
+  }
+  40% {
+    transform: translateY(0);
+  }
+  41% {
+    transform: translateY(-20vh);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  51% {
+    transform: translateY(-15vh);
+  }
+  60% {
+    transform: translateY(0);
+  }
+  61% {
+    transform: translateY(-10vh);
+  }
+  65% {
+    transform: translateY(0);
+  }
+  66% {
+    transform: translateY(-8vh);
+  }
+  70% {
+    transform: translateY(0);
+  }
+  71% {
+    transform: translateY(-5vh);
+  }
+  75% {
+    transform: translateY(0);
+  }
+  81% {
+    transform-origin: right top;
+    transform: translateY(2vh) rotate(15deg);
+  }
+  100% {
+    transform-origin: right top;
+    transform: rotate(10deg) translateY(2vh);
+  }
+}
+
+/* -------------contact-me--------------------- */
+
+/* -------------fp-show-active -------------*/
+
+.fp-show-active .active span {
+  @include transition(box-shadow 1s ease-in);
+  box-shadow: 0 0 1px #000;
+  animation: fpShowActiveAni 3s infinite;
+}
+
+@keyframes fpShowActiveAni {
+  0% {
+    box-shadow: 0 0 1px #000;
+    background-color: #333;
+  }
+  50% {
+    box-shadow: 0 0 10px #000;
+    background-color: rgb(62, 235, 212);
+  }
+  0% {
+    box-shadow: 0 0 1px #000;
+    background-color: #333;
+  }
+}
+
+.animated.removeLoadAni {
+  animation: removeLoadAni 1s ease;
+}
+
+@keyframes removeLoadAni {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(.5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(.5);
+    opacity: 0;
+    transform: translateX(200vw);
+  }
+}
+
+.animated.scaleShow {
+  @include transform(scale(1) !important);
+  @include transition-duration('.5s' !important);
+}
+
+/* -------------sidebar------------------------------ */
+
+.menu-sidebar {
+  visibility: hidden;
+  transition: opacity .5s ease-out;
+  opacity: 0;
+  .s-content-block {
+    transition: transform .2s ease-out;
+    transform: translateX(100%);
+  }
+}
+
+.menu-sidebar.show {
+  visibility: visible;
+  opacity: 1;
+  .s-content-block {
+    transform: translateX(0);
+  }
+}

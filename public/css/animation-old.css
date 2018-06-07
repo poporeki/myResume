@@ -1,0 +1,270 @@
+/* loading animate */
+
+body {
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    
+}
+
+/* bodyBackground */
+
+/* ----------页面载入等待动画------------ */
+.loading-animate {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 19998;
+    background-color: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.loading-animate #preloader-4 {
+    position: relative;
+    width: 80px;
+}
+.loading-animate .loading-num{
+    margin-top: 10vh;
+    font-size: 3rem;
+    color: #747474;
+}
+
+.loading-animate #preloader-4 span {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;
+    background: rgb(223, 198, 60);
+    animation: bounces 1s infinite linear;
+}
+
+.loading-animate #preloader-4 span:nth-child(1) {
+    left: 0;
+    animation-delay: 0;
+}
+
+.loading-animate #preloader-4 span:nth-child(2) {
+    left: 20px;
+    animation-delay: .25s;
+}
+
+.loading-animate #preloader-4 span:nth-child(3) {
+    left: 40px;
+    animation-delay: .5s;
+}
+
+.loading-animate #preloader-4 span:nth-child(4) {
+    left: 60px;
+    animation-delay: .75s;
+}
+
+.loading-animate #preloader-4 span:nth-child(5) {
+    left: 80px;
+    animation-delay: 1s;
+}
+
+@keyframes bounces {
+    0% {
+        transform: translateY(0px);
+        opacity: .5;
+    }
+    50% {
+        transform: translateY(-30px);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0px);
+        opacity: .5;
+    }
+}
+
+
+
+/* ------------------------------------nav bar-------------------------------------- */
+
+@keyframes navbarAni {
+    0% {
+        transform: scale(0);
+    }
+    70% {
+        transform: scale(1);
+    }
+    
+}
+.navbar-nav>li a:before{
+    animation-fill-mode: forwards;
+}
+.navbar-nav>li a:hover{
+    color:#333;
+}
+.navbar-nav>li a:hover:before {
+    content: '[';
+    position: absolute;
+    left: 1px;
+    animation: navbarAni 1s;
+}
+
+.navbar-nav>li a:hover:after {
+    content: ']';
+    position: absolute;
+    right: 1px;
+    
+    animation: navbarAni 1s;
+}
+
+/* --------------------------page-item animate------------------------------------- */
+
+.home-page .page-title {
+    display: none;
+    animation-fill-mode: forwards;
+}
+
+.home-page .title-hr {
+    display: none;
+}
+
+.home-page h4 {
+    display: none;
+}
+
+
+/* ------------------about-me------------------- */
+
+/* -------头像动画------- */
+@keyframes photoAni {
+    0% {
+        transform: translateX(0vw);
+    }
+    55% {
+        transform: translateX(5vw);
+    }
+    90% {
+        transform: translateX(0vw);
+    }
+}
+.about-me .my-photo-block {
+    transition: all 1s;
+    animation: photoAni 4s infinite;
+}
+
+.about-me .text-block .row>div {
+    transition: background-color 1s ease, color 1s ease;
+}
+
+.about-me .text-block .row>div:hover {
+    background-color: #333;
+    color: #e8e8e8;
+}
+
+.about-me .text-block .row>div i.fa {
+    transition: transform .5s;
+}
+
+.about-me .text-block .row>div:hover i.fa {
+    transition-delay: .3s;
+    transform: scale(1.2);
+}
+
+/* -------------skills-page------------------- */
+
+
+.skills-page .page-content .panel,.works-show .page-content .panel  {
+    transform: scale(0);
+}
+
+/* skills */
+
+.page-title-ani {
+    animation: titleAniTop 2s ease-in-out;
+}
+
+/* ------.page-title-ani 标题进入动画----------- */
+
+@keyframes titleAniTop {
+    0% {
+        opacity: 0;
+        transform: translateY(-100vh);
+    }
+    20% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    30% {
+        transform: translateY(-30vh);
+    }
+    40% {
+        transform: translateY(0);
+    }
+    41% {
+        transform: translateY(-20vh);
+    }
+    50% {
+        transform: translateY(0);
+    }
+    51% {
+        transform: translateY(-15vh);
+    }
+    60% {
+        transform: translateY(0);
+    }
+    61% {
+        transform: translateY(-10vh);
+    }
+    65% {
+        transform: translateY(0);
+    }
+    66% {
+        transform: translateY(-8vh);
+    }
+    70% {
+        transform: translateY(0);
+    }
+    71% {
+        transform: translateY(-5vh);
+    }
+    75%{
+        transform: translateY(0);
+    }
+    81% {
+        transform-origin: right top;
+        transform: translateY(2vh) rotate(15deg);
+    }
+    100% {
+        transform-origin: right top;
+        transform: rotate(10deg) translateY(2vh);
+    }
+}
+
+/* -------------contact-me--------------------- */
+
+
+/* -------------fp-show-active -------------*/
+
+.fp-show-active .active span {
+    transition: box-shadow 1s ease-in;
+    box-shadow: 0 0 1px #000;
+    animation: fpShowActiveAni 3s infinite;
+}
+
+@keyframes fpShowActiveAni {
+    0% {
+        box-shadow: 0 0 1px #000;
+        background-color: #333;
+    }
+    50% {
+        box-shadow: 0 0 10px #000;
+        background-color: rgb(62, 235, 212);
+    }
+    0% {
+        box-shadow: 0 0 1px #000;
+        background-color: #333;
+    }
+}

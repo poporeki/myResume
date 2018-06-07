@@ -1,0 +1,32 @@
+<%-include('header_blog')-%>
+  <link rel="stylesheet" href="/css/blog/articlelist.css">
+
+  <div class="wrapper">
+    <ul class="article-list">
+      <%for(var i=0;i<artList.length;i++){%>
+        <li class="article-list-item">
+          <a href=< %="/blog/article/" +artList[i].artid %>>
+            <div class="lt">
+              <div class="top">
+                <div class="title">
+                  <h4>
+                    <%=artList[i].title %>
+                  </h4>
+                </div>
+                <div class="time">
+                  <%=artList[i].create_time%>
+                </div>
+              </div>
+
+              <div class="thumbnail">
+                <%=artList[i].source%>
+              </div>
+            </div>
+
+          </a>
+        </li>
+        <%}%>
+    </ul>
+  </div>
+  <%-include('footer_blog')-%>
+    <script src="/js/blog/articlelist.js"></script>

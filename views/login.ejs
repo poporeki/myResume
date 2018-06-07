@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>登陆</title>
+  <link rel="stylesheet" href="./css/normalize.css">
+
+  <link rel="stylesheet" href="./css/login/login.css">
+  <link rel="stylesheet" href="./css/login/iconfont.css">
+  <style>
+  </style>
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+  <div class="login-box">
+    <div class="dog">
+      <img src="/images/login_pic.png" alt="">
+    </div>
+    <div class="copyright">By Yansk</div>
+    <div class="inner">
+
+      <form action="/login" method="post" class="login-form">
+        <h2>后台管理</h2>
+        <div class="control">
+
+          <input type="text" class="form-control" maxlength="10" name="uname" id="username" placeholder="输入用户名">
+          <i class="iconfont icon-head"></i>
+        </div>
+        <div class="control">
+
+          <input type="password" class="form-control" maxlength="16" name="upwd" id="upassword" placeholder="输入密码">
+          <i class="iconfont icon-password"></i>
+        </div>
+        <div class="login-btn-box">
+          <input type="button" id="login_btn" class="login-btn" value="登录">
+        </div>
+
+      </form>
+      <a href="/" class="back-btn">返回主页</a>
+      <div class="clock-block">
+        <span class="card__hours"></span>
+        :
+        <span class="card__minutes"></span>
+        :
+        <span class="card__seconds"></span>
+      </div>
+    </div>
+  </div>
+
+  <script src='https://cdn.bootcss.com/jquery/1.9.1/jquery.min.js'></script>
+  <script src="./js/login/index.js"></script>
+
+</body>
+
+
+</html>

@@ -1,0 +1,61 @@
+.article-list {
+  color: #fff;
+  background-color: rgba(0, 0, 0, .74);
+  padding: 10px 0;
+  overflow: hidden;
+  a {
+    color: #fff;
+  }
+  >.article-list-item {
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgb(41, 41, 41);
+    padding: 0 10px;
+    padding-bottom: 20px;
+    background-color: #000;
+    transition: transform .2s ease;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    &:hover,
+    &:active {
+      transform: translateX(5px);
+    }
+    >a {
+      display: flex;
+      justify-content: space-between;
+    }
+    .lt {
+      width: 100%;
+    }
+    .lt {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      .top {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        .time {
+          align-self: center;
+          color: rgb(172, 172, 172);
+        }
+        .title {
+          border-left: 5px solid #60bb46;
+          padding: 0 5px;
+          background-color: #000;
+          border-top-right-radius: 2px;
+          border-bottom-right-radius: 2px;
+        }
+      }
+      .thumbnail {
+        color: rgb(189, 189, 189);
+        padding-top: 10px;
+      }
+    }
+    .thumbnail {
+      white-space: nowrap; //强制文本在一行内输出
+      overflow: hidden; //隐藏溢出部分
+      text-overflow: ellipsis; //对溢出部分加上...
+    }
+  }
+}

@@ -1,0 +1,82 @@
+<%- include('common') -%>
+
+  <!-- Main Content -->
+  <div class="container-fluid">
+    <div class="side-body">
+      <div class="page-title">
+        <span class="title">文章列表</span>
+        <div class="description">article list.</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <div class="title">Table</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>ip</th>
+                    <th>UserAgent</th>
+                    <th>id</th>
+
+                    <th>首次访问时间</th>
+                    <th>最后一次访问时间</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for(var i=0;i<datas.length;i++){ %>
+                    <tr>
+                      <th scope="row">
+                        <%=i+1  %>
+                      </th>
+                      <td>
+                        <%= datas[i].reg_ip %>
+                      </td>
+                      <td>
+                        <%= datas[i].reg_user_agent %>
+                      </td>
+                      <td>
+                        <%= datas[i].id %>
+                      </td>
+                      <td>
+                        <%= datas[i].create_time %>
+                      </td>
+                      <td>
+                        <%= datas[i].update_time %>
+                      </td>
+                      <td>
+                        <a href="##" class="btn btn-info">修改</a>
+                        <a href="##" class="btn btn-danger">删除</a>
+                      </td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <footer class="app-footer">
+    <div class="wrapper">
+      <span class="pull-right">2.1
+        <a href="#">
+          <i class="fa fa-long-arrow-up"></i>
+        </a>
+      </span> © 2015 Copyright.
+    </div>
+  </footer>
+  <div>
+
+    <%- include('footer') -%>

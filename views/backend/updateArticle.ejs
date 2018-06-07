@@ -1,0 +1,92 @@
+<%- include('common') -%>
+
+  <div class="side-body">
+
+    <div class="row">
+      <div class="col-xs-12">
+        <form action="/backend/art/addarticle" method="post">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <div class="title">添加文章</div>
+              </div>
+            </div>
+            <div class="card-body">
+              进行文章添加的操作
+              <div class="sub-title">标题</div>
+              <div>
+                <input type="text" class="form-control" placeholder="Text input" name="text_title">
+              </div>
+              <div class="sub-title">推荐属性</div>
+              <div>
+                <input type="text" class="form-control" placeholder="Text input" name="text_attr">
+              </div>
+              <div class="sub-title">作者</div>
+              <div>
+                <p name="text_author">
+                  <%=username %>
+                </p>
+              </div>
+              <div class="sub-title">分类</div>
+              <div>
+                <% for(var i=0;i<type_name.length;i++){ %>
+                  <div class="checkbox3 checkbox-success checkbox-inline checkbox-check checkbox-round  checkbox-light">
+                    <input type="checkbox" id=<%="checkbox-fa-light-2" +type_name[i].type_name %> value="
+                    <%=type_name[i]._id   %>" name="text_typename" >
+                      <label for=<%="checkbox-fa-light-2" +type_name[i].type_name %>>
+                        <%=type_name[i].type_name %>
+                      </label>
+                  </div>
+                  <% } %>
+              </div>
+              <div class="sub-title" name="text_content">文章内容</div>
+              <div>
+                <div id="editor"></div>
+              </div>
+              <div class="sub-title">Tag标签</div>
+              <div>
+                <div class="radio3 radio-check radio-inline">
+                  <input type="radio" id="radio4" name="text_tag" value="option1" checked="">
+                  <label for="radio4">
+                    Option 1
+                  </label>
+                </div>
+                <div class="radio3 radio-check radio-success radio-inline">
+                  <input type="radio" id="radio5" name="text_tag" value="option2">
+                  <label for="radio5">
+                    Option 2
+                  </label>
+                </div>
+                <div class="radio3 radio-check radio-warning radio-inline">
+                  <input type="radio" id="radio6" name="text_tag" value="option3">
+                  <label for="radio6">
+                    Option 3
+                  </label>
+                </div>
+              </div>
+              <div class="sub-title">Toggle
+                <span class="description">( with
+                  <a href="https://github.com/nostalgiaz/bootstrap-switch">bootstrap-switch</a> )</span>
+              </div>
+              <div>
+                <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-on bootstrap-switch-small bootstrap-switch-animate"
+                  style="width: 90px;">
+                  <div class="bootstrap-switch-container" style="width: 132px; margin-left: 0px;">
+                    <input type="checkbox" class="toggle-checkbox" name="my-checkbox" checked="">
+                  </div>
+                </div>
+              </div>
+              <div class="sub-title">
+                <button type="button" class="btn btn-default submit-btn">提交</button>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <%- include('footer') -%>
+    <script src="https://cdn.bootcss.com/wangEditor/3.1.1/wangEditor.min.js"></script>
+    <script src="/js/back/addarticle.js"></script>

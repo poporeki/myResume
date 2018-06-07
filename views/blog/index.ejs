@@ -1,0 +1,70 @@
+<%- include('header_blog') -%>
+
+  <link rel="stylesheet" href="./css/blog/index.css">
+  <div class="wrapper">
+    <%- include('swiper') -%>
+      <%- include('sidebar') -%>
+        <section class="classify">
+          <h2 class="title">分类</h2>
+          <div class="classify-item">
+            <i class="iconfont icon-password"></i>A</div>
+          <div class="classify-item">B</div>
+          <div class="classify-item">C</div>
+          <div class="classify-item">D</div>
+
+        </section>
+        <div class="line"></div>
+        <section class="article">
+          <artilce class="article-list">
+            <h2 class='title'>最新文章
+              <a href="blog/articlelist">MORE</a>
+            </h2>
+            <ul>
+              <% for(var i =0;i<artList.length;i++) {%>
+                <li>
+                  <a href=<%="/blog/article/" +artList[i].id %>>
+                    <div class="card">
+                      <div class="card-header">
+                        <h4>
+                          <%= artList[i].title %>
+                        </h4>
+                      </div>
+                      <div class="card-body">
+                        <div class="pic-box">
+                          <% var str = artList[i].content; var imgReg = /<img.*?(?:>|\/>)/gi; var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i; var arr = str.match(imgReg); %>
+                            <% if(arr!=null){ %>
+                              <% var src = arr[0].match(srcReg); %>
+                                <% if(src==null) {%>
+                                  <img src="/images/login_pic.png" alt="空白">
+                                  <%}else{%>
+                                    <img src=<%=src[1] %> alt="">
+                                    <%}%>
+                                      <% } else{%>
+                                        <img src="/images/login_pic.png" alt="空白">
+                                        <%}%>
+                        </div>
+                        <p>
+                          <%- artList[i].source %>
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+                <% } %>
+            </ul>
+          </artilce>
+          <div class="right-item">
+            <h2>Tag</h2>
+            <div class="articletype-list">
+              <%for(var i=0;i<typeList.length;i++){%>
+                <a class='type-lk' href=< %="/blog/articlelist?by[type_id]=" +typeList[i].id %> >
+                  <%= typeList[i].type_name %>
+                </a>
+                <%}%>
+            </div>
+          </div>
+        </section>
+
+
+        <%- include('footer_blog') -%>
+          <script src="./js/blog/index.js"></script>

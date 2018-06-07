@@ -2,596 +2,627 @@
 <html lang="en">
 
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta http-equiv="Page-Enter" content="revealTrans(Duration=1.0,Transition=23)">
-	<title>yansk</title>
-	<!--<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">-->
-	<link rel="stylesheet" href="./css/normalize.css">
-	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
-	<!--<link rel="stylesheet" href="./node_modules/fullpage.js/dist/jquery.fullpage.min.css">-->
-	<link rel="stylesheet" href="https://cdn.bootcss.com/fullPage.js/2.9.4/jquery.fullpage.min.css">
-	<!--<link rel="stylesheet" href="./node_modules/font-awesome/css/font-awesome.min.css">-->
-	<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="./css/main.css">
-	<link rel="stylesheet" href="./css/index.css">
-	<link rel="stylesheet" href="./css/loading.css">
-	<link rel="stylesheet" href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css">
-	<link rel="stylesheet" href="./css/animation.css">
-	<!-- <link rel="stylesheet" href="./css/styles.css"> -->
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-	<!--[if lt IE 8]>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Page-Enter" content="revealTrans(Duration=1.0,Transition=23)">
+  <title>
+    <%= pageTitle %>
+  </title>
+  <!--<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">-->
+  <link rel="stylesheet" href="./css/normalize.css">
+
+  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <!--<link rel="stylesheet" href="./node_modules/fullpage.js/dist/jquery.fullpage.min.css">-->
+  <link rel="stylesheet" href="https://cdn.bootcss.com/fullPage.js/2.9.4/jquery.fullpage.min.css">
+  <link rel="stylesheet" href="./css/iconfont.css">
+  <link rel="stylesheet" href="./css/index.css">
+  <link rel="stylesheet" href="./css/animation.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css">
+
+  <!-- <link rel="stylesheet" href="./css/styles.css"> -->
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 8]>
 		<script> alert('您的浏览器版本太低，推荐升级为高版本浏览器！');window.location.href='https://www.baidu.com/s?wd=%E6%B5%8F%E8%A7%88%E5%99%A8'; </script>
 	<![endif]-->
 
-	<!--[if lt IE 9]>
+  <!--[if lt IE 9]>
 		
       <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+  <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
 
 </head>
 
 <body>
-	<!--载入等待动画-->
-	<div id='loading-animate' class="loading-animate">
-		<div id="preloader-4">
-			<span>Y</span>
-			<span>A</span>
-			<span>N</span>
-			<span>S</span>
-			<span>K</span>
-		</div>
-	</div>
-	<!--背景图片-->
-	<div class="body-bg">
-		<div class="page-up-bg"></div>
-	</div>
-	<!--顶部导航 开始-->
-	<div class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#index-header-navbar-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a href="##" class="navbar-brand">我的简历</a>
-			</div>
-			<div class="collapse navbar-collapse" id="index-header-navbar-collapse">
-				<ul class="nav navbar-nav navbar-right">
-					<li>
-						<a class="navbar-link" href="#fp-page1">HOME</a>
-					</li>
-					<li>
-						<a class="navbar-link" href="#fp-page2">关于我</a>
-					</li>
-					
-					<li>
-						<a class="navbar-link" href="#fp-page3">职业技能</a>
-					</li>
-					<li>
-						<a class="navbar-link" href="#fp-page4">项目经验</a>
-					</li>
-					<li>
-						<a class="navbar-link" href="#fp-page5">联系我</a>
-					</li>
-					<li>
-						<a class="navbar-link" href="#fp-page6">FOOTER</a>
-					</li>
-					<li>
-						<a href="##" id="control_menu" class="control-menu">功能
-						<span class="glyphicon glyphicon glyphicon-list"></span></a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
-	<!--顶部导航 结束-->
-	<div id="fullpage">
-		<div class="page-item home-page " data-page=1 id='home-page'>
-			<div class="fp-bg"></div>
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12">
-						<h1 class="text-center page-title">个人简历
-							<small>前端开发工程师</small>
-						</h1>
+  <!--载入等待动画-->
+  <div id='loading_animate' class="loading-animate">
+    <div class="preloader">
+      <span>Y</span>
+      <span>A</span>
+      <span>N</span>
+      <span>S</span>
+      <span>K</span>
+    </div>
+    <span class='loading-num'>0</span>
+  </div>
+  <!--背景图片-->
+  <div class="body-bg">
+    <div class="page-up-bg"></div>
+  </div>
+  <!--顶部导航 开始-->
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#index-header-navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a href="##" class="navbar-brand">我的简历</a>
+      </div>
+      <div class="collapse navbar-collapse" id="index-header-navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a class="navbar-link" href="#p_home">HOME</a>
+          </li>
+          <li>
+            <a class="navbar-link" href="#p_aboutme">关于我</a>
+          </li>
 
-						<hr class="title-hr" />
-						<h4 class="text-center">我的生活原则是把工作变成乐趣，把乐趣变成工作</h4>
-						<div class="row">
-							<div class="col-md-6 col-md-offset-3">
-								<div class="page-btn-block text-center">
-									<a href="#fp-page2" class="next-page-btn text-center">
-										<i class="fa  fa-info-circle fa-lg"></i> 关于我
-									</a>
-									<a href="#fp-page5" class="next-page-btn text-center">
-										<i class="fa fa-paw fa-lg"></i> 联系我
-									</a>
-								</div>
-							</div>
-						</div>
+          <li>
+            <a class="navbar-link" href="#p_skills">职业技能</a>
+          </li>
+          <li>
+            <a class="navbar-link" href="#p_show">作品展示</a>
+          </li>
+          <li>
+            <a class="navbar-link" href="#p_contactme">联系我</a>
+          </li>
+          <li>
+            <a class="navbar-link" href="#p_footer">FOOTER</a>
+          </li>
+          <li>
+            <a href="##" id="control_menu" class="control-menu">功能
+              <span class="glyphicon glyphicon glyphicon-list"></span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!--顶部导航 结束-->
+  <div id="fullpage">
+    <div class="page-item home-page " data-page=1 id='home-page'>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h1 class="text-center page-title">个人简历
+              <small>前端开发工程师</small>
+            </h1>
 
-						<a href="#fp-page2" class="page-two-btn text-center">
-							<i class="fa fa-chevron-down fa-5x"></i>
-						</a>
+            <hr class="title-hr" />
+            <h4 class="text-center">我的生活原则是把工作变成乐趣，把乐趣变成工作</h4>
+            <div class="col-md-6 col-md-offset-3">
+              <div class="page-btn-block text-center">
+                <a href="#p_aboutme" class="next-page-btn text-center">
+                  <i class="iconfont icon-info"></i> 关于我
+                </a>
+                <a href="#p_contactme" class="next-page-btn text-center">
+                  <i class="iconfont icon-contactmail"></i> 联系我
+                </a>
+              </div>
+            </div>
 
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="page-item about-me" data-page=2 id='about_me'>
-			<div class="container-fluid">
-				<div class="row">
-						<div class="col-md-12 col-xs-12">
-							<h1 class="page-title" id='skills_tit'>关于我
-								<br>
-								<small>about me</small>
-							</h1>
-						</div>
-					</div>
-				<div class="row">
-					<div class="col-md-12 ">
-						<div class="content-block">
-							<div class="my-photo-block">
-								<img src="./images/my-head.png" alt="head">
-							</div>
-							<div class="text-block text-center">
-								<div class="row masonry">
-									<div class="col-md-3 col-xs-6 masonry-item">
-										<i class="fa fa-user-circle-o fa-5x"></i>
-										<br/>
-										<h6 class="title">个人信息</h6>
-										<p>姓名：</p>
-										<span>晏思凯</span>
-										<p>年龄：</p>
-										<span>24</span>
-										<br>
-										<p>籍贯：</p>
-										<span>重庆</span>
+            <a href="#p_aboutme" class="page-two-btn text-center">
+              <i class="iconfont icon-down"></i>
+            </a>
 
-									</div>
-									<div class="col-md-3 col-xs-6 masonry-item">
-										<i class="fa fa-leanpub fa-5x"></i>
-										<br/>
-										<h6 class="title">专业学历</h6>
-										<p>学历：</p>
-										<span>大专</span>
-										<br>
-										<p>专业：</p>
-										<span>软件技术</span>
-
-									</div>
-									<div class="col-md-3 col-xs-6 masonry-item">
-										<i class="fa fa-map-marker fa-5x"></i>
-										<br/>
-										<h6 class="title">目前坐标</h6>
-										<p>成都</p>
-
-									</div>
-									<div class="col-md-3 col-xs-6 masonry-item">
-										<i class="fa fa-window-restore fa-5x"></i>
-										<br/>
-										<h6 class="title">个人信息</h6>
-										<p>姓名：</p>
-										<span>晏思凯</span>
-										<p>年龄：</p>
-										<span>24</span>
-										<p>籍贯：</p>
-										<span>重庆</span>
-
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="page-item skills-page" data-page=3 id='skills'>
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-md-12 col-xs-12">
-						<h1 class="page-title" id='skills_tit'>职业技能
-							<br>
-							<small>vocational skills</small>
-						</h1>
-					</div>
-				</div>
-				<div class="row masonry page-content">
-					<div class="col-md-3 col-xs-12 col-sm-6 masonry-item">
-						<div class="panel panel-default">
-							<div class="panel-body">
-								<h2>HTML</h2>
-								<div class="col-md-2">
-									<img src="./images/html5.png" class="img-responsive">
-								</div>
-								<div class="col-md-10">
-									<p>熟练HTML/XHTML标记语言</p>
-									<p>熟练HTML熟悉盒模型和各类布局方式、 能够根据设计图实现页面布局和交互效果</p>
-									<p>对HTML5 移动web应用有一定的了解</p>
-									<p>能够使用jade(pug)、ejs构建页面</p>
-									<br>
-								</div>
-
-							</div>
-						</div>
-					</div>
-					<div class="col-md-3 col-xs-12 col-sm-6 masonry-item">
-						<div class="panel panel-default">
-							<div class="panel-body">
-								<h2>CSS</h2>
-
-								<div class="col-md-2">
-									<img src="./images/css3.png" class="img-responsive">
-								</div>
-								<div class="col-md-10">
-									<p>熟练运用css</p>
-									<p>比较熟悉css3标准，能够在文档的帮助下独立解决常见兼容性问题</p>
-									<p>可以使用css3完成常用的动画效果</p>
-									<p>熟悉Bootstrap布局页面</p>
-									<p>能够使用less、scss等css预处理语言。</p>
-									<p>熟悉flash操作,可以用Adobe Animate CC制作canvas动画</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-3 col-xs-12 col-sm-6 masonry-item">
-						<div class="panel panel-default">
-							<div class="panel-body">
-								<h2>Javascript</h2>
-								<div class="col-md-2">
-									<img src="./images/js.png" class="img-responsive">
-								</div>
-								<div class="col-md-10">
-									<p>比较熟悉原生js、jquery的使用，对dom的操作，ajax的使用，能够在文档的帮助下解决各种兼容性问题</p>
-									<p>能根据需求实现交互效果</p>
-									<p>对闭包，作用域，对js面向对象编程的思想有一定的了解</p>
-									<p>了解过node.js,能够使用express搭建简单网站</p>
-									<p>正在学习Vue,Vue-cli,ES6</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-3 col-xs-12 col-sm-6 masonry-item">
-						<div class="panel panel-default">
-							<div class="panel-body">
-								<h2>工具</h2>
-								<div class="col-md-2 col-xs-2">
-									<img src="./images/js.png" class="img-responsive">
-								</div>
-								<div class="col-md-10 col-xs-10">
-									<p>熟悉Photoshop、Flash、office等软件的操作，有一定的网页设计能力。</p>
-									<p>熟悉Sublime Text3、Dreamweaver、VS Code、VS等编辑器、IDE的使用</p>
-									<p>能够使用自动化构建工具gulp提高效率</p>
-									<p>熟悉git的基本操作</p>
-									<p>熟练使用firebug，chrome调试工具调试代码</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-
-			</div>
-
-		</div>
-		<div class="page-item works-show" id="works_show" data-page=4>
-			<div class="container-fluid ">
-				<div class="row page-title">
-					<h1 class="text-center">作品展示
-						<br>
-						<small>works show</small>
-					</h1>
-					
-				</div>
-				<div class="row masonry page-content">
-					<div class="col-md-3 col-xs-12 col-sm-6 masonry-item">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<img src="./images/jd1.jpg" class="img-responsive">
-							</div>
-							<a href="66.112.222.60:3000" class="panel-body" target="_black">
-
-								<div class="col-md-2">
-									<h4>京东首页Demo</h4>
-								</div>
-								<div class="col-md-10">
-									<p>express框架起的项目，数据从Mysql取出，大部分效果自己手写
-									</p>
-								</div>
-							</a>
-							<a href="https://github.com/poporeki/nodeDemo" class="source-lk">源码</a>
-						</div>
-					</div>
-					<div class="col-md-3 col-xs-12 col-sm-6 masonry-item">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<img src="./images/pz4.jpg" class="img-responsive">
-							</div>
-							<a href="demo_flash.html" class="panel-body" target="_black">
-
-								<div class="col-md-2">
-									<h4>植物大战僵尸(Flash)Demo</h4>
-								</div>
-								<div class="col-md-10">
-									<p>使用Adobe Flash。在校期间用做的，植物大战僵尸Demo，完成了两个关卡。</p>
-								</div>
-							</a>
-							<a href="http://git.oschina.net/iwe/demo" class="source-lk">源码</a>
-
-						</div>
-					</div>
-					<div class="col-md-3 col-xs-12 col-sm-6 masonry-item">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<img src="./images/web.jpg" class="img-responsive">
-							</div>
-							<a href="http://www.newjingyu.com/" class="panel-body" target="_black">
-
-								<div class="col-md-2">
-									<h4>企业网站</h4>
-								</div>
-								<div class="col-md-10">
-									<p>在校期间做的第一个上线的项目，服务端:ASP.NET,开发模式：MVC,数据库：Sql Server</p>
-									<p>本人主要负责：</p>
-									<p>-根据设计图切图并完成页面的制作；图片素材的处理；数据库的设计，数据的填充；完成对京东店铺的装修</p>
-								</div>
-
-							</a>
-						</div>
-					</div>
-					<div class="col-md-3 col-xs-12 col-sm-6 masonry-item">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<img src="./images/jl.jpg" class="img-responsive">
-							</div>
-							<a href="javascript:;" class="panel-body" target="_black">
-
-								<div class="col-md-2">
-									<h4>个人简历</h4>
-								</div>
-								<div class="col-md-10">
-									<p>使用技术：</p>
-									<p>Bootstrap;jQuery;FullpageJs;AnimateJs;
-									MoveJs;FontAwesome;Express</p>
-								</div>
-
-							</a>
-						</div>
-					</div>
-					<div class="col-md-3 col-xs-12 col-sm-6 masonry-item">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<img src="./images/tbtouch.png" class="img-responsive">
-							</div>
-							<a href="javascript:;" class="panel-body" target="_black">
-
-								<div class="col-md-2">
-									<h4>淘宝手机端</h4>
-								</div>
-								<div class="col-md-10">
-									<p>使用技术：</p>
-									<p>-Vue，Vue-cli，Vue-Router，Vue-Awesome-Swiper,Axios</p>
-									<p>使用FLex布局，完成了首页及购物车页面，页面效果的实现，页面的跳转；实现购物车商品数量的增加删除，结算金额的计算</p>
-								</div>
-
-							</a>
-						</div>
-					</div>
-					<div class="col-md-3 col-xs-12 col-sm-6 masonry-item">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<img src="./images/wb.jpg" class="img-responsive">
-							</div>
-							<a href="javascript:;" class="panel-body" target="_black">
-
-								<div class="col-md-2">
-									<h4>新浪微博主页Demo</h4>
-								</div>
-								<div class="col-md-10">
-									<p>使用bootstrap做响应式布局</p>
-									<p>通过jQuery的$ajax方法获取用静态json文件数据，渲染页面</p>
-								</div>
-
-							</a>
-						</div>
-					</div>
-					<div class="col-md-3 col-xs-12 col-sm-6 masonry-item">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<img src="./images/Microsoft.jpg" class="img-responsive">
-							</div>
-							<a href="./microsoftDemo/index.html" class="panel-body" target="_black">
-
-								<div class="col-md-2">
-									<h4>微软官网主页Demo</h4>
-								</div>
-								<div class="col-md-10">
-									<p>大部分功能效果自己编写</p>
-								</div>
-
-							</a>
-							<a href="https://github.com/poporeki/webDemo/tree/master/05141422%E5%BE%AE%E8%BD%AF%E5%AE%98%E7%BD%91demo" class="source-lk" target="_blank">源码</a>
-
-						</div>
-					</div>
-				</div>
-			</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="page-item about-me" data-page=2 id='about_me'>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12 col-xs-12">
+            <h1 class="page-title" id='skills_tit'>关于我
+              <br>
+              <small>about me</small>
+            </h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 ">
+            <div class="content-block">
+              <div class="my-photo-block">
+                <img src="./images/hd.jpg" alt="head">
+              </div>
+              <div class="text-block text-center">
+                <div class="row masonry">
+                  <div class="col-md-3 col-xs-6 masonry-item">
+                    <i class="iconfont icon-member"></i>
+                    <br/>
+                    <h6 class="title">姓名</h6>
+                    <p>晏思凯</p>
 
 
 
+                  </div>
+                  <div class="col-md-3 col-xs-6 masonry-item">
+                    <i class="iconfont icon-icdegree"></i>
+                    <br/>
+                    <h6 class="title">学历</h6>
+                    <p>大专</p>
 
-		</div>
-		<div class="page-item fp-auto-height contact-me" id="contact_me" date-page=5>
-			<div class="container-fluid text-center">
-				<div class="row">
-					<div class="col-md-12 col-xs-12">
-						<h1 class="page-title" id='skills_tit'>联系我
-							<br>
-							<small>contact me</small>
-						</h1>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-3 col-xs-6 content-block">
-						<a href="email:yansk@live.com" class="content-lk">
-							<div class="content-title-block">
-								<i class="fa fa-envelope-o fa-5x"></i>
-							</div>
-							<div class="content-text-block animated bounceIn">
-									<div class="content-text">
-									 eMail<p>yansk@live.com</p>
-									 </div>
-							</div>
-						</a>
-					</div>
-					<div class="col-md-3 col-xs-6 content-block">
-						<a href="##" class="content-lk">
-							<div class="content-title-block">
-								<i class="fa fa-qq fa-5x"></i>
-							</div>
-							<div class="content-text-block animated bounceIn">
-									<div class="content-text">
-								 QQ<p>49907186</p>
-								 </div>
-							</div>
-						</a>
-					</div>
-					<div class="col-md-3 col-xs-6 content-block">
-						<a href="https://github.com/poporeki" class="content-lk">
-							<div class="content-title-block">
-								<i class="fa fa-github fa-5x"></i>
-							</div>
-							<div class="content-text-block animated bounceIn">
-									<div class="content-text">
-									github<p>github.com/poporeki</p>
-									</div>
-							</div>
-						</a>
-					</div>
-					<div class="col-md-3 col-xs-6 content-block">
-						<a href="##" class="content-lk">
-							<div class="content-title-block">
-								<i class="fa fa-wechat fa-5x"></i>
-							</div>
-							<div class="content-text-block animated bounceIn">
-								<div class="content-text">
-										微信<img src="./images/qrcode1.png" class="wechat-qr img-responsive" alt="wechat-qc">
-								</div>
-								
-							</div>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="page-item  fp-auto-height footer" data-page=6>
-			<div class="container-fluid" style="height:10vw;">
-				<div class="row">
-					<div class="col-md-3 col-xs-4">
-						<div class="list-group line-block">
-							<a href="http://www.bootcss.com" class="list-group-item"target="_blank">
-								<i class="fab fa-amilia"></i>Bootstrap</a>
-							<a href="https://icomoon.io/" class="list-group-item">
-								<i class="fa fa-bullseye" aria-hidden="true"></i>Icomoon
-							</a>
-							<a href="https://iconmonstr.com/" class="list-group-item"target="_blank">
-								<i class="fa fa-cart-plus" aria-hidden="true"></i>Iconmonstr</a>
-							<a href="http://www.favicon.cc/" class="list-group-item"target="_blank">favicon</a>
-						</div>
-					</div>
-					<div class="col-md-3 col-xs-4">
-						<div class="list-group">
-							<a href="http://mux.alimama.com/fonts" class="list-group-item"target="_blank">UX图标字体库</a>
-							<a href="http://browsershots.org/" class="list-group-item"target="_blank">Browsershot</a>
-							<a href="http://www.ddfont.com/" class="list-group-item"target="_blank">ddfont英文字体</a>
-							<a href="http://www.github.com" class="list-group-item"target="_blank">Github</a>
-						</div>
-					</div>
-					<div class="col-md-3 col-xs-4">
-						<div class="list-group">
-							<a href="https://daneden.github.io/animate.css/" class="list-group-item"target="_blank">AnimateCSS</a>
-							<a href="http://www.w3school.com.cn/" class="list-group-item"target="_blank">w3school</a>
-							<a href="http://www.96yx.com/tool/ASC2.htm" class="list-group-item"target="_blank">ASCII码表</a>
-							<a href="https://thefwa.com/awards/page/1/" class="list-group-item"target="_blank">thefwa</a>
-						</div>
-					</div>
-					<div class="col-md-3 col-xs-12 divider">
-						<h2 class="text-center">&copy 2016
-							<br>
-							<span class="glyphicon glyphicon-book"></span>
-							<strong>Hello World!</strong>
-						</h2>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!--右侧sidebar -->
-	<div class="main-item-color"></div>
-	<div class="menu-sidebar" id="menu_sidebar">
-		<div class="s-mask" id="s_mask"></div>
-		<ul class="nav nav-default s-content-block pull-right text-center">
-			<div class="list-group sidebar-header-group">
-				<a href="##" class="list-group-item">
-					<i class="icon-header"></i>
-				</a>
-				<a href="##" class="list-group-item">这里是什么</a>
-			</div>
-			<li>
-				<hr class="custom-one" />
-			</li>
-			<li>
-				<a href="##">未完成</a>
-			</li>
-			<li>
-				<a href="##">未完成</a>
-			</li>
-			<li>
-				<a href="##">未完成</a>
-			</li>
-			<li>
-				<a href="##">未完成</a>
-			</li>
-		</ul>
-	</div>
-	<!--回到顶部-->
-	<a href="##" class="btn btn-default back-to-top" id="back_to_top">
-		<span class="glyphicon glyphicon-chevron-up"></span>TOP</a>
+                  </div>
+                  <div class="col-md-3 col-xs-6 masonry-item">
+                    <i class="iconfont icon-zhuanyerencai"></i>
+                    <br/>
+                    <h6 class="title">专业</h6>
+                    <p>软件技术(网建方向)</p>
+                    <br>
+
+                  </div>
+                  <div class="col-md-3 col-xs-6 masonry-item">
+                    <i class="iconfont icon-Location"></i>
+                    <br/>
+                    <h6 class="title">目前坐标</h6>
+                    <p>成都</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-item skills-page" data-page=3 id='skills'>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12 col-xs-12">
+            <h1 class="page-title" id='skills_tit'>职业技能
+              <br>
+              <small>vocational skills</small>
+            </h1>
+          </div>
+        </div>
+        <div class="row masonry page-content">
+          <div class="col-md-3 col-xs-12 col-sm-6 masonry-item">
+            <div class="panel panel-default under-panel">
+              <div class="panel-body">
+                <div class="echars-ele" id='echars_html'>
+                </div>
+                <div class="panel-mask">
+                  <h2>HTML</h2>
+                  <div class="col-md-2">
+                    <img src="./images/html5.png" class="img-responsive">
+                  </div>
+                  <div class="col-md-10">
+                    <p>熟练HTML/XHTML标记语言</p>
+                    <p>熟练HTML熟悉盒模型和各类布局方式、 能够根据设计图实现页面布局和交互效果</p>
+                    <p>对HTML5 移动web应用有一定的了解</p>
+                    <p>能够使用jade(pug)、ejs构建页面</p>
+                    <br>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-md-3 col-xs-12 col-sm-6 masonry-item">
+            <div class="panel panel-default under-panel">
+              <div class="panel-body">
+                <div class="echars-ele" id='echars_css'></div>
+                <div class="panel-mask">
+                  <h2>CSS</h2>
+                  <div class="col-md-2">
+                    <img src="./images/css3.png" class="img-responsive">
+                  </div>
+                  <div class="col-md-10">
+                    <p>比较熟悉css3标准，能够在文档的帮助下独立解决常见兼容性问题</p>
+                    <p>可以使用css3完成常用的动画效果</p>
+                    <p>熟悉Bootstrap布局页面</p>
+                    <p>能够使用less、scss等css预处理语言。</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-xs-12 col-sm-6 masonry-item">
+            <div class="panel panel-default under-panel">
+              <div class="panel-body">
+                <div class="echars-ele" id='echars_js'>
+                </div>
+
+                <div class="panel-mask">
+                  <h2>Javascript</h2>
+                  <div class="col-md-2">
+                    <img src="./images/js.png" class="img-responsive">
+                  </div>
+                  <div class="col-md-10">
+                    <p>比较熟悉原生js、jquery的使用，对dom的操作，ajax的使用，能够在文档的帮助下解决各种兼容性问题</p>
+                    <p>能根据需求实现交互效果</p>
+                    <p>对闭包，作用域，对js面向对象编程的思想有一定的了解</p>
+                    <p>了解过node.js,能够使用express搭建网站</p>
+                    <p>正在学习Vue,Vue-cli,ES6</p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-xs-12 col-sm-6 masonry-item">
+            <div class="panel panel-default under-panel">
+              <div class="panel-body">
+                <div class="echars-ele" id='echars_ps'>
+                </div>
+                <div class="panel-mask">
+                  <h2>Photoshop</h2>
+                  <div class="col-md-2">
+                    <img src="./images/html5.png" class="img-responsive">
+                  </div>
+                  <div class="col-md-10">
+                    <p>熟悉Photoshop的基本操作，熟练切图，有一定的网页设计能力。</p>
+                    <br>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-md-3 col-xs-12 col-sm-6 masonry-item">
+            <div class="panel panel-default under-panel">
+              <div class="panel-body">
+                <div class="echars-ele" id='echars_tools'>
+                </div>
+                <div class="panel-mask">
+                  <h2>工具</h2>
+                  <div class="col-md-2">
+                    <img src="./images/html5.png" class="img-responsive">
+                  </div>
+                  <div class="col-md-10">
+                    <p>熟悉Flash、office等软件的操作，有一定的网页设计能力。</p>
+                    <p>熟悉Sublime Text3、Dreamweaver、VS Code、VS等编辑器、IDE的使用</p>
+                    <p>能够使用自动化构建工具gulp提高效率</p>
+                    <p>熟悉git的基本操作</p>
+                    <p>熟练使用firebug，chrome调试工具调试代码</p>
+                    <br>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+    <div class="page-item works-show" id="works_show" data-page=4>
+      <div class="container-fluid ">
+        <div class="row ">
+          <h1 class="text-center page-title">作品展示
+            <br>
+            <small>works show</small>
+          </h1>
+
+        </div>
+        <div class="row masonry page-content">
+          <div class="col-md-3 col-xs-12 col-sm-6 masonry-item">
+            <div class="panel panel-default under-panel">
+              <div class="panel-heading">
+                <img src="./images/jd1.jpg" class="img-responsive">
+              </div>
+              <a href="http://198.148.106.33:3000" class="panel-body" target="_black">
+
+                <div class="col-md-2">
+                  <h4>仿:京东</h4>
+                </div>
+                <div class="col-md-10">
+                  <p>实现技术：
+
+                  </p>
+                  <p>-前端:CSS+HTML+JS+H5+CSS3+jquery;</p>
+                  <p>-服务端：Express+Mongodb+pm2;</p>
+                  <p>完成页面：首页、注册页、登陆页面;实现登陆注册功能</p>
+                </div>
+              </a>
+              <a href="https://github.com/poporeki/nodeDemo" class="source-lk" target="_black">源码</a>
+            </div>
+          </div>
+          <div class="col-md-3 col-xs-12 col-sm-6 masonry-item">
+            <div class="panel panel-default under-panel">
+              <div class="panel-heading">
+                <img src="./images/pz4.jpg" class="img-responsive">
+              </div>
+              <a href="/bzonflash" class="panel-body" target="_black">
+
+                <div class="col-md-2">
+                  <h4>植物大战僵尸</h4>
+                </div>
+                <div class="col-md-10">
+                  <p>使用Adobe Flash。在校期间用做的，植物大战僵尸Demo，完成了两个关卡。</p>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="col-md-3 col-xs-12 col-sm-6 masonry-item">
+            <div class="panel panel-default under-panel">
+              <div class="panel-heading">
+                <img src="./images/web.jpg" class="img-responsive">
+              </div>
+              <a href="http://www.newjingyu.com/" class="panel-body" target="_black">
+
+                <div class="col-md-2">
+                  <h4>企业网站</h4>
+                </div>
+                <div class="col-md-10">
+                  <p>在校期间做的第一个上线的项目，服务端:ASP.NET,开发模式：MVC,数据库：Sql Server</p>
+                  <p>本人主要负责：</p>
+                  <p>-根据设计图切图并完成页面的制作；图片素材的处理；数据库的设计，数据的填充；完成对京东店铺的装修</p>
+                </div>
+
+              </a>
+
+            </div>
+          </div>
+          <div class="col-md-3 col-xs-12 col-sm-6 masonry-item">
+            <div class="panel panel-default under-panel">
+              <div class="panel-heading">
+                <img src="./images/jl.jpg" class="img-responsive">
+              </div>
+              <a href="#fp-page1" class="panel-body">
+
+                <div class="col-md-2">
+                  <h4>个人简历</h4>
+                </div>
+                <div class="col-md-10">
+                  <p>实现技术：</p>
+                  <p>-前端：HTML+CSS3+Bootstrap+jQuery+fullPage.js+FontAwesome
+                  </p>
+                  <p>-服务端：Express+Mongodb+pm2</p>
+                </div>
+
+              </a>
+              <a href="https://github.com/poporeki/myResume" class="source-lk" target="_black">源码</a>
+            </div>
+          </div>
+          <div class="col-md-3 col-xs-12 col-sm-6 masonry-item">
+            <div class="panel panel-default under-panel">
+              <div class="panel-heading">
+                <img src="./images/tbtouch.png" class="img-responsive">
+              </div>
+              <a href="http://198.148.106.33:4002" class="panel-body" target="_black">
+
+                <div class="col-md-2">
+                  <h4>仿:淘宝手机端</h4>
+                </div>
+                <div class="col-md-10">
+                  <p>实现技术：</p>
+                  <p>Vue+Vue-cli+Vue-Router+Vue-Awesome-Swiper+Axios</p>
+                  <p>使用FLex布局，完成了首页及购物车页面，页面效果的实现，页面的跳转；实现购物车商品数量的增加删除，结算金额的计算</p>
+                </div>
+              </a>
+              <a href="https://github.com/poporeki/tbTouch" class="source-lk" target="_black">源码</a>
+            </div>
+          </div>
+          <div class="col-md-3 col-xs-12 col-sm-6 masonry-item">
+            <div class="panel panel-default under-panel">
+              <div class="panel-heading">
+                <img src="./images/wb.jpg" class="img-responsive">
+              </div>
+              <a href="http://198.148.106.33:4004" class="panel-body" target="_black">
+
+                <div class="col-md-2">
+                  <h4>仿:新浪微博主页</h4>
+                </div>
+                <div class="col-md-10">
+                  <p>使用bootstrap做响应式布局</p>
+                </div>
+
+              </a>
+            </div>
+          </div>
+          <div class="col-md-3 col-xs-12 col-sm-6 masonry-item">
+            <div class="panel panel-default under-panel">
+              <div class="panel-heading">
+                <img src="./images/Microsoft.jpg" class="img-responsive">
+              </div>
+              <a href="http://198.148.106.33:4003" class="panel-body" target="_black">
+
+                <div class="col-md-2">
+                  <h4>仿:微软官网主页</h4>
+                </div>
+                <div class="col-md-10">
+                  <p>使用框架：jquery.lazyLoad</p>
+                  <p>纯css navbar实现</p>
+                </div>
+
+              </a>
+              <a href="https://github.com/poporeki/microsoftWebsiteDemo" class="source-lk" target="_blank">源码</a>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+    </div>
+    <div class="page-item fp-auto-height contact-me" id="contact_me" date-page=5>
+      <div class="container-fluid text-center">
+        <div class="row">
+          <div class="col-md-12 col-xs-12">
+            <h1 class="page-title" id='skills_tit'>联系我
+              <br>
+              <small>contact me</small>
+            </h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 col-xs-6 content-block">
+            <a href="mailto:yansk@live.com" class="content-lk">
+              <div class="content-title-block">
+                <i class="iconfont icon-mail"></i>
+              </div>
+              <div class="content-text-block animated bounceIn">
+                <div class="content-text">
+                  eMail
+                  <p>yansk@live.com</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-3 col-xs-6 content-block">
+            <a href="http://wpa.qq.com/msgrd?v=3&uin=49907186&site=qq&menu=yes" target="_blank" class="content-lk">
+              <div class="content-title-block">
+                <i class="iconfont icon-qq"></i>
+              </div>
+              <div class="content-text-block animated bounceIn">
+                <div class="content-text">
+                  QQ
+                  <p>49907186</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-3 col-xs-6 content-block">
+            <a href="https://github.com/poporeki" class="content-lk" target="_blank">
+              <div class="content-title-block">
+                <i class="iconfont icon-github"></i>
+              </div>
+              <div class="content-text-block animated bounceIn">
+                <div class="content-text">
+                  github
+                  <p>github.com/poporeki</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-md-3 col-xs-6 content-block">
+            <a href="##" class="content-lk">
+              <div class="content-title-block">
+                <i class="iconfont icon-wechat"></i>
+              </div>
+              <div class="content-text-block animated bounceIn">
+                <div class="content-text">
+                  微信
+                  <img src="./images/qrcode1.png" class="wechat-qr img-responsive" alt="wechat-qc">
+                </div>
+
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="page-item  fp-auto-height footer" data-page=6>
+      <div class="container-fluid" style="height:10vw;">
+        <div class="row">
+          <div class="col-md-3 col-xs-4">
+            <div class="list-group line-block">
+              <a href="http://www.bootcss.com" class="list-group-item" target="_blank">
+                <i class="fab fa-amilia"></i>Bootstrap</a>
+              <a href="https://icomoon.io/" class="list-group-item">
+                <i class="fa fa-bullseye" aria-hidden="true"></i>Icomoon
+              </a>
+              <a href="https://iconmonstr.com/" class="list-group-item" target="_blank">
+                <i class="fa fa-cart-plus" aria-hidden="true"></i>Iconmonstr</a>
+              <a href="http://www.favicon.cc/" class="list-group-item" target="_blank">favicon</a>
+            </div>
+          </div>
+          <div class="col-md-3 col-xs-4">
+            <div class="list-group">
+              <a href="http://mux.alimama.com/fonts" class="list-group-item" target="_blank">UX图标字体库</a>
+              <a href="http://browsershots.org/" class="list-group-item" target="_blank">Browsershot</a>
+              <a href="http://www.ddfont.com/" class="list-group-item" target="_blank">ddfont英文字体</a>
+              <a href="http://www.github.com" class="list-group-item" target="_blank">Github</a>
+            </div>
+          </div>
+          <div class="col-md-3 col-xs-4">
+            <div class="list-group">
+              <a href="https://daneden.github.io/animate.css/" class="list-group-item" target="_blank">AnimateCSS</a>
+              <a href="http://www.w3school.com.cn/" class="list-group-item" target="_blank">w3school</a>
+              <a href="http://www.96yx.com/tool/ASC2.htm" class="list-group-item" target="_blank">ASCII码表</a>
+              <a href="https://thefwa.com/awards/page/1/" class="list-group-item" target="_blank">thefwa</a>
+            </div>
+          </div>
+          <div class="col-md-3 col-xs-12 divider">
+            <h2 class="text-center">&copy 2016
+              <br>
+              <span class="glyphicon glyphicon-book"></span>
+              <strong>BY YANSK</strong>
+            </h2>
+            <h6>Four short words sum up what has lifted most successful individuals above the crowd: a little bit more.</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--右侧sidebar -->
+  <div class="main-item-color"></div>
+  <div class="menu-sidebar" id="menu_sidebar">
+    <div class="s-mask" id="s_mask"></div>
+    <ul class="nav nav-default s-content-block pull-right text-center">
+      <li>
+      </li>
+      <li>
+        <a href="/login">登录</a>
+      </li>
+      <li>
+        <a href="##">未完成</a>
+      </li>
+      <li>
+        <a href="##">未完成</a>
+      </li>
+      <li>
+        <a href="##">未完成</a>
+      </li>
+    </ul>
+  </div>
+  <!--回到顶部-->
+
+  <a href="##" class="btn btn-default back-to-top" id="back_to_top">
+    <span class="glyphicon glyphicon-chevron-up"></span>TOP</a>
 </body>
 <script src='https://cdn.bootcss.com/jquery/1.9.1/jquery.min.js'></script>
 <script src="./js/jquery.animateExt.js"></script>
 <script src="./js/jquery.mousewhell.min.js"></script>
-<!--<script src="./node_modules/jquery/jquery.min.js"></script>-->
-<!--<script src="./node_modules/move-js/move.min.js"></script>-->
+
 <script src='https://cdn.bootcss.com/move.js/0.5.0/move.min.js'></script>
-<!--<script src="./node_modules/iscroll/build/iscroll.js"></script>-->
+
 <script src='https://cdn.bootcss.com/iScroll/5.2.0/iscroll.min.js'></script>
-<!--<script src="./node_modules/fullpage.js/dist/jquery.fullpage.min.js"></script>-->
+
 <script src='https://cdn.bootcss.com/fullPage.js/2.9.4/jquery.fullpage.min.js'></script>
-<!--<script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>-->
+
 <script src='https://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
-<!--<script src="./node_modules/masonry-layout/dist/masonry.pkgd.min.js"></script>-->
+
 <script src='https://cdn.bootcss.com/masonry/4.2.0/masonry.pkgd.min.js'></script>
-<!--<script src='./node_modules/imagesloaded/imagesloaded.pkgd.min.js'></script>-->
+
 <script src="https://cdn.bootcss.com/jquery.imagesloaded/4.1.2/imagesloaded.pkgd.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+<script src="./js/changeBg.js"></script>
+<script src="./js/sidebar.js"></script>
 <script src="./js/index.js"></script>
 <script>
-	$(function () {
-		var $masonry = $('.masonry');
-		$masonry.imagesLoaded(function () {
-			$masonry.masonry({
-				columnWidth: '.masonry-item',
-				itemSelector: '.masonry-item'
-			});
-		});
-	});
+  $(function () {
+    var $masonry = $('.masonry');
+    $masonry.imagesLoaded(function () {
+      $masonry.masonry({
+        columnWidth: '.masonry-item',
+        itemSelector: '.masonry-item',
+        percentPosition: true
+      });
+    });
+  });
 </script>
 
 </html>
