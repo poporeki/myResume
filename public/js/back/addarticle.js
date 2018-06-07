@@ -1,6 +1,6 @@
 var E = window.wangEditor;
 var editor = new E('#editor');
-// 配置服务器端地址
+/* 配置服务器端地址 */
 editor.customConfig.uploadImgServer = '/backend/art/uploadArtIMG';
 editor.create();
 $(function () {
