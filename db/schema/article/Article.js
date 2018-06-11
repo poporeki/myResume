@@ -2,7 +2,9 @@ var mongoose = require('mongoose');
 var moment = require('moment');
 
 var schema = mongoose.Schema;
-
+/**
+ * *文章collection
+ */
 var articleSchema = new schema({
   title: String,
   attribute: [],
@@ -29,7 +31,11 @@ var articleSchema = new schema({
   }
 });
 
-
+/**
+ * 
+ * @param {object} by 
+ * @param {*function} cb 
+ */
 articleSchema.statics.getCount = function (by, cb) {
   return this.find(by).count().exec(cb);
 }

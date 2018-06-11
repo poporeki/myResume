@@ -22,41 +22,40 @@ $(function () {
         cs['page'] = page;
         cs['num'] = 10;
         var jsonCS = JSON.stringify(cs);
-        $.ajax({
+        requestAjax({
+            el: $artList,
             url: '/blog/articlelist',
-            type: 'post',
             contentType: "application/json;charset=utf-8",
-            data: jsonCS,
-            success: function (result) {
+            data: jsonCS
+        }, function (result) {
+            SEND = false;
+            if (result.status == 1) {
+                var html = '';
+                var con = result.result;
+                for (var i = 0; i < con.length; i++) {
+                    html += '<li class="article-list-item">' +
+                        '<a href="/blog/article/' + con[i].artid + '">' +
+                        '<div class="lt">' +
+                        '<div class="top">' +
+                        '<div class="title">' +
+                        '<h4>' + con[i].title + '</h4>' +
+                        '</div>' +
+                        '<div class="time">' + con[i].create_time + '</div>' +
+                        '</div>' +
 
-                SEND = false;
-                if (result.status == 1) {
-                    var html = '';
-                    var con = result.result;
-                    for (var i = 0; i < con.length; i++) {
-                        html += '<li class="article-list-item">' +
-                            '<a href="/blog/article/' + con[i].artid + '">' +
-                            '<div class="lt">' +
-                            '<div class="top">' +
-                            '<div class="title">' +
-                            '<h4>' + con[i].title + '</h4>' +
-                            '</div>' +
-                            '<div class="time">' + con[i].create_time + '</div>' +
-                            '</div>' +
+                        '<div class="thumbnail"><%=artList[i].source%></div>' +
+                        '</div>' +
 
-                            '<div class="thumbnail"><%=artList[i].source%></div>' +
-                            '</div>' +
-
-                            '</a>' +
-                            '</li>'
-                    }
-                    $artList.append(html);
-                } else {
-                    SEND = true;
-                    alert(result.msg);
+                        '</a>' +
+                        '</li>'
                 }
+                $artList.append(html);
+            } else {
+                SEND = true;
+                $artList.append('<li  style="text-align:center;"><a href="##">没有数据</a></li>');
             }
         });
+
     }
 });
 /* 当前url参数转为对象 */

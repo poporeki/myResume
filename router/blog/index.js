@@ -14,27 +14,7 @@ router.use('/', function (req, res, next) {
 
 router.get('/', function (req, res) {
   articleMod.showArticleList(req, function (err, resListSortTime) {
-    if (err) {
-      return
-    }
-    // var str = result[2].content;
-    // //匹配图片（g表示匹配所有结果i表示区分大小写）
-    // var imgReg = /<img.*?(?:>|\/>)/gi;
-    // //匹配src属性
-    // var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-    // var arr = str.match(imgReg);
-    // var src = arr[0].match(srcReg);
-
-    // req.query['sort']={
-    //     'like_num':-1
-    // }
-    // articleMod.showArticleList(req,function(err,resListSortLike){
-    //     if(err){
-    //         return
-    //     }
-
-
-    // })
+    if (err) return;
     articleTypeMod.findArticleType('', function (err, typelist) {
       if (err) return;
       console.log(typelist);
@@ -46,6 +26,7 @@ router.get('/', function (req, res) {
 
   })
 });
+router.use('/search', require('./search'));
 router.use('/article', require('./article'));
 router.use('/articlelist', require('./articlelist'));
 router.use('/', require('./comments'));

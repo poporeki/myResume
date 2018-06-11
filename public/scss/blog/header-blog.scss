@@ -6,7 +6,6 @@ body {
   width: 100%;
   background-image: url(/images/dark_geometric2.png);
   font-family: 'Microsoft YaHei';
-  overflow-x: hidden;
 }
 
 a {
@@ -60,15 +59,20 @@ header {
       align-self: center;
       width: 50%;
       justify-content: flex-end;
-      overflow: hidden;
+      .s-wrap {
+        position: relative;
+        width: 200px;
+      }
       .search-box {
         position: relative;
-        width: 40px;
-        height: 40px;
         border-radius: 2px;
-        &:hover {
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+        z-index: 101;
+        &.show {
           .input-box {
-            transform: translateX(-200px);
+            transform: translateX(0);
           }
           .s-btn {
             transform: rotate(360deg);
@@ -76,10 +80,10 @@ header {
         }
         .s-btn {
           position: absolute;
-          height: 100%;
-          width: 100%;
+          height: 40px;
+          width: 40px;
           top: 0;
-          left: 0;
+          right: 0;
           background-color: rgb(78, 78, 78);
           cursor: pointer;
           z-index: 2;
@@ -109,17 +113,19 @@ header {
           }
         }
         .input-box {
+          display: flex;
           position: relative;
-          height: 100%;
-          width: 200px;
+          height: 40px;
+          width: 100%;
           padding: 10px;
+          padding-right: 50px;
           background-color: rgb(161, 161, 161);
           transition: transform 1s ease;
           z-index: 1;
           box-sizing: border-box;
-          display: flex;
           justify-content: center;
           align-items: center;
+          transform: translateX(200px);
           box-shadow: 0 0 5px rgba(0, 0, 0, 0.507);
           .search {
             background-color: transparent;
@@ -128,6 +134,79 @@ header {
             height: 70%;
             width: 100%;
             justify-self: center;
+          }
+          .loading-ani {
+            position: absolute;
+            height: 2px;
+            width: 100%;
+            left: 0;
+            top: 0;
+            padding-right: 50px;
+            box-sizing: border-box;
+            transform: scale(0);
+            animation: inputLoadAni 1s infinite;
+            background-color: #000;
+          }
+          @keyframes inputLoadAni {
+            0% {
+              transform: scale(0)
+            }
+            50% {
+              transform: scale(1);
+              background-color: rgb(131, 131, 131);
+            }
+            100% {
+              transform: scale(0)
+            }
+          }
+        }
+      }
+      .search-dropdown {
+        position: absolute;
+        top: 40px;
+        left: 0;
+        width: 100%;
+        padding: 30px 0;
+        background-color: #fff;
+        border-bottom-left-radius: 2px;
+        border-bottom-right-radius: 2px;
+        box-shadow: 0 2px 5px rgb(129, 129, 129);
+        transition: all 1s ease;
+        z-index: 100;
+        &.show {
+          display: block;
+          animation: ddAni_in 1s both;
+        }
+        &.hide {
+          display: none;
+          animation: ddAni_out 1s both;
+        }
+        .arc-lk {
+          display: block;
+          margin: 0 5px;
+          padding: 10px 10px;
+          font-size: 12px;
+          border-bottom: 1px solid rgba(218, 218, 218, 0.445);
+          color: rgb(95, 95, 95);
+        }
+        @keyframes ddAni_in {
+          0% {
+            opacity: 0;
+            transform: translateY(-10%);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes ddAni_out {
+          0% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+          100% {
+            opacity: 0;
+            transform: translateY(-10%);
           }
         }
       }

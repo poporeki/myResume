@@ -29,7 +29,7 @@ function requestAjax(options, func, callback) {
     }
   }
   fn.prototype.xhr = function (_this) {
-    $.ajax({
+    _this.currentAjax = $.ajax({
       type: this.options.type || 'post',
       url: this.options.url,
       timeout: this.options.timeout || 30000,
@@ -42,7 +42,7 @@ function requestAjax(options, func, callback) {
       error: _this.callback,
       complete: function (XMLHttpRequest, status) {
         if (status == 'timeout') {
-          _this.xhr.abort(); // 超时后中断请求
+          _this.currentAjax.abort(); // 超时后中断请求
           _this.ajaxLoadingAnimate.remove(_this);
           _this.el.empty().append('链接超时');
           return;
