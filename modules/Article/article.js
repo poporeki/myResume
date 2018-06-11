@@ -8,8 +8,10 @@ module.exports = {
   addArticle: function (req, cb) {
     var pars = {
       title: req.body.arc_title,
-      attribute: req.body.arc_attr,
-      type_id: req.body.arc_type,
+      attribute: {
+        carousel: (req.body.arc_carousel).trim()
+      },
+      type_id: (req.body.arc_type).trim(),
       tags_id: req.body.arc_tags,
       read: 0,
       content: req.body.arc_content,

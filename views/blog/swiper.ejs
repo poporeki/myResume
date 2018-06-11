@@ -13,9 +13,24 @@
 <div class="swiper-wrap">
   <div class="swiper-container">
     <div class="swiper-wrapper">
-      <div class="swiper-slide">slider1</div>
-      <div class="swiper-slide">slider2</div>
-      <div class="swiper-slide">slider3</div>
+      <%for(var i=0;i<carouList.length;i++){%>
+        <div class="swiper-slide">
+        <a href=<%="/blog/article/"+carouList[i]._id %>>
+          <h2><%=carouList[i].title%></h2>
+          <% var str = carouList[i].content; var imgReg = /<img.*?(?:>|\/>)/gi; var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i; var arr = str.match(imgReg); %>
+          <% if(arr!=null){ %>
+            <% var src = arr[0].match(srcReg); %>
+              <% if(src==null) {%>
+                <img src="/images/login_pic.png" alt="空白">
+              <%}else{%>
+                <img src=<%=src[1] %> alt="">
+              <%}%>
+            <% } else{%>
+              <img src="/images/login_pic.png" alt="空白">
+          <%}%>
+        </a>
+        </div>
+      <%}%>
     </div>
   </div>
 </div>

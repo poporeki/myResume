@@ -1,17 +1,21 @@
 <%- include('header_blog') -%>
 
   <link rel="stylesheet" href="./css/blog/index.css">
+  <link rel="stylesheet" href="/css/blog/iconfont_blog_index.css">
   <div class="wrapper">
     <%- include('swiper') -%>
       <%- include('sidebar') -%>
         <section class="classify">
           <h2 class="title">分类</h2>
-          <div class="classify-item">
-            <i class="iconfont icon-password"></i>A</div>
-          <div class="classify-item">B</div>
-          <div class="classify-item">C</div>
-          <div class="classify-item">D</div>
-
+          <%for(var i=0;i<typeList.length;i++){%>
+            <div class="classify-item">
+              <a class="type-lk" href=<%="/blog/articlelist?by[type_id]=" + typeList[i]._id %>>
+                <i class='<%= "iconfont icon-"+(typeList[i].type_name).toLowerCase()  %>' ></i>
+                <i class='<%= "iconfont bottom icon-"+(typeList[i].type_name).toLowerCase()  %>' ></i>
+                <p><%=typeList[i].type_name %></p>
+              </a>
+            </div>
+            <%}%>
         </section>
         <div class="line"></div>
         <section class="article">
@@ -55,10 +59,10 @@
           </artilce>
           <div class="right-item">
             <h2>Tag</h2>
-            <div class="articletype-list">
-              <%for(var i=0;i<typeList.length;i++){%>
-                <a class='type-lk' href=< %="/blog/articlelist?by[type_id]=" +typeList[i].id %> >
-                  <%= typeList[i].type_name %>
+            <div class="articletag-list">
+              <%for(var i=0;i<tagList.length;i++){%>
+                <a class='tag-lk' href= <%="/blog/articlelist?by[tag_id]=" +tagList[i].id %> >
+                  <%= tagList[i].tag_name %>
                 </a>
                 <%}%>
             </div>

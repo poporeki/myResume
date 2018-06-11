@@ -54,34 +54,7 @@ $(function () {
         $comTextarea.val('');
         $replyBlock.removeClass('show');
       });
-      // $.ajax({
-      //   type: 'post',
-      //   url: submitUrl,
-      //   data: data,
-      //   success: function (result) {
-      //     if (!result.status) return;
-      //     $replyList.addClass('show');
-      //     var context =
-      //       '<li class="comment-item">' +
-      //       '<div>' +
-      //       '<div class="head-pic">' +
-      //       '<a href="##"><img src="/images/jl.jpg" alt=""></a>' +
-      //       '</div>' +
-      //       '<div class="content">' +
-      //       '<div class="info">' +
-      //       '<div class="username">' + result.username + '</div>' +
-      //       '<div class="address">' + result.submitAddress + '</div>' +
-      //       '<div class="p-date">' + result.create_time + '</div>' +
-      //       '</div>' +
-      //       '<p>' + result.art_content + '</p>' +
-      //       '</div>' +
-      //       '</div>' +
-      //       '</li>';
-      //     $replyList.prepend(context);
-      //     $comTextarea.val('');
-      //     $replyBlock.removeClass('show')
-      //   }
-      // });
+
 
     }
 
@@ -124,33 +97,7 @@ $(function () {
         $comTextarea.val('');
         $replyBlock.removeClass('show');
       })
-      /* $.ajax({
-        type: 'post',
-        url: submitUrl,
-        data: data,
-        success: function (result) {
-          if (!result.status) return;
-          var context =
-            '<li class="comment-item">' +
-            '<div>' +
-            '<div class="head-pic">' +
-            '<a href="##"><img src="/images/jl.jpg" alt=""></a>' +
-            '</div>' +
-            '<div class="content">' +
-            '<div class="info">' +
-            '<div class="username">' + result.username + '</div>' +
-            '<div class="address">' + result.submitAddress + '</div>' +
-            '<div class="p-date">' + result.create_time + '</div>' +
-            '</div>' +
-            '<p>回复 ' + result.to + ':' + result.art_content + '</p>' +
-            '</div>' +
-            '</div>' +
-            '</li>';
-          $ul.prepend(context);
-          $comTextarea.val('');
-          $replyBlock.removeClass('show');
-        }
-      }); */
+
     }
     /* 提交评论 */
     function submitComment() {
@@ -185,33 +132,6 @@ $(function () {
           $list.prepend(context);
           $comTextarea.val('');
         });
-      /* $.ajax({
-        type: 'post',
-        url: submitUrl,
-        data: data,
-        success: function (result) {
-          if (!result.status) return;
-          var context =
-            '<li class="comment-item">' +
-            '<div>' +
-            '<div class="head-pic">' +
-            '<a href="##"><img src="/images/jl.jpg" alt=""></a>' +
-            '</div>' +
-            '<div class="content">' +
-            '<div class="info">' +
-            '<div class="username">' + result.username + '</div>' +
-            '<div class="address">' + result.submitAddress + '</div>' +
-            '<div class="p-date">' + result.create_time + '</div>' +
-            '</div>' +
-            '<p>' + result.art_content + '</p>' +
-            '</div>' +
-            '</div>' +
-            '</li>';
-          var $list = $('.comm-list .list');
-          $list.prepend(context);
-          $comTextarea.val('');
-        }
-      }); */
     }
   })
   var $commBlock = $('.comment-block'),

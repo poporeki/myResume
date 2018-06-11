@@ -1,9 +1,9 @@
-/* ajax 添加loading动画 
-    options：配置
-    func：success时候的执行函数
-    callback：返回错误
-    type:默认post
-*/
+/**
+ * *jQuery 添加loading动画
+ * @param {object} options 配置参数
+ * @param {object} func success执行的函数
+ * @param {object} callback 返回错误
+ */
 function requestAjax(options, func, callback) {
   /* 添加删除等待动画 */
   function fn(options, func, callback) {
@@ -23,7 +23,7 @@ function requestAjax(options, func, callback) {
       _this.el.append(addCon);
     },
     remove: function (_this) {
-      var $target = _this.el.find('.loading-ani');
+      var $target = _this.el.find('.' + _this.aniEle);
       if ($target.length === 0) return;
       $target.remove();
     }

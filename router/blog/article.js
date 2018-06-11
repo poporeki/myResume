@@ -48,7 +48,7 @@ router.get('/:id', function (req, res, next) {
             var a = reply[idx].author_id;
             var obj = {
               user: {
-                name: reply[idx].author_id.username,
+                name: reply[idx].author_id.user_name,
                 id: reply[idx].author_id._id
               },
               id: reply[idx]._id,

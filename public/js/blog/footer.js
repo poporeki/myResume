@@ -60,6 +60,7 @@ function listeningSearch() {
     requestAjax({
       el: $iptWrap,
       url: '/blog/search/like',
+      aniEle: 'loading-ani-searchlike',
       data: {
         wd: keyword
       }

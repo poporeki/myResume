@@ -128,14 +128,14 @@ function getNewDatas(page, limit, $el) {
 			$prevBtn = $('.navigation').find('.btn-prev'),
 			$pageBtn = $('.navigation').find('.page');
 
-		$('.navigation').find('li').removeClass('disabled');
+		$('.navigation').find('li').removeClass('disabled active');
 		$pageBtn.each(function () {
 			var $this = $(this);
 			var wrds = $this.attr('data-page');
 			var exec = RegP.exec(wrds);
 			if (exec) {
 				if (Number(exec[2]) === page) {
-					$this.parent('li').addClass('disabled');
+					$this.parent('li').addClass('disabled active');
 				}
 			}
 		})

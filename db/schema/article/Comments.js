@@ -43,7 +43,7 @@ commentSchema.statics.updateLikeNum = function (commid, cb) {
     })
 
 }
-commentSchema.statics.findThisArticleComments = function (artid,limit,skip, cb) {
+commentSchema.statics.findThisArticleComments = function (artid, limit, skip, cb) {
     return this.find({
         "article_id": artid
     }).limit(limit).skip(skip).sort({
@@ -53,19 +53,19 @@ commentSchema.statics.findThisArticleComments = function (artid,limit,skip, cb) 
         select: 'user_name'
     }, {
         path: "reply",
-        options:{
-            sort:{
+        options: {
+            sort: {
                 'createdAt': -1
             },
-            limit:5,
-            skip:0
+            limit: 5,
+            skip: 0
         },
         populate: [{
             path: 'author_id'
-        },{
-            path:'to',
-            populate:{
-                path:'author_id'
+        }, {
+            path: 'to',
+            populate: {
+                path: 'author_id'
             }
         }]
     }]).exec(cb);

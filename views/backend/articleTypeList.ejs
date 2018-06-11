@@ -3,8 +3,8 @@
   <!-- Main Content -->
   <div class="side-body">
     <div class="page-title">
-      <span class="title">文章列表</span>
-      <div class="description">with jquery Datatable for display data with most usage functional. such as search, ajax loading, pagination, etc.</div>
+      <span class="title">分类列表</span>
+      <div class="description">文章分类 默认10个每页</div>
     </div>
     <div class="row">
       <div class="col-xs-12">
@@ -19,8 +19,7 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>文章标题</th>
-                  <th>分类</th>
+                  <th>分类名称</th>
                   <th>创建时间</th>
                   <th>最后一次修改时间</th>
                   <th>操作</th>
@@ -32,9 +31,6 @@
                     <th scope="row">
                       <%=i+1  %>
                     </th>
-                    <td>
-                      <%= art[i].title %>
-                    </td>
                     <td>
                       <a href=<%="/admin/typelist?_id=" +art[i]._id %> >
                         <%= art[i].type_name %>

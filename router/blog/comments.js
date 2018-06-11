@@ -5,8 +5,6 @@ var moment = require('moment');
 var commentMod = require('../../modules/Article/articleComments');
 
 router.post('/postComment', function (req, res) {
-
-
   commentMod.insertOneComment(req, function (err, result) {
     if (err) {
       return;
@@ -32,7 +30,6 @@ router.post('/submitReply', function (req, res) {
     if (err) {
       return;
     }
-
     commentMod.findCommentReplyById(result.to, function (err, resRep) {
       if (err) return;
       res.json({
@@ -44,7 +41,7 @@ router.post('/submitReply', function (req, res) {
           'username': req.session.user.username,
           'user': req.session.user._id,
           'submitAddress': result.submit_address,
-          'to': resRep.floor,
+          'to': resRep[0].author_id.user_name,
           'floor': result.floor,
           'create_time': moment(result.createdAt).format('YYYY-MM-DD hh:mm:ss')
         }

@@ -26,7 +26,8 @@ $(function () {
             el: $artList,
             url: '/blog/articlelist',
             contentType: "application/json;charset=utf-8",
-            data: jsonCS
+            data: jsonCS,
+            aniEle: 'loading-ani-articlelist'
         }, function (result) {
             SEND = false;
             if (result.status == 1) {

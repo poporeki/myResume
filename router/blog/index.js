@@ -3,7 +3,8 @@ var router = express.Router();
 var moment = require('moment');
 
 var articleMod = require('../../modules/Article/article');
-var articleTypeMod = require('../../modules/Article/articleType.js');
+var articleTypeMod = require('../../modules/Article/articleType');
+var arcticleTagMod = require('../../modules/Article/articleTag');
 router.use('/', function (req, res, next) {
   if (!req.session.user || !req.session.user.username) {
     res.redirect('/login');
@@ -12,16 +13,34 @@ router.use('/', function (req, res, next) {
   next();
 })
 
-router.get('/', function (req, res) {
+router.get('/', function (req, res, next) {
   articleMod.showArticleList(req, function (err, resListSortTime) {
-    if (err) return;
-    articleTypeMod.findArticleType('', function (err, typelist) {
-      if (err) return;
-      console.log(typelist);
-      res.render('./blog/index', {
-        artList: resListSortTime,
-        typeList: typelist
+    if (err) return next(err);
+    articleTypeMod.findArticleType('', function (err, resTypeList) {
+      if (err) return next(err);
+      arcticleTagMod.findArticleTags('', function (err, resTagList) {
+
+        if (err) return next(err);
+        var by = {
+          by: {
+            attribute: {
+              carousel: 'on'
+            }
+          }
+        };
+        req.query = by;
+        articleMod.showArticleList(req, function (err, resCarouselList) {
+          if (err) return next(err);
+          res.render('./blog/index', {
+            artList: resListSortTime,
+            typeList: resTypeList,
+            tagList: resTagList,
+            carouList: resCarouselList
+          });
+        })
+
       });
+
     })
 
   })

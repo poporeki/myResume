@@ -7,7 +7,6 @@ router.get('/', function (req, res) {
   articleMod.showArticleList(req, function (err, artlist) {
     if (err) return;
     var list = [];
-
     for (var i = 0; i < artlist.length; i++) {
       var obj = {
         artid: artlist[i]._id,

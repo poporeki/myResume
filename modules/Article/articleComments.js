@@ -79,7 +79,9 @@ module.exports = {
     },
     findCommentReplyById: function (repid, cb) {
         return commentReplySchema.find({
-            comment_id: repid
-        }).exec(cb);
+            _id: repid
+        }).populate([{
+            path: 'author_id'
+        }]).exec(cb);
     }
 }
