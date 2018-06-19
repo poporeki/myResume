@@ -51,6 +51,7 @@ aside {
       padding-top: 30px;
       transform: rotate(90deg);
       box-sizing: border-box;
+      color: #000;
       text-shadow: 0 0 2px #818181; }
       aside .navbar li a:after {
         content: '';

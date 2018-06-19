@@ -37,14 +37,17 @@ $(function () {
         var context =
           '<li class="comment-item">' +
           '<div>' +
+          '#' + data.floor +
           '<div class="head-pic">' +
           '<a href="##"><img src="/images/jl.jpg" alt=""></a>' +
           '</div>' +
           '<div class="content">' +
           '<div class="info">' +
+          '<div class="lt">' +
           '<div class="username">' + data.username + '</div>' +
           '<div class="address">' + data.submitAddress + '</div>' +
           '<div class="p-date">' + data.create_time + '</div>' +
+          '</div>' +
           '</div>' +
           '<p>' + data.art_content + '</p>' +
           '</div>' +
@@ -162,4 +165,17 @@ $(function () {
     }
 
   });
+
+  $('.comment-block').on('click', '.more-comms-lk', function () {
+    var commLen = $('.comment-item').index();
+    requestAjax({
+      el: $(this),
+      url: '/blog/getComments',
+      data: {
+        'skip': commLen
+      }
+    }, function (result) {
+      console.log(result);
+    })
+  })
 });

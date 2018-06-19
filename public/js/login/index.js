@@ -35,16 +35,16 @@ function saveInput(u, p) {
 
 function submitLogin(u, p) {
 	var $loginBtn = $('#login_btn');
-	$(document).keydown(function(event){ 
-		if(event.keyCode==13){ 
-			$loginBtn.click(); 
-		} 
-	}); 
+	$(document).keydown(function (event) {
+		if (event.keyCode == 13) {
+			$loginBtn.click();
+		}
+	});
 	$loginBtn.on('click submit', function (e) {
 		e.preventDefault();
 
 		var _this = $(this);
-		if (_this.hasClass('error')||_this.hasClass('success')) return;
+		if (_this.hasClass('error') || _this.hasClass('success')) return;
 		var unVal = u.value;
 		var upVal = p.value;
 		sessionStorage.setItem('unVal', unVal);
@@ -58,7 +58,7 @@ function submitLogin(u, p) {
 			},
 			beforeSend: function () {
 				_this.removeAttr('href');
-				_this.val('登陸中');
+				_this.val('登录中');
 			},
 			success: function (data) {
 				if (!data) return;
@@ -66,16 +66,21 @@ function submitLogin(u, p) {
 					_this.addClass('success');
 
 					_this.val(data.msg);
-					setTimeout(function(){
-						_this.parents('.login-box').addClass('success');
+					var $boxPar = _this.parents('.login-box');
+					setTimeout(function () {
+						$boxPar.addClass('success');
 					}, 1000);
-					setTimeout(function(){
+					var $inner = $boxPar.find('.inner');
+					$inner[0].addEventListener('animationend', function () {
 						window.location.href = data.href;
-					}, 2000);
+					})
+					// setTimeout(function () {
+					// 	window.location.href = data.href;
+					// }, 2000);
 				} else {
 					_this.addClass('error');
 					_this.val(data.msg);
-					setTimeout(function(){
+					setTimeout(function () {
 						_this.removeClass('error');
 						_this.val('登录');
 					}, 2000);

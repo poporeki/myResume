@@ -27,7 +27,7 @@ router.get('/:id', function (req, res, next) {
       /* 文章内容 */
       source: artDatas[0].source,
       /* 文章发布源 */
-      author: artDatas[0].author_id ? artDatas[0].author_id.username : '佚名',
+      author: artDatas[0].author_id ? artDatas[0].author_id.user_name : '佚名',
       /* 文章作者 */
       readNum: artDatas[0].read
     }
@@ -65,7 +65,7 @@ router.get('/:id', function (req, res, next) {
         var obj = {
           id: commsDatas[i]._id,
           user: {
-            name: commsDatas[i].author_id.username
+            name: commsDatas[i].author_id.user_name
           },
           submitAddress: commsDatas[i].submit_address,
           createTime: moment(commsDatas[i].createdAt).format('YYYY-MM-DD hh:mm:ss'),
@@ -79,7 +79,8 @@ router.get('/:id', function (req, res, next) {
 
       res.render('./blog/article', {
         art: artInfo,
-        artComms: artComms
+        artComms: artComms,
+        artTotal: commsDatas.total
       });
     })
 

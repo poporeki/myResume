@@ -35,9 +35,20 @@ module.exports = {
     /* 查询该文章所有评论 */
     showThisArticleComments: function (req, cb) {
         var limit = req.query.number || 10; /* 返回数量 默认10*/
-        var skip = req.query.page - 1 * 10; /* 跳过数量 */
+        var skip = req.skip || req.query.page - 1 * 10; /* 跳过数量 */
         var artid = req.params.id; /* 文章id */
-        return commentSchema.findThisArticleComments(artid, limit, skip, cb);
+        commentSchema.find({
+            "article_id": artid
+        }).count().exec(function (err, commCount) {
+            if (err) return cb(err, null);
+            return commentSchema.findThisArticleComments(artid, limit, skip, function (err, resComm) {
+                if (err) return cb(err, null);
+                resComm['total'] = commCount;
+                cb(null, resComm);
+                console.log(resComm);
+            });
+        });
+
     },
     insertOneReplyInComment: function (req, cb) {
         /* 获取用户当前ip */
@@ -82,6 +93,37 @@ module.exports = {
             _id: repid
         }).populate([{
             path: 'author_id'
+        }]).exec(cb);
+    },
+    findComment: function (req, cb) {
+        var pars = {
+            commid: req.body.comment_id,
+            reply: {
+                skip: req.body.skip || (req.body.page - 1) * 10,
+                limit: req.body.limit || 10
+            }
+        }
+        return commentSchema.find({
+            _id: pars.commid
+        }).populate([{
+            path: 'author_id'
+        }, {
+            path: 'reply',
+            options: {
+                sort: {
+                    'create_time': -1
+                },
+                limit: pars.reply.limit,
+                skip: pars.reply.skip
+            },
+            populate: [{
+                path: 'author_id'
+            }, {
+                path: 'to',
+                populate: {
+                    path: 'author_id'
+                }
+            }]
         }]).exec(cb);
     }
 }

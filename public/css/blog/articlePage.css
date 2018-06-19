@@ -1,15 +1,15 @@
-body {
-  color: #fff; }
-
 pre {
   white-space: pre-wrap;
   white-space: -moz-pre-wrap;
   white-space: -pre-wrap;
   white-space: -o-pre-wrap;
   word-wrap: break-word;
-  background-color: #646464;
-  padding: 5px 2px;
-  border-radius: 2px; }
+  background-color: #000000;
+  color: #646464;
+  padding: 5px 5px;
+  border-radius: 2px;
+  box-sizing: border-box;
+  overflow-x: auto; }
 
 .loading-ani {
   position: absolute;
@@ -78,8 +78,6 @@ section.article-wrapper {
   width: 70%;
   margin-bottom: 200px;
   margin: 0 auto; }
-  section.article-wrapper a {
-    color: #fff; }
   section.article-wrapper .article-box .article-header .art-title > h2 {
     text-align: center; }
   section.article-wrapper .article-box .article-header .pt-info {
@@ -101,16 +99,21 @@ section.article-wrapper {
     box-sizing: border-box;
     align-items: stretch;
     align-content: center;
-    margin-bottom: 60px; }
+    margin-bottom: 80px; }
     section.article-wrapper .comment-block .add-comm > textarea {
       position: relative;
+      display: block;
       width: 100%;
+      height: 200px;
       margin: 0;
       background-color: #474747;
       box-sizing: border-box;
       color: #cfcfcf;
       border: none;
       border-radius: 2px;
+      letter-spacing: 2px;
+      padding: 10px;
+      padding-right: 30px;
       resize: none;
       z-index: 1; }
     section.article-wrapper .comment-block .add-comm .comm-submit-btn.show {
@@ -157,32 +160,58 @@ section.article-wrapper {
       height: 100%;
       z-index: 100; }
       section.article-wrapper .comment-block .reply-block > .add-comm > .comm_textarea {
-        height: 100%; }
+        height: 100% !important; }
     section.article-wrapper .comment-block .reply-block .close-btn {
       position: absolute;
-      content: 'X';
-      top: -30px;
+      content: '';
       right: 0;
       width: 30px;
       height: 30px;
-      line-height: 30px;
       text-align: center;
-      background-color: #085e2c;
-      box-shadow: 0 0 5px #fff;
+      z-index: 101;
+      transform: rotate(45deg);
+      transition: transform .5s ease;
       cursor: pointer; }
+      section.article-wrapper .comment-block .reply-block .close-btn:after, section.article-wrapper .comment-block .reply-block .close-btn:before {
+        position: absolute;
+        content: '';
+        top: 0;
+        left: 0;
+        transform: translate(-50%, -50%, 0);
+        background-color: #fff; }
+      section.article-wrapper .comment-block .reply-block .close-btn:after {
+        width: 100%;
+        height: 10%;
+        top: 50%; }
+      section.article-wrapper .comment-block .reply-block .close-btn:before {
+        height: 100%;
+        width: 10%;
+        left: 50%; }
+      section.article-wrapper .comment-block .reply-block .close-btn:hover {
+        transform: rotate(225deg); }
   section.article-wrapper .comm-list {
     background-color: #000;
     padding: 10px; }
     section.article-wrapper .comm-list ul.list > li {
       margin-bottom: 15px;
-      border-left: 5px solid #085e2c; }
+      border-left: 5px solid #085e2c;
+      transition: border-color .4s ease; }
+      section.article-wrapper .comm-list ul.list > li:hover {
+        border-color: #60bb46; }
       section.article-wrapper .comm-list ul.list > li .head-pic {
+        position: relative;
         width: 100px;
         height: 100px;
-        overflow: hidden;
         margin: 0 20px; }
-        section.article-wrapper .comm-list ul.list > li .head-pic a > img {
-          height: 100%; }
+        section.article-wrapper .comm-list ul.list > li .head-pic a {
+          display: block;
+          height: 100%;
+          width: 100%;
+          border-top-left-radius: 50%;
+          overflow: hidden;
+          transition: all .3s ease; }
+          section.article-wrapper .comm-list ul.list > li .head-pic a > img {
+            height: 100%; }
       section.article-wrapper .comm-list ul.list > li > div:nth-child(1),
       section.article-wrapper .comm-list ul.list > li .reply-list > li > div:nth-child(1) {
         display: flex;
@@ -216,6 +245,10 @@ section.article-wrapper {
         section.article-wrapper .comm-list ul.list > li .content .tools {
           display: flex;
           justify-content: flex-end; }
+    section.article-wrapper .comm-list ul.list .comment-item:hover > div > .head-pic > a {
+      height: 90%;
+      width: 90%;
+      box-shadow: 2px 2px 10px white; }
 
 section.right-block {
   width: 30%; }

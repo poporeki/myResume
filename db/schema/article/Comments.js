@@ -55,7 +55,7 @@ commentSchema.statics.findThisArticleComments = function (artid, limit, skip, cb
         path: "reply",
         options: {
             sort: {
-                'createdAt': -1
+                'create_time': -1
             },
             limit: 5,
             skip: 0

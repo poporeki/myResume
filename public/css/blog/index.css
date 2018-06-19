@@ -28,8 +28,6 @@ section.classify {
   align-items: center;
   align-content: center;
   color: #a8a8a8; }
-  section.classify > h2 {
-    color: #fff; }
   section.classify .classify-item {
     position: relative;
     flex-basis: 25%;
@@ -53,7 +51,6 @@ section.classify {
       display: block;
       height: 100%;
       width: 100%;
-      color: #fff;
       overflow: hidden; }
       section.classify .classify-item a.type-lk:hover .iconfont {
         transform: translateY(-100%); }
@@ -92,20 +89,15 @@ section.classify {
   margin: 100px 0;
   display: flex;
   flex-direction: row; }
-  .article,
-  .article a {
-    color: #fff; }
   .article .right-item {
     width: 20%; }
 
 .article-list {
   width: 80%; }
-  .article-list > .title {
-    color: #fff; }
-    .article-list > .title > a {
-      font-size: 14px;
-      color: #000;
-      background-color: #fff; }
+  .article-list > .title > a {
+    font-size: 14px;
+    color: #000;
+    background-color: #fff; }
   .article-list > ul {
     position: relative;
     display: flex;
@@ -116,9 +108,16 @@ section.classify {
   .article-list li {
     flex-basis: 50%; }
     .article-list li:hover .card {
-      box-shadow: 0 0 5px #272727; }
-      .article-list li:hover .card:after {
+      background-color: #131313;
+      box-shadow: 0 2px 5px #383838;
+      /*  &:after {
+          transform: translateY(0) scale(1);
+          opacity: 1;
+        } */ }
+      .article-list li:hover .card:before {
         transform: translateY(0); }
+      .article-list li:hover .card .pic-box > img {
+        transform: scale(1); }
     .article-list li:active .card {
       transform: scale(0.95); }
     .article-list li:nth-child(even) .card {
@@ -129,8 +128,8 @@ section.classify {
     position: relative;
     padding: 20px;
     margin: 20px 20px 20px 20px;
-    border-bottom: 1px solid #5e5e5e;
-    transition: transform .2s ease, box-shadow .5s ease;
+    border-bottom: 1px solid #0e0e0e;
+    transition: background-color .2s ease, transform .2s ease, box-shadow .5s ease;
     overflow: hidden;
     z-index: 1; }
     .article-list .card:after {
@@ -141,9 +140,21 @@ section.classify {
       top: 0;
       left: 0;
       background-color: #2e2e2e;
-      transform: translateY(100%);
-      transition: transform .5s ease;
+      transform: translateY(100%) scale(0);
+      opacity: 0;
+      transition: transform .5s ease-out, opacity .5s ease;
       z-index: -1; }
+    .article-list .card:before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 5px;
+      bottom: 0;
+      left: 0;
+      background-color: #c34c9c;
+      z-index: -1;
+      transform: translateY(5px);
+      transition: transform .3s ease; }
     .article-list .card .card-header > h4 {
       display: inline-block;
       margin-bottom: 50px;
@@ -161,10 +172,13 @@ section.classify {
       max-height: 100px;
       color: #e2e2e2; }
     .article-list .card .card-body .pic-box {
-      width: 60px;
-      height: 60px; }
+      height: 60px;
+      overflow: hidden; }
       .article-list .card .card-body .pic-box > img {
-        height: 100%; }
+        display: block;
+        height: 100%;
+        transform: scale(0.9);
+        transition: transform .5s ease; }
 
 .right-item {
   margin-left: 10px; }

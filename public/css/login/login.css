@@ -21,14 +21,20 @@ body {
 body {
   background: linear-gradient(#242424, black);
   position: relative;
-  overflow: hidden; }
+  overflow: hidden;
+  perspective: 1500;
+  -webkit-perspective: 1500;
+  /* Safari and Chrome */ }
 
 .login-box {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  animation: loginbox_in 1s forwards;
+  backface-visibility: hidden;
   box-sizing: border-box;
+  perspective: 1500;
+  -webkit-perspective: 1500;
   /* &:after {
 		content: "";
 		width: 0;
@@ -66,10 +72,17 @@ body {
     transform: scale(1.2); }
   100% {
     transform: scale(1); } }
+
+@keyframes loginbox_in {
+  0% {
+    transform: translate(-50%, -50%) rotateY(180deg);
+    opacity: 0; }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotateY(0); } }
   .login-box .inner {
     position: relative;
     transition: all 1s ease-out;
-    transform-origin: left center;
     border-radius: 2px;
     border-top: 4px solid rgba(243, 130, 0, 0.993);
     background-size: contain;
@@ -187,17 +200,26 @@ body {
     .login-box.success .inner {
       animation-fill-mode: forwards;
       animation-delay: .5s;
-      animation-duration: .5s;
-      transform-origin: center;
-      animation-name: loginAni; }
+      animation-duration: 1s;
+      animation-name: loginbox_out; }
+    .login-box.success .dog {
+      animation: dog_out .5s forwards; }
 
-@keyframes loginAni {
+@keyframes dog_out {
   0% {
+    opacity: 1;
     transform: scale(1); }
-  50% {
-    transform: scale(2); }
   100% {
+    opacity: 0;
     transform: scale(0); } }
+
+@keyframes loginbox_out {
+  0% {
+    transform: scale(1) rotateY(0);
+    opacity: 1; }
+  100% {
+    transform: scale(2) rotateY(-180deg);
+    opacity: 0; } }
   .login-box:hover .clock-block {
     top: -10%; }
 

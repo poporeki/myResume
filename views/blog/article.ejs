@@ -30,7 +30,7 @@
       <section class="comment-block">
         <h3>发表评论</h3>
         <div class="add-comm clearfix">
-          <textarea name="comm_textarea" class="comm_textarea" id="comm_textarea" cols="30" rows="10"></textarea>
+          <textarea name="comm_textarea" class="comm_textarea" id="comm_textarea"></textarea>
           <a href="##" class="comm-submit-btn">提交</a>
         </div>
         <div class="comm-list">
@@ -42,7 +42,7 @@
                 <div>
                   <div class="head-pic">
                     <a href="##">
-                      <img src="/images/jl.jpg" alt="">
+                      <img src="/images/my-head.png" alt="">
                     </a>
                   </div>
                   <div class="content">
@@ -72,71 +72,81 @@
 
                 </div>
                 <!-- 评论中的回复列表 -->
-                <%if(typeof artComms[i].commReps!='undefined'&&artComms[i].commReps.length!=0){ %>
+                <%  if(typeof artComms[i].commReps!='undefined'&&artComms[i].commReps.length!=0){ %>
                   <ul class='reply-list show'>
-                    <%}else{%>
-                      <ul class='reply-list'>
-                        <%}%>
-                          <% if(typeof(artComms[i].commReps)!='undefined'&&artComms[i].commReps.length!=0){ %>
-                            <% var reps=artComms[i].commReps; %>
-                              <% for(var j=0;j<reps.length;j++){ %>
-                                <li class="comment-item">
-                                  <div>
-                                    <%='#'+reps[j].floor %>
-                                      <div class="head-pic">
-                                        <a href="##">
-                                          <img src="/images/jl.jpg" alt="">
-                                        </a>
-                                      </div>
-                                      <div class="content">
-                                        <div class="info">
-                                          <div class="lt">
-                                            <div class="username">
-                                              <%=reps[j].user.name %>
-                                            </div>
-                                            <div class="address">
-                                              <%=reps[j].submitAddress %>
-                                            </div>
-                                            <div class="p-date">
-                                              <%=reps[j].createTime %>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <% if(reps[j].to==''){ %>
-                                          <p>
-                                            <%=reps[j].repContent %>
-                                          </p>
-                                          <%} else{ %>
-                                            <p>
-                                              <%='回复 #'+reps[j].to.floor+" "+reps[j].to.author_id.user_name+':'+reps[j].repContent %>
-                                            </p>
-                                            <%}%>
-                                              <div class="tools">
-                                                <a href="##" class="comm-reply-btn">回复</a>
-                                              </div>
-                                      </div>
-                                  </div>
-                                  <div class="reply-block">
-                                    <div class="add-comm clearfix">
-                                      <textarea name="comm_textarea" class="comm_textarea" id="comm_textarea" cols="30" rows="10"></textarea>
-                                      <a href="##" class="comm-submit-btn reply-child" data-repid=<%=reps[j].id %> >提交</a>
-                                    </div>
-                                    <div class="close-btn"></div>
-                                  </div>
-                                </li>
-                                <%}%>
-                                  <%}%>
-                      </ul>
+                <%  }else{  %>
+                  <ul class='reply-list'>
+                <%  } %>
+                <% if(typeof(artComms[i].commReps)!='undefined'&&artComms[i].commReps.length!=0){ %>
+                  <% var reps=artComms[i].commReps; %>
+                  <% for(var j=0;j<reps.length;j++){ %>
+                    <li class="comment-item">
+                      <div>
+                        <%='#'+reps[j].floor %>
+                        <div class="head-pic">
+                          <a href="##">
+                            <img src="/images/my-head.png" alt="">
+                          </a>
+                        </div>
+                        <div class="content">
+                          <div class="info">
+                            <div class="lt">
+                              <div class="username">
+                                <%=reps[j].user.name %>
+                              </div>
+                              <div class="address">
+                                <%=reps[j].submitAddress %>
+                              </div>
+                              <div class="p-date">
+                                <%=reps[j].createTime %>
+                              </div>
+                            </div>
+                          </div>
+                          <% if(reps[j].to==''){ %>
+                            <p>
+                              <%=reps[j].repContent %>
+                            </p>
+                          <%} else{ %>
+                            <p>
+                              <%='回复 #'+reps[j].to.floor+" "+reps[j].to.author_id.user_name+':'+reps[j].repContent %>
+                            </p>
+                          <%}%>
+                          <div class="tools">
+                            <a href="##" class="comm-reply-btn">回复</a>
+                          </div>
+                        </div>
+                      </div>
                       <div class="reply-block">
                         <div class="add-comm clearfix">
                           <textarea name="comm_textarea" class="comm_textarea" id="comm_textarea" cols="30" rows="10"></textarea>
-                          <a href="##" class="comm-submit-btn">提交</a>
+                          <a href="##" class="comm-submit-btn reply-child" data-repid=<%=reps[j].id %> >提交</a>
                         </div>
                         <div class="close-btn"></div>
                       </div>
+                    </li>
+                  <%}%>
+                  <% if(reps.count>5) { %>
+                    <li class="comment-item">
+                      还有<%=reps.count-5%>条回复，<a href="##">点击查看<></a>
+                    </li>
+                  <% } %>
+                <%}%>
+                  </ul>
+                  <div class="reply-block">
+                    <div class="add-comm clearfix">
+                      <textarea name="comm_textarea" class="comm_textarea" id="comm_textarea" cols="30" rows="10"></textarea>
+                      <a href="##" class="comm-submit-btn">提交</a>
+                    </div>
+                    <div class="close-btn"></div>
+                  </div>
+                </li>
+            <% } %>
+            <%if(artTotal>artComms.length){%>
+              <li class="comment-more">
+                <a href="##" class="more-comms-lk">查看更多评论</a>
               </li>
-              <% } %>
-                </ul>
+            <%}%>
+          </ul>
         </div>
       </section>
     </section>
