@@ -66,11 +66,53 @@ router.post('/submitReply', function (req, res) {
   })
 })
 router.post('/getComments', function (req, res) {
-  commentMod.findComment(req, function (err, result) {
+  commentMod.showThisArticleComments(req, function (err, commsDatas) {
     if (err) {
       return;
     }
-    console.log('获得剩下的评论：' + result);
+    var artComms = [];
+    for (var i = 0; i < commsDatas.length; i++) {
+      var commReps = [];
+      var reply = commsDatas[i].reply;
+
+      if (reply.length != 0) {
+        for (var idx = 0; idx < reply.length; idx++) {
+          var a = reply[idx].author_id;
+          var obj = {
+            user: {
+              name: reply[idx].author_id.user_name,
+              id: reply[idx].author_id._id
+            },
+            id: reply[idx]._id,
+            repContent: reply[idx].comment_text,
+            likeNum: reply[idx].like_num,
+            createTime: moment(reply[idx].createdAt).format('YYYY-MM-DD hh:mm:ss'),
+            submitAddress: reply[idx].submit_address,
+            to: reply[idx].to ? reply[idx].to : '',
+            floor: reply[idx].floor
+          }
+          commReps.push(obj);
+        }
+      }
+      var obj = {
+        id: commsDatas[i]._id,
+        user: {
+          name: commsDatas[i].author_id.user_name
+        },
+        submitAddress: commsDatas[i].submit_address,
+        createTime: moment(commsDatas[i].createdAt).format('YYYY-MM-DD hh:mm:ss'),
+        likeNum: commsDatas[i].like_num,
+        text: commsDatas[i].comment_text,
+        commReps: commReps,
+        floor: commsDatas[i].floor
+      }
+      artComms.push(obj);
+    }
+    res.json({
+      'status': true,
+      'msg': null,
+      'data': artComms
+    })
   })
 })
 module.exports = router;

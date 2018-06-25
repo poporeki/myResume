@@ -1,4 +1,5 @@
 @import 'set-color';
+@import 'animation';
 .line {
   position: relative;
   margin: 100px 0;
@@ -113,6 +114,8 @@ section.classify {
 
 .article-list {
   width: 80%;
+  opacity: 0;
+  animation: translate_LeftToRight 1s forwards;
   >.title {
     >a {
       font-size: 14px;
@@ -130,14 +133,12 @@ section.classify {
   }
   li {
     flex-basis: 50%;
+    opacity: 0;
+    animation: scaleIn 1s .5s forwards;
     &:hover {
       .card {
         background-color: $highlight-color-black;
         box-shadow: 0 2px 5px rgb(56, 56, 56);
-        /*  &:after {
-          transform: translateY(0) scale(1);
-          opacity: 1;
-        } */
         &:before {
           transform: translateY(0);
         }

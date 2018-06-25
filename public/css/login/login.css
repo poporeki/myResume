@@ -22,10 +22,43 @@ body {
   background: linear-gradient(#242424, black);
   position: relative;
   overflow: hidden;
+  color: #fff;
   perspective: 1500;
   -webkit-perspective: 1500;
   /* Safari and Chrome */ }
 
+.loading-ani {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(48, 48, 48, 0.582); }
+  .loading-ani:after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    box-shadow: 0 0 5px #fff;
+    top: 50%;
+    left: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    animation: subLoadAni 2s 200ms infinite; }
+
+@keyframes subLoadAni {
+  0% {
+    transform: scale(0);
+    opacity: 0; }
+  50% {
+    transform: scale(1);
+    opacity: 1; }
+  100% {
+    transform: scale(2);
+    opacity: 0; } }
+
+/* --------------login-box-------------- */
 .login-box {
   position: absolute;
   top: 50%;
@@ -34,17 +67,7 @@ body {
   backface-visibility: hidden;
   box-sizing: border-box;
   perspective: 1500;
-  -webkit-perspective: 1500;
-  /* &:after {
-		content: "";
-		width: 0;
-		height: 1px;
-		box-shadow: 0 0 5px #000;
-		position: absolute;
-		top: 100%;
-		left: 50%;
-		transition: all .5s;
-	} */ }
+  -webkit-perspective: 1500; }
   .login-box .dog {
     position: absolute;
     transform: scale(0);
@@ -105,105 +128,13 @@ body {
       text-align: center;
       text-decoration: none;
       white-space: 24px; }
-  .login-box form.login-form {
-    background-color: #414241;
-    padding: 3vh 10vh 10vh;
-    box-sizing: border-box;
-    transition: transform 1s ease; }
-    .login-box form.login-form h2 {
-      color: #bebebe; }
-    .login-box form.login-form .control {
-      position: relative;
-      margin-bottom: 5px;
-      width: 30vw;
-      overflow: hidden; }
-      .login-box form.login-form .control .form-control {
-        display: block;
-        position: relative;
-        padding: 10px;
-        padding-left: 30px;
-        width: 100%;
-        border: none;
-        border-bottom: 1px solid rgba(73, 73, 73, 0.902);
-        box-shadow: none;
-        background-color: inherit;
-        font-size: 14px;
-        color: #797979;
-        transition: border .3s ease;
-        box-sizing: border-box; }
-        .login-box form.login-form .control .form-control:focus, .login-box form.login-form .control .form-control:hover, .login-box form.login-form .control .form-control:active {
-          outline: none;
-          border-bottom: 1px solid rgba(146, 146, 146, 0.902); }
-      .login-box form.login-form .control i.iconfont {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        transition: transform .3s ease;
-        line-height: 20px;
-        color: #bdbdbd; }
-    .login-box form.login-form .login-btn-box {
-      position: relative;
-      width: 100%;
-      margin-top: 40px;
-      margin-left: 2px;
-      overflow: hidden; }
-      .login-box form.login-form .login-btn-box:hover:after, .login-box form.login-form .login-btn-box:hover:before {
-        transform: translateX(0%); }
-      .login-box form.login-form .login-btn-box:before {
-        position: absolute;
-        content: '';
-        height: 100%;
-        width: 100%;
-        top: 0;
-        left: 0;
-        transform: translateX(-100%);
-        background-color: rgba(55, 77, 151, 0.712);
-        transition: transform .2s ease;
-        z-index: 0; }
-      .login-box form.login-form .login-btn-box:after {
-        position: absolute;
-        content: '';
-        height: 100%;
-        width: 5px;
-        top: 0;
-        left: 0;
-        transform: translateX(-100%);
-        background-color: rgba(221, 168, 52, 0.712);
-        transition: transform .2s ease .2s;
-        z-index: 1; }
-      .login-box form.login-form .login-btn-box input.login-btn {
-        position: relative;
-        border-radius: 2px;
-        background-color: inherit;
-        transition: all .3s ease;
-        padding: 5px;
-        width: 100%;
-        border: 1px solid rgba(22, 124, 219, 0.363);
-        color: rgba(22, 124, 219, 0.712);
-        outline: none; }
-      .login-box form.login-form .login-btn-box input.login-btn.error {
-        background-color: #bb4d03;
-        color: #f7e2aa;
-        border-color: #b36029; }
-      .login-box form.login-form .login-btn-box input.login-btn.success {
-        background-color: #1ABC9C;
-        color: #f7e2aa; }
-      .login-box form.login-form .login-btn-box .login-btn:hover {
-        background-color: inherit;
-        border-color: transparent;
-        color: rgba(255, 255, 255, 0.712); }
-  .login-box.success {
-    /* &:after {
-			left: 0%;
-			width: 100%;
-		} */ }
-    .login-box.success .inner {
-      animation-fill-mode: forwards;
-      animation-delay: .5s;
-      animation-duration: 1s;
-      animation-name: loginbox_out; }
-    .login-box.success .dog {
-      animation: dog_out .5s forwards; }
+  .login-box.success .inner {
+    animation-fill-mode: forwards;
+    animation-delay: .5s;
+    animation-duration: 1s;
+    animation-name: loginBox_out; }
+  .login-box.success .dog {
+    animation: dog_out .5s forwards; }
 
 @keyframes dog_out {
   0% {
@@ -213,7 +144,7 @@ body {
     opacity: 0;
     transform: scale(0); } }
 
-@keyframes loginbox_out {
+@keyframes loginBox_out {
   0% {
     transform: scale(1) rotateY(0);
     opacity: 1; }
@@ -223,7 +154,142 @@ body {
   .login-box:hover .clock-block {
     top: -10%; }
 
-/* -------------------------------------- */
+form.login-form {
+  background-color: #414241;
+  padding: 20px 100px;
+  box-sizing: border-box;
+  transition: transform 1s ease; }
+  form.login-form h2 {
+    font-size: 26px;
+    color: #bebebe; }
+  form.login-form .control {
+    position: relative;
+    margin-bottom: 5px;
+    border-bottom: 1px solid rgba(73, 73, 73, 0.902);
+    width: 200px;
+    transition: border .3s ease; }
+    form.login-form .control.active {
+      border-bottom: 1px solid rgba(146, 146, 146, 0.902); }
+      form.login-form .control.active .input-tips {
+        transform: translateY(-20px);
+        font-size: 12px; }
+        form.login-form .control.active .input-tips .iconfont {
+          transform: rotate(-45deg);
+          font-size: 12px; }
+    form.login-form .control,
+    form.login-form .control .input-tips {
+      padding: 20px 10px 10px; }
+    form.login-form .control .input-tips {
+      position: absolute;
+      left: 0;
+      top: 0;
+      padding-left: 0;
+      color: #bdbdbd;
+      pointer-events: none;
+      transition: transform .3s ease, font-size .3s ease; }
+      form.login-form .control .input-tips > .iconfont {
+        display: inline-block;
+        transition: transform .5s ease, font-size .3s ease; }
+    form.login-form .control .form-control {
+      display: block;
+      position: relative;
+      width: 100%;
+      height: 20px;
+      border: none;
+      box-shadow: none;
+      background-color: transparent;
+      font-size: 14px;
+      color: #797979;
+      transition: border .3s ease;
+      box-sizing: border-box; }
+      form.login-form .control .form-control:focus, form.login-form .control .form-control:hover, form.login-form .control .form-control:active {
+        outline: none; }
+  form.login-form .login-btn-box {
+    position: relative;
+    width: 100%;
+    margin: 40px 0 40px 2px;
+    overflow: hidden; }
+    form.login-form .login-btn-box:hover:after, form.login-form .login-btn-box:hover:before {
+      transform: translateX(0%); }
+    form.login-form .login-btn-box:before {
+      position: absolute;
+      content: '';
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      transform: translateX(-100%);
+      background-color: rgba(55, 77, 151, 0.712);
+      transition: transform .2s ease;
+      z-index: 0; }
+    form.login-form .login-btn-box:after {
+      position: absolute;
+      content: '';
+      height: 100%;
+      width: 5px;
+      top: 0;
+      left: 0;
+      transform: translateX(-100%);
+      background-color: rgba(221, 168, 52, 0.712);
+      transition: transform .2s ease .2s;
+      z-index: 1; }
+    form.login-form .login-btn-box input.login-btn {
+      position: relative;
+      border-radius: 2px;
+      background-color: transparent;
+      transition: all .3s ease;
+      padding: 5px;
+      height: 30px;
+      width: 100%;
+      border: 1px solid rgba(22, 124, 219, 0.363);
+      color: rgba(22, 124, 219, 0.712);
+      outline: none; }
+    form.login-form .login-btn-box input.login-btn.error {
+      background-color: #bb4d03;
+      color: #f7e2aa;
+      border-color: #b36029; }
+    form.login-form .login-btn-box input.login-btn.success {
+      background-color: #1ABC9C;
+      color: #f7e2aa; }
+    form.login-form .login-btn-box .login-btn:hover {
+      background-color: transparent;
+      border-color: transparent;
+      color: rgba(255, 255, 255, 0.712); }
+    form.login-form .login-btn-box .status-block {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      text-align: center;
+      line-height: 30px;
+      transition: background-color .5s ease;
+      transform: translateY(-100%); }
+      form.login-form .login-btn-box .status-block.logining {
+        background-color: orange;
+        animation: statusBlock_in .5s forwards; }
+      form.login-form .login-btn-box .status-block.success {
+        background-color: #1ABC9C; }
+      form.login-form .login-btn-box .status-block.error {
+        background-color: #bd453c; }
+      form.login-form .login-btn-box .status-block.hide {
+        animation: statusBlock_out 1s forwards; }
+
+@keyframes statusBlock_in {
+  0% {
+    transform: translateY(-100%); }
+  100% {
+    transform: translateY(0); } }
+
+@keyframes statusBlock_out {
+  0% {
+    transform: translateY(0); }
+  100% {
+    transform: translateY(-100%); } }
+
+/* -----------------clock--------------------- */
 .clock-block {
   position: absolute;
   left: 50%;

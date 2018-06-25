@@ -1,3 +1,39 @@
+@keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@keyframes scaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0); }
+  100% {
+    opacity: 1;
+    transform: scale(1); } }
+
+@keyframes scaleIn_2x {
+  0% {
+    opacity: 0;
+    transform: scale(2); }
+  100% {
+    opacity: 1;
+    transform: scale(1); } }
+
+@keyframes translate_LeftToRight {
+  0% {
+    opacity: 0;
+    transform: translateX(-20%); }
+  100% {
+    opacity: 1;
+    transform: translateX(0); } }
+
 .line {
   position: relative;
   margin: 100px 0;
@@ -93,7 +129,9 @@ section.classify {
     width: 20%; }
 
 .article-list {
-  width: 80%; }
+  width: 80%;
+  opacity: 0;
+  animation: translate_LeftToRight 1s forwards; }
   .article-list > .title > a {
     font-size: 14px;
     color: #000;
@@ -106,14 +144,12 @@ section.classify {
     width: 100%;
     background-color: #000; }
   .article-list li {
-    flex-basis: 50%; }
+    flex-basis: 50%;
+    opacity: 0;
+    animation: scaleIn 1s .5s forwards; }
     .article-list li:hover .card {
       background-color: #131313;
-      box-shadow: 0 2px 5px #383838;
-      /*  &:after {
-          transform: translateY(0) scale(1);
-          opacity: 1;
-        } */ }
+      box-shadow: 0 2px 5px #383838; }
       .article-list li:hover .card:before {
         transform: translateY(0); }
       .article-list li:hover .card .pic-box > img {

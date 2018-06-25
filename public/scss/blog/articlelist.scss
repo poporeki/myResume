@@ -1,3 +1,4 @@
+@import 'animation';
 .loading-ani-articlelist {
   position: relative;
   padding: 30px;
@@ -65,6 +66,7 @@
     padding-bottom: 20px;
     background-color: #000;
     transition: transform .2s ease;
+    animation: scaleIn_2x 1s forwards;
     &:last-child {
       margin-bottom: 0;
     }

@@ -72,8 +72,7 @@ $(function () {
       requestAjax({
         el: $this,
         url: submitUrl,
-        data,
-        data
+        data: data
       }, function (result) {
         if (!result.status) return;
         var data = result.data;
@@ -165,17 +164,117 @@ $(function () {
     }
 
   });
-
+  var HasMore = true;
   $('.comment-block').on('click', '.more-comms-lk', function () {
-    var commLen = $('.comment-item').index();
+    if (!HasMore) return;
+    var $par = $(this).parent();
+    var commLen = $('.comment-block .list').children('.comment-item').length;
+    if ($(this).find('.loading-ani').length > 0) return;
+    var artid = $('.article-box').attr('data-artid');
     requestAjax({
       el: $(this),
       url: '/blog/getComments',
       data: {
-        'skip': commLen
+        'skip': commLen,
+        'artid': artid
       }
     }, function (result) {
-      console.log(result);
+      if (!result.status) {
+
+        return;
+      }
+      var artComms = result.data;
+      if (artComms.length === 0) {
+        $par.text('--THE END--');
+        HasMore = false;
+        return;
+      }
+      for (var i = 0; i < artComms.length; i++) {
+        var reps = artComms[i].commReps;
+        var context =
+          '<li class="comment-item" data-commid=' + artComms[i].id + '>' +
+          '<div >' +
+          '<div class="head-pic" >' +
+          '<a href = "##" >' +
+          '<img src = "/images/my-head.png" alt = "" >' +
+          '</a>' +
+          '</div>' +
+          '<div class="content">' +
+          '<div class ="info">' +
+          '<div class = "lt">' +
+          '<div class = "username">' + artComms[i].user.name + '</div>' +
+          '<div class = "address">' + artComms[i].submitAddress + '</div>' +
+          '<div class = "p-date" >' + artComms[i].createTime + '</div>' +
+          '</div>' +
+          '<div class ="floor-blk">' + artComms[i].floor + "楼" + '</div>' +
+          '</div>' +
+          '<p>' + artComms[i].text + '</p>' +
+          '<div class ="tools">' +
+          '<a href ="##" class = "comm-reply-btn" > 回复 </a>' +
+          '</div>' +
+          '</div>' +
+          '</div>';
+        if (typeof artComms[i].commReps != 'undefined' && artComms[i].commReps.length != 0) {
+          context += '<ul class="reply-list show">'
+        } else {
+          context += '<ul class="reply-list">'
+        }
+        if (typeof (artComms[i].commReps) != 'undefined' && artComms[i].commReps.length != 0) {
+          var reps = artComms[i].commReps;
+          for (var j = 0; j < reps.length; j++) {
+            context += '<li class="comment-item">' +
+              '<div>' +
+              '#' + reps[j].floor +
+              '<div class="head-pic">' +
+              '<a href="##">' +
+              '<img src="/images/my-head.png" alt="">' +
+              '</a>' +
+              '</div>' +
+              '<div class="content">' +
+              '<div class="info">' +
+              '<div class="lt">' +
+              '<div class="username">' +
+              reps[j].user.name +
+              '</div>' +
+              '<div class="address">' +
+              reps[j].submitAddress +
+              '</div>' +
+              '<div class="p-date">' +
+              reps[j].createTime +
+              '</div>' +
+              '</div>' +
+              '</div>';
+            if (reps[j].to == '') {
+              context += '<p>' + reps[j].repContent + '</p>';
+            } else {
+              context += '<p>' + '回复 #' + reps[j].to.floor + " " + reps[j].to.author_id.user_name + ':' + reps[j].repContent + '</p>';
+            }
+            context += '<div class="tools">' +
+              '<a href="##" class="comm-reply-btn">回复' + '</a>' +
+              '</div>' +
+              '</div>' +
+              '</div>' +
+              '<div class="reply-block">' +
+              '<div class="add-comm clearfix">' +
+              '<textarea name="comm_textarea" class="comm_textarea" id="comm_textarea" cols="30" rows="10"></textarea>' +
+              '<a href="##" class="comm-submit-btn reply-child" data-repid=' + reps[j].id + '>提交</a>' +
+              '</div>' +
+              '<div class="close-btn"></div>' +
+              '</div>' +
+              '</li>';
+          }
+
+        }
+        context += '</ul>' +
+          '<div class="reply-block">' +
+          '<div class="add-comm clearfix">' +
+          '<textarea name="comm_textarea" class="comm_textarea" id="comm_textarea" cols="30" rows="10"></textarea>' +
+          '<a href="##" class="comm-submit-btn">提交</a>' +
+          '</div>' +
+          '<div class="close-btn"></div>' +
+          '</div></li>';
+        $('.comment-block .list').children('.comment-more').before(context);
+      }
     })
   })
 });

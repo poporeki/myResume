@@ -1,3 +1,39 @@
+@keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@keyframes scaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0); }
+  100% {
+    opacity: 1;
+    transform: scale(1); } }
+
+@keyframes scaleIn_2x {
+  0% {
+    opacity: 0;
+    transform: scale(2); }
+  100% {
+    opacity: 1;
+    transform: scale(1); } }
+
+@keyframes translate_LeftToRight {
+  0% {
+    opacity: 0;
+    transform: translateX(-20%); }
+  100% {
+    opacity: 1;
+    transform: translateX(0); } }
+
 .loading-ani-articlelist {
   position: relative;
   padding: 30px;
@@ -55,7 +91,8 @@
     padding: 0 10px;
     padding-bottom: 20px;
     background-color: #000;
-    transition: transform .2s ease; }
+    transition: transform .2s ease;
+    animation: scaleIn_2x 1s forwards; }
     .article-list > .article-list-item:last-child {
       margin-bottom: 0; }
     .article-list > .article-list-item:hover, .article-list > .article-list-item:active {

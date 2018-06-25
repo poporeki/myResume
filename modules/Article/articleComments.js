@@ -34,9 +34,9 @@ module.exports = {
     },
     /* 查询该文章所有评论 */
     showThisArticleComments: function (req, cb) {
-        var limit = req.query.number || 10; /* 返回数量 默认10*/
-        var skip = req.skip || req.query.page - 1 * 10; /* 跳过数量 */
-        var artid = req.params.id; /* 文章id */
+        var limit = parseInt(req.query.number || req.body.number || 10); /* 返回数量 默认10*/
+        var skip = parseInt(req.skip || req.body.skip || req.query.page - 1 * 10); /* 跳过数量 */
+        var artid = req.params.id || req.body.artid; /* 文章id */
         commentSchema.find({
             "article_id": artid
         }).count().exec(function (err, commCount) {

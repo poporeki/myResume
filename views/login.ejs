@@ -32,34 +32,33 @@
       <form action="/login" method="post" class="login-form">
         <h2>登录</h2>
         <div class="control">
-
-          <input type="text" class="form-control" maxlength="10" name="uname" id="username" placeholder="输入用户名">
-          <i class="iconfont icon-head"></i>
+          <input type="text" class="form-control" maxlength="10" name="uname" id="username">
+          <div class='input-tips'>
+            <i class="iconfont icon-head"></i>
+            <span>输入用户名</span>
+          </div> 
         </div>
         <div class="control">
-
-          <input type="password" class="form-control" maxlength="16" name="upwd" id="upassword" placeholder="输入密码">
-          <i class="iconfont icon-password"></i>
+          <input type="password" class="form-control" maxlength="16" name="upwd" id="upassword">
+          <div class="input-tips">
+            <i class="iconfont icon-password"></i>
+            <span>输入密码</span>
+            </div>
+          
         </div>
         <div class="login-btn-box">
           <input type="button" id="login_btn" class="login-btn" value="登录">
+          <span class="status-block"></span>
         </div>
 
       </form>
       <div class="copyright">By Yansk</div>
       <a href="/" class="back-btn">返回主页</a>
-      <div class="clock-block">
-        <span class="card__hours"></span>
-        :
-        <span class="card__minutes"></span>
-        :
-        <span class="card__seconds"></span>
-      </div>
     </div>
   </div>
 
   <script src='https://cdn.bootcss.com/jquery/1.9.1/jquery.min.js'></script>
-  <script src="./js/login/index.js"></script>
+  <script src="/js/login/index.js"></script>
 
 </body>
 

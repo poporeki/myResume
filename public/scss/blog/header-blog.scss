@@ -215,6 +215,10 @@ header {
           font-size: 12px;
           border-bottom: 1px solid rgba(218, 218, 218, 0.445);
           color: rgb(95, 95, 95);
+          &:hover,
+          &:active {
+            background-color: #e2e2e2;
+          }
         }
         @keyframes ddAni_in {
           0% {

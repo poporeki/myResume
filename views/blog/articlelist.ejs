@@ -1,7 +1,9 @@
 <%-include('header_blog')-%>
   <link rel="stylesheet" href="/css/blog/articlelist.css">
-
   <div class="wrapper">
+  <div class="title">
+    <h2>列表</h2>
+  </div>
     <ul class="article-list">
       <%for(var i=0;i<artList.length;i++){%>
         <li class="article-list-item">
@@ -22,11 +24,10 @@
                 <%=artList[i].source%>
               </div>
             </div>
-
           </a>
         </li>
         <%}%>
     </ul>
   </div>
-  <%-include('footer_blog')-%>
-    <script src="/js/blog/articlelist.js"></script>
+<%-include('footer_blog')-%>
+<script src="/js/blog/articlelist.js"></script>

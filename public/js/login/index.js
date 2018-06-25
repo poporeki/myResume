@@ -4,11 +4,12 @@ window.onload = function () {
 	var spanSeconds = document.querySelector('.card__seconds');
 	var inputUser = document.querySelector('#username');
 	var inputPwd = document.querySelector('#upassword');
-	inputUser.focus();
-	updateTime(spanHours, spanMinutes, spanSeconds);
+	/* updateTime(spanHours, spanMinutes, spanSeconds); */
 	saveInput(inputUser, inputPwd);
+	inputFn();
 	submitLogin(inputUser, inputPwd);
 }
+
 
 function updateTime(h, m, s) {
 	setTimeout(function () {
@@ -33,6 +34,34 @@ function saveInput(u, p) {
 	p.value = sessionStorage.getItem('upVal');
 }
 
+function inputFn() {
+	var $wrap = $('.control'),
+		$input = $wrap.find('.form-control');
+	addActive($input);
+	$input.on('focus', function () {
+		$(this).parent().addClass('active');
+	});
+	$input.on('blur', function () {
+		addActive($(this));
+	});
+
+	function addActive(el) {
+		var $this = el;
+
+
+		$this.each(function () {
+			$par = $(this).parent();
+			var val = $(this).val();
+			if (val !== '') {
+				$par.addClass('active');
+			} else {
+				$par.removeClass('active');
+			}
+		})
+
+	}
+}
+
 function submitLogin(u, p) {
 	var $loginBtn = $('#login_btn');
 	$(document).keydown(function (event) {
@@ -42,11 +71,18 @@ function submitLogin(u, p) {
 	});
 	$loginBtn.on('click submit', function (e) {
 		e.preventDefault();
-
-		var _this = $(this);
-		if (_this.hasClass('error') || _this.hasClass('success')) return;
 		var unVal = u.value;
 		var upVal = p.value;
+		if (unVal === '' || unVal === undefined || upVal === '' || upVal === undefined) {
+			alert('内容不能为空');
+			return;
+		}
+		var $this = $(this),
+			$btnBox = $this.parent('.login-btn-box'),
+			$statusBox = $btnBox.find('.status-block');
+		if ($statusBox.hasClass('error') || $statusBox.hasClass('success') || $statusBox.hasClass('logining') || $statusBox.hasClass('hide')) return;
+
+
 		sessionStorage.setItem('unVal', unVal);
 		sessionStorage.setItem('upVal', upVal);
 		$.ajax({
@@ -57,33 +93,28 @@ function submitLogin(u, p) {
 				upwd: upVal
 			},
 			beforeSend: function () {
-				_this.removeAttr('href');
-				_this.val('登录中');
+				$statusBox.html('登录中').removeClass().addClass('status-block logining').append('<div class="loading-ani"></div>');
 			},
 			success: function (data) {
 				if (!data) return;
+				var transitionFlag = true;
 				if (data.status) {
-					_this.addClass('success');
-
-					_this.val(data.msg);
-					var $boxPar = _this.parents('.login-box');
-					setTimeout(function () {
-						$boxPar.addClass('success');
-					}, 1000);
+					$statusBox.addClass('success').html(data.msg);
+					var $boxPar = $this.parents('.login-box');
 					var $inner = $boxPar.find('.inner');
-					$inner[0].addEventListener('animationend', function () {
+					$boxPar.addClass('success');
+					$inner.on('animationend', function () {
 						window.location.href = data.href;
 					})
-					// setTimeout(function () {
-					// 	window.location.href = data.href;
-					// }, 2000);
 				} else {
-					_this.addClass('error');
-					_this.val(data.msg);
+					$statusBox.addClass('error').html(data.msg);
 					setTimeout(function () {
-						_this.removeClass('error');
-						_this.val('登录');
+						$statusBox.addClass('hide').one('animationend', function () {
+							$(this).html('').removeClass('').addClass('status-block');
+						})
 					}, 2000);
+
+
 				}
 
 			}

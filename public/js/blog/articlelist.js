@@ -9,7 +9,6 @@ $(function () {
         var outH = $artList.outerHeight();
         var sTop = $(window).scrollTop();
         var elBottomDistanceWindowTop = H + outH - sTop;
-        console.log(H + ':::' + sTop + '====' + (elBottomDistanceWindowTop < outH));
         if (elBottomDistanceWindowTop < $(window).height() && SEND == false) {
             getNewData();
             var a = /\[[^\}]+\]/;
@@ -53,7 +52,7 @@ $(function () {
                 $artList.append(html);
             } else {
                 SEND = true;
-                $artList.append('<li  style="text-align:center;"><a href="##">没有数据</a></li>');
+                $artList.append('<li  style="text-align:center;"><a href="##">--THE END--</a></li>');
             }
         });
 
