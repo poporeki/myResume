@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/css/blog/aside.css">
-<aside>
+<aside class='l-aside'>
   <a href="##" class="sidebar-btn">
     <p>YANSK</p>
   </a>
@@ -20,4 +20,16 @@
       <a href="#">DB</a>
     </li>
   </ul>
+</aside>
+<aside class="r-aside">
+  <%if(typeof USER==undefined||USER==null){%>
+  <div class="box top-box"><a href="/login">登录</a>
+  </div>
+  <div class="box top-box"><a href="/reg">注册</a>
+  </div>
+  <%}else{%>
+  <div class="box bottom-box">
+  <a href="/logout"><p>退出登录</p></a>
+  </div>
+  <%}%>
 </aside>

@@ -1,8 +1,9 @@
 $(function () {
   $('.comment-block').on('click', '.comm-submit-btn', function () {
+    if (!isLogin()) return;
     if ($(this).children('.loading-ani').length > 0) return;
     var $this = $(this),
-      $comTextarea = $this.siblings('.comm_textarea'),
+      $comTextarea = $this.siblings('.comm-textarea'),
       artid = $('.article-box').attr('data-artid'),
       submitUrl = '/blog/article/postComment',
       data = {
@@ -31,15 +32,17 @@ $(function () {
         url: submitUrl,
         data: data
       }, function (result) {
-        if (!result.status) return;
+        if (!resultFalse(result, $this)) return;
         var data = result.data;
         $replyList.addClass('show');
         var context =
           '<li class="comment-item">' +
           '<div>' +
+          '<span>' +
           '#' + data.floor +
+          '</span>' +
           '<div class="head-pic">' +
-          '<a href="##"><img src="/images/jl.jpg" alt=""></a>' +
+          '<a href="##"><img src="/images/my-head.png" alt=""></a>' +
           '</div>' +
           '<div class="content">' +
           '<div class="info">' +
@@ -74,14 +77,16 @@ $(function () {
         url: submitUrl,
         data: data
       }, function (result) {
-        if (!result.status) return;
+        if (!resultFalse(result, $this)) return;
         var data = result.data;
         var context =
           '<li class="comment-item">' +
           '<div>' +
+          '<span>' +
           '#' + data.floor +
+          '</span>' +
           '<div class="head-pic">' +
-          '<a href="##"><img src="/images/jl.jpg" alt=""></a>' +
+          '<a href="##"><img src="/images/my-head.png" alt=""></a>' +
           '</div>' +
           '<div class="content">' +
           '<div class="info">' +
@@ -101,6 +106,26 @@ $(function () {
       })
 
     }
+
+    function resultFalse(result, el) {
+      var $el = el;
+      if (!result.status) return false;
+      if (result.status == -1) {
+        $el.removeClass('msg hide').addClass('msg');
+        $el.attr('data-attr', result.msg);
+        $el.one('transitionend', function () {
+          setTimeout(function () {
+            $el.addClass('hide');
+            $el.one('transitionend', function () {
+              $el.attr('data-attr', '').removeClass('msg hide');
+            })
+          }, 2000);
+        })
+        return false;
+      } else {
+        return true;
+      }
+    }
     /* 提交评论 */
     function submitComment() {
       requestAjax({
@@ -109,13 +134,13 @@ $(function () {
           data: data
         },
         function (result) {
-          if (!result.status) return;
+          if (!resultFalse(result, $this)) return;
           var data = result.data;
           var context =
             '<li class="comment-item">' +
             '<div>' +
             '<div class="head-pic">' +
-            '<a href="##"><img src="/images/jl.jpg" alt=""></a>' +
+            '<a href="##"><img src="/images/my-head.png" alt=""></a>' +
             '</div>' +
             '<div class="content">' +
             '<div class="info">' +
@@ -139,30 +164,46 @@ $(function () {
   var $commBlock = $('.comment-block'),
     $addCommBox = $commBlock.find('.add-comm'),
     clone = $addCommBox.clone(),
-    $inputBox = $addCommBox.find('.comm_textarea');
+    $inputBox = $addCommBox.find('.comm-textarea');
   /* 监听键盘抬起 显示隐藏回复框 */
-  $commBlock.on('keyup', '.comm_textarea', function () {
+  $commBlock.on('keyup', '.comm-textarea', function () {
     if ($(this).val()) {
       $(this).siblings('.comm-submit-btn').addClass('show');
     } else {
       $(this).siblings('.comm-submit-btn').removeClass('show');
     }
   })
-  $replyBtn = $('.comm-reply-btn');
+  /* 判断用户登录状态 */
+  function isLogin() {
+    var Flag = true;
+    $.ajax({
+      url: '/auth',
+      type: 'post',
+      async: false,
+      success: function (result) {
+        if (!result) {
+          Flag = false;
+          window.location.href = '/login';
+        }
+      }
+    });
+    return Flag;
+  }
   /* 回复按钮单击事件 */
-  $replyBtn.on('click', function () {
+  $commBlock.on('click', '.comm-reply-btn', function () {
+    if (!isLogin()) return;
     var $li = $(this).parents(".comment-item").eq(0),
       $replyBlock = $li.find('>.reply-block'),
       $sibReplyBlock = $li.parents('.comment-block').find('.reply-block');
     $sibReplyBlock.removeClass('show');
-    $sibReplyBlock.find('.comm_textarea').trigger('keyup').val('');
+    $sibReplyBlock.find('.comm-textarea').trigger('keyup').val('');
     $replyBlock.addClass('show');
+
   });
-  $('.reply-block').on('click', function (e) {
+  $commBlock.on('click', '.reply-block', function (e) {
     if (e.target.className == 'close-btn') {
       $(this).removeClass('show');
     }
-
   });
   var HasMore = true;
   $('.comment-block').on('click', '.more-comms-lk', function () {
@@ -224,7 +265,9 @@ $(function () {
           for (var j = 0; j < reps.length; j++) {
             context += '<li class="comment-item">' +
               '<div>' +
+              '<span>' +
               '#' + reps[j].floor +
+              '</span>' +
               '<div class="head-pic">' +
               '<a href="##">' +
               '<img src="/images/my-head.png" alt="">' +
@@ -256,7 +299,7 @@ $(function () {
               '</div>' +
               '<div class="reply-block">' +
               '<div class="add-comm clearfix">' +
-              '<textarea name="comm_textarea" class="comm_textarea" id="comm_textarea" cols="30" rows="10"></textarea>' +
+              '<textarea name="comm_textarea" class="comm-textarea" cols="30" rows="10"></textarea>' +
               '<a href="##" class="comm-submit-btn reply-child" data-repid=' + reps[j].id + '>提交</a>' +
               '</div>' +
               '<div class="close-btn"></div>' +
@@ -268,7 +311,7 @@ $(function () {
         context += '</ul>' +
           '<div class="reply-block">' +
           '<div class="add-comm clearfix">' +
-          '<textarea name="comm_textarea" class="comm_textarea" id="comm_textarea" cols="30" rows="10"></textarea>' +
+          '<textarea name="comm_textarea" class="comm-textarea" cols="30" rows="10"></textarea>' +
           '<a href="##" class="comm-submit-btn">提交</a>' +
           '</div>' +
           '<div class="close-btn"></div>' +

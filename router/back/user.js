@@ -6,7 +6,7 @@ router.get('/ofTheDayVistorList', function (req, res) {
   TouristsMod.getTheDayVistor(function (result) {
     res.render('./backend/vistorlist', {
       pageTitle: '今天的访问量',
-      username: req.session.user.username,
+      username: res.locals.USER,
       datas: result
     })
   })

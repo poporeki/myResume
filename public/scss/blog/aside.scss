@@ -1,4 +1,4 @@
-aside {
+aside.l-aside {
   position: fixed;
   height: 100%;
   width: 100px;
@@ -74,6 +74,43 @@ aside {
             height: 4px;
           }
         }
+      }
+    }
+  }
+}
+
+aside.r-aside {
+  display: block;
+  position: fixed;
+  top: 50px;
+  right: 0;
+  z-index: 999999;
+  &.show {
+    display: block;
+  }
+  .box {
+    position: relative;
+    width: 20px;
+    height: 100px;
+    margin-bottom: 5px;
+    background-color: rgba(0, 0, 0, 0.712);
+    border: 1px solid #000;
+    box-shadow: 0 0 5px #000;
+    >a {
+      position: absolute;
+      display: block;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      font-size: 12px;
+      text-align: center;
+      >p {
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        top: 50%;
+        transform: translateY(-50%);
       }
     }
   }

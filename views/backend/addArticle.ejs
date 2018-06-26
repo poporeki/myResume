@@ -1,5 +1,9 @@
 <%- include('common') -%>
-
+  <style>
+  .w-e-toolbar{
+    flex-wrap: wrap;
+  }
+  </style>
   <div class="side-body">
     <div class="row">
       <div class="col-xs-12">
@@ -36,7 +40,7 @@
               <div class="sub-title">作者</div>
               <div>
                 <p name="arc_author">
-                  <%=userName %>
+                  <%=USER.username %>
                 </p>
               </div>
               <div class="sub-title">分类</div>
@@ -48,7 +52,7 @@
                     <%for(var j=0;j<artInfo.types.length;j++){%>
                       <%if(artInfo.types[j].id==typeName[i].id){%>
                         <div class="radio3 radio-check radio-inline">
-                          <input type="radio" id=<%="radio_" + i %> name="arc_type" value=<%=typeName[i]._id%> checked>
+                          <input type="radio" id=<%='radio_' + i %> name="arc_type" value=<%=typeName[i]._id%> checked >
                             <label for=<%="radio_" +i %>>
                               <%=typeName[i].type_name%>
                             </label>

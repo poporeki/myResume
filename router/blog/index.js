@@ -5,13 +5,13 @@ var moment = require('moment');
 var articleMod = require('../../modules/Article/article');
 var articleTypeMod = require('../../modules/Article/articleType');
 var arcticleTagMod = require('../../modules/Article/articleTag');
-router.use('/', function (req, res, next) {
+/* router.use('/', function (req, res, next) {
   if (!req.session.user || !req.session.user.username) {
     res.redirect('/login');
     return;
   };
   next();
-})
+}) */
 
 router.get('/', function (req, res, next) {
   articleMod.showArticleList(req, function (err, resListSortTime) {

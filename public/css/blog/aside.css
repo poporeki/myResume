@@ -1,4 +1,4 @@
-aside {
+aside.l-aside {
   position: fixed;
   height: 100%;
   width: 100px;
@@ -8,7 +8,7 @@ aside {
   box-shadow: 0 0 20px #000;
   transition: left .5s ease;
   z-index: 10; }
-  aside .sidebar-btn {
+  aside.l-aside .sidebar-btn {
     position: absolute;
     top: 50px;
     right: -50px;
@@ -26,25 +26,25 @@ aside {
     font-size: 14px;
     transform: rotate(90deg);
     transition: transform 1s ease .5s; }
-    aside .sidebar-btn p {
+    aside.l-aside .sidebar-btn p {
       padding: 0;
       margin: 0;
       transform: translateY(-15px);
       transition: transform .5s ease; }
-  aside:hover {
+  aside.l-aside:hover {
     left: 0; }
-    aside:hover .sidebar-btn {
+    aside.l-aside:hover .sidebar-btn {
       transform: rotate(0); }
-      aside:hover .sidebar-btn p {
+      aside.l-aside:hover .sidebar-btn p {
         transform: translateY(0); }
-  aside .navbar {
+  aside.l-aside .navbar {
     position: relative;
     margin-top: 150px;
     display: flex;
     align-items: center;
     align-content: center;
     flex-direction: column; }
-    aside .navbar li a {
+    aside.l-aside .navbar li a {
       display: block;
       height: 100px;
       padding: 20px;
@@ -53,7 +53,7 @@ aside {
       box-sizing: border-box;
       color: #000;
       text-shadow: 0 0 2px #818181; }
-      aside .navbar li a:after {
+      aside.l-aside .navbar li a:after {
         content: '';
         position: absolute;
         top: 0;
@@ -62,5 +62,37 @@ aside {
         height: 0;
         background-color: forestgreen;
         transition: height .2s ease-out; }
-      aside .navbar li a:hover:after {
+      aside.l-aside .navbar li a:hover:after {
         height: 4px; }
+
+aside.r-aside {
+  display: block;
+  position: fixed;
+  top: 50px;
+  right: 0;
+  z-index: 999999; }
+  aside.r-aside.show {
+    display: block; }
+  aside.r-aside .box {
+    position: relative;
+    width: 20px;
+    height: 100px;
+    margin-bottom: 5px;
+    background-color: rgba(0, 0, 0, 0.712);
+    border: 1px solid #000;
+    box-shadow: 0 0 5px #000; }
+    aside.r-aside .box > a {
+      position: absolute;
+      display: block;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      font-size: 12px;
+      text-align: center; }
+      aside.r-aside .box > a > p {
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        top: 50%;
+        transform: translateY(-50%); }

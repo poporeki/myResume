@@ -4,6 +4,7 @@
  */
 var E = window.wangEditor;
 var editor = new E('#editor');
+editor.customConfig.zIndex = 1000;
 /* 配置服务器端地址 */
 editor.customConfig.uploadImgServer = '/backend/art/uploadArtIMG';
 editor.create();

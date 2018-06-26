@@ -110,7 +110,7 @@ function submitLogin(u, p) {
 					$statusBox.addClass('error').html(data.msg);
 					setTimeout(function () {
 						$statusBox.addClass('hide').one('animationend', function () {
-							$(this).html('').removeClass('').addClass('status-block');
+							$(this).html('').removeClass().addClass('status-block');
 						})
 					}, 2000);
 

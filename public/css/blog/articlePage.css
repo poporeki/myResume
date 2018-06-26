@@ -114,17 +114,19 @@ section.article-wrapper {
   width: 70%;
   margin-bottom: 200px;
   margin: 0 auto; }
-  section.article-wrapper .article-box .article-header .art-title > h2 {
-    text-align: center; }
-  section.article-wrapper .article-box .article-header .pt-info {
-    text-align: center;
-    margin-bottom: 50px; }
-    section.article-wrapper .article-box .article-header .pt-info span {
-      margin-right: 10px;
-      color: #8c9cb3;
-      text-shadow: 0 0 5px #424242; }
-  section.article-wrapper .article-box .article-body {
-    color: #ececec; }
+  section.article-wrapper .article-box {
+    animation: fadeIn 1s forwards; }
+    section.article-wrapper .article-box .article-header .art-title > h2 {
+      text-align: center; }
+    section.article-wrapper .article-box .article-header .pt-info {
+      text-align: center;
+      margin-bottom: 50px; }
+      section.article-wrapper .article-box .article-header .pt-info span {
+        margin-right: 10px;
+        color: #8c9cb3;
+        text-shadow: 0 0 5px #424242; }
+    section.article-wrapper .article-box .article-body {
+      color: #ececec; }
   section.article-wrapper .comment-block h3 {
     padding: 10px 0;
     border-bottom: 1px solid #303030; }
@@ -142,16 +144,16 @@ section.article-wrapper {
       width: 100%;
       height: 200px;
       margin: 0;
-      background-color: #474747;
-      box-sizing: border-box;
-      color: #cfcfcf;
-      border: none;
-      border-radius: 2px;
-      letter-spacing: 2px;
       padding: 10px;
       padding-right: 30px;
+      border: none;
+      border-radius: 2px;
+      box-sizing: border-box;
+      color: #cfcfcf;
+      background-color: #474747;
+      letter-spacing: 2px;
       resize: none;
-      z-index: 1;
+      z-index: 100;
       overflow: auto; }
     section.article-wrapper .comment-block .add-comm .comm-submit-btn.show {
       transform: translateY(100%); }
@@ -169,24 +171,42 @@ section.article-wrapper {
       font-weight: bold;
       text-align: center;
       box-sizing: border-box;
-      z-index: 0;
+      z-index: 99;
       transition: transform .5s ease; }
+      section.article-wrapper .comment-block .add-comm .comm-submit-btn:after {
+        content: attr(data-attr);
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        z-index: 9;
+        visibility: hidden;
+        transform: translateY(-100%);
+        transition: transform 0.5s ease, visibility 0.5s ease;
+        background-color: orange; }
+      section.article-wrapper .comment-block .add-comm .comm-submit-btn.msg:after {
+        visibility: visible;
+        transform: translateY(0); }
+      section.article-wrapper .comment-block .add-comm .comm-submit-btn.hide:after {
+        visibility: hidden;
+        transform: translateY(-100%); }
   section.article-wrapper .comment-block .reply-block.show {
     display: block; }
   section.article-wrapper .comment-block .reply-list {
     display: none;
     position: relative;
-    margin-left: 120px;
+    margin-left: 10vw;
     border: 1px solid #424242;
     padding: 5px; }
     section.article-wrapper .comment-block .reply-list.show {
       display: block; }
   section.article-wrapper .comment-block .reply-block {
     display: none;
-    position: absolute;
+    position: relative;
     width: 100%;
     height: 110px;
-    top: 105px; }
+    z-index: 100; }
     section.article-wrapper .comment-block .reply-block > .add-comm {
       position: absolute;
       left: 0;
@@ -196,7 +216,7 @@ section.article-wrapper {
       width: 100%;
       height: 100%;
       z-index: 100; }
-      section.article-wrapper .comment-block .reply-block > .add-comm > .comm_textarea {
+      section.article-wrapper .comment-block .reply-block > .add-comm > .comm-textarea {
         height: 100% !important; }
     section.article-wrapper .comment-block .reply-block .close-btn {
       position: absolute;
@@ -227,21 +247,26 @@ section.article-wrapper {
       section.article-wrapper .comment-block .reply-block .close-btn:hover {
         transform: rotate(225deg); }
   section.article-wrapper .comm-list {
+    position: relative;
     background-color: #000;
     padding: 10px; }
     section.article-wrapper .comm-list ul.list > li {
+      position: relative;
+      padding-left: 10px;
       margin-bottom: 15px;
-      opacity: 0;
       border-left: 5px solid #085e2c;
-      transition: border-color .4s ease;
-      animation: fadeIn .5s forwards; }
+      transition: border-color .4s ease, height .3s ease;
+      animation: fadeIn .5s; }
       section.article-wrapper .comm-list ul.list > li:hover {
         border-color: #60bb46; }
       section.article-wrapper .comm-list ul.list > li .head-pic {
         position: relative;
-        width: 100px;
-        height: 100px;
-        margin: 0 20px; }
+        width: 10vw;
+        height: 10vw;
+        max-width: 80px;
+        max-height: 80px;
+        margin-top: 5px;
+        box-sizing: border-box; }
         section.article-wrapper .comm-list ul.list > li .head-pic a {
           display: block;
           height: 100%;
@@ -260,14 +285,18 @@ section.article-wrapper {
       section.article-wrapper .comm-list ul.list > li .content {
         display: flex;
         flex-direction: column;
-        flex-grow: 1; }
+        flex-grow: 1;
+        margin-left: 10px; }
         section.article-wrapper .comm-list ul.list > li .content .info {
           display: flex;
           flex-direction: row;
           justify-content: space-between; }
           section.article-wrapper .comm-list ul.list > li .content .info .lt {
             display: flex;
-            flex-direction: row; }
+            flex-direction: row;
+            flex-wrap: wrap;
+            font-size: 14px;
+            margin-bottom: 10px; }
             section.article-wrapper .comm-list ul.list > li .content .info .lt > div {
               margin-right: 10px; }
           section.article-wrapper .comm-list ul.list > li .content .info .username {
@@ -280,6 +309,7 @@ section.article-wrapper {
             justify-self: flex-end;
             color: #555555; }
         section.article-wrapper .comm-list ul.list > li .content > p {
+          margin: 0;
           color: #9dafc7; }
         section.article-wrapper .comm-list ul.list > li .content .tools {
           display: flex;

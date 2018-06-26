@@ -4,11 +4,27 @@ var router = express.Router();
 var moment = require('moment');
 var commentMod = require('../../modules/Article/articleComments');
 
+
+
 router.post('/postComment', function (req, res) {
+  if (!statusComment(req)) {
+    return res.json({
+      'status': -1,
+      'msg': '评论间隔时间太短，请休息一下哦'
+    });
+  }
+  var commText = req.body.comm_content;
+  if (commText.trim() === '') {
+    return res.json({
+      'status': -1,
+      'msg': '内容不能为空'
+    });
+  }
   commentMod.insertOneComment(req, function (err, result) {
     if (err) {
       return;
     }
+    req.session.commTime = moment();
     return res.json({
       'status': true,
       'msg': null,
@@ -26,10 +42,24 @@ router.post('/postComment', function (req, res) {
 
 });
 router.post('/submitReply', function (req, res) {
+  if (!statusComment(req)) {
+    return res.json({
+      'status': -1,
+      'msg': '评论间隔时间太短，请休息一下哦'
+    });
+  }
+  var commText = req.body.comm_content;
+  if (commText.trim() === '') {
+    return res.json({
+      'status': -1,
+      'msg': '内容不能为空'
+    });
+  }
   commentMod.insertOneReplyInComment(req, function (err, result) {
     if (err) {
       return;
     }
+    req.session.commTime = moment();
     if (result.to === undefined) {
       return res.json({
         'status': true,
@@ -116,3 +146,18 @@ router.post('/getComments', function (req, res) {
   })
 })
 module.exports = router;
+
+/* 评论时间比较 */
+function statusComment(req) {
+  if (req.session.commTime) {
+    var now = moment();
+    var diff = now.diff(req.session.commTime);
+    if (diff < 60000) {
+      return false;
+    } else {
+      return true;
+    };
+  } else {
+    return true;
+  }
+}

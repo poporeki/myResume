@@ -12,7 +12,7 @@ module.exports = {
         getIPInfoMod(req, function (ipInfo) {
             var pars = {
                 author_id: req.session.user._id,
-                comment_text: req.body.comm_content,
+                comment_text: (req.body.comm_content).trim(),
                 article_id: req.body.art_id,
                 like_num: 0,
                 submit_address: ipInfo.city && ipInfo.region ? ipInfo.city + ipInfo.region : '地球',
@@ -54,7 +54,7 @@ module.exports = {
         /* 获取用户当前ip */
         getIPInfoMod(req, function (ipInfo) {
             var pars = {
-                comment_text: req.body.comm_content,
+                comment_text: (req.body.comm_content).trim(),
                 /* 评论内容 */
                 author_id: req.session.user._id,
                 /* 评论人 */

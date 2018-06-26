@@ -72,11 +72,14 @@
     }
     &:hover,
     &:active {
-      transform: translateX(5px);
+      >a {
+        transform: translateX(5px);
+      }
     }
     >a {
       display: flex;
       justify-content: space-between;
+      transition: transform .3s ease;
     }
     .lt {
       width: 100%;
