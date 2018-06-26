@@ -97,5 +97,10 @@ function listeningSearch() {
     if (keyword !== '' || $sInput.is(":focus")) return;
     $sBox.removeClass('show');
   });
-
+  $(window).scroll(function () {
+    var top = $(this).scrollTop();
+    $(".parallax-window").css({
+      transform: "translate3d(0px," + -(top / 3) + "px,0px)"
+    }) //需要设置视差的元素
+  });
 }

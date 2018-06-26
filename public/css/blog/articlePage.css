@@ -111,7 +111,8 @@ pre {
 
 section.article-wrapper {
   position: relative;
-  width: 70%;
+  width: 80%;
+  max-width: 1190px;
   margin-bottom: 200px;
   margin: 0 auto; }
   section.article-wrapper .article-box {

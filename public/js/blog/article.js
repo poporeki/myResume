@@ -254,6 +254,13 @@ $(function () {
           '<a href ="##" class = "comm-reply-btn" > 回复 </a>' +
           '</div>' +
           '</div>' +
+          '</div>' +
+          '<div class="reply-block">' +
+          '<div class="add-comm clearfix">' +
+          '<textarea name="comm_textarea" class="comm-textarea" cols="30" rows="10"></textarea>' +
+          '<a href="##" class="comm-submit-btn">提交</a>' +
+          '</div>' +
+          '<div class="close-btn"></div>' +
           '</div>';
         if (typeof artComms[i].commReps != 'undefined' && artComms[i].commReps.length != 0) {
           context += '<ul class="reply-list show">'
@@ -309,13 +316,7 @@ $(function () {
 
         }
         context += '</ul>' +
-          '<div class="reply-block">' +
-          '<div class="add-comm clearfix">' +
-          '<textarea name="comm_textarea" class="comm-textarea" cols="30" rows="10"></textarea>' +
-          '<a href="##" class="comm-submit-btn">提交</a>' +
-          '</div>' +
-          '<div class="close-btn"></div>' +
-          '</div></li>';
+          '</li>';
         $('.comment-block .list').children('.comment-more').before(context);
       }
     })

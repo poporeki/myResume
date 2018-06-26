@@ -71,6 +71,13 @@
                   </div>
 
                 </div>
+                <div class="reply-block">
+                  <div class="add-comm clearfix">
+                    <textarea name="comm_textarea" class="comm-textarea" id="comm_textarea" cols="30" rows="10"></textarea>
+                    <a href="##" class="comm-submit-btn">提交</a>
+                  </div>
+                  <div class="close-btn"></div>
+                </div>
                 <!-- 评论中的回复列表 -->
                 <%  if(typeof artComms[i].commReps!='undefined'&&artComms[i].commReps.length!=0){ %>
                   <ul class='reply-list show'>
@@ -132,13 +139,7 @@
                   <% } %>
                 <%}%>
                   </ul>
-                  <div class="reply-block">
-                    <div class="add-comm clearfix">
-                      <textarea name="comm_textarea" class="comm-textarea" id="comm_textarea" cols="30" rows="10"></textarea>
-                      <a href="##" class="comm-submit-btn">提交</a>
-                    </div>
-                    <div class="close-btn"></div>
-                  </div>
+                  
                 </li>
             <% } %>
             <%if(artTotal>artComms.length){%>

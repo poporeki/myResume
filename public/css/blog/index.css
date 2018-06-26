@@ -60,14 +60,16 @@ section.classify {
   position: relative;
   width: 100%;
   margin-top: 50px;
+  padding: 0 10px;
   display: flex;
   align-items: center;
   align-content: center;
-  color: #a8a8a8; }
+  color: #a8a8a8;
+  box-sizing: border-box; }
   section.classify .classify-item {
     position: relative;
     flex-basis: 25%;
-    height: 300px;
+    height: 200px;
     padding: 20px;
     margin-right: 10px;
     border-radius: 2px;
@@ -95,7 +97,7 @@ section.classify {
       section.classify .classify-item a.type-lk:hover > p {
         color: #b8b8b8; }
       section.classify .classify-item a.type-lk .iconfont {
-        font-size: 200px;
+        font-size: 100px;
         position: absolute;
         width: 100%;
         height: 100%;
