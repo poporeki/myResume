@@ -45,11 +45,12 @@ router.get('/:id', function (req, res, next) {
 
         if (reply.length != 0) {
           for (var idx = 0; idx < reply.length; idx++) {
-            var a = reply[idx].author_id;
+            var repUser = reply[idx].author_id;
             var obj = {
               user: {
-                name: reply[idx].author_id.user_name,
-                id: reply[idx].author_id._id
+                name: repUser.user_name,
+                id: repUser._id,
+                avatar: repUser.avatar_path ? repUser.avatar_path.source_name : "/images/my-head.png"
               },
               id: reply[idx]._id,
               repContent: reply[idx].comment_text,
@@ -65,7 +66,8 @@ router.get('/:id', function (req, res, next) {
         var obj = {
           id: commsDatas[i]._id,
           user: {
-            name: commsDatas[i].author_id.user_name
+            name: commsDatas[i].author_id.user_name,
+            avatar: commsDatas[i].author_id.avatar_path ? commsDatas[i].author_id.avatar_path.source_name : "/images/my-head.png"
           },
           submitAddress: commsDatas[i].submit_address,
           createTime: moment(commsDatas[i].createdAt).format('YYYY-MM-DD hh:mm:ss'),

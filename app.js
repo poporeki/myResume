@@ -7,16 +7,19 @@ var session = require('express-session');
 var db = require('./db/config');
 
 app.use(bodyParser.urlencoded({
+  limit: '50mb',
   extended: false
 }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({
+  limit: '50mb'
+}));
 
 var PORT = 80;
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, './views'));
 app.use(express.static(path.join(__dirname, './public')));
 app.use(session({
-  secret: 'chubby bears',
+  secret: 'bears',
   cookie: {
     maxAge: 1000 * 60 * 60
   },
@@ -26,7 +29,7 @@ app.use(session({
 app.use('/', require('./router'));
 
 app.use(function (err, req, res, next) {
-  console.log('内部错误');
+  console.log(err);
   res.send('内部错误');
 });
 app.listen(PORT, function () {

@@ -6,8 +6,11 @@
     <%- include('swiper') -%>
       <%- include('sidebar') -%>
         <section class="classify">
-          <h2 class="title">分类</h2>
-          <%for(var i=0;i<typeList.length;i++){%>
+          <div class="lt">
+            <h2 class="title">分类</h2>
+          </div>
+          <div class="rt">
+            <%for(var i=0;i<typeList.length;i++){%>
             <div class="classify-item">
               <a class="type-lk" href=<%="/blog/articlelist?by[type_id]=" + typeList[i]._id %>>
                 <i class='<%= "iconfont icon-"+(typeList[i].type_name).toLowerCase()  %>' ></i>
@@ -15,7 +18,8 @@
                 <p><%=typeList[i].type_name %></p>
               </a>
             </div>
-            <%}%>
+          <%}%>
+          </div>
         </section>
         <div class="line"></div>
         <section class="article">
@@ -58,7 +62,7 @@
             </ul>
           </artilce>
           <div class="right-item">
-            <h2>Tag</h2>
+            <h2>Tag标签</h2>
             <div class="articletag-list">
               <%for(var i=0;i<tagList.length;i++){%>
                 <a class='tag-lk' href= <%="/blog/articlelist?by[tag_id]=" +tagList[i].id %> >

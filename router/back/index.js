@@ -42,7 +42,7 @@ router.get('/regg', function (req, res) {
     userName: req.session.user ? req.session.user.username : ''
   });
 });
-router.use('/upload', require('../../modules/uploadIMG'));
+/* router.use('/upload', require('../../modules/uploadIMG')); */
 router.use('/art', require('./article'));
 router.use('/regg', require('./register'));
 router.use('/user', require('./user'));

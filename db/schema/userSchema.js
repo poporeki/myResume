@@ -5,6 +5,10 @@ var userSchema = new mongoose.Schema({
     'password': String,
     'tel_num': Number,
     'reg_time': Date,
+    'avatar_path': {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'upload_file'
+    },
     'permissions': String,
     'reg_ip': String,
     'reg_country': String,
@@ -14,20 +18,39 @@ var userSchema = new mongoose.Schema({
     'reg_region': String,
     'reg_user_agent': String,
     'login_time': [],
-    'author_id':{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'myweb_user'
+    'author_id': {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'myweb_user'
     }
 });
 
-userSchema.statics.findByName=function(name,cb){
-    return this.find({user_name:name},cb);
+userSchema.statics.findUserById = function (id, cb) {
+    return this.findById(id).populate([{
+        path: 'avatar_path'
+    }, {
+        path: 'author_id'
+    }]).exec(cb);
 }
-userSchema.statics.findByNP=function(params,cb){
-    return this.find({user_name:params.name,password:params.pwd},cb);
+
+userSchema.statics.findByName = function (name, cb) {
+    return this.find({
+        user_name: name
+    }, cb);
 }
-userSchema.statics.pushLoginTime=function(params,cb){
-    return this.update({user_name:params.name},{$push:{login_time:params.time}},cb);
+userSchema.statics.findByNP = function (params, cb) {
+    return this.find({
+        user_name: params.name,
+        password: params.pwd
+    }, cb);
+}
+userSchema.statics.pushLoginTime = function (params, cb) {
+    return this.update({
+        user_name: params.name
+    }, {
+        $push: {
+            login_time: params.time
+        }
+    }, cb);
 }
 
 var User = mongoose.model('myweb_user', userSchema);

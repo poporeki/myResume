@@ -1,0 +1,90 @@
+<%- include('header_blog') -%>
+<link href="https://cdn.bootcss.com/cropper/4.0.0/cropper.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/css/blog/user/iconfont.css">
+<link rel="stylesheet" href="/css/blog/user/index.css">
+<div class="wrapper">
+  <header class="top-box">
+    <div class="head-box">
+      
+      <div class="tips">
+      <i class="iconfont icon-camera"></i>
+      <span>更换头像</span>
+      </div>
+      <img src= <%=avatar %> alt="head-pic">
+    </div>
+    <div class="name-box">
+      <input type="text" placeholder="餠乾">
+    </div>
+  </header>
+  <div class="content-box">
+    <div class="tab">
+      <div class="tab-head">
+        <ul>
+          <li class="tab-head-item"><a href="javascript:;"><i class="iconfont"></i><span>基本信息</span></a></li>
+          <li class="tab-head-item"><a href="javascript:;"><i class="iconfont"></i><span>安全</span></a></li>
+        </ul>
+      </div>
+      <div class="tab-body">
+        <ul>
+          <li class="tab-body-item">
+            <ul class="info-list">
+              <li class="info-item">
+                <p class="tit">账号</p>
+                <input type="text" disabled="disabled">
+              </li>
+              <li class="info-item">
+                <p class="tit">昵称</p>
+                <input type="text">
+              </li>
+              <li class="info-item">
+                <p class="tit">手机号</p>
+                <input type="text">
+              </li>
+              
+            </ul>
+            <a href="javascript:;" class="update-info-btn">提交信息</a>
+          </li>
+          <li class="tab-body-item">
+            <ul class="info-list">
+              <li class="info-item">
+                <p class="tit">修改密码</p>
+                <input type="text" >
+              </li>
+            </ul>
+            <a href="javascript:;" class="update-info-btn">提交信息</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+</div>
+<div class="modal-box">
+    <div class="inner">
+      <div class="head-box">
+        <h3 class="tit">上传头像</h3>
+        <a href="##" class="close-btn"></a>
+      </div>
+      <div class="body-box">
+        <div class="upload-box">
+          <h4 class="tit">选择图片</h4>
+          <input type="file" class="select-img">
+        </div>
+        <div class="bottom-box">
+          <div class="img-wrapper">
+            <img src="" class="img-avatar" id="img_avatar"  alt="">
+          </div>
+          <div class="preview-box">
+            <div class="preview small-preview"></div>
+            <div class="preview small-preview2"></div>
+          </div>
+        </div>
+        <div class="tool-box">
+          <a href="javascript:;" class="submit-btn">保存修改</a>
+        </div>
+      </div>
+    </div>
+  </div>
+<%- include('footer_blog') -%>
+<script src="https://cdn.bootcss.com/cropper/4.0.0/cropper.min.js"></script>
+<script src="/js/blog/user/index.js"></script>

@@ -5,6 +5,9 @@ body {
   padding: 0;
   height: 100%;
   color: $color-font;
+  font-size: 100%;
+  font-size: 16px;
+  font-size: 1em;
   width: 100%; // background-image: url(/images/dark_geometric2.png);
   background-color: #2a2a2a;
   font-family: 'Microsoft YaHei';
@@ -24,9 +27,9 @@ li {
   list-style: none;
 }
 
-@media(max-width:850px) {
+@media(width:360px) {
   header {
-    width: 80%;
+    height: 80px;
     nav {
       flex-direction: column-reverse !important;
       .rt {
@@ -38,6 +41,31 @@ li {
         }
       }
       .navbar {
+        display: none !important;
+        a {
+          padding: 5px 15px !important;
+        }
+      }
+    }
+  }
+}
+
+@media(max-width:850px) {
+  header {
+    height: 100px;
+    nav {
+      padding: 50px 10px 20px !important;
+      flex-direction: column-reverse !important;
+      .rt {
+        align-self: flex-end !important;
+        margin-bottom: 50px;
+        width: 100% !important;
+        .s-wrap {
+          width: 100% !important;
+        }
+      }
+      .navbar {
+        display: none !important;
         a {
           padding: 5px 15px !important;
         }
@@ -50,8 +78,6 @@ li {
 header {
   position: relative;
   max-width: 1190px;
-  width: 80%;
-  padding: 0 5px;
   margin: 0 auto;
 }
 
@@ -61,10 +87,49 @@ header {
 
 header {
   position: relative;
-  padding: 100px 0;
+  max-height: 300px;
+  .top-box {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    display: flex;
+    flex-direction: row;
+    .box {
+      position: relative;
+      width: 50px;
+      height: 20px;
+      right: 5px;
+      margin-bottom: 5px;
+      margin-left: 5px; // background-color: rgba(0, 0, 0, 0.712);
+      &:nth-child(even) {
+        >a {
+          border-left: 1px solid rgb(139, 139, 139);
+        }
+      }
+      >a {
+        position: absolute;
+        display: block;
+        height: 100%;
+        width: 100%;
+        left: 0;
+        top: 0;
+        line-height: 20px;
+        font-size: 12px;
+        text-align: center;
+        >p {
+          position: absolute;
+          margin: 0;
+          padding: 0;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
+    }
+  }
   nav {
     display: flex;
     flex-direction: row;
+    padding: 100px 0;
     justify-content: space-between;
     ul.navbar {
       display: flex;

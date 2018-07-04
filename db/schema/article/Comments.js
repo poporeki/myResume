@@ -50,7 +50,9 @@ commentSchema.statics.findThisArticleComments = function (artid, limit, skip, cb
         'createdAt': -1
     }).populate([{
         path: "author_id",
-        select: 'user_name'
+        populate: {
+            path: 'avatar_path'
+        }
     }, {
         path: "reply",
         options: {
@@ -61,7 +63,10 @@ commentSchema.statics.findThisArticleComments = function (artid, limit, skip, cb
             skip: 0
         },
         populate: [{
-            path: 'author_id'
+            path: 'author_id',
+            populate: {
+                path: 'avatar_path'
+            }
         }, {
             path: 'to',
             populate: {

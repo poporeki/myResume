@@ -4,6 +4,9 @@ body {
   padding: 0;
   height: 100%;
   color: #fff;
+  font-size: 100%;
+  font-size: 16px;
+  font-size: 1em;
   width: 100%;
   background-color: #2a2a2a;
   font-family: 'Microsoft YaHei'; }
@@ -19,9 +22,9 @@ ul {
 li {
   list-style: none; }
 
-@media (max-width: 850px) {
+@media (width: 360px) {
   header {
-    width: 80%; }
+    height: 80px; }
     header nav {
       flex-direction: column-reverse !important; }
       header nav .rt {
@@ -30,15 +33,32 @@ li {
         width: 100% !important; }
         header nav .rt .s-wrap {
           width: 100% !important; }
-      header nav .navbar a {
-        padding: 5px 15px !important; } }
+      header nav .navbar {
+        display: none !important; }
+        header nav .navbar a {
+          padding: 5px 15px !important; } }
+
+@media (max-width: 850px) {
+  header {
+    height: 100px; }
+    header nav {
+      padding: 50px 10px 20px !important;
+      flex-direction: column-reverse !important; }
+      header nav .rt {
+        align-self: flex-end !important;
+        margin-bottom: 50px;
+        width: 100% !important; }
+        header nav .rt .s-wrap {
+          width: 100% !important; }
+      header nav .navbar {
+        display: none !important; }
+        header nav .navbar a {
+          padding: 5px 15px !important; } }
 
 .wrapper,
 header {
   position: relative;
   max-width: 1190px;
-  width: 80%;
-  padding: 0 5px;
   margin: 0 auto; }
 
 .wrapper {
@@ -46,10 +66,42 @@ header {
 
 header {
   position: relative;
-  padding: 100px 0; }
+  max-height: 300px; }
+  header .top-box {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    display: flex;
+    flex-direction: row; }
+    header .top-box .box {
+      position: relative;
+      width: 50px;
+      height: 20px;
+      right: 5px;
+      margin-bottom: 5px;
+      margin-left: 5px; }
+      header .top-box .box:nth-child(even) > a {
+        border-left: 1px solid #8b8b8b; }
+      header .top-box .box > a {
+        position: absolute;
+        display: block;
+        height: 100%;
+        width: 100%;
+        left: 0;
+        top: 0;
+        line-height: 20px;
+        font-size: 12px;
+        text-align: center; }
+        header .top-box .box > a > p {
+          position: absolute;
+          margin: 0;
+          padding: 0;
+          top: 50%;
+          transform: translateY(-50%); }
   header nav {
     display: flex;
     flex-direction: row;
+    padding: 100px 0;
     justify-content: space-between; }
     header nav ul.navbar {
       display: flex;

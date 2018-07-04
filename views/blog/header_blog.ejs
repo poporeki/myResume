@@ -13,6 +13,18 @@
 
 <body>
   <header>
+    <div class="top-box">
+      <%if(typeof USER==undefined||USER==null){%>
+      <div class="box top-box"><a href="/login">登录</a>
+      </div>
+      <div class="box top-box"><a href="/reg">注册</a>
+      </div>
+      <%}else{%>
+      <div class="box bottom-box">
+      <a href="/logout"><p>退出登录</p></a>
+      </div>
+      <%}%>
+    </div>
     <nav>
       <ul class="navbar">
         <li>
