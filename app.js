@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var bodyParser = require('body-parser');
+var useragent = require('express-useragent');
 var session = require('express-session');
 
 var db = require('./db/config');
@@ -13,7 +14,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json({
   limit: '50mb'
 }));
-
+app.use(useragent.express());
 var PORT = 80;
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, './views'));

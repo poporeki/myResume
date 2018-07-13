@@ -1,0 +1,31 @@
+<%- include('common') -%>
+<style>
+  .side-body li{
+    margin-bottom:20px;
+  }
+</style>
+<div class="side-body">
+    <div class="row">
+      <ol>
+      <%for(var i=0;i<record.length;i++){%>
+        <li>
+          |用户名：<%=record[i].user_id.user_name%> 
+          |使用设备：<%=record[i].login_OS.name%> 
+          <%=record[i].login_OS.version%> 
+          |使用浏览器：
+          <%=record[i].login_browser.name%>
+          <%=record[i].login_browser.version%> 
+          |位置：
+          <%=record[i].login_geolocation.ip%>
+          <%=record[i].login_geolocation.country%>
+          <%=record[i].login_geolocation.city%>
+          <%=record[i].login_geolocation.isp%>
+          <%=record[i].login_geolocation.region%>
+          <%=record[i].create_time%> 
+        </li>
+      <%}%>
+      </ol>
+    </div>
+</div>
+
+<%- include('footer') -%>

@@ -1,6 +1,5 @@
 <%- include('header_blog') -%>
   <link rel="stylesheet" href="/css/blog/articlePage.css">
-  <%- include('sidebar') -%>
     <section class="article-wrapper">
       <article class="article-box" data-artID= <%=art.id %>>
         <div class="article-header">
@@ -13,7 +12,9 @@
             <span class="pubtime">发表时间：
               <%=art.createTime %>
             </span>
-            <span class="source">来源</span>
+            <span class="source">分类：
+              <a href= <%="/blog/articlelist?by[type_id]="+art.type.id %> > <%=art.type.name%> </a>
+            </span>
             <span class="author">作者:
               <%=art.author %>
             </span>
@@ -31,17 +32,20 @@
         <h3>发表评论</h3>
         <div class="add-comm clearfix">
           <textarea name="comm_textarea" class="comm-textarea" id="comm_textarea"></textarea>
-          <a href="##" class="comm-submit-btn" data-attr="">提交</a>
+          <a href="javascript:void(0);" class="comm-submit-btn" data-attr="">提交</a>
         </div>
         <div class="comm-list">
           <h3>评论列表(<%=artTotal%>)</h3>
           <!-- 评论列表 -->
           <ul class="list">
+            <%if(artComms.length===0){%>
+              <li>目前并没有评论哦</li>
+            <%}else{%>
             <% for(var i=0;i<artComms.length;i++){ %>
               <li class="comment-item" data-commid= <%=artComms[i].id %> >
                 <div>
                   <div class="head-pic">
-                    <a href="##">
+                    <a href="javascript:void(0);">
                       <img src=<%=artComms[i].user.avatar %> alt="avatar">
                     </a>
                   </div>
@@ -66,7 +70,7 @@
                       <%=artComms[i].text %>
                     </p>
                     <div class="tools">
-                      <a href="##" class="comm-reply-btn">回复</a>
+                      <a href="javascript:void(0);" class="comm-reply-btn">回复</a>
                     </div>
                   </div>
 
@@ -74,7 +78,7 @@
                 <div class="reply-block">
                   <div class="add-comm clearfix">
                     <textarea name="comm_textarea" class="comm-textarea" id="comm_textarea" cols="30" rows="10"></textarea>
-                    <a href="##" class="comm-submit-btn">提交</a>
+                    <a href="javascript:void(0);" class="comm-submit-btn">提交</a>
                   </div>
                   <div class="close-btn"></div>
                 </div>
@@ -91,7 +95,7 @@
                       <div>
                         <span><%='#'+reps[j].floor %></span>
                         <div class="head-pic">
-                          <a href="##">
+                          <a href="javascript:void(0);">
                             <img src=<%=reps[j].user.avatar %> alt="avatar">
                           </a>
                         </div>
@@ -119,14 +123,14 @@
                             </p>
                           <%}%>
                           <div class="tools">
-                            <a href="##" class="comm-reply-btn">回复</a>
+                            <a href="javascript:void(0);" class="comm-reply-btn">回复</a>
                           </div>
                         </div>
                       </div>
                       <div class="reply-block">
                         <div class="add-comm clearfix">
                           <textarea name="comm_textarea" class="comm-textarea" id="comm_textarea" cols="30" rows="10"></textarea>
-                          <a href="##" class="comm-submit-btn reply-child" data-repid=<%=reps[j].id %> >提交</a>
+                          <a href="javascript:void(0);" class="comm-submit-btn reply-child" data-repid=<%=reps[j].id %> >提交</a>
                         </div>
                         <div class="close-btn"></div>
                       </div>
@@ -134,7 +138,7 @@
                   <%}%>
                   <% if(reps.count>5) { %>
                     <li class="comment-item">
-                      还有<%=reps.count-5%>条回复，<a href="##">点击查看<></a>
+                      还有<%=reps.count-5%>条回复，<a href="javascript:void(0);">点击查看<></a>
                     </li>
                   <% } %>
                 <%}%>
@@ -144,9 +148,9 @@
             <% } %>
             <%if(artTotal>artComms.length){%>
               <li class="comment-more">
-                <a href="##" class="more-comms-lk">查看更多评论</a>
+                <a href="javascript:void(0);" class="more-comms-lk">查看更多评论</a>
               </li>
-            <%}%>
+            <%}}%>
           </ul>
         </div>
       </section>

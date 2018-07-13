@@ -24,10 +24,9 @@ router.post('/', function (req, res) {
         msg: '账号或密码错误'
       });
     };
-    userMod.pushLoginTime({
-      name: name,
-      time: moment().format()
-    }, function (err, results) {
+    var userid = result[0]._id;
+    /* 记录登陆信息 */
+    userMod.pushLoginTime(req, userid, function (err, results) {
       if (err) return;
     })
     var per = result[0].permissions;

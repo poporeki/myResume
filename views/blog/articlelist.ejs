@@ -5,6 +5,9 @@
     <h2>文章列表</h2>
   </div>
     <ul class="article-list">
+    <%if(artList.length===0){%>
+      <li>没有相关内容</li>
+    <%}else{%>
       <%for(var i=0;i<artList.length;i++){%>
         <li class="article-list-item">
           <a href= <%="/blog/article/" +artList[i].artid %>>
@@ -19,14 +22,13 @@
                   <%=artList[i].create_time%>
                 </div>
               </div>
-
               <div class="thumbnail">
                 <%=artList[i].source%>
               </div>
             </div>
           </a>
         </li>
-        <%}%>
+      <%}}%>
     </ul>
   </div>
 <%-include('footer_blog')-%>

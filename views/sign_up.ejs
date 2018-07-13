@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="/css/normalize.css">
+  <link rel="stylesheet" href="/css/sign_up.css">
+  <title>sign up</title>
+</head>
+<body>
+  <div class="su-wrapper">
+    <div class="su-title">
+      <h1>注册账号</h1>
+    </div>
+    <form class="su-box">
+      <ul class="form-list">
+        <li class="form-item u-name">
+          <div class="tit-box">用户名<small>(仅允许中文、英文、数字、'_',长度4-12位)</small></div>
+          <div class="body-box">
+            <input type="text" data-status=0 maxlength='12' autocomplete="off" class="username" name="su_name" val="账号">
+            <div class="tips-box"></div>
+          </div>
+        </li>
+        <li class="form-item u-password">
+          <div class="tit-box">密码</div>
+          <div class="body-box">
+            <input type="password" id="password" class="password"  name="su_pwd" val="账号">
+            <div class="tips-box"></div>  
+          </div>
+        </li>
+        <li class="form-item check-password">
+          <div class="tit-box">确认密码</div>
+          <div class="body-box">
+            <input type="password" class="check-password"  name="a-password" val="账号">
+            <div class="tips-box"></div>  
+          </div>
+        </li>
+        <li class="form-item captcha">
+          <div class="tit-box">验证码</div>
+          <div class="body-box">
+            <input type="text" class="captcha" autocomplete="off" name="su_captcha" val="账号" maxlength="5">
+            <img src=<%=drawCap%> alt="captcha" class="captcha-img">
+            <div class="tips-box"></div>
+          </div>
+        </li>
+      </ul>
+      <a href="javascript:void(0);" class="su-submit-btn">注册</a>
+      <div class="su-tips"><span>注冊成功，即將跳往登陸頁面<small></small></span></div>
+      </form>
+  </div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
+<script src="/js/requestAjax.js"></script>
+<script src="/js/sign_up.js"></script>
+</html>

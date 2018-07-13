@@ -90,12 +90,11 @@ function getNewDatas(page, limit, $el) {
 			}
 			artCon += '</td>' +
 				'<td>' + artInfo[i].read + '</td>' +
-
 				'<td>' + artInfo[i].create_time + '</td>' +
 				'<td>' + artInfo[i].update_time + '</td>' +
 				'<td>' +
-				'<a href="updatearticle/' + artInfo[i]._id + '" class="btn btn-info">修改</a>' +
-				'<a href="##" data-toggle="modal" data-target="#delArcModal" class="btn btn-danger del-art-btn"  data-artid=' + artInfo[i]._id + '>删除</a>' +
+				'<a href="updatearticle/' + artInfo[i]._id + '" class="btn btn-primary">修改</a>' +
+				'<a href="javascript:void(0);" data-toggle="modal" data-target="#delArcModal" class="btn btn-danger del-art-btn"  data-artid=' + artInfo[i]._id + '>删除</a>' +
 				'</td>' +
 				'</tr>';
 		}

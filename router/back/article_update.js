@@ -16,11 +16,13 @@ router.get('/:artid', function (req, res) {
           userName: artInfo[0].author_id.user_name,
           typeName: typeInfo,
           tagName: tagsInfo,
+
           artInfo: {
             name: artInfo[0].title,
             types: artInfo[0].type_id,
             tags: artInfo[0].tags_id,
-            content: artInfo[0].content
+            content: artInfo[0].content,
+            attribute: artInfo[0].attribute
           }
         }
         var aaa = pars.typeName;

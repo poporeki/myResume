@@ -104,7 +104,16 @@ function submitLogin(u, p) {
 					var $inner = $boxPar.find('.inner');
 					$boxPar.addClass('success');
 					$inner.on('animationend', function () {
-						window.location.href = data.href;
+						var href = '';
+						var ref = document.referrer;
+						ref = ref.split('/')[3];
+						if (document.referrer && document.referrer !== window.location.href && ref != 'reg') {
+							href = document.referrer;
+						} else {
+							href = data.href;
+						}
+
+						window.location.href = href;
 					})
 				} else {
 					$statusBox.addClass('error').html(data.msg);

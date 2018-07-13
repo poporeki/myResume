@@ -43,7 +43,7 @@ $(function () {
                         '<div class="time">' + con[i].create_time + '</div>' +
                         '</div>' +
 
-                        '<div class="thumbnail"><%=artList[i].source%></div>' +
+                        '<div class="thumbnail">' + con[i].source + '</div>' +
                         '</div>' +
 
                         '</a>' +
@@ -52,7 +52,7 @@ $(function () {
                 $artList.append(html);
             } else {
                 SEND = true;
-                $artList.append('<li  style="text-align:center;"><a href="##">--THE END--</a></li>');
+                $artList.append('<li  style="text-align:center;"><a href="javascript:void(0);">--THE END--</a></li>');
             }
         });
 

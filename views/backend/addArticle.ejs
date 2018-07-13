@@ -21,10 +21,10 @@
               </div>
               <div>
                 <% if(typeof artInfo=='undefined'||typeof artInfo.name=='undefined') {%>
-                  <input type="text" class="form-control" placeholder="输入文章标题" name="arc_title">
-                  <%}else{%>
-                    <input type="text" class="form-control" placeholder="输入文章标题" name="arc_title" value="<%=artInfo.name %>">
-                    <%}%>
+                <input type="text" class="form-control" placeholder="输入文章标题" name="arc_title">
+                <%}else{%>
+                  <input type="text" class="form-control" placeholder="输入文章标题" name="arc_title" value="<%=artInfo.name %>">
+                <%}%>
               </div>
               <div class="sub-title">轮播
                 <span class="description">(是否加入首页轮播 默认:FALSE)</span>
@@ -33,7 +33,14 @@
                 <div class="bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-on bootstrap-switch-small bootstrap-switch-animate"
                   style="width: 90px;">
                   <div class="bootstrap-switch-container" style="width: 132px; margin-left: 0px;">
+                  <% if(typeof artInfo!=='undefined'&&typeof artInfo.types!=='undefined'&&artInfo.types.length!==0) { %>
+                  <%if(artInfo.attribute&&artInfo.attribute.carousel===true){%>
+                    <input type="checkbox" class="toggle-checkbox" name="arc_carousel" checked>
+                  <%}else{%>
                     <input type="checkbox" class="toggle-checkbox" name="arc_carousel">
+                  <%}}else{%>
+                    <input type="checkbox" class="toggle-checkbox" name="arc_carousel">
+                  <%}%>
                   </div>
                 </div>
               </div>
@@ -48,66 +55,64 @@
                 <!-- 遍历文章分类 -->
                 <% for(var i=0;i<typeName.length;i++){ %>
                   <% if(typeof artInfo!=='undefined'&&typeof artInfo.types!=='undefined'&&artInfo.types.length!==0) { %>
-
                     <%for(var j=0;j<artInfo.types.length;j++){%>
                       <%if(artInfo.types[j].id==typeName[i].id){%>
                         <div class="radio3 radio-check radio-inline">
                           <input type="radio" id=<%='radio_' + i %> name="arc_type" value=<%=typeName[i]._id%> checked >
-                            <label for=<%="radio_" +i %>>
-                              <%=typeName[i].type_name%>
-                            </label>
+                          <label for=<%="radio_" +i %>>
+                            <%=typeName[i].type_name%>
+                          </label>
                         </div>
                         <%break;}else{%>
                           <div class="radio3 radio-check radio-inline">
                             <input type="radio" id=<%="radio_" + i %> name="arc_type" value=<%=typeName[i]._id%>>
-                              <label for=<%="radio_" +i %>>
-                                <%=typeName[i].type_name%>
-                              </label>
+                            <label for=<%="radio_" +i %>>
+                              <%=typeName[i].type_name%>
+                            </label>
                           </div>
                           <%}%>
-                            <%}%>
-                              <%} else{%>
-                                <div class="radio3 radio-check radio-inline">
-                                  <input type="radio" id=<%="radio_" + i %> name="arc_type" value=<%=typeName[i]._id%> >
-                                    <label for=<%="radio_" +i %>>
-                                      <%=typeName[i].type_name%>
-                                    </label>
-                                </div>
-                                <%}%>
-                                  <%}%>
-
+                        <%}%>
+                        <%} else{%>
+                          <div class="radio3 radio-check radio-inline">
+                            <input type="radio" id=<%="radio_" + i %> name="arc_type" value=<%=typeName[i]._id%> >
+                            <label for=<%="radio_" +i %>>
+                              <%=typeName[i].type_name%>
+                            </label>
+                          </div>
+                    <%}%>
+                  <%}%>
               </div>
               <div class="sub-title">Tag标签
                 <span class="description">(添加
                   <a href="/backend/art/addtag">新标签</a>)</span>
               </div>
               <div>
-                <%<!-- 遍历文章tag标签 -->%>
-                  <% for(var i=0;i<tagName.length;i++){ %>
-                    <%var select=false; %>
-                      <div class="checkbox3 checkbox-success checkbox-inline checkbox-check checkbox-round  checkbox-light">
-                        <% if(typeof artInfo!=='undefined'&&typeof artInfo.types!=='undefined') { %>
-                          <%for(var j=0;j<artInfo.tags.length;j++){%>
-                            <%if(artInfo.tags[j].id==tagName[i].id){%>
-                              <input type="checkbox" checked id=<%="checkbox-fa-light-" +i %> value="<%=tagName[i]._id %>" name="arc_tags" checked >
-                                <label for=<%="checkbox-fa-light-" +i %>>
-                                  <%=tagName[i].tag_name %>
-                                </label>
-                                <%select=true;%>
-                                  <%break;}%>
-                                    <%}%>
-                                      <% if(!select){%>
-                                        <input type="checkbox" id=<%="checkbox-fa-light-" +i %> value="<%=tagName[i]._id %>" name="arc_tags" >
-                                          <label for=<%="checkbox-fa-light-" +i %>>
-                                            <%=tagName[i].tag_name %>
-                                          </label>
-                                          <%}%>
-                      </div>
-                      <% continue;}%>
-                        <input type="checkbox" id=<%="checkbox-fa-light-" +i %> value="<%=tagName[i]._id %>" name="arc_tags" >
-                          <label for=<%="checkbox-fa-light-" +i %>>
-                            <%=tagName[i].tag_name %>
-                          </label>
+              <%<!-- 遍历文章tag标签 -->%>
+              <% for(var i=0;i<tagName.length;i++){ %>
+              <%var select=false; %>
+                <div class="checkbox3 checkbox-success checkbox-inline checkbox-check checkbox-round  checkbox-light">
+                <% if(typeof artInfo!=='undefined'&&typeof artInfo.types!=='undefined') { %>
+                  <%for(var j=0;j<artInfo.tags.length;j++){%>
+                    <%if(artInfo.tags[j].id==tagName[i].id){%>
+                      <input type="checkbox" checked id=<%="checkbox-fa-light-" +i %> value="<%=tagName[i]._id %>" name="arc_tags" checked >
+                      <label for=<%="checkbox-fa-light-" +i %>>
+                        <%=tagName[i].tag_name %>
+                      </label>
+                    <%select=true;%>
+                    <%break;}%>
+                  <%}%>
+                  <% if(!select){%>
+                    <input type="checkbox" id=<%="checkbox-fa-light-" +i %> value="<%=tagName[i]._id %>" name="arc_tags" >
+                    <label for=<%="checkbox-fa-light-" +i %>>
+                      <%=tagName[i].tag_name %>
+                    </label>
+                  <%}%>
+                  </div>
+                  <% continue;}%>
+                    <input type="checkbox" id=<%="checkbox-fa-light-" +i %> value="<%=tagName[i]._id %>" name="arc_tags" >
+                    <label for=<%="checkbox-fa-light-" +i %>>
+                      <%=tagName[i].tag_name %>
+                    </label>
               </div>
               <% } %>
             </div>
@@ -116,22 +121,18 @@
               <div id="editor">
                 <% if(typeof artInfo!='undefined'&&typeof artInfo.content!='undefined') {%>
                   <%-artInfo.content?artInfo.content:'' %>
-                    <%}%>
+                <%}%>
               </div>
             </div>
-
-
             <div class="sub-title">
               <button type="button" class="btn btn-default submit-btn" data-submitURL=<%=submitURL %> >提交</button>
             </div>
           </div>
-
       </div>
       </form>
     </div>
   </div>
   </div>
-
   <%- include('footer') -%>
     <script src="https://cdn.bootcss.com/wangEditor/3.1.1/wangEditor.min.js"></script>
     <script src="/js/back/addarticle.js"></script>

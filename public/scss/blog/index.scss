@@ -1,9 +1,166 @@
 @import 'set-color';
 @import 'animation';
+.loading-ani {
+  position: relative;
+  padding: 30px;
+  width: 100%;
+  height: 100%;
+  &:after,
+  &:before {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: 50%;
+    margin-top: -5px;
+    animation-duration: 2s;
+    animation-fill-mode: both;
+    animation-name: loadAni;
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    animation-iteration-count: infinite;
+    z-index: 1000;
+  }
+  &:after {
+    left: 45%;
+    margin-left: -5px;
+    background-color: #60bb46;
+    box-shadow: 0 0 5px #82b674;
+  }
+  &:before {
+    left: 55%;
+    margin-left: -5px;
+    background-color: rgb(196, 34, 134);
+    box-shadow: 0 0 5px rgb(194, 101, 158);
+    animation-delay: .2s;
+  }
+  @keyframes loadAni {
+    0% {
+      border-radius: 0;
+      opacity: 1;
+      transform: scale(0);
+    }
+    50% {
+      border-radius: 50%;
+      opacity: 1;
+      transform: scale(1);
+    }
+    100% {
+      border-radius: 50%;
+      opacity: 0;
+      transform: scale(2);
+    }
+  }
+}
+
+.hot-box {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  @media(min-width: 851px) {
+    max-height: 400px;
+    height: 400vw;
+    >.lt {
+      width: 60%;
+    }
+    >.rt {
+      width: 40%;
+      padding-left: 10px;
+    }
+  }
+  @media(max-width: 850px) {
+    flex-direction: column;
+    >.lt,
+    >.rt {
+      width: 100%;
+    }
+    >.rt {
+      padding-top: 20px;
+    }
+    .hot-list {
+      height: 40vh;
+    }
+  }
+  >.lt {
+    position: relative;
+    background: url(/images/dark_geometric2.png);
+  }
+  >.rt {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    .tit {
+      h2 {
+        margin: 0 0 10px 0;
+      }
+    }
+  }
+  .hot-list {
+    position: relative;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    width: 100%;
+    .swiper-slide {
+      background-color: transparent;
+    }
+    .hot-list-item {
+      &:hover {
+        .hot-lk {
+          background-color: $highlight-color-block-wrap;
+        }
+      }
+      .hot-lk {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+        border-radius: 4px;
+        background-color: $color-block-wrap;
+        transition: background-color .3s ease;
+        overflow: hidden;
+        >span {
+          display: block;
+        }
+        .lt {
+          position: relative;
+          display: block;
+          height: 100%;
+          width: 30%;
+          background-color: rgb(68, 68, 68);
+          box-sizing: border-box;
+          overflow: hidden;
+          img {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+          }
+        }
+        .rt {
+          display: block;
+          width: 70%;
+          word-wrap: break-word;
+          .art-tit {
+            padding: 10px;
+            box-sizing: border-box;
+            font-size: 12px;
+            word-wrap: break-word;
+            overflow: hidden;
+          }
+        }
+      }
+    }
+  }
+}
+
 .line {
   position: relative;
-  margin: 100px 0;
-  width: 300px;
+  margin: 10vh 0;
+  width: 50vw;
+  max-width: 300px;
   height: 2px;
   &:before {
     position: absolute;
@@ -12,7 +169,7 @@
     content: '';
     height: 100%;
     width: 70%;
-    background-color: $color-green;
+    background-color: #60bb46;
   }
   &:after {
     position: absolute;
@@ -21,7 +178,7 @@
     content: '';
     height: 100%;
     width: 30%;
-    background-color: $color-pink;
+    background-color: #c34c9c;
   }
 }
 
@@ -30,7 +187,6 @@ section.classify {
   width: 100%;
   min-width: 100px;
   margin-top: 50px;
-  padding: 0 10px;
   display: flex;
   flex-direction: row;
   color: rgb(168, 168, 168);
@@ -53,22 +209,22 @@ section.classify {
   }
   .classify-item {
     position: relative;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
     flex-basis: 25%;
     height: 200px;
-    padding: 20px;
     min-width: 150px;
     margin-bottom: 20px;
     border-radius: $bor-radius;
     box-sizing: border-box;
     box-shadow: 2px 2px 10px #000;
-    background-color: rgba(3, 3, 3, 0.753);
-    border-bottom: 2px solid rgb(98, 167, 212);
-    display: flex;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-    transition: transform .5s ease;
+    background-color: $color-block-wrap;
+    transition: transform .3s ease, background-color .3s ease;
+    overflow: hidden;
     &:hover {
+      background-color: $color-lk-font;
       transform: translateY(-5px);
     }
     a.type-lk {
@@ -76,16 +232,20 @@ section.classify {
       display: block;
       height: 100%;
       width: 100%;
+      padding: 20px;
+      box-sizing: border-box;
       overflow: hidden;
       &:hover {
         .iconfont {
+          color: $color-block-wrap;
           transform: translateY(-100%);
         }
         .iconfont.bottom {
+          color: $color-block-wrap;
           transform: translateY(0);
         }
         >p {
-          color: rgb(184, 184, 184);
+          background-color: $color-lk-hover-bgcolor;
         }
       }
       .iconfont {
@@ -95,23 +255,28 @@ section.classify {
         height: 100%;
         left: 0;
         top: 0;
+        padding: 20px;
+        color: $color-lk-font;
+        box-sizing: border-box;
         text-shadow: 2px 2px 5px rgba(51, 51, 51, 0.384);
-        transition: transform .5s ease-in;
-        transition-delay: .2s;
+        transition: transform .3s ease-in, color .3s ease;
         &.bottom {
           transform: translateY(100%);
-          color: #296994;
+          color: $color-lk-font;
         }
       }
       >p {
         position: absolute;
         width: 100%;
         padding: 10px;
+        left: 0;
         margin: 0;
-        bottom: -10px;
-        color: #666666;
+        bottom: 0;
+        color: $color-lk-font;
+        background-color: $color-lk-bgcolor;
         box-sizing: border-box;
         text-align: center;
+        letter-spacing: 5px;
         transition: color .5s ease;
       }
     }
@@ -163,6 +328,7 @@ section.classify {
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
+    box-sizing: border-box;
     background-color: #000
   }
   li {
@@ -188,21 +354,20 @@ section.classify {
         transform: scale(.95);
       }
     }
-    &:nth-child(even) {
-      .card {
-        margin-left: 10px;
+    @media(min-width:851px) {
+      &:nth-child(even) {
+        .card {
+          margin-left: 10px;
+        }
       }
     }
     &:nth-child(odd) {
-      .card {
-        margin-right: 10px;
-      }
+      .card {}
     }
   }
   .card {
     position: relative;
     padding: 20px;
-    margin: 20px 20px 20px 20px;
     border-bottom: 1px solid rgb(53, 53, 53);
     transition: background-color .2s ease, transform .2s ease, box-shadow .5s ease;
     overflow: hidden;
@@ -233,15 +398,31 @@ section.classify {
       transition: transform .3s ease;
     }
     .card-header {
+      margin-bottom: 20px;
       >h4 {
         display: inline-block;
-        margin-bottom: 50px;
         border-left: 5px solid $color-green;
-        padding: 0 5px;
+        margin: 0 0 10px;
+        padding: 10px 5px;
         background-color: #000;
         box-shadow: 0 0 1px rgb(119, 119, 119);
         border-top-right-radius: 2px;
         border-bottom-right-radius: 2px;
+      }
+      .info-box {
+        display: flex;
+        flex-direction: row;
+        font-size: 12px;
+        >.item {
+          margin-right: 20px;
+        }
+        &,
+        a {
+          color: rgb(117, 117, 117);
+        }
+        .iconfont {
+          margin-right: 5px;
+        }
       }
     }
     .card-body {
@@ -249,6 +430,7 @@ section.classify {
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 3;
+        word-break: break-word;
         overflow: hidden;
         max-height: 100px;
         color: rgb(226, 226, 226);

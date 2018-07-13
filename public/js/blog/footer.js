@@ -1,6 +1,12 @@
 $(function () {
   backToTopFn();
   listeningSearch();
+  $('.sidebar-btn ').on('click', function () {
+    $(this).addClass('go');
+    $(this).one('animationend', function () {
+      window.location.href = '/blog/user';
+    })
+  })
 });
 /* 返回顶部 */
 function backToTopFn() {

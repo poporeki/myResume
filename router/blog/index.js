@@ -24,7 +24,7 @@ router.get('/', function (req, res, next) {
         var by = {
           by: {
             attribute: {
-              carousel: 'on'
+              carousel: true
             }
           }
         };
@@ -49,5 +49,6 @@ router.use('/search', require('./search'));
 router.use('/user', require('./user'));
 router.use('/article', require('./article'));
 router.use('/articlelist', require('./articlelist'));
+
 router.use('/', require('./comments'));
 module.exports = router;

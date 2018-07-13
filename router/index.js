@@ -12,9 +12,7 @@ router.get('/', function (req, res) {
     req.session.views = 1;
     saveTourists(req);
   }
-  res.render('index', {
-    pageTitle: '晏思凯的简历'
-  });
+  res.redirect('/blog');
 })
 
 router.get('/bzonflash', function (req, res) {
@@ -30,6 +28,9 @@ router.post('/auth', function (req, res) {
 })
 
 router.use('/login', require('./login'));
+router.use('/iresume', require('./iresume'));
+router.use('/reg', require('./registerAccount'));
+router.use('/verify', require('./verify'));
 router.use('/backend', require('./back'));
 router.use('/blog', require('./blog'));
 router.get('/logout', function (req, res) {

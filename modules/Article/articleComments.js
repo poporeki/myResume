@@ -7,6 +7,14 @@ module.exports = {
     addLikeNum: function (id, cb) {
         commentSchema.updateLikeNum(id, cb);
     },
+    getCommentCountById: function (artid, cb) {
+        commentSchema.find({
+            article_id: artid
+        }).count().exec(function (err, commCount) {
+            if (err) return cb(err, null);
+            return cb(null, commCount);
+        })
+    },
     /* 插入一条评论 */
     insertOneComment: function (req, cb) {
         getIPInfoMod(req, function (ipInfo) {

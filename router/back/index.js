@@ -18,13 +18,12 @@ router.use('/', function (req, res, next) {
 })
 router.get('/', function (req, res) {
   var nowUser = req.session.user ? req.session.user.username : 'test';
-  userMod.returnLoginTime(nowUser, function (aLoginTime) {
+  userMod.getLastLoginInfo(req.session.user._id, function (err, loginInfo) {
     Tourists.getTheDayVistor(function (vistor) {
       res.render('./backend/index', {
         pageTitle: '首页',
         userName: req.session.user.username,
-        loginNum: aLoginTime.length,
-        lastLogTime: aLoginTime[aLoginTime.length - 2],
+        lastLoginInfo: loginInfo,
         vistorNum: vistor.length
       });
     });
@@ -46,4 +45,5 @@ router.get('/regg', function (req, res) {
 router.use('/art', require('./article'));
 router.use('/regg', require('./register'));
 router.use('/user', require('./user'));
+router.use('/loginRecord', require('./loginRecord'));
 module.exports = router;

@@ -7,7 +7,7 @@ var schema = mongoose.Schema;
  */
 var articleSchema = new schema({
   title: String,
-  attribute: [],
+  attribute: {},
   read: Number,
   content: String,
   source: String,

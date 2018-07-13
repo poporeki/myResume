@@ -42,7 +42,7 @@ $(function () {
           '#' + data.floor +
           '</span>' +
           '<div class="head-pic">' +
-          '<a href="##"><img src="/images/my-head.png" alt=""></a>' +
+          '<a href="javascript:void(0);"><img src="/images/my-head.png" alt=""></a>' +
           '</div>' +
           '<div class="content">' +
           '<div class="info">' +
@@ -86,7 +86,7 @@ $(function () {
           '#' + data.floor +
           '</span>' +
           '<div class="head-pic">' +
-          '<a href="##"><img src="/images/my-head.png" alt=""></a>' +
+          '<a href="javascript:void(0);"><img src="/images/my-head.png" alt=""></a>' +
           '</div>' +
           '<div class="content">' +
           '<div class="info">' +
@@ -140,7 +140,7 @@ $(function () {
             '<li class="comment-item">' +
             '<div>' +
             '<div class="head-pic">' +
-            '<a href="##"><img src="/images/my-head.png" alt=""></a>' +
+            '<a href="javascript:void(0);"><img src="/images/my-head.png" alt=""></a>' +
             '</div>' +
             '<div class="content">' +
             '<div class="info">' +
@@ -258,7 +258,7 @@ $(function () {
           '<div class="reply-block">' +
           '<div class="add-comm clearfix">' +
           '<textarea name="comm_textarea" class="comm-textarea" cols="30" rows="10"></textarea>' +
-          '<a href="##" class="comm-submit-btn">提交</a>' +
+          '<a href="javascript:void(0);" class="comm-submit-btn">提交</a>' +
           '</div>' +
           '<div class="close-btn"></div>' +
           '</div>';
@@ -276,7 +276,7 @@ $(function () {
               '#' + reps[j].floor +
               '</span>' +
               '<div class="head-pic">' +
-              '<a href="##">' +
+              '<a href="javascript:void(0);">' +
               '<img src="/images/my-head.png" alt="">' +
               '</a>' +
               '</div>' +
@@ -300,14 +300,14 @@ $(function () {
               context += '<p>' + '回复 #' + reps[j].to.floor + " " + reps[j].to.author_id.user_name + ':' + reps[j].repContent + '</p>';
             }
             context += '<div class="tools">' +
-              '<a href="##" class="comm-reply-btn">回复' + '</a>' +
+              '<a href="javascript:void(0);" class="comm-reply-btn">回复' + '</a>' +
               '</div>' +
               '</div>' +
               '</div>' +
               '<div class="reply-block">' +
               '<div class="add-comm clearfix">' +
               '<textarea name="comm_textarea" class="comm-textarea" cols="30" rows="10"></textarea>' +
-              '<a href="##" class="comm-submit-btn reply-child" data-repid=' + reps[j].id + '>提交</a>' +
+              '<a href="javascript:void(0);" class="comm-submit-btn reply-child" data-repid=' + reps[j].id + '>提交</a>' +
               '</div>' +
               '<div class="close-btn"></div>' +
               '</div>' +

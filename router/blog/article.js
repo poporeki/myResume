@@ -16,20 +16,25 @@ router.get('/:id', function (req, res, next) {
       return res.render('404');
     }
     articleMod.incReadNum(artid);
+    var thisArt = artDatas[0];
     var artInfo = {
-      id: artDatas[0]._id,
+      id: thisArt._id,
       /* 文章id */
-      title: artDatas[0].title,
+      title: thisArt.title,
+      type: {
+        id: thisArt.type_id[0]._id,
+        name: thisArt.type_id[0].type_name
+      },
       /* 文章标题名 */
-      createTime: moment(artDatas[0].create_time).format('YYYY-MM-DD hh:mm'),
+      createTime: moment(thisArt.create_time).format('YYYY-MM-DD hh:mm'),
       /* 文章创建时间 */
-      content: artDatas[0].content,
+      content: thisArt.content,
       /* 文章内容 */
-      source: artDatas[0].source,
+      source: thisArt.source,
       /* 文章发布源 */
-      author: artDatas[0].author_id ? artDatas[0].author_id.user_name : '佚名',
+      author: thisArt.author_id ? thisArt.author_id.user_name : '佚名',
       /* 文章作者 */
-      readNum: artDatas[0].read
+      readNum: thisArt.read
     }
 
     /* 获取文章评论信息 */
@@ -89,6 +94,18 @@ router.get('/:id', function (req, res, next) {
   })
 })
 
+router.post('/getTop', function (req, res) {
+  articleMod.getArtsByRead(function (err, result) {
+    if (err) {
+      return;
+    }
+    return res.json({
+      status: true,
+      msg: '',
+      data: result
+    })
+  })
+})
 router.use('/', require('./comments'));
 
 module.exports = router;

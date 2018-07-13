@@ -55,7 +55,7 @@
   color: #fff;
   background-color: rgba(0, 0, 0, .74);
   padding: 10px 0;
-  overflow: hidden;
+  perspective: 1200px;
   a {
     color: #fff;
   }
@@ -66,14 +66,17 @@
     padding-bottom: 20px;
     background-color: #000;
     transition: transform .2s ease;
-    animation: scaleIn_2x 1s forwards;
+    transform-origin: bottom center;
+    animation: flipXIn 1s forwards;
+    perspective: 1200px;
     &:last-child {
       margin-bottom: 0;
     }
     &:hover,
     &:active {
       >a {
-        transform: translateX(5px);
+        /* transform: translateX(5px); */
+        transform: rotateX(20deg);
       }
     }
     >a {

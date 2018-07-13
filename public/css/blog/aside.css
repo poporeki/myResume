@@ -21,8 +21,20 @@ aside.l-aside {
     box-shadow: 0 0 20px #000;
     z-index: 11;
     transform: rotate(90deg);
-    transition: transform 1s ease .5s;
+    transition: background-color .3s ease, transform 1s ease .5s;
     overflow: hidden; }
+    aside.l-aside .sidebar-btn.go {
+      background-color: black;
+      animation: goUser .5s forwards; }
+      aside.l-aside .sidebar-btn.go p {
+        display: none; }
+
+@keyframes goUser {
+  0% {
+    transform: rotate(0) scale(1); }
+  100% {
+    background-color: black;
+    transform: rotate(0) scale(50); } }
     aside.l-aside .sidebar-btn p {
       position: relative;
       padding: 0;

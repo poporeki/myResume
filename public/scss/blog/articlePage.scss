@@ -1,12 +1,35 @@
 @import 'set-color';
 @import 'animation';
+a {
+  word-wrap: break-word;
+}
+
+figure {
+  margin: 0;
+  >table {
+    display: block;
+    overflow: auto;
+    background-color: #000;
+  }
+}
+
+table {
+  display: block;
+  overflow: auto;
+  tbody {
+    padding: 5px;
+    background-color: $color-block-wrap;
+    tr {
+      th,
+      td {
+        padding: 5px;
+      }
+    }
+  }
+}
+
+figure>table,
 pre {
-  background-color: #000000;
-  color: #646464;
-  padding: 5px 5px;
-  border-radius: 2px;
-  box-sizing: border-box;
-  overflow-x: auto;
   &::-webkit-scrollbar {
     width: 10px;
     height: 4px;
@@ -17,6 +40,15 @@ pre {
   }
 }
 
+pre {
+  background-color: #000000;
+  color: darkorange;
+  padding: 5px 5px;
+  border-radius: 2px;
+  box-sizing: border-box;
+  overflow-x: auto;
+}
+
 .loading-ani {
   position: absolute;
   width: 100%;
@@ -24,6 +56,7 @@ pre {
   top: 0;
   left: 0;
   background-color: rgba(48, 48, 48, 0.582);
+  z-index: 111;
   &:after {
     content: '';
     position: absolute;
@@ -76,8 +109,9 @@ pre {
 
 .line {
   position: relative;
-  margin: 100px 0;
-  width: 300px;
+  margin: 10vh 0;
+  width: 50vw;
+  max-width: 300px;
   height: 2px;
   &:before {
     position: absolute;
@@ -213,7 +247,7 @@ section.article-wrapper {
       position: relative;
       border: 1px solid #424242;
       margin-top: 15px;
-      padding: 5px;
+      padding: 5px 15px;
       &.show {
         display: block;
       }
@@ -328,7 +362,7 @@ section.article-wrapper {
               display: flex;
               flex-direction: row;
               flex-wrap: wrap;
-              font-size: 14px;
+              font-size: 12px;
               margin-bottom: 10px;
               >div {
                 margin-right: 10px;
@@ -345,6 +379,7 @@ section.article-wrapper {
             }
             .floor-blk {
               justify-self: flex-end;
+              font-size: 12px;
               color: rgb(85, 85, 85);
             }
           }
@@ -355,6 +390,7 @@ section.article-wrapper {
           .tools {
             display: flex;
             justify-content: flex-end;
+            font-size: 14px;
           }
         }
       }

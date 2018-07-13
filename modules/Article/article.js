@@ -9,7 +9,7 @@ module.exports = {
     var pars = {
       title: req.body.arc_title,
       attribute: {
-        carousel: (req.body.arc_carousel).trim()
+        carousel: req.body.arc_carousel === 'on' ? true : false
       },
       type_id: (req.body.arc_type).trim(),
       tags_id: req.body.arc_tags,
@@ -58,7 +58,9 @@ module.exports = {
     var pars = {
       title: req.body.arc_title,
       /* 标题 */
-      attribute: req.body.arc_attr,
+      attribute: {
+        carousel: req.body.arc_carousel === 'on' ? true : false
+      },
       /*  */
       type_id: req.body.arc_type,
       tags_id: req.body.arc_tags,
@@ -98,5 +100,39 @@ module.exports = {
         title: 1
       })
       .exec(cb);
+  },
+  getArtsByRead: function (cb) {
+    articles.find().limit(10).sort({
+      'read': -1
+    }).exec(function (err, result) {
+      if (err) {
+        return cb(err, null);
+      }
+
+      var imgReg = /<img.*?(?:>|\/>)/gi;
+      var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+      var artList = [];
+      for (var i = 0; i < result.length; i++) {
+        var imgSrc = '';
+        var str = result[i].content;
+        var arr = str.match(imgReg);
+        if (arr != null) {
+          var src = arr[0].match(srcReg);
+          if (src == null) {
+            imgSrc = null;
+          } else {
+            imgSrc = src[1];
+          }
+        } else {
+          imgSrc = null;
+        }
+        artList.push({
+          artid: result[i]._id,
+          title: result[i].title,
+          previewImage: imgSrc
+        })
+      }
+      return cb(null, artList);
+    })
   }
 }

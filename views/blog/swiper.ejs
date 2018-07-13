@@ -1,46 +1,66 @@
-<style>
-  .swiper-container {
-    max-height: 300px;
+ <style>
+  .banner {
+    max-height: 400px;
     min-height:200px;
-    height:30vw;
+    height:40vw;
   }
 
   .swiper-slide {
-    text-align: center;
-    background-color: rgb(75, 117, 155);
+    background-color: $color-bg;
+  }
+  .swiper-slide >a{
+    position:relative;
+    display:block;
+    height:100%;
+    width:100%;
+  }
+  .swiper-slide >a>img{
+    position:absolute;
+    width:100%;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+  }
+  .swiper-slide >a>h3{
+    position:absolute;
+    display:inline-block;
+    width:100%;
+    left:0;
+    bottom:0;
+    margin:0 0 15px;
+    padding:5px;
+    color:#fff;
+    background-color:#000;
+    text-shadow:0 0 5px #000;
+    z-index:1;
   }
 </style>
-
-
-<div class="swiper-wrap">
-  <div class="swiper-container">
-    <div class="swiper-wrapper">
-      <%for(var i=0;i<carouList.length;i++){%>
-        <div class="swiper-slide">
-        <a href=<%="/blog/article/"+carouList[i]._id %>>
-          <h2><%=carouList[i].title%></h2>
-          <% var str = carouList[i].content; var imgReg = /<img.*?(?:>|\/>)/gi; var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i; var arr = str.match(imgReg); %>
-          <% if(arr!=null){ %>
-            <% var src = arr[0].match(srcReg); %>
-              <% if(src==null) {%>
-                <img src="/images/login_pic.png" alt="空白">
-              <%}else{%>
-                <img src=<%=src[1] %> alt="">
-              <%}%>
-            <% } else{%>
-              <img src="/images/login_pic.png" alt="空白">
-          <%}%>
-        </a>
-        </div>
-      <%}%>
-    </div>
+<div class="swiper-container banner">
+  <div class="swiper-wrapper">
+    <%for(var i=0;i<carouList.length;i++){%>
+      <div class="swiper-slide">
+      <a href=<%="/blog/article/"+carouList[i]._id %>>
+        <h3><%=carouList[i].title%></h3>
+        <% var str = carouList[i].content; var imgReg = /<img.*?(?:>|\/>)/gi; var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i; var arr = str.match(imgReg); %>
+        <% if(arr!=null){ %>
+          <% var src = arr[0].match(srcReg); %>
+            <% if(src==null) {%>
+              <img src="/images/dark_geometric2.png" alt="空白">
+            <%}else{%>
+              <img src=<%=src[1] %> alt="">
+            <%}%>
+          <% } else{%>
+            <img src="/images/dark_geometric2.png" alt="空白">
+        <%}%>
+      </a>
+      </div>
+    <%}%>
   </div>
 </div>
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
 <script>
   var mySwiper = new Swiper('.swiper-container', {
     autoplay: true, //可选选项，自动滑动
+    mousewheel: true
   })
 </script>
