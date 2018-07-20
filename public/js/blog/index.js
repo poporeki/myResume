@@ -1,5 +1,6 @@
 $(function () {
   getHotList();
+  getNewArtList();
 });
 
 function getHotList() {
@@ -40,10 +41,83 @@ function getHotList() {
       },
       breakpoints: {
         768: {
-          slidesPerView: 2,
-          spaceBetween: 30,
+          slidesPerView: 3,
+          spaceBetween: 10,
         }
       }
     });
+  });
+}
+
+function getNewArtList() {
+  var $artList = $('.article-list>ul');
+  requestAjax({
+    el: $artList,
+    url: '/blog/getArtList',
+    type: 'get'
+  }, function (result) {
+    if (!result.status) {
+      return alert('服务器错误，请刷新重试');
+    }
+    var data = result.data;
+    var html = '';
+    for (var n = 0; n < data.length; n++) {
+      var art = data[n];
+      var artid = art.id,
+        /* 文章id */
+        artTitle = art.title,
+        /* 文章名 */
+        artimg = getPic(art.content),
+        /* 文章首张图片 */
+        artRead = art.read,
+        /* 阅读数 */
+        artAuthor_name = art.author.name,
+        /* 作者 */
+        source = art.source,
+        /* html内容 */
+        time_create = art.time_create; /* 发布时间 */
+      html += '<li>' +
+        '<a href="/blog/article/' + artid + '">' +
+        '<div class="card">' +
+        '<div class="card-header">' +
+        '<h4>' + artTitle + '</h4>' +
+        '<div class="info-box">' +
+        '<div class="item read-num">' +
+        '<i class="iconfont bottom icon-read"></i>' +
+        artRead +
+        '</div>' +
+        '<div class="item author"><i class="iconfont bottom icon-iresume"> </i>' +
+        artAuthor_name +
+        '</div>' +
+        '<div class="item author"><i class="iconfont bottom icon-time"> </i>' +
+        time_create +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '<div class="card-body">' +
+        '<div class="pic-box">' + artimg +
+        '</div>' +
+        '<p>' + source +
+        '</p>' +
+        '</div>' +
+        '</div>' +
+        '</a>' +
+        '</li>';
+    }
+    $artList.append(html);
+    /* 得到文章首张图片，如果没有 则用默认替代 */
+    function getPic(str) {
+      var imgReg = /<img.*?(?:>|\/>)/gi;
+      var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+      var arr = str.match(imgReg);
+      if (arr != null) {
+        var src = arr[0].match(srcReg);
+        return src === null ?
+          '<img src="/images/login_pic.png" alt="空白">' :
+          '<img src=' + src[1] + ' alt="">';
+      } else {
+        return '<img src="/images/login_pic.png" alt="空白">';
+      }
+    }
   });
 }

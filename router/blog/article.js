@@ -45,17 +45,19 @@ router.get('/:id', function (req, res, next) {
 
       var artComms = [];
       for (var i = 0; i < commsDatas.length; i++) {
-        var commReps = [];
-        var reply = commsDatas[i].reply;
+        var commReps = [],
+          comms = commsDatas[i],
+          reply = comms.reply;
 
         if (reply.length != 0) {
           for (var idx = 0; idx < reply.length; idx++) {
             var repUser = reply[idx].author_id;
+            var repAvatar = repUser.avatar_path ? repUser.avatar_path.save_path + 'thumbnail_' + repUser.avatar_path.new_name : "/images/my-head.png"
             var obj = {
               user: {
                 name: repUser.user_name,
                 id: repUser._id,
-                avatar: repUser.avatar_path ? repUser.avatar_path.source_name : "/images/my-head.png"
+                avatar: repAvatar
               },
               id: reply[idx]._id,
               repContent: reply[idx].comment_text,
@@ -69,17 +71,17 @@ router.get('/:id', function (req, res, next) {
           }
         }
         var obj = {
-          id: commsDatas[i]._id,
+          id: comms._id,
           user: {
-            name: commsDatas[i].author_id.user_name,
-            avatar: commsDatas[i].author_id.avatar_path ? commsDatas[i].author_id.avatar_path.source_name : "/images/my-head.png"
+            name: comms.author_id.user_name,
+            avatar: comms.author_id.avatar_path ? comms.author_id.avatar_path.save_path + 'thumbnail_' + comms.author_id.avatar_path.new_name : "/images/my-head.png"
           },
-          submitAddress: commsDatas[i].submit_address,
-          createTime: moment(commsDatas[i].createdAt).format('YYYY-MM-DD hh:mm:ss'),
-          likeNum: commsDatas[i].like_num,
-          text: commsDatas[i].comment_text,
+          submitAddress: comms.submit_address,
+          createTime: moment(comms.createdAt).format('YYYY-MM-DD hh:mm:ss'),
+          likeNum: comms.like_num,
+          text: comms.comment_text,
           commReps: commReps,
-          floor: commsDatas[i].floor
+          floor: comms.floor
         }
         artComms.push(obj);
       }

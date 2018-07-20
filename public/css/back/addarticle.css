@@ -1,0 +1,25 @@
+.btn {
+  cursor: pointer; }
+
+#editor {
+  position: relative;
+  z-index: 10; }
+
+.arc-submit-block {
+  position: relative; }
+  .arc-submit-block .checkbox-wrap {
+    position: absolute;
+    right: 15px;
+    bottom: 0; }
+    .arc-submit-block .checkbox-wrap > p {
+      float: left;
+      padding-right: 5px; }
+
+.arc-submit-block {
+  border-top: none !important; }
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+  background-color: #15a890; }
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  background-color: #055c2c; }

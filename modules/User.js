@@ -14,8 +14,28 @@ module.exports = {
     dbUser.findByName(name, cb);
   },
   /* 比对密码 */
-  checkUserPwd: function (params, cb) {
-    dbUser.findByNP(params, cb);
+  checkUserPwd: function (pars, cb) {
+    dbUser.findByNP(pars, cb);
+  },
+  /**
+   * 修改密码
+   * 
+   */
+  updateAccountPassword: (pars, cb) => {
+    var username = pars.username,
+      password = pars.password,
+      newPassword = pars.newPassword;
+    password = crypto.createHash('md5')
+      .update(password)
+      .digest('hex');
+    newPassword = crypto.createHash('md5')
+      .update(newPassword)
+      .digest('hex');
+    dbUser.updateUserPassword({
+      name: username,
+      pwd: password,
+      newPwd: newPassword
+    }, cb);
   },
   /* 创建用户 */
   createUser: function (req, pars, cb) {

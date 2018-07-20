@@ -4,6 +4,9 @@ var router = express.Router();
 var articleMod = require('../../modules/Article/article');
 var articleTypeMod = require('../../modules/Article/articleType');
 var articleTagMod = require('../../modules/Article/articleTag');
+
+var scriptlink = require('./arclist_script');
+
 router.get('/', function (req, res) {
   articleTypeMod.findArticleType({}, function (err, resTypes) {
     if (err) {
@@ -17,7 +20,13 @@ router.get('/', function (req, res) {
         submitURL: '/backend/art/addarticle',
         userName: req.session.user.username,
         tagName: resTags,
-        typeName: resTypes
+        typeName: resTypes,
+        importScript: scriptlink,
+        importStyle: {
+          cdn: [
+            'select2/4.0.0/css/select2.min.css'
+          ]
+        }
       })
     })
 

@@ -3,11 +3,11 @@ var router = express.Router();
 var saveTourists = require('../modules/saveTourists');
 var addTourists = require('../db/schema/addTourists');
 
-router.use('/', function (req, res, next) {
+router.use('/', (req, res, next) => {
   res.locals['USER'] = req.session.user ? req.session.user : null;
   next();
 })
-router.get('/', function (req, res) {
+router.get('/', (req, res) => {
   if (!req.session.views) {
     req.session.views = 1;
     saveTourists(req);
@@ -15,11 +15,11 @@ router.get('/', function (req, res) {
   res.redirect('/blog');
 })
 
-router.get('/bzonflash', function (req, res) {
+router.get('/bzonflash', (req, res) => {
   res.render('bz');
 });
 
-router.post('/auth', function (req, res) {
+router.post('/auth', (req, res) => {
   var auth = false;
   if (req.session.user) {
     auth = true;
@@ -33,15 +33,15 @@ router.use('/reg', require('./registerAccount'));
 router.use('/verify', require('./verify'));
 router.use('/backend', require('./back'));
 router.use('/blog', require('./blog'));
-router.get('/logout', function (req, res) {
+router.get('/logout', (req, res) => {
   req.session.destroy();
   return res.redirect('/blog');
 })
-router.get('*', function (req, res) {
+router.get('*', (req, res) => {
   res.render('404');
 })
 
-router.post('*', function (req, res) {
+router.post('*', (req, res) => {
   res.render('error');
 })
 module.exports = router;

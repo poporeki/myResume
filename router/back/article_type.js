@@ -1,22 +1,49 @@
 var express = require('express');
 var router = express.Router();
+var moment = require('moment');
 
 var articleTypeMod = require('../../modules/Article/articleType');
 
-router.get('/', function (req, res) {
-  res.render('./backend/addType', {
-    pageTitle: '添加分类',
+router.get('/add', function (req, res) {
+  res.render('./backend/add', {
+    pageTitle: '文章分类',
+    formAction: '/addtype',
     userName: req.session.user.username
   });
 })
 
-router.post('/', function (req, res) {
+router.post('/add', function (req, res) {
   articleTypeMod.addArticleType(req.body, function (err, result) {
     if (err) {
       console.log(err);
       return;
     }
     res.redirect('/backend');
+  })
+});
+router.get('/list', function (req, res) {
+  articleTypeMod.findArticleType(req.query, function (err, result) {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    var datas = [];
+    for (var i = 0; i < result.length; i++) {
+      var data = result[i];
+      var obj = {
+        id: data._id,
+        name: data.type_name,
+        timeCreate: moment(data.create_time).format('YYYY-MM-DD hh:mm:ss'),
+        timeUpdate: moment(data.create_update).format('YYYY-MM-DD hh:mm:ss')
+      }
+      datas.push(obj);
+    }
+    res.render('./backend/articleTypeList', {
+      pageTitle: '分类',
+      identity: 'type',
+      userName: req.session.user.username,
+      info: datas
+    });
   })
 });
 

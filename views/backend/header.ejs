@@ -1,22 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Meta -->
+    <meta name="description" content="Premium Quality and Responsive UI for Dashboard.">
+    <meta name="author" content="ThemePixels">
 
-<head>
-  <title>
-    <%= pageTitle?pageTitle:'首页' %>
-  </title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- CSS Libs -->
-  <link rel="stylesheet" type="text/css" href="/lib/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="/lib/css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" href="/lib/css/animate.min.css">
-  <link rel="stylesheet" type="text/css" href="/lib/css/bootstrap-switch.min.css">
-  <link rel="stylesheet" type="text/css" href="/lib/css/checkbox3.min.css">
-  <link rel="stylesheet" type="text/css" href="/lib/css/jquery.dataTables.min.css">
-  <link rel="stylesheet" type="text/css" href="/lib/css/dataTables.bootstrap.css">
-  <link rel="stylesheet" type="text/css" href="/lib/css/select2.min.css">
-  <!-- CSS App -->
-  <link rel="stylesheet" type="text/css" href="/css/back/style.css">
-  <link rel="stylesheet" type="text/css" href="/css/back/themes/flat-blue.css">
-</head>
+    <title><%= pageTitle?pageTitle:'首页' %></title>
+    <!-- vendor css -->
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/jquery.perfect-scrollbar/0.8.1/css/perfect-scrollbar.min.css" rel="stylesheet">
+    <link href="/lib/jquery-switchbutton/jquery.switchButton.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/chartist/0.11.0/chartist.min.css" rel="stylesheet">
+    <%if(typeof importStyle!=='undefined'){%>
+      <%for(var i in importStyle){%>
+      <%var lk=importStyle[i];%>
+      <%if(lk instanceof Array){%>
+        <%for(var j=0;j<lk.length;j++){%>
+          <link href="https://cdn.bootcss.com/<%=lk[j]%>" rel="stylesheet">
+        <%}%>
+      <%}else{%>
+        <link href="<%=lk%>" rel="stylesheet">
+      <%}%>
+      <%}%>
+    <%}%>
+    <!-- Bracket CSS -->
+    <link rel="stylesheet" href="/css/back/bracket.css">
+  </head>

@@ -1,7 +1,7 @@
 var E = window.wangEditor;
 var editor = new E('#editor');
- // 配置服务器端地址
- editor.customConfig.uploadImgServer = '/backend/art/uploadArtIMG';
+// 配置服务器端地址
+editor.customConfig.uploadImgServer = '/backend/art/uploadArtIMG';
 editor.create();
 $(function () {
 
@@ -15,7 +15,7 @@ $(function () {
             value: editor.txt.html()
         }, {
             name: 'text_conSource',
-            value: (editor.txt.text()).substring(0,150)
+            value: (editor.txt.text()).substring(0, 150)
         });
         console.log(formData);
         $.ajax({

@@ -9,7 +9,7 @@ $(function () {
         var outH = $artList.outerHeight();
         var sTop = $(window).scrollTop();
         var elBottomDistanceWindowTop = H + outH - sTop;
-        if (elBottomDistanceWindowTop < $(window).height() && SEND == false) {
+        if (elBottomDistanceWindowTop < $(window).height() && SEND === false) {
             getNewData();
             var a = /\[[^\}]+\]/;
         }
@@ -29,23 +29,27 @@ $(function () {
             aniEle: 'loading-ani-articlelist'
         }, function (result) {
             SEND = false;
-            if (result.status == 1) {
+            if (result.status) {
                 var html = '';
                 var con = result.result;
                 for (var i = 0; i < con.length; i++) {
-                    html += '<li class="article-list-item">' +
-                        '<a href="/blog/article/' + con[i].artid + '">' +
+                    var conn = con[i],
+                        title = conn.title,
+                        artid = conn.artid,
+                        timeCreate = conn.create_time,
+                        source = conn.source;
+                    html +=
+                        '<li class="article-list-item">' +
+                        '<a href="/blog/article/' + artid + '">' +
                         '<div class="lt">' +
                         '<div class="top">' +
                         '<div class="title">' +
-                        '<h4>' + con[i].title + '</h4>' +
+                        '<h4>' + title + '</h4>' +
                         '</div>' +
-                        '<div class="time">' + con[i].create_time + '</div>' +
+                        '<div class="time">' + timeCreate + '</div>' +
                         '</div>' +
-
-                        '<div class="thumbnail">' + con[i].source + '</div>' +
+                        '<div class="thumbnail">' + source + '</div>' +
                         '</div>' +
-
                         '</a>' +
                         '</li>'
                 }

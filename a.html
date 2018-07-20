@@ -1,1169 +1,1125 @@
-<p>在学习编程的时候，每次看到那些整齐规范的代码，心里顿时对这个程序员表示点点好感，有时，比如看到自己和朋友写的代码时，那阅读起来就是苦不堪言，所以，一些基本的开发规范是必须的，是为了自己方便阅读代码，也方便他人阅读修改代码。</p>
-<hr>
-<h2 id="命名">
-    <strong>命名</strong>
-</h2>
-<h4 id="驼峰式命名法介绍">
-    <strong>驼峰式命名法介绍</strong>
-</h4>
-<blockquote>
-    <p>Pascal Case 大驼峰式命名法：首字母大写。eg：StudentInfo、UserInfo、ProductInfo
-        <br> Camel Case 小驼峰式命名法：首字母小写。eg：studentInfo、userInfo、productInfo</p>
-</blockquote>
-<h4 id="文件资源命名">
-    <strong>文件资源命名</strong>
-</h4>
-
-<blockquote>
-    <p>文件名不得含有空格
-        <br> 文件名建议只使用小写字母，不使用大写字母。( 为了醒目，某些说明文件的文件名，可以使用大写字母，比如README、LICENSE。 )
-        <br> 文件名包含多个单词时，单词之间建议使用半角的连词线 ( - ) 分隔。
-        <br> 引入资源使用相对路径，不要指定资源所带的具体协议 ( http:,https: ) ，除非这两者协议都不可用。</p>
-</blockquote>
-
-<p>推荐：</p>
-<pre class="prettyprint" name="code"><code class="hljs xml has-numbering"><span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"//cdn.com/foundation.min.js"</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li></ul></pre>
-
-
-
-<h4 id="变量命名">
-    <strong>变量命名</strong>
-</h4>
-
-
-
-<h6 id="命名方式-小驼峰式命名方法">
-    <strong>命名方式： 小驼峰式命名方法</strong>
-</h6>
-
-
-
-<h6 id="命名规范-类型对象描述的方式如果没有明确的类型就可以使前缀为名词">
-    <strong>命名规范： 类型+对象描述的方式，如果没有明确的类型，就可以使前缀为名词</strong>
-</h6>
-
-<blockquote>
-    <p>类型 小写字母
-        <br> array a
-        <br> boolean b
-        <br> function fn
-        <br> int i
-        <br> object o
-        <br> regular r
-        <br> string s</p>
-</blockquote>
-
-<hr>
-
-
-
-<h5 id="函数">
-    <strong>函数</strong>
-</h5>
-
-
-
-<h6 id="命名方式小驼峰方式-构造函数使用大驼峰命名法">
-    <strong>命名方式：小驼峰方式 ( 构造函数使用大驼峰命名法 )</strong>
-</h6>
-
-
-
-<h6 id="命名规则前缀为动词">
-    <strong>命名规则：前缀为动词</strong>
-</h6>
-
-<blockquote>
-    <p>动词 含义 返回值
-        <br> can 判断是否可执行某个动作 ( 权限 ) 函数返回一个布尔值。true：可执行；false：不可执行
-        <br> has 判断是否含有某个值 函数返回一个布尔值。true：含有此值；false：不含有此值
-        <br> is 判断是否为某个值 函数返回一个布尔值。true：为某个值；false：不为某个值
-        <br> get 获取某个值 函数返回一个非布尔值
-        <br> set 设置某个值 无返回值、返回是否设置成功或者返回链式对象</p>
-</blockquote>
-
-<p>推荐：</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs javascript has-numbering"><span class="hljs-comment">//是否可阅读</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">canRead</span><span class="hljs-params">()</span>{</span>
-<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
-}
-<span class="hljs-comment">//获取姓名</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getName</span>{</span>
-<span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.name
-}</code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li></ul></pre>
-
-<hr>
-
-
-
-<h4 id="常量">
-    <strong>常量</strong>
-</h4>
-
-
-
-<h6 id="命名方法全部大写">
-    <strong>命名方法:全部大写</strong>
-</h6>
-
-
-
-<h6 id="命名规范使用大写字母和下划线来组合命名下划线用以分割单词">
-    <strong>命名规范：</strong>使用大写字母和下划线来组合命名，下划线用以分割单词</h6>
-
-<p>推荐：</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs cs has-numbering"> <span class="hljs-keyword">var</span> MAX_COUNT = <span class="hljs-number">10</span>;
-<span class="hljs-keyword">var</span> URL = <span class="hljs-string">'http://www.baidu.com'</span>;</code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li></ul></pre>
-
-<hr>
-
-
-
-<h4 id="类的成员">
-    <strong>类的成员</strong>
-</h4>
-
-<ul>
-    <li>公共属性和方法：同变量命名方式</li>
-    <li>私有属性和方法：前缀为下划线(_)后面跟公共属性和方法一样的命名方式</li>
-</ul>
-
-<p>推荐（将name换成this是不是更熟悉了呢）</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs javascript has-numbering"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Student</span><span class="hljs-params">(name)</span> {</span>
-<span class="hljs-keyword">var</span> _name = name; <span class="hljs-comment">// 私有成员</span>
-
-<span class="hljs-comment">// 公共方法</span>
-<span class="hljs-keyword">this</span>.getName = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
-<span class="hljs-keyword">return</span> _name;
-}
-
-<span class="hljs-comment">// 公共方式</span>
-<span class="hljs-keyword">this</span>.setName = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(value)</span> {</span>
-_name = value;
-}
-}
-<span class="hljs-keyword">var</span> st = <span class="hljs-keyword">new</span> Student(<span class="hljs-string">'tom'</span>);
-st.setName(<span class="hljs-string">'jerry'</span>);
-console.log(st.getName()); <span class="hljs-comment">// =&gt; jerry：输出_name私有变量的值</span></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li><li style="color: rgb(153, 153, 153);">11</li><li style="color: rgb(153, 153, 153);">12</li><li style="color: rgb(153, 153, 153);">13</li><li style="color: rgb(153, 153, 153);">14</li><li style="color: rgb(153, 153, 153);">15</li><li style="color: rgb(153, 153, 153);">16</li></ul></pre>
-
-<hr>
-
-
-
-<h4 id="注释规范">
-    <strong>注释规范</strong>
-</h4>
-
-
-
-<h6 id="单行注释">
-    <strong>单行注释（//）</strong>
-</h6>
-
-<ul>
-    <li>单独一行：//(双斜线)与注释文字之间保留一个空格</li>
-    <li>在代码后面添加注释：//(双斜线)与代码之间保留一个空格，并且//(双斜线)与注释文字之间保留一个空格。</li>
-    <li>
-        <p>注释代码：//(双斜线)与代码之间保留一个空格。</p>
-
-        <p>推荐：</p>
-    </li>
-</ul>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs cs has-numbering"><span class="hljs-comment">// 调用了一个函数；1)单独在一行</span>
-setTitle();
-<span class="hljs-keyword">var</span> maxCount = <span class="hljs-number">10</span>; <span class="hljs-comment">// 设置最大量；2)在代码后面注释</span>
-<span class="hljs-comment">// setName(); // 3)注释代码</span></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li></ul></pre>
-
-<hr>
-
-
-
-<h4 id="多行注释-注释说明">
-    <strong>多行注释（ / 注释说明 /）</strong>
-</h4>
-
-<ul>
-    <li>若开始(/
-        <em>和结束(</em>/)都在一行，推荐采用单行注释</li>
-    <li>若至少三行注释时，第一行为/
-        <em>，最后行为</em>/，其他行以
-        <em>开始，并且注释文字与</em>保留一个空格。</li>
-</ul>
-
-<p>推荐：</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs bash has-numbering">/*
-* 代码执行到这里后会调用<span class="hljs-keyword">set</span>Title()函数
-* <span class="hljs-keyword">set</span>Title()：设置title的值
-*/
-<span class="hljs-keyword">set</span>Title();</code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li></ul></pre>
-
-<hr>
-
-
-
-<h4 id="函数方法注释">
-    <strong>函数（方法）注释</strong>
-</h4>
-
-<p>函数(方法)注释也是多行注释的一种，但是包含了特殊的注释要求，参照 javadoc(百度百科)
-    <br> 语法：
-</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs java has-numbering"><span class="hljs-javadoc">/** 
-* 函数说明 
-* @关键字 
-*/</span></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li></ul></pre>
-
-<p>常用注释关键字</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs java has-numbering">注释名 语法  含义  示例
-<span class="hljs-annotation">@param</span>  <span class="hljs-annotation">@param</span> 参数名 {参数类型} 描述信息  描述参数的信息 <span class="hljs-annotation">@param</span> name {String} 传入名称
-<span class="hljs-annotation">@return</span> <span class="hljs-annotation">@return</span> {返回类型} 描述信息 描述返回值的信息    <span class="hljs-annotation">@return</span> {Boolean} <span class="hljs-keyword">true</span>:可执行;<span class="hljs-keyword">false</span>:不可执行
-<span class="hljs-annotation">@author</span> <span class="hljs-annotation">@author</span> 作者信息 [附属信息：如邮箱、日期]  描述此函数作者的信息  <span class="hljs-annotation">@author</span> 张三 <span class="hljs-number">2015</span>/<span class="hljs-number">07</span>/<span class="hljs-number">21</span>
-<span class="hljs-annotation">@version</span>    <span class="hljs-annotation">@version</span> XX.XX.XX   描述此函数的版本号   <span class="hljs-annotation">@version</span> <span class="hljs-number">1.0</span><span class="hljs-number">.3</span>
-<span class="hljs-annotation">@example</span>    <span class="hljs-annotation">@example</span> 示例代码   <span class="hljs-annotation">@example</span> setTitle(<span class="hljs-string">'测试'</span>) 如下</code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li></ul></pre>
-
-<p>推荐：</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs haml has-numbering"><span class="hljs-comment">/**</span>
--<span class="ruby"> 合并<span class="hljs-constant">Grid</span>的行
-</span> -<span class="ruby"> <span class="hljs-variable">@param</span> grid {<span class="hljs-constant">Ext</span>.<span class="hljs-constant">Grid</span>.<span class="hljs-constant">Panel</span>} 需要合并的<span class="hljs-constant">Grid</span>
-</span> -<span class="ruby"> <span class="hljs-variable">@param</span> cols {<span class="hljs-constant">Array</span>} 需要合并列的<span class="hljs-constant">Index</span>(序号)数组；从<span class="hljs-number">0</span>开始计数，序号也包含。
-</span> -<span class="ruby"> <span class="hljs-variable">@param</span> isAllSome {<span class="hljs-constant">Boolean</span>} ：是否<span class="hljs-number">2</span>个tr的cols必须完成一样才能进行合并。<span class="hljs-keyword">true</span>：完成一样；<span class="hljs-keyword">false</span>(默认)：不完全一样
-</span> -<span class="ruby"> <span class="hljs-variable">@return</span> void
-</span> -<span class="ruby"> <span class="hljs-variable">@author</span> polk6 <span class="hljs-number">2015</span>/<span class="hljs-number">07</span>/<span class="hljs-number">21</span> 
-</span> -<span class="ruby"> <span class="hljs-variable">@example</span>
-</span> -<span class="ruby"> ________________<span class="hljs-number">_</span>                             ________________<span class="hljs-number">_</span>
-</span> -<span class="ruby"> |  年龄 |  姓名 |                             |  年龄 |  姓名 |
-</span> -<span class="ruby"> -----------------      mergeCells(grid,[<span class="hljs-number">0</span>])   -----------------
-</span> -<span class="ruby"> |  <span class="hljs-number">18</span>   |  张三 |              =&gt;             |       |  张三 |
-</span> -<span class="ruby"> -----------------                             -  <span class="hljs-number">18</span>   ---------
-</span> -<span class="ruby"> |  <span class="hljs-number">18</span>   |  王五 |                             |       |  王五 |
-</span> -<span class="ruby"> -----------------                             -----------------
-</span>*/
-function mergeCells(grid, cols, isAllSome) {
-<span class="hljs-comment">    // Do Something</span>
-}</code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li><li style="color: rgb(153, 153, 153);">11</li><li style="color: rgb(153, 153, 153);">12</li><li style="color: rgb(153, 153, 153);">13</li><li style="color: rgb(153, 153, 153);">14</li><li style="color: rgb(153, 153, 153);">15</li><li style="color: rgb(153, 153, 153);">16</li><li style="color: rgb(153, 153, 153);">17</li><li style="color: rgb(153, 153, 153);">18</li><li style="color: rgb(153, 153, 153);">19</li></ul></pre>
-
-<hr>
-
-
-
-<h4 id="html规范">
-    <strong>HTML规范</strong>
-</h4>
-
-
-
-<h6 id="文档规范">
-    <strong>文档规范</strong>
-</h6>
-
-<p>HTML5的文档类型声明：
-    <code>&lt;!DOCTYPE html&gt;</code>
-</p>
-
-<ul>
-    <li>DOCTYPE标签是一种标准通用标记语言的文档类型声明，它的目的是要告诉标准通用标记语言解析器，它应该使用什么样的文档类型定义（DTD）来解析文档。</li>
-    <li>使用文档声明类型的作用是为了防止开启浏览器的怪异模式。</li>
-    <li>没有DOCTYPE文档类型声明会开启浏览器的怪异模式，浏览器会按照自己的解析方式渲染页面，在不同的浏览器下面会有不同的样式。</li>
-    <li>如果你的页面添加了</li>
-</ul>
-
-<h4 id="脚本加载">
-    <strong>脚本加载</strong>
-</h4>
-
-<p>推荐：</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs xml has-numbering"><span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"main.css"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
-<span class="hljs-comment">&lt;!-- body goes here --&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"main.js"</span> <span class="hljs-attribute">async</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li></ul></pre>
-
-<p>只兼容现代浏览器推荐：</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs xml has-numbering"><span class="hljs-tag">&lt;<span class="hljs-title">html</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">head</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">link</span> <span class="hljs-attribute">rel</span>=<span class="hljs-value">"stylesheet"</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"main.css"</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">script</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"main.js"</span> <span class="hljs-attribute">async</span>&gt;</span><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-title">script</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">head</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">body</span>&gt;</span>
-<span class="hljs-comment">&lt;!-- body goes here --&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">body</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">html</span>&gt;</span></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li></ul></pre>
-
-<hr>
-
-
-
-<h4 id="语义化">
-    <strong>语义化</strong>
-</h4>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs erlang has-numbering">语义化是指：根据元素其被创造出来时的初始意义来使用它。
-意思就是用正确的标签干正确的事，而不是只有<span class="hljs-keyword">div</span>和span。</code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li></ul></pre>
-
-<p>推荐：</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs xml has-numbering">html 代码:
-<span class="hljs-comment">&lt;!-- The page header should go into a header element --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">header</span>&gt;</span>
-<span class="hljs-comment">&lt;!-- As this title belongs to the page structure it's a heading and h1 should be used --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>My page title<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">header</span>&gt;</span>
-
-<span class="hljs-comment">&lt;!-- All navigation should go into a nav element --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">nav</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"top-navigation"</span>&gt;</span>
-<span class="hljs-comment">&lt;!-- A listing of elements should always go to UL (OL for ordered listings) --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">ul</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">li</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"nav-item"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#home"</span>&gt;</span>Home<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">li</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"nav-item"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#news"</span>&gt;</span>News<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">li</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"nav-item"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#about"</span>&gt;</span>About<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">li</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">ul</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">nav</span>&gt;</span>
-
-<span class="hljs-comment">&lt;!-- The main part of the page should go into a main element (also use role="main" for accessibility) --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">main</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"news-page"</span> <span class="hljs-attribute">role</span>=<span class="hljs-value">"main"</span>&gt;</span>
-<span class="hljs-comment">&lt;!-- A section of a page should go into a section element. Divide a page into sections with semantic elements. --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">section</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"page-section news"</span>&gt;</span>
-<span class="hljs-comment">&lt;!-- A section header should go into a section element --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">header</span>&gt;</span>
-<span class="hljs-comment">&lt;!-- As a page section belongs to the page structure heading elements should be used (in this case h2) --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">h2</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"title"</span>&gt;</span>All news articles<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">header</span>&gt;</span>
-
-<span class="hljs-comment">&lt;!-- If a section / module can be seen as an article (news article, blog entry, products teaser, any other
-re-usable module / section that can occur multiple times on a page) a article element should be used --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">article</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"news-article"</span>&gt;</span>
-<span class="hljs-comment">&lt;!-- An article can contain a header that contains the summary / introduction information of the article --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">header</span>&gt;</span>
-<span class="hljs-comment">&lt;!-- As a article title does not belong to the overall page structure there should not be any heading tag! --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"article-title"</span>&gt;</span>Good article<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-<span class="hljs-comment">&lt;!-- Small can optionally be used to reduce importance --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">small</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"intro"</span>&gt;</span>Introduction sub-title<span class="hljs-tag">&lt;/<span class="hljs-title">small</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">header</span>&gt;</span>
-
-<span class="hljs-comment">&lt;!-- For the main content in a section or article there is no semantic element --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"content"</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>This is a good example for HTML semantics<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-<span class="hljs-comment">&lt;!-- For content that is represented as side note or less important information in a given context use aside --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">aside</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"article-side-notes"</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>I think I'm more on the side and should not receive the main credits<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">aside</span>&gt;</span>
-<span class="hljs-comment">&lt;!-- Articles can also contain footers. If you have footnotes for an article place them into a footer element --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">footer</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"article-foot-notes"</span>&gt;</span>
-<span class="hljs-comment">&lt;!-- The time element can be used to annotate a timestamp. Use the datetime attribute to specify ISO time
- while the actual text in the time element can also be more human readable / relative --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>This article was create_time by David <span class="hljs-tag">&lt;<span class="hljs-title">time</span> <span class="hljs-attribute">datetime</span>=<span class="hljs-value">"2014-01-01 00:00"</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"time"</span>&gt;</span>1 month ago<span class="hljs-tag">&lt;/<span class="hljs-title">time</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">footer</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">article</span>&gt;</span>
-
-<span class="hljs-comment">&lt;!-- In a section, footnotes or similar information can also go into a footer element --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">footer</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"section-footer"</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>Related sections: Events, Public holidays<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">footer</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">section</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">main</span>&gt;</span>
-
-<span class="hljs-comment">&lt;!-- Your page footer should go into a global footer element --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-title">footer</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"page-footer"</span>&gt;</span>
-Copyright 2014
-<span class="hljs-tag">&lt;/<span class="hljs-title">footer</span>&gt;</span></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li><li style="color: rgb(153, 153, 153);">11</li><li style="color: rgb(153, 153, 153);">12</li><li style="color: rgb(153, 153, 153);">13</li><li style="color: rgb(153, 153, 153);">14</li><li style="color: rgb(153, 153, 153);">15</li><li style="color: rgb(153, 153, 153);">16</li><li style="color: rgb(153, 153, 153);">17</li><li style="color: rgb(153, 153, 153);">18</li><li style="color: rgb(153, 153, 153);">19</li><li style="color: rgb(153, 153, 153);">20</li><li style="color: rgb(153, 153, 153);">21</li><li style="color: rgb(153, 153, 153);">22</li><li style="color: rgb(153, 153, 153);">23</li><li style="color: rgb(153, 153, 153);">24</li><li style="color: rgb(153, 153, 153);">25</li><li style="color: rgb(153, 153, 153);">26</li><li style="color: rgb(153, 153, 153);">27</li><li style="color: rgb(153, 153, 153);">28</li><li style="color: rgb(153, 153, 153);">29</li><li style="color: rgb(153, 153, 153);">30</li><li style="color: rgb(153, 153, 153);">31</li><li style="color: rgb(153, 153, 153);">32</li><li style="color: rgb(153, 153, 153);">33</li><li style="color: rgb(153, 153, 153);">34</li><li style="color: rgb(153, 153, 153);">35</li><li style="color: rgb(153, 153, 153);">36</li><li style="color: rgb(153, 153, 153);">37</li><li style="color: rgb(153, 153, 153);">38</li><li style="color: rgb(153, 153, 153);">39</li><li style="color: rgb(153, 153, 153);">40</li><li style="color: rgb(153, 153, 153);">41</li><li style="color: rgb(153, 153, 153);">42</li><li style="color: rgb(153, 153, 153);">43</li><li style="color: rgb(153, 153, 153);">44</li><li style="color: rgb(153, 153, 153);">45</li><li style="color: rgb(153, 153, 153);">46</li><li style="color: rgb(153, 153, 153);">47</li><li style="color: rgb(153, 153, 153);">48</li><li style="color: rgb(153, 153, 153);">49</li><li style="color: rgb(153, 153, 153);">50</li><li style="color: rgb(153, 153, 153);">51</li><li style="color: rgb(153, 153, 153);">52</li><li style="color: rgb(153, 153, 153);">53</li><li style="color: rgb(153, 153, 153);">54</li><li style="color: rgb(153, 153, 153);">55</li><li style="color: rgb(153, 153, 153);">56</li><li style="color: rgb(153, 153, 153);">57</li><li style="color: rgb(153, 153, 153);">58</li><li style="color: rgb(153, 153, 153);">59</li><li style="color: rgb(153, 153, 153);">60</li><li style="color: rgb(153, 153, 153);">61</li><li style="color: rgb(153, 153, 153);">62</li><li style="color: rgb(153, 153, 153);">63</li><li style="color: rgb(153, 153, 153);">64</li><li style="color: rgb(153, 153, 153);">65</li></ul></pre>
-
-<hr>
-
-
-
-<h4 id="alt标签不为空">
-    <strong>alt标签不为空</strong>
-</h4>
-
-<p>
-    <img>标签的 alt 属性指定了替代文本，用于在图像无法显示或者用户禁用图像显示时，代替图像显示在浏览器中的内容。
-    <br> 假设由于下列原因用户无法查看图像，alt 属性可以为图像提供替代的信息：</p>
-
-<ul>
-    <li>网速太慢</li>
-    <li>src属性中的错误</li>
-    <li>浏览器禁用图像</li>
-    <li>用户使用的是屏幕阅读器</li>
-</ul>
-
-
-
-<h4 id="结构表现行为三者分离">
-    <strong>结构、表现、行为三者分离</strong>
-</h4>
-
-<p>尽量在文档和模板中只包含结构性的 HTML；而将所有表现代码，移入样式表中；将所有动作行为，移入脚本之中。
-    <br> 在此之外，为使得它们之间的联系尽可能的小，在文档和模板中也尽量少地引入样式和脚本文件。
-    <br> 建议：
-</p>
-
-<ul>
-    <li>不使用超过一到两张样式表</li>
-    <li>不使用超过一到两个脚本（学会用合并脚本）</li>
-    <li>不使用行内样式（）</li>
-    <li>不在元素上使用 style 属性（
-        <hr>）</li>
-    <li>不使用行内脚本（）</li>
-    <li>不使用表象元素（i.e.
-        <b>,
-            <u>, </u>
-        </b>
-        <center>,
-            <font>,
-                <b>）</b>
-            </font>
-        </center>
-    </li>
-    <li>不使用表象 class 名（i.e. red, left, center）</li>
-</ul>
-
-<hr>
-
-
-
-<h4 id="html只关注内容">HTML只关注内容</h4>
-
-<ul>
-    <li>HTML只显示展示内容信息</li>
-    <li>不要引入一些特定的 HTML 结构来解决一些视觉设计问题</li>
-    <li>不要将img元素当做专门用来做视觉设计的元素</li>
-    <li>样式上的问题应该使用css解决</li>
-</ul>
-
-<p>推荐：</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs applescript has-numbering">html 代码:
-&lt;!<span class="hljs-comment">-- That's clean markup! --&gt;</span>
-&lt;span <span class="hljs-type">class</span>=<span class="hljs-string">"text-box"</span>&gt;
-See <span class="hljs-keyword">the</span> square next <span class="hljs-keyword">to</span> <span class="hljs-keyword">me</span>?
-&lt;/span&gt;
-css 代码:
-/* We use a :<span class="hljs-keyword">before</span> pseudo element <span class="hljs-keyword">to</span> solve <span class="hljs-keyword">the</span> design problem <span class="hljs-keyword">of</span> placing a colored square <span class="hljs-keyword">in</span> <span class="hljs-keyword">front</span> <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> <span class="hljs-type">text</span> content */
-.<span class="hljs-type">text</span>-box:<span class="hljs-keyword">before</span> {
-content: <span class="hljs-string">""</span>;
-display: inline-block;
-width: <span class="hljs-number">1</span>rem;
-height: <span class="hljs-number">1</span>rem;
-background-color: red;
-}</code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li><li style="color: rgb(153, 153, 153);">11</li><li style="color: rgb(153, 153, 153);">12</li><li style="color: rgb(153, 153, 153);">13</li><li style="color: rgb(153, 153, 153);">14</li></ul></pre>
-
-<p>
-    <strong>图片和 SVG 图形能被引入到 HTML 中的唯一理由是它们呈现出了与内容相关的一些信息。</strong>
-    <br> 推荐：
-</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs applescript has-numbering">html 代码:
-&lt;!<span class="hljs-comment">-- That's clean markup! --&gt;</span>
-&lt;span <span class="hljs-type">class</span>=<span class="hljs-string">"text-box"</span>&gt;
-See <span class="hljs-keyword">the</span> square next <span class="hljs-keyword">to</span> <span class="hljs-keyword">me</span>?
-&lt;/span&gt;
-css 代码:
-/* We use a :<span class="hljs-keyword">before</span> pseudo element <span class="hljs-keyword">with</span> a background image <span class="hljs-keyword">to</span> solve <span class="hljs-keyword">the</span> problem */
-.<span class="hljs-type">text</span>-box:<span class="hljs-keyword">before</span> {
-content: <span class="hljs-string">""</span>;
-display: inline-block;
-width: <span class="hljs-number">1</span>rem;
-height: <span class="hljs-number">1</span>rem;
-background: url(square.svg) no-<span class="hljs-keyword">repeat</span>;
-background-size: <span class="hljs-number">100</span>%;
-}</code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li><li style="color: rgb(153, 153, 153);">11</li><li style="color: rgb(153, 153, 153);">12</li><li style="color: rgb(153, 153, 153);">13</li><li style="color: rgb(153, 153, 153);">14</li><li style="color: rgb(153, 153, 153);">15</li></ul></pre>
-
-<hr>
-
-
-
-<h4 id="js规范">
-    <strong>js规范</strong>
-</h4>
-
-
-
-<h5 id="避免全局命名空间污染">
-    <strong>避免全局命名空间污染</strong>
-</h5>
-
-<p>防止全局命名空间被污染，我们通常的做法是将代码包裹成一个 IIFE(Immediately-Invoked Function Expression)，创建独立隔绝的定义域。也使得内存在执行完后立即释放。
-    <br> IIFE 还可确保你的代码不会轻易被其它全局命名空间里的代码所修改（i.e. 第三方库，window 引用，被覆盖的未定义的关键字等等）。
-    <br> 推荐：
-</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs javascript has-numbering"><span class="hljs-comment">// We declare a IIFE and pass parameters into the function that we will use from the global space</span>
-(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(log, w, undefined)</span>{</span>
-<span class="hljs-pi">  'use strict'</span>;
-
-<span class="hljs-keyword">var</span> x = <span class="hljs-number">10</span>,
-y = <span class="hljs-number">100</span>;
-
-<span class="hljs-comment">// Will output 'true true'</span>
-log((w.x === <span class="hljs-literal">undefined</span>) + <span class="hljs-string">' '</span> + (w.y === <span class="hljs-literal">undefined</span>));
-
-}(window.console.log, window));</code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li><li style="color: rgb(153, 153, 153);">11</li></ul></pre>
-
-<p>推荐的IIFE写法：</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs javascript has-numbering">(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span>
-<span class="hljs-pi">  'use strict'</span>;
-<span class="hljs-comment">// Code goes here</span>
-}());</code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li></ul></pre>
-
-<p>如果你想引用全局变量或者是外层 IIFE 的变量，可以通过下列方式传参：</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs javascript has-numbering">(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">($, w, d)</span>{</span>
-<span class="hljs-pi">  'use strict'</span>;
-$(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-w.alert(d.querySelectorAll(<span class="hljs-string">'div'</span>).length);
-});
-}(jQuery, window, document));</code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li></ul></pre>
-
-<hr>
-
-
-
-<h4 id="严格模式">
-    <strong>严格模式</strong>
-</h4>
-
-<p>ECMAScript 5 严格模式可在整个脚本或独个方法内被激活。它对应不同的 javascript 语境会做更加严格的错误检查。严格模式也确保了 javascript 代码更加的健壮，运行的也更加快速。</p>
-
-<p>严格模式会阻止使用在未来很可能被引入的预留关键字。</p>
-
-<p>你应该在你的脚本中启用严格模式，最好是在独立的 IIFE 中应用它。避免在你的脚本第一行使用它而导致你的所有脚本都启动了严格模式，这有可能会引发一些第三方类库的问题。</p>
-
-<hr>
-
-
-
-<h4 id="变量声明">变量声明</h4>
-
-<p>总是使用 var 来声明变量，并且使用单var模式（将所有的变量在函数最前面只使用一个var定义）。例如：</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs javascript has-numbering">(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span>{</span>
-<span class="hljs-pi">  'use strict'</span>
-<span class="hljs-keyword">var</span> a = <span class="hljs-number">0</span>,
-b = <span class="hljs-number">0</span>,
-c = <span class="hljs-number">0</span>,
-i,
-j,
-myObject();
-}())</code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li></ul></pre>
-
-<hr>
-
-
-
-<h4 id="js声明提前">
-    <strong>js声明提前</strong>
-</h4>
-
-<p>javascript会自动将函数作用域内的变量和方法的定义提前（只是提前声明，赋值还是在原处）
-    <br> 例如：
-</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs javascript has-numbering">(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(log)</span>{</span>
-<span class="hljs-pi">  'use strict'</span>;
-<span class="hljs-keyword">var</span> a = <span class="hljs-number">10</span>;
-<span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; a; i++) {
-<span class="hljs-keyword">var</span> b = i * i;
-log(b);
-}
-<span class="hljs-keyword">if</span>(a === <span class="hljs-number">10</span>) {
-<span class="hljs-keyword">var</span> f = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-log(a);
-};
-f();
-}
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">x</span><span class="hljs-params">()</span> {</span>
-log(<span class="hljs-string">'Mr. X!'</span>);
-}
-x();
-}(window.console.log));</code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li><li style="color: rgb(153, 153, 153);">11</li><li style="color: rgb(153, 153, 153);">12</li><li style="color: rgb(153, 153, 153);">13</li><li style="color: rgb(153, 153, 153);">14</li><li style="color: rgb(153, 153, 153);">15</li><li style="color: rgb(153, 153, 153);">16</li><li style="color: rgb(153, 153, 153);">17</li><li style="color: rgb(153, 153, 153);">18</li></ul></pre>
-
-<p>提升后的js</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs javascript has-numbering">(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(log)</span>{</span>
-<span class="hljs-pi">  'use strict'</span>;
-<span class="hljs-comment">// All variables used in the closure will be hoisted to the top of the function</span>
-<span class="hljs-keyword">var</span> a,
-i,
-b,
-f;
-<span class="hljs-comment">// All functions in the closure will be hoisted to the top</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">x</span><span class="hljs-params">()</span> {</span>
-log(<span class="hljs-string">'Mr. X!'</span>);
-}
-a = <span class="hljs-number">10</span>;
-<span class="hljs-keyword">for</span>(i = <span class="hljs-number">0</span>; i &lt; a; i++) {
-b = i * i;
-log(b);
-}
-<span class="hljs-keyword">if</span>(a === <span class="hljs-number">10</span>) {
-<span class="hljs-comment">// Function assignments will only result in hoisted variables but the function body will not be hoisted</span>
-<span class="hljs-comment">// Only by using a real function declaration the whole function will be hoisted with its body</span>
-f = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-log(a);
-};
-f();
-}
-x();
-}(window.console.log));</code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li><li style="color: rgb(153, 153, 153);">11</li><li style="color: rgb(153, 153, 153);">12</li><li style="color: rgb(153, 153, 153);">13</li><li style="color: rgb(153, 153, 153);">14</li><li style="color: rgb(153, 153, 153);">15</li><li style="color: rgb(153, 153, 153);">16</li><li style="color: rgb(153, 153, 153);">17</li><li style="color: rgb(153, 153, 153);">18</li><li style="color: rgb(153, 153, 153);">19</li><li style="color: rgb(153, 153, 153);">20</li><li style="color: rgb(153, 153, 153);">21</li><li style="color: rgb(153, 153, 153);">22</li><li style="color: rgb(153, 153, 153);">23</li><li style="color: rgb(153, 153, 153);">24</li><li style="color: rgb(153, 153, 153);">25</li><li style="color: rgb(153, 153, 153);">26</li></ul></pre>
-
-<hr>
-
-
-
-<h4 id="使用严格等">
-    <strong>使用严格等</strong>
-</h4>
-
-<p>总是使用 === 精确的比较操作符，避免在判断的过程中，由 JavaScript 的强制类型转换所造成的困扰。例如：</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs javascript has-numbering">(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(log)</span>{</span>
-<span class="hljs-pi">  'use strict'</span>;
-log(<span class="hljs-string">'0'</span> == <span class="hljs-number">0</span>); <span class="hljs-comment">// true</span>
-log(<span class="hljs-string">''</span> == <span class="hljs-literal">false</span>); <span class="hljs-comment">// true</span>
-log(<span class="hljs-string">'1'</span> == <span class="hljs-literal">true</span>); <span class="hljs-comment">// true</span>
-log(<span class="hljs-literal">null</span> == <span class="hljs-literal">undefined</span>); <span class="hljs-comment">// true</span>
-<span class="hljs-keyword">var</span> x = {
-valueOf: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-<span class="hljs-keyword">return</span> <span class="hljs-string">'X'</span>;
-}
-};
-log(x == <span class="hljs-string">'X'</span>);
-}(window.console.log));</code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li><li style="color: rgb(153, 153, 153);">11</li><li style="color: rgb(153, 153, 153);">12</li><li style="color: rgb(153, 153, 153);">13</li></ul></pre>
-
-<p>
-    <strong>等同== 和严格等===的区别</strong>
-</p>
-
-<ul>
-    <li>==， 两边值类型不同的时候，要先进行类型转换，再比较。</li>
-    <li>===，不做类型转换，类型不同的一定不等。</li>
-</ul>
-
-<p>==等同操作符</p>
-
-<ul>
-    <li>如果两个值具有相同类型，会进行===比较，返回===的比较值</li>
-    <li>如果两个值不具有相同类型，也有可能返回true</li>
-    <li>如果一个值是null另一个值是undefined，返回true</li>
-    <li>如果一个值是string另个是number，会把string转换成number再进行比较</li>
-    <li>如果一个值是true，会把它转成1再比较，false会转成0</li>
-</ul>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs coffeescript has-numbering"><span class="hljs-built_in">console</span>.log( <span class="hljs-literal">false</span> == <span class="hljs-literal">null</span> )      <span class="hljs-regexp">//</span> <span class="hljs-literal">false</span>
-<span class="hljs-built_in">console</span>.log( <span class="hljs-literal">false</span> == <span class="hljs-literal">undefined</span> ) <span class="hljs-regexp">//</span> <span class="hljs-literal">false</span>
-<span class="hljs-built_in">console</span>.log( <span class="hljs-literal">false</span> == <span class="hljs-number">0</span> )         <span class="hljs-regexp">//</span> <span class="hljs-literal">true</span>
-<span class="hljs-built_in">console</span>.log( <span class="hljs-literal">false</span> == <span class="hljs-string">''</span> )        <span class="hljs-regexp">//</span> <span class="hljs-literal">true</span>
-<span class="hljs-built_in">console</span>.log( <span class="hljs-literal">false</span> == NaN )       <span class="hljs-regexp">//</span> <span class="hljs-literal">false</span>
-
-<span class="hljs-built_in">console</span>.log( <span class="hljs-literal">null</span> == <span class="hljs-literal">undefined</span> ) <span class="hljs-regexp">//</span> <span class="hljs-literal">true</span>
-<span class="hljs-built_in">console</span>.log( <span class="hljs-literal">null</span> == <span class="hljs-number">0</span> )         <span class="hljs-regexp">//</span> <span class="hljs-literal">false</span>
-<span class="hljs-built_in">console</span>.log( <span class="hljs-literal">null</span> == <span class="hljs-string">''</span> )        <span class="hljs-regexp">//</span> <span class="hljs-literal">false</span>
-<span class="hljs-built_in">console</span>.log( <span class="hljs-literal">null</span> == NaN )       <span class="hljs-regexp">//</span> <span class="hljs-literal">false</span>
-
-<span class="hljs-built_in">console</span>.log( <span class="hljs-literal">undefined</span> == <span class="hljs-number">0</span>)   <span class="hljs-regexp">//</span> <span class="hljs-literal">false</span>
-<span class="hljs-built_in">console</span>.log( <span class="hljs-literal">undefined</span> == <span class="hljs-string">''</span>)  <span class="hljs-regexp">//</span> <span class="hljs-literal">false</span>
-<span class="hljs-built_in">console</span>.log( <span class="hljs-literal">undefined</span> == NaN) <span class="hljs-regexp">//</span> <span class="hljs-literal">false</span>
-
-<span class="hljs-built_in">console</span>.log( <span class="hljs-number">0</span> == <span class="hljs-string">''</span> )  <span class="hljs-regexp">//</span> <span class="hljs-literal">true</span>
-<span class="hljs-built_in">console</span>.log( <span class="hljs-number">0</span> == NaN ) <span class="hljs-regexp">//</span> <span class="hljs-literal">false</span></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li><li style="color: rgb(153, 153, 153);">11</li><li style="color: rgb(153, 153, 153);">12</li><li style="color: rgb(153, 153, 153);">13</li><li style="color: rgb(153, 153, 153);">14</li><li style="color: rgb(153, 153, 153);">15</li><li style="color: rgb(153, 153, 153);">16</li><li style="color: rgb(153, 153, 153);">17</li></ul></pre>
-
-<p>总结：</p>
-
-<ul>
-    <li>false 除了和自身比较为 true 外，和 0，”” 比较也为 true</li>
-    <li>null 只和 undefined 比较时为 true， 反过来 undefined 也仅和 null 比较为 true，没有第二个</li>
-    <li>0 除了和 false 比较为 true，还有空字符串 ”” 和空数组 []</li>
-    <li>空字符串 ” 除了和 false 比较为 true，还有一个数字 0</li>
-</ul>
-
-<p>==, &gt;, &lt;, +, -, … 这些操作符所造成的隐式类型转换都是无副作用的，它不会改变变量本身保存的值。，但是，如果你覆写某个对象的 valueOf/toString的话，==就会产生副作用.
-    <br> 例如：
-</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs javascript has-numbering"><span class="hljs-built_in">Array</span>.prototype.valueOf = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-<span class="hljs-keyword">this</span>[<span class="hljs-number">0</span>]++;
-<span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
-}
-<span class="hljs-keyword">var</span> x = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];
-x == <span class="hljs-number">0</span>;
-console.log(x);   <span class="hljs-comment">// [2, 2, 3]</span></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li></ul></pre>
-
-<p>===操作符：</p>
-
-<ul>
-    <li>要是两个值类型不同，返回false</li>
-    <li>要是两个值都是number类型，并且数值相同，返回true</li>
-    <li>要是两个值都是stirng，并且两个值的String内容相同，返回true</li>
-    <li>要是两个值都是true或者都是false，返回true</li>
-    <li>要是两个值都是指向相同的Object，Arraya或者function，返回true</li>
-    <li>要是两个值都是null或者都是undefined，返回true</li>
-</ul>
-
-<hr>
-
-
-
-<h4 id="真假判断">
-    <strong>真假判断</strong>
-</h4>
-
-<p>js中以下内容为假：</p>
-
-<ul>
-    <li>false</li>
-    <li>null</li>
-    <li>undefined</li>
-    <li>0</li>
-    <li>’ ‘(空字符串)</li>
-    <li>NaN</li>
-</ul>
-
-<hr>
-
-
-
-<h4 id="设置默认参数">
-    <strong>设置默认参数</strong>
-</h4>
-
-<p>逻辑操作符 || 和 &amp;&amp; 也可被用来返回布尔值。如果操作对象为非布尔对象，那每个表达式将会被自左向右地做真假判断。基于此操作，最终总有一个表达式被返回回来。这在变量赋值时，是可以用来简化你的代码的。例如:如果x不存在且y不存在，x=1；如果x存在y存在，x
-    = y</p>
-
-<hr>
-
-
-
-<h4 id="不适用eval函数">
-    <strong>不适用eval()函数</strong>
-</h4>
-
-<p>如eval的字面意思来说，恶魔，使用eval()函数会带来安全隐患。
-    <br> eval()函数的作用是返回任意字符串，当作js代码来处理。
-</p>
-
-<hr>
-
-
-
-<h4 id="this关键字">
-    <strong>this关键字</strong>
-</h4>
-
-<p>只在对象构造器、方法和在设定的闭包中使用 this 关键字。this 的语义在此有些误导。它时而指向全局对象（大多数时），时而指向调用者的定义域（在 eval 中），时而指向 DOM 树中的某一节点（当用事件处理绑定到 HTML 属性上时），时而指向一个新创建的对象（在构造器中），还时而指向其它的一些对象（如果函数被
-    call() 和 apply() 执行和调用时）。
-    <br> 正因为它是如此容易地被搞错，请限制它的使用场景：
-</p>
-
-<ul>
-    <li>在构造函数中</li>
-    <li>在对象的方法中（包括由此创建出的闭包内）</li>
-</ul>
-
-<hr>
-
-
-
-<h4 id="首选函数式风格">
-    <strong>首选函数式风格</strong>
-</h4>
-
-<p>函数式编程让你可以简化代码并缩减维护成本，因为它容易复用，又适当地解耦和更少的依赖。
-    <br> 接下来的例子中，在一组数字求和的同一问题上，比较了两种解决方案。第一个例子是经典的程序处理，而第二个例子则是采用了函数式编程和 ECMA Script 5.1 的数组方法。
-    <br> 不推荐:
-</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs javascript has-numbering">(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(log)</span>{</span>
-<span class="hljs-pi">  'use strict'</span>;
-
-<span class="hljs-keyword">var</span> arr = [<span class="hljs-number">10</span>, <span class="hljs-number">3</span>, <span class="hljs-number">7</span>, <span class="hljs-number">9</span>, <span class="hljs-number">100</span>, <span class="hljs-number">20</span>],
-sum = <span class="hljs-number">0</span>,
-i;
-
-
-<span class="hljs-keyword">for</span>(i = <span class="hljs-number">0</span>; i &lt; arr.length; i++) {
-sum += arr[i];
-}
-
-log(<span class="hljs-string">'The sum of array '</span> + arr + <span class="hljs-string">' is: '</span> + sum)
-
-}(window.console.log));</code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li><li style="color: rgb(153, 153, 153);">11</li><li style="color: rgb(153, 153, 153);">12</li><li style="color: rgb(153, 153, 153);">13</li><li style="color: rgb(153, 153, 153);">14</li><li style="color: rgb(153, 153, 153);">15</li></ul></pre>
-
-<p>推荐（函数式编程）：</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs javascript has-numbering">(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(log)</span>{</span>
-<span class="hljs-pi">  'use strict'</span>;
-
-<span class="hljs-keyword">var</span> arr = [<span class="hljs-number">10</span>, <span class="hljs-number">3</span>, <span class="hljs-number">7</span>, <span class="hljs-number">9</span>, <span class="hljs-number">100</span>, <span class="hljs-number">20</span>];
-
-<span class="hljs-keyword">var</span> sum = arr.reduce(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(prevValue, currentValue)</span> {</span>
-<span class="hljs-keyword">return</span> prevValue + currentValue;
-}, <span class="hljs-number">0</span>);
-
-log(<span class="hljs-string">'The sum of array '</span> + arr + <span class="hljs-string">' is: '</span> + sum);
-
-}(window.console.log));</code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li><li style="color: rgb(153, 153, 153);">11</li><li style="color: rgb(153, 153, 153);">12</li></ul></pre>
-
-<hr>
-
-
-
-<h4 id="修改内建对象原型链">
-    <strong>修改内建对象原型链</strong>
-</h4>
-
-<p>修改内建的诸如 Object.prototype 和 Array.prototype 是被严厉禁止的。修改其它的内建对象比如 Function.prototype，虽危害没那么大，但始终还是会导致在开发过程中难以 debug 的问题，应当也要避免。</p>
-
-<hr>
-
-
-
-<h4 id="三元条件判断if-的快捷方法">
-    <strong>三元条件判断（if 的快捷方法）</strong>
-</h4>
-
-<p>用三元操作符分配或返回语句。在比较简单的情况下使用，避免在复杂的情况下使用。没人愿意用 10 行三元操作符把自己的脑子绕晕。
-    <br> 不推荐：
-</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs bash has-numbering"><span class="hljs-keyword">if</span>(x === <span class="hljs-number">10</span>) {
-<span class="hljs-keyword">return</span> <span class="hljs-string">'valid'</span>;
-} <span class="hljs-keyword">else</span> {
-<span class="hljs-keyword">return</span> <span class="hljs-string">'invalid'</span>;
-}</code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li></ul></pre>
-
-<p>推荐：</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs bash has-numbering"><span class="hljs-keyword">return</span> x === <span class="hljs-number">10</span> ? <span class="hljs-string">'valid'</span> : <span class="hljs-string">'invalid'</span></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li></ul></pre>
-
-<hr>
-
-
-
-<h4 id="jshint">
-    <strong>JSHint</strong>
-</h4>
-
-<p>在js规范中，有很多规范都是样式上的规范而不是逻辑上的规范，比如尽量使用===而不是==，我们可以使用JSHint或者JSLint，Javascript代码验证工具，这种工具可以检查你的代码并提供相关的代码改进意见。我个人使用的是JSHint，所以就以这个为例.</p>
-
-<hr>
-
-
-
-<h4 id="webstorm内置jshint">
-    <strong>webstorm内置JSHint</strong>
-</h4>
-
-<p>对于ws爱好者来说，我没有用过其他的编译器，ws基本上能满足你的所有需求（最新的ws集成了vue）。
-    <br> 在Settings =&gt; language &amp; frameworks =&gt; JavaScript =&gt; Code Quality Tolls =&gt; JSHint
-    <br>
-    <img src="https://img-blog.csdn.net/20170623111804935?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvQW4xMDkwMjM5Nzgy/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast"
-        alt="这里写图片描述" title="">
-    <br> 其余规范参考官方文档：
-    <a href="http://jshint.com/docs/" target="_blank">http://jshint.com/docs/</a>
-</p>
-
-<hr>
-
-
-
-<h4 id="css规范">
-    <strong>CSS规范</strong>
-</h4>
-
-
-
-<h5 id="id和class的命名">
-    <strong>id和class的命名</strong>
-</h5>
-
-<p>ID和class的名称总是使用可以反应元素目的和用途的名称，或其他通用的名称，代替表象和晦涩难懂的名称。
-    <br> 不推荐：
-</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs css has-numbering"><span class="hljs-class">.fw-800</span> <span class="hljs-rules">{
-<span class="hljs-rule"><span class="hljs-attribute">font-weight</span>:<span class="hljs-value"> <span class="hljs-number">800</span></span></span>;
-<span class="hljs-rule">}</span></span>
-
-<span class="hljs-class">.red</span> <span class="hljs-rules">{
-<span class="hljs-rule"><span class="hljs-attribute">color</span>:<span class="hljs-value"> red</span></span>;
-<span class="hljs-rule">}</span></span></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li></ul></pre>
-
-<p>推荐：</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs css has-numbering"><span class="hljs-class">.heavy</span> <span class="hljs-rules">{
-<span class="hljs-rule"><span class="hljs-attribute">font-weight</span>:<span class="hljs-value"> <span class="hljs-number">800</span></span></span>;
-<span class="hljs-rule">}</span></span>
-
-<span class="hljs-class">.important</span> <span class="hljs-rules">{
-<span class="hljs-rule"><span class="hljs-attribute">color</span>:<span class="hljs-value"> red</span></span>;
-<span class="hljs-rule">}</span></span></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li></ul></pre>
-
-<hr>
-
-
-
-<h4 id="合理的使用id">
-    <strong>合理的使用ID</strong>
-</h4>
-
-<p>一般情况下ID不应该被用于样式，并且ID的权重很高，所以不使用ID解决样式的问题，而是使用class
-    <br> 不推荐：
-</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs css has-numbering"><span class="hljs-id">#content</span> <span class="hljs-class">.title</span> <span class="hljs-rules">{
-<span class="hljs-rule"><span class="hljs-attribute">font-size</span>:<span class="hljs-value"> <span class="hljs-number">2</span>em</span></span>;
-<span class="hljs-rule">}</span></span></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li></ul></pre>
-
-<p>推荐：</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs css has-numbering"><span class="hljs-class">.content</span> <span class="hljs-class">.title</span> <span class="hljs-rules">{
-<span class="hljs-rule"><span class="hljs-attribute">font-size</span>:<span class="hljs-value"> <span class="hljs-number">2</span>em</span></span>;
-<span class="hljs-rule">}</span></span></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li></ul></pre>
-
-<hr>
-
-
-
-<h4 id="css选择器中避免使用标签名">
-    <strong>css选择器中避免使用标签名</strong>
-</h4>
-
-<p>从结构、表现、行为分离的原则来看，应该尽量避免css中出现HTML标签，并且在css选择器中出现标签名会存在潜在的问题。</p>
-
-<hr>
-
-
-
-<h4 id="使用子选择器">
-    <strong>使用子选择器</strong>
-</h4>
-
-<p>很多前端开发人员写选择器链的时候不使用 直接子选择器（注：直接子选择器和后代选择器的区别）。
-    <br> 有时，这可能会导致疼痛的设计问题并且有时候可能会很耗性能。
-    <br> 然而，在任何情况下，这是一个非常不好的做法。
-    <br> 如果你不写很通用的，需要匹配到DOM末端的选择器， 你应该总是考虑直接子选择器。
-    <br> 不推荐:
-</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs css has-numbering"><span class="hljs-class">.content</span> <span class="hljs-class">.title</span> <span class="hljs-rules">{
-<span class="hljs-rule"><span class="hljs-attribute">font-size</span>:<span class="hljs-value"> <span class="hljs-number">2</span>rem</span></span>;
-<span class="hljs-rule">}</span></span></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li></ul></pre>
-
-<p>推荐：</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs css has-numbering"><span class="hljs-class">.content</span> &gt; <span class="hljs-class">.title</span> <span class="hljs-rules">{
-<span class="hljs-rule"><span class="hljs-attribute">font-size</span>:<span class="hljs-value"> <span class="hljs-number">2</span>rem</span></span>;
-<span class="hljs-rule">}</span></span></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li></ul></pre>
-
-<hr>
-
-
-
-<h4 id="尽量使用缩写属性">
-    <strong>尽量使用缩写属性</strong>
-</h4>
-
-<p>尽量使用缩写属性对于代码效率和可读性是很有用的，比如font属性。
-    <br> 不推荐：
-</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs http has-numbering"><span class="hljs-attribute">border-top-style</span>: <span class="hljs-string">none;</span>
-<span class="hljs-attribute">font-family</span>: <span class="hljs-string">palatino, georgia, serif;</span>
-<span class="hljs-attribute">font-size</span>: <span class="hljs-string">100%;</span>
-<span class="hljs-attribute">line-height</span>: <span class="hljs-string">1.6;</span>
-<span class="hljs-attribute">padding-bottom</span>: <span class="hljs-string">2em;</span>
-<span class="hljs-attribute">padding-left</span>: <span class="hljs-string">1em;</span>
-<span class="hljs-attribute">padding-right</span>: <span class="hljs-string">1em;</span>
-<span class="hljs-attribute">padding-top</span>: <span class="hljs-string">0;</span></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li></ul></pre>
-
-<p>推荐：</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs http has-numbering"><span class="hljs-attribute">border-top</span>: <span class="hljs-string">0;</span>
-<span class="hljs-attribute">font</span>: <span class="hljs-string">100%/1.6 palatino, georgia, serif;</span>
-<span class="hljs-attribute">padding</span>: <span class="hljs-string">0 1em 2em;</span></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li></ul></pre>
-
-<hr>
-
-
-
-<h4 id="0后面不带单位">
-    <strong>0后面不带单位</strong>
-</h4>
-
-<p>省略0后面的单位，
-    <br> 推荐：
-</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs http has-numbering"><span class="hljs-attribute">padding-bottom</span>: <span class="hljs-string">0;</span>
-<span class="hljs-attribute">margin</span>: <span class="hljs-string">0;</span></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li></ul></pre>
-
-<hr>
-
-
-
-<h4 id="属性格式">
-    <strong>属性格式</strong>
-</h4>
-
-<ul>
-    <li>为了保证一致性和可扩展性，每个声明应该用分号结束，每个声明换行。</li>
-    <li>属性名的冒号后使用一个空格。出于一致性的原因，属性和值（但属性和冒号之间没有空格）的之间始终使用一个空格。</li>
-    <li>每个选择器和属性声明总是使用新的一行。</li>
-    <li>属性选择器或属性值用双引号（””），而不是单引号（”）括起来。</li>
-    <li>URl值（url()）不要使用引号。</li>
-</ul>
-
-<p>作为实践，遵循以下顺序：
-    <br> 结构型属性：
-</p>
-
-<ol>
-    <li>display</li>
-    <li>position,left,top,right,etc</li>
-    <li>overflow,float,clear,etc</li>
-    <li>margin,padding</li>
-</ol>
-
-<p>表现型属性：</p>
-
-<ol>
-    <li>background,border,etc</li>
-    <li>font,text</li>
-</ol>
-
-<p>不推荐：</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs css has-numbering"> <span class="hljs-class">.box</span> <span class="hljs-rules">{
-<span class="hljs-rule"><span class="hljs-attribute">font-family</span>:<span class="hljs-value"> <span class="hljs-string">'Arial'</span>, sans-serif</span></span>;
-<span class="hljs-rule"><span class="hljs-attribute">border</span>:<span class="hljs-value"> <span class="hljs-number">3</span>px solid <span class="hljs-hexcolor">#ddd</span></span></span>;
-<span class="hljs-rule"><span class="hljs-attribute">left</span>:<span class="hljs-value"> <span class="hljs-number">30</span>%</span></span>;
-<span class="hljs-rule"><span class="hljs-attribute">position</span>:<span class="hljs-value"> absolute</span></span>;
-<span class="hljs-rule"><span class="hljs-attribute">text-transform</span>:<span class="hljs-value"> uppercase</span></span>;
-<span class="hljs-rule"><span class="hljs-attribute">background-color</span>:<span class="hljs-value"> <span class="hljs-hexcolor">#eee</span></span></span>;
-<span class="hljs-rule"><span class="hljs-attribute">right</span>:<span class="hljs-value"> <span class="hljs-number">30</span>%</span></span>;
-<span class="hljs-rule"><span class="hljs-attribute">isplay</span>:<span class="hljs-value"> block</span></span>;
-<span class="hljs-rule"><span class="hljs-attribute">font-size</span>:<span class="hljs-value"> <span class="hljs-number">1.5</span>rem</span></span>;
-<span class="hljs-rule"><span class="hljs-attribute">overflow</span>:<span class="hljs-value"> hidden</span></span>;
-<span class="hljs-rule"><span class="hljs-attribute">padding</span>:<span class="hljs-value"> <span class="hljs-number">1</span>em</span></span>;
-<span class="hljs-rule"><span class="hljs-attribute">margin</span>:<span class="hljs-value"> <span class="hljs-number">1</span>em</span></span>;
-<span class="hljs-rule">}</span></span></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li><li style="color: rgb(153, 153, 153);">11</li><li style="color: rgb(153, 153, 153);">12</li><li style="color: rgb(153, 153, 153);">13</li><li style="color: rgb(153, 153, 153);">14</li></ul></pre>
-
-<p>推荐：</p>
-
-
-
-<pre class="prettyprint" name="code"><code class="hljs css has-numbering"><span class="hljs-class">.box</span> <span class="hljs-rules">{
-<span class="hljs-rule"><span class="hljs-attribute">display</span>:<span class="hljs-value"> block</span></span>;
-<span class="hljs-rule"><span class="hljs-attribute">position</span>:<span class="hljs-value"> absolute</span></span>;
-<span class="hljs-rule"><span class="hljs-attribute">left</span>:<span class="hljs-value"> <span class="hljs-number">30</span>%</span></span>;
-<span class="hljs-rule"><span class="hljs-attribute">right</span>:<span class="hljs-value"> <span class="hljs-number">30</span>%</span></span>;
-<span class="hljs-rule"><span class="hljs-attribute">overflow</span>:<span class="hljs-value"> hidden</span></span>;
-<span class="hljs-rule"><span class="hljs-attribute">margin</span>:<span class="hljs-value"> <span class="hljs-number">1</span>em</span></span>;
-<span class="hljs-rule"><span class="hljs-attribute">padding</span>:<span class="hljs-value"> <span class="hljs-number">1</span>em</span></span>;
-<span class="hljs-rule"><span class="hljs-attribute">background-color</span>:<span class="hljs-value"> <span class="hljs-hexcolor">#eee</span></span></span>;
-<span class="hljs-rule"><span class="hljs-attribute">border</span>:<span class="hljs-value"> <span class="hljs-number">3</span>px solid <span class="hljs-hexcolor">#ddd</span></span></span>;
-<span class="hljs-rule"><span class="hljs-attribute">font-family</span>:<span class="hljs-value"> <span class="hljs-string">'Arial'</span>, sans-serif</span></span>;
-<span class="hljs-rule"><span class="hljs-attribute">font-size</span>:<span class="hljs-value"> <span class="hljs-number">1.5</span>rem</span></span>;
-<span class="hljs-rule"><span class="hljs-attribute">text-transform</span>:<span class="hljs-value"> uppercase</span></span>;
-<span class="hljs-rule">}</span></span></code><ul class="pre-numbering" style=""><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li><li style="color: rgb(153, 153, 153);">11</li><li style="color: rgb(153, 153, 153);">12</li><li style="color: rgb(153, 153, 153);">13</li><li style="color: rgb(153, 153, 153);">14</li></ul></pre>
-
-<p>原文地址：</p>
-
-<blockquote>
-    <p>
-        <a href="https://juejin.im/post/592d4a5b0ce463006b43b6da" target="_blank">https://juejin.im/post/592d4a5b0ce463006b43b6da</a>
-    </p>
-</blockquote>
-
-<p>原文作者：sunshine小小倩</p>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <!-- Twitter -->
+    <meta name="twitter:site" content="@themepixels">
+    <meta name="twitter:creator" content="@themepixels">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Bracket">
+    <meta name="twitter:description" content="Premium Quality and Responsive UI for Dashboard.">
+    <meta name="twitter:image" content="http://themepixels.me/bracket/img/bracket-social.png">
+
+    <!-- Facebook -->
+    <meta property="og:url" content="http://themepixels.me/bracket">
+    <meta property="og:title" content="Bracket">
+    <meta property="og:description" content="Premium Quality and Responsive UI for Dashboard.">
+
+    <meta property="og:image" content="http://themepixels.me/bracket/img/bracket-social.png">
+    <meta property="og:image:secure_url" content="http://themepixels.me/bracket/img/bracket-social.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="600">
+
+    <!-- Meta -->
+    <meta name="description" content="Premium Quality and Responsive UI for Dashboard.">
+    <meta name="author" content="ThemePixels">
+
+    <title>添加文章</title>
+
+    <!-- vendor css -->
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet">
+    <link href="/lib/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
+    <link href="/lib/jquery-switchbutton/jquery.switchButton.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/rickshaw/1.6.6/rickshaw.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/chartist/0.11.0/chartist.min.css" rel="stylesheet">
+    <link href="/lib/select2/css/select2.min.css" rel="stylesheet">
+
+    <!-- Bracket CSS -->
+    <link rel="stylesheet" href="/css/back/bracket.css">
+</head>
+
+<body>
+    <!-- ########## START: LEFT PANEL ########## -->
+    <div class="br-logo">
+        <a href="">
+            <span>[</span>后台管理
+            <span>]</span>
+        </a>
+    </div>
+    <div class="br-sideleft overflow-y-auto">
+        <label class="sidebar-label pd-x-15 mg-t-20">Navigation</label>
+        <div class="br-sideleft-menu">
+            <a href="/backend" class="br-menu-link active">
+                <div class="br-menu-item">
+                    <i class="menu-item-icon icon ion-ios-home-outline tx-22"></i>
+                    <span class="menu-item-label">首页</span>
+                </div>
+                <!-- menu-item -->
+            </a>
+            <!-- br-menu-link -->
+
+            <a href="#" class="br-menu-link">
+                <div class="br-menu-item">
+                    <i class="menu-item-icon icon ion-ios-filing-outline tx-24"></i>
+                    <span class="menu-item-label">账号管理</span>
+                    <i class="menu-item-arrow fa fa-angle-down"></i>
+                </div>
+                <!-- menu-item -->
+            </a>
+            <!-- br-menu-link -->
+            <ul class="br-menu-sub nav flex-column">
+                <li class="nav-item">
+                    <a href="/backend/regg" class="nav-link">注册账户</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/backend/userlist" class="nav-link">账户列表</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/backend/loginrecord" class="nav-link">登陆记录</a>
+                </li>
+            </ul>
+            <a href="#" class="br-menu-link">
+                <div class="br-menu-item">
+                    <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
+                    <span class="menu-item-label">文章管理</span>
+                    <i class="menu-item-arrow fa fa-angle-down"></i>
+                </div>
+                <!-- menu-item -->
+            </a>
+            <!-- br-menu-link -->
+            <ul class="br-menu-sub nav flex-column">
+                <li class="nav-item">
+                    <a href="/backend/art/addArticle" class="nav-link">添加文章</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/backend/art/articlelist" class="nav-link">文章列表</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/backend/art/addtype" class="nav-link">添加分类</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/backend/art/typelist" class="nav-link">查看分类</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/backend/art/addtag" class="nav-link">添加Tag标签</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/backend/art/taglist" class="nav-link">查看啊Tag标签</a>
+                </li>
+            </ul>
+            <a href="/backend/art/articleTrash" class="br-menu-link">
+                <div class="br-menu-item">
+                    <i class="menu-item-icon icon ion-ios-list-outline tx-22"></i>
+                    <span class="menu-item-label">回收站</span>
+                </div>
+                <!-- menu-item -->
+            </a>
+            <!-- br-menu-link -->
+        </div>
+        <!-- br-sideleft-menu -->
+
+
+        <br>
+    </div>
+    <!-- br-sideleft -->
+    <!-- ########## END: LEFT PANEL ########## -->
+
+    <!-- ########## START: HEAD PANEL ########## -->
+    <div class="br-header">
+        <div class="br-header-left">
+            <div class="navicon-left hidden-md-down">
+                <a id="btnLeftMenu" href="">
+                    <i class="icon ion-navicon-round"></i>
+                </a>
+            </div>
+            <div class="navicon-left hidden-lg-up">
+                <a id="btnLeftMenuMobile" href="">
+                    <i class="icon ion-navicon-round"></i>
+                </a>
+            </div>
+            <div class="input-group hidden-xs-down wd-170 transition">
+                <input id="searchbox" type="text" class="form-control" placeholder="Search">
+                <span class="input-group-btn">
+                    <button class="btn btn-secondary" type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+            <!-- input-group -->
+        </div>
+        <!-- br-header-left -->
+        <div class="br-header-right">
+            <nav class="nav">
+                <div class="dropdown">
+                    <a href="" class="nav-link pd-x-7 pos-relative" data-toggle="dropdown">
+                        <i class="icon ion-ios-email-outline tx-24"></i>
+                        <!-- start: if statement -->
+                        <span class="square-8 bg-danger pos-absolute t-15 r-0 rounded-circle"></span>
+                        <!-- end: if statement -->
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-header wd-300 pd-0-force">
+                        <div class="d-flex align-items-center justify-content-between pd-y-10 pd-x-20 bd-b bd-gray-200">
+                            <label class="tx-12 tx-info tx-uppercase tx-semibold tx-spacing-2 mg-b-0">Messages</label>
+                            <a href="" class="tx-11">+ Add New Message</a>
+                        </div>
+                        <!-- d-flex -->
+
+                        <div class="media-list">
+                            <!-- loop starts here -->
+                            <a href="" class="media-list-link">
+                                <div class="media pd-x-20 pd-y-15">
+                                    <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
+                                    <div class="media-body">
+                                        <div class="d-flex align-items-center justify-content-between mg-b-5">
+                                            <p class="mg-b-0 tx-medium tx-gray-800 tx-14">Donna Seay</p>
+                                            <span class="tx-11 tx-gray-500">2 minutes ago</span>
+                                        </div>
+                                        <!-- d-flex -->
+                                        <p class="tx-12 mg-b-0">A wonderful serenity has taken possession of my entire soul, like these sweet mornings
+                                            of spring.</p>
+                                    </div>
+                                </div>
+                                <!-- media -->
+                            </a>
+                            <!-- loop ends here -->
+                            <a href="" class="media-list-link read">
+                                <div class="media pd-x-20 pd-y-15">
+                                    <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
+                                    <div class="media-body">
+                                        <div class="d-flex align-items-center justify-content-between mg-b-5">
+                                            <p class="mg-b-0 tx-medium tx-gray-800 tx-14">Samantha Francis</p>
+                                            <span class="tx-11 tx-gray-500">3 hours ago</span>
+                                        </div>
+                                        <!-- d-flex -->
+                                        <p class="tx-12 mg-b-0">My entire soul, like these sweet mornings of spring.</p>
+                                    </div>
+                                </div>
+                                <!-- media -->
+                            </a>
+                            <a href="" class="media-list-link read">
+                                <div class="media pd-x-20 pd-y-15">
+                                    <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
+                                    <div class="media-body">
+                                        <div class="d-flex align-items-center justify-content-between mg-b-5">
+                                            <p class="mg-b-0 tx-medium tx-gray-800 tx-14">Robert Walker</p>
+                                            <span class="tx-11 tx-gray-500">5 hours ago</span>
+                                        </div>
+                                        <!-- d-flex -->
+                                        <p class="tx-12 mg-b-0">I should be incapable of drawing a single stroke at the present moment...</p>
+                                    </div>
+                                </div>
+                                <!-- media -->
+                            </a>
+                            <a href="" class="media-list-link read">
+                                <div class="media pd-x-20 pd-y-15">
+                                    <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
+                                    <div class="media-body">
+                                        <div class="d-flex align-items-center justify-content-between mg-b-5">
+                                            <p class="mg-b-0 tx-medium tx-gray-800 tx-14">Larry Smith</p>
+                                            <span class="tx-11 tx-gray-500">Yesterday</span>
+                                        </div>
+                                        <!-- d-flex -->
+                                        <p class="tx-12 mg-b-0">When, while the lovely valley teems with vapour around me, and the meridian sun strikes...</p>
+                                    </div>
+                                </div>
+                                <!-- media -->
+                            </a>
+                            <div class="pd-y-10 tx-center bd-t">
+                                <a href="" class="tx-12">
+                                    <i class="fa fa-angle-down mg-r-5"></i> Show All Messages</a>
+                            </div>
+                        </div>
+                        <!-- media-list -->
+                    </div>
+                    <!-- dropdown-menu -->
+                </div>
+                <!-- dropdown -->
+                <div class="dropdown">
+                    <a href="" class="nav-link pd-x-7 pos-relative" data-toggle="dropdown">
+                        <i class="icon ion-ios-bell-outline tx-24"></i>
+                        <!-- start: if statement -->
+                        <span class="square-8 bg-danger pos-absolute t-15 r-5 rounded-circle"></span>
+                        <!-- end: if statement -->
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-header wd-300 pd-0-force">
+                        <div class="d-flex align-items-center justify-content-between pd-y-10 pd-x-20 bd-b bd-gray-200">
+                            <label class="tx-12 tx-info tx-uppercase tx-semibold tx-spacing-2 mg-b-0">Notifications</label>
+                            <a href="" class="tx-11">Mark All as Read</a>
+                        </div>
+                        <!-- d-flex -->
+
+                        <div class="media-list">
+                            <!-- loop starts here -->
+                            <a href="" class="media-list-link read">
+                                <div class="media pd-x-20 pd-y-15">
+                                    <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
+                                    <div class="media-body">
+                                        <p class="tx-13 mg-b-0 tx-gray-700">
+                                            <strong class="tx-medium tx-gray-800">Suzzeth Bungaos</strong> tagged you and 18 others in a post.</p>
+                                        <span class="tx-12">October 03, 2017 8:45am</span>
+                                    </div>
+                                </div>
+                                <!-- media -->
+                            </a>
+                            <!-- loop ends here -->
+                            <a href="" class="media-list-link read">
+                                <div class="media pd-x-20 pd-y-15">
+                                    <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
+                                    <div class="media-body">
+                                        <p class="tx-13 mg-b-0 tx-gray-700">
+                                            <strong class="tx-medium tx-gray-800">Mellisa Brown</strong> appreciated your work
+                                            <strong class="tx-medium tx-gray-800">The Social Network</strong>
+                                        </p>
+                                        <span class="tx-12">October 02, 2017 12:44am</span>
+                                    </div>
+                                </div>
+                                <!-- media -->
+                            </a>
+                            <a href="" class="media-list-link read">
+                                <div class="media pd-x-20 pd-y-15">
+                                    <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
+                                    <div class="media-body">
+                                        <p class="tx-13 mg-b-0 tx-gray-700">20+ new items added are for sale in your
+                                            <strong class="tx-medium tx-gray-800">Sale Group</strong>
+                                        </p>
+                                        <span class="tx-12">October 01, 2017 10:20pm</span>
+                                    </div>
+                                </div>
+                                <!-- media -->
+                            </a>
+                            <a href="" class="media-list-link read">
+                                <div class="media pd-x-20 pd-y-15">
+                                    <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
+                                    <div class="media-body">
+                                        <p class="tx-13 mg-b-0 tx-gray-700">
+                                            <strong class="tx-medium tx-gray-800">Julius Erving</strong> wants to connect with you on your conversation with
+                                            <strong class="tx-medium tx-gray-800">Ronnie Mara</strong>
+                                        </p>
+                                        <span class="tx-12">October 01, 2017 6:08pm</span>
+                                    </div>
+                                </div>
+                                <!-- media -->
+                            </a>
+                            <div class="pd-y-10 tx-center bd-t">
+                                <a href="" class="tx-12">
+                                    <i class="fa fa-angle-down mg-r-5"></i> Show All Notifications</a>
+                            </div>
+                        </div>
+                        <!-- media-list -->
+                    </div>
+                    <!-- dropdown-menu -->
+                </div>
+                <!-- dropdown -->
+                <div class="dropdown">
+                    <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
+                        <span class="logged-name hidden-md-down">yansk</span>
+                        <img src="http://via.placeholder.com/64x64" class="wd-32 rounded-circle" alt="">
+                        <span class="square-10 bg-success"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-header wd-200">
+                        <ul class="list-unstyled user-profile-nav">
+                            <li>
+                                <a href="">
+                                    <i class="icon ion-ios-person"></i> Edit Profile</a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <i class="icon ion-ios-gear"></i> Settings</a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <i class="icon ion-ios-download"></i> Downloads</a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <i class="icon ion-ios-star"></i> Favorites</a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <i class="icon ion-ios-folder"></i> Collections</a>
+                            </li>
+                            <li>
+                                <a href="/backend/logout">
+                                    <i class="icon ion-power"></i> Sign Out</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- dropdown-menu -->
+                </div>
+                <!-- dropdown -->
+            </nav>
+            <div class="navicon-right">
+                <a id="btnRightMenu" href="" class="pos-relative">
+                    <i class="icon ion-ios-chatboxes-outline"></i>
+                    <!-- start: if statement -->
+                    <span class="square-8 bg-danger pos-absolute t-10 r--5 rounded-circle"></span>
+                    <!-- end: if statement -->
+                </a>
+            </div>
+            <!-- navicon-right -->
+        </div>
+        <!-- br-header-right -->
+    </div>
+    <!-- br-header -->
+    <!-- ########## END: HEAD PANEL ########## -->
+
+    <!-- ########## START: RIGHT PANEL ########## -->
+    <div class="br-sideright">
+        <ul class="nav nav-tabs sidebar-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" role="tab" href="#calendar">
+                    <i class="icon ion-ios-calendar-outline tx-24"></i>
+                </a>
+            </li>
+        </ul>
+        <!-- sidebar-tabs -->
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane pos-absolute a-0 mg-t-60 overflow-y-auto" id="calendar" role="tabpanel">
+                <label class="sidebar-label pd-x-25 mg-t-25">Time &amp; Date</label>
+                <div class="pd-x-25">
+                    <h2 id="brTime" class="tx-white tx-lato mg-b-5"></h2>
+                    <h6 id="brDate" class="tx-white tx-light op-3"></h6>
+                </div>
+
+                <label class="sidebar-label pd-x-25 mg-t-25">Events Calendar</label>
+                <div class="datepicker sidebar-datepicker"></div>
+
+
+                <label class="sidebar-label pd-x-25 mg-t-25">Event Today</label>
+                <div class="pd-x-25">
+                    <div class="list-group sidebar-event-list mg-b-20">
+                        <div class="list-group-item">
+                            <div>
+                                <h6 class="tx-white tx-13 mg-b-5 tx-normal">Roven's 32th Birthday</h6>
+                                <p class="mg-b-0 tx-white tx-12 op-2">2:30PM</p>
+                            </div>
+                            <a href="" class="more">
+                                <i class="icon ion-android-more-vertical tx-18"></i>
+                            </a>
+                        </div>
+                        <!-- list-group-item -->
+                        <div class="list-group-item">
+                            <div>
+                                <h6 class="tx-white tx-13 mg-b-5 tx-normal">Regular Workout Schedule</h6>
+                                <p class="mg-b-0 tx-white tx-12 op-2">7:30PM</p>
+                            </div>
+                            <a href="" class="more">
+                                <i class="icon ion-android-more-vertical tx-18"></i>
+                            </a>
+                        </div>
+                        <!-- list-group-item -->
+                    </div>
+                    <!-- list-group -->
+
+                    <a href="" class="btn btn-block btn-outline-secondary tx-uppercase tx-11 tx-spacing-2">+ Add Event</a>
+                    <br>
+                </div>
+
+            </div>
+        </div>
+        <!-- tab-content -->
+    </div>
+    <!-- br-sideright -->
+    <!-- ########## END: RIGHT PANEL ########## --->
+
+    <!-- ########## START: MAIN PANEL ########## -->
+    <div class="br-mainpanel">
+
+
+        <style>
+            .w-e-toolbar {
+                flex-wrap: wrap;
+            }
+        </style>
+        <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+            <h4 class="tx-gray-800 mg-b-5">
+                <font style="vertical-align: inherit;">
+                    <font style="vertical-align: inherit;">添加文章</font>
+                </font>
+            </h4>
+            <p class="mg-b-0">
+                <font style="vertical-align: inherit;">
+                    <font style="vertical-align: inherit;">进行文章添加的操作</font>
+                </font>
+            </p>
+        </div>
+        <div class="br-pagebody">
+            <div class="br-section-wrapper">
+                <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">
+                    <font style="vertical-align: inherit;">
+                        <font style="vertical-align: inherit;">顶部标签布局</font>
+                    </font>
+                </h6>
+                <p class="mg-b-30 tx-gray-600">
+                    <font style="vertical-align: inherit;">
+                        <font style="vertical-align: inherit;">每个表单控件顶部带有标签的表单。</font>
+                    </font>
+                </p>
+
+                <div class="form-layout form-layout-2">
+                    <div class="row no-gutters">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-control-label">
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">名字：</font>
+                                    </font>
+                                    <span class="tx-danger">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">*</font>
+                                        </font>
+                                    </span>
+                                </label>
+                                <input class="form-control" type="text" name="firstname" value="John Paul" placeholder="Enter firstname">
+                            </div>
+                        </div>
+                        <!-- col-4 -->
+                        <div class="col-md-4 mg-t--1 mg-md-t-0">
+                            <div class="form-group mg-md-l--1">
+                                <label class="form-control-label">
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">姓氏：</font>
+                                    </font>
+                                    <span class="tx-danger">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">*</font>
+                                        </font>
+                                    </span>
+                                </label>
+                                <input class="form-control" type="text" name="lastname" value="McDoe" placeholder="Enter lastname">
+                            </div>
+                        </div>
+                        <!-- col-4 -->
+                        <div class="col-md-4 mg-t--1 mg-md-t-0">
+                            <div class="form-group mg-md-l--1">
+                                <label class="form-control-label">
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">电邮地址：</font>
+                                    </font>
+                                    <span class="tx-danger">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">*</font>
+                                        </font>
+                                    </span>
+                                </label>
+                                <input class="form-control" type="text" name="email" value="johnpaul@yourdomain.com" placeholder="Enter email address">
+                            </div>
+                        </div>
+                        <!-- col-4 -->
+                        <div class="col-md-8">
+                            <div class="form-group bd-t-0-force">
+                                <label class="form-control-label">
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">邮箱地址：</font>
+                                    </font>
+                                    <span class="tx-danger">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">*</font>
+                                        </font>
+                                    </span>
+                                </label>
+                                <input class="form-control" type="text" name="address" value="Market St., San Francisco" placeholder="Enter address">
+                            </div>
+                        </div>
+                        <!-- col-8 -->
+                        <div class="col-md-4">
+                            <div class="form-group mg-md-l--1 bd-t-0-force">
+                                <label class="form-control-label mg-b-0-force">
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">国家：</font>
+                                    </font>
+                                    <span class="tx-danger">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">*</font>
+                                        </font>
+                                    </span>
+                                </label>
+                                <select id="select2-a" class="form-control select2-hidden-accessible" data-placeholder="Choose country" tabindex="-1" aria-hidden="true">
+                                    <option label="Choose country"></option>
+                                    <option value="USA" selected="">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">美国</font>
+                                        </font>
+                                    </option>
+                                    <option value="UK">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">英国</font>
+                                        </font>
+                                    </option>
+                                    <option value="China">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">中国</font>
+                                        </font>
+                                    </option>
+                                    <option value="Japan">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">日本</font>
+                                        </font>
+                                    </option>
+                                </select>
+                                <span class="select2 select2-container select2-container--default select2-container--below select2-container--focus" dir="ltr"
+                                    style="width: 234px;">
+                                    <span class="selection">
+                                        <span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0"
+                                            aria-labelledby="select2-select2-a-container">
+                                            <span class="select2-selection__rendered" id="select2-select2-a-container" title="英国">英国</span>
+                                            <span class="select2-selection__arrow" role="presentation">
+                                                <b role="presentation"></b>
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="dropdown-wrapper" aria-hidden="true"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <!-- col-4 -->
+                    </div>
+                    <!-- row -->
+                    <div class="form-layout-footer bd pd-20 bd-t-0">
+                        <button class="btn btn-info">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">提交表格</font>
+                            </font>
+                        </button>
+                        <button class="btn btn-secondary">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">取消</font>
+                            </font>
+                        </button>
+                    </div>
+                    <!-- form-group -->
+                </div>
+                <!-- form-layout -->
+
+                <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-t-80 mg-b-10">
+                    <font style="vertical-align: inherit;">
+                        <font style="vertical-align: inherit;">占位符作为标签</font>
+                    </font>
+                </h6>
+                <p class="mg-b-30 tx-gray-600">
+                    <font style="vertical-align: inherit;">
+                        <font style="vertical-align: inherit;">边框表单组包装器，但标签位于表单控件的字段中。</font>
+                    </font>
+                </p>
+
+                <div class="form-layout form-layout-3">
+                    <div class="row no-gutters">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input class="form-control" type="text" name="firstname" placeholder="Enter firstname (required)">
+                            </div>
+                        </div>
+                        <!-- col-4 -->
+                        <div class="col-md-4 mg-t--1 mg-md-t-0">
+                            <div class="form-group mg-md-l--1">
+                                <input class="form-control" type="text" name="lastname" placeholder="Enter lastname (required)">
+                            </div>
+                        </div>
+                        <!-- col-4 -->
+                        <div class="col-md-4 mg-t--1 mg-md-t-0">
+                            <div class="form-group mg-md-l--1">
+                                <input class="form-control" type="text" name="email" placeholder="Enter email address">
+                            </div>
+                        </div>
+                        <!-- col-4 -->
+                        <div class="col-md-8">
+                            <div class="form-group bd-t-0-force">
+                                <input class="form-control" type="text" name="address" placeholder="Enter address">
+                            </div>
+                        </div>
+                        <!-- col-8 -->
+                        <div class="col-md-4">
+                            <div class="form-group mg-md-l--1 bd-t-0-force">
+                                <select id="select2-b" class="form-control select2-hidden-accessible" data-placeholder="Choose country" tabindex="-1" aria-hidden="true">
+                                    <option label="Choose country"></option>
+                                    <option value="USA">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">美国</font>
+                                        </font>
+                                    </option>
+                                    <option value="UK">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">英国</font>
+                                        </font>
+                                    </option>
+                                    <option value="China">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">中国</font>
+                                        </font>
+                                    </option>
+                                    <option value="Japan">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">日本</font>
+                                        </font>
+                                    </option>
+                                </select>
+                                <span class="select2 select2-container select2-container--default" dir="ltr" style="width: 234px;">
+                                    <span class="selection">
+                                        <span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0"
+                                            aria-labelledby="select2-select2-b-container">
+                                            <span class="select2-selection__rendered" id="select2-select2-b-container">
+                                                <span class="select2-selection__placeholder">
+                                                    <font style="vertical-align: inherit;">
+                                                        <font style="vertical-align: inherit;">选择国家</font>
+                                                    </font>
+                                                </span>
+                                            </span>
+                                            <span class="select2-selection__arrow" role="presentation">
+                                                <b role="presentation"></b>
+                                            </span>
+                                        </span>
+                                    </span>
+                                    <span class="dropdown-wrapper" aria-hidden="true"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <!-- col-4 -->
+                    </div>
+                    <!-- row -->
+                    <div class="form-layout-footer bd pd-20 bd-t-0">
+                        <button class="btn btn-info">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">提交表格</font>
+                            </font>
+                        </button>
+                        <button class="btn btn-secondary">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">取消</font>
+                            </font>
+                        </button>
+                    </div>
+                    <!-- form-group -->
+                </div>
+                <!-- form-layout -->
+
+                <div class="row mg-t-80">
+                    <div class="col-xl-6">
+                        <div class="form-layout form-layout-4">
+                            <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">
+                                <font style="vertical-align: inherit;">
+                                    <font style="vertical-align: inherit;">左标签对齐</font>
+                                </font>
+                            </h6>
+                            <p class="mg-b-30 tx-gray-600">
+                                <font style="vertical-align: inherit;">
+                                    <font style="vertical-align: inherit;">标签左对齐的基本表单。</font>
+                                </font>
+                            </p>
+                            <div class="row">
+                                <label class="col-sm-4 form-control-label">
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">名字：</font>
+                                    </font>
+                                    <span class="tx-danger">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">*</font>
+                                        </font>
+                                    </span>
+                                </label>
+                                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                                    <input type="text" class="form-control" placeholder="Enter firstname">
+                                </div>
+                            </div>
+                            <!-- row -->
+                            <div class="row mg-t-20">
+                                <label class="col-sm-4 form-control-label">
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">姓氏：</font>
+                                    </font>
+                                    <span class="tx-danger">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">*</font>
+                                        </font>
+                                    </span>
+                                </label>
+                                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                                    <input type="text" class="form-control" placeholder="Enter lastname">
+                                </div>
+                            </div>
+                            <div class="row mg-t-20">
+                                <label class="col-sm-4 form-control-label">
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">电邮：</font>
+                                    </font>
+                                    <span class="tx-danger">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">*</font>
+                                        </font>
+                                    </span>
+                                </label>
+                                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                                    <input type="text" class="form-control" placeholder="Enter email address">
+                                </div>
+                            </div>
+                            <div class="row mg-t-20">
+                                <label class="col-sm-4 form-control-label">
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">地址：</font>
+                                    </font>
+                                    <span class="tx-danger">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">*</font>
+                                        </font>
+                                    </span>
+                                </label>
+                                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                                    <textarea rows="2" class="form-control" placeholder="Enter your address"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-layout-footer mg-t-30">
+                                <button class="btn btn-info">
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">提交表格</font>
+                                    </font>
+                                </button>
+                                <button class="btn btn-secondary">
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">取消</font>
+                                    </font>
+                                </button>
+                            </div>
+                            <!-- form-layout-footer -->
+                        </div>
+                        <!-- form-layout -->
+                    </div>
+                    <!-- col-6 -->
+                    <div class="col-xl-6 mg-t-20 mg-xl-t-0">
+                        <div class="form-layout form-layout-5">
+                            <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">
+                                <font style="vertical-align: inherit;">
+                                    <font style="vertical-align: inherit;">右标签对齐</font>
+                                </font>
+                            </h6>
+                            <p class="mg-b-30 tx-gray-600">
+                                <font style="vertical-align: inherit;">
+                                    <font style="vertical-align: inherit;">标签右对齐的基本表单。</font>
+                                </font>
+                            </p>
+                            <div class="row">
+                                <label class="col-sm-4 form-control-label">
+                                    <span class="tx-danger">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">*</font>
+                                        </font>
+                                    </span>
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">名字：</font>
+                                    </font>
+                                </label>
+                                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                                    <input type="text" class="form-control" placeholder="Enter firstname">
+                                </div>
+                            </div>
+                            <!-- row -->
+                            <div class="row mg-t-20">
+                                <label class="col-sm-4 form-control-label">
+                                    <span class="tx-danger">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">*</font>
+                                        </font>
+                                    </span>
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">姓氏：</font>
+                                    </font>
+                                </label>
+                                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                                    <input type="text" class="form-control" placeholder="Enter lastname">
+                                </div>
+                            </div>
+                            <div class="row mg-t-20">
+                                <label class="col-sm-4 form-control-label">
+                                    <span class="tx-danger">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">*</font>
+                                        </font>
+                                    </span>
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">电子邮件：</font>
+                                    </font>
+                                </label>
+                                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                                    <input type="text" class="form-control" placeholder="Enter email address">
+                                </div>
+                            </div>
+                            <div class="row mg-t-20">
+                                <label class="col-sm-4 form-control-label">
+                                    <span class="tx-danger">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">*</font>
+                                        </font>
+                                    </span>
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">地址：</font>
+                                    </font>
+                                </label>
+                                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                                    <textarea rows="2" class="form-control" placeholder="Enter your address"></textarea>
+                                </div>
+                            </div>
+                            <!-- row -->
+                            <div class="row mg-t-30">
+                                <div class="col-sm-8 mg-l-auto">
+                                    <div class="form-layout-footer">
+                                        <button class="btn btn-info">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">提交表格</font>
+                                            </font>
+                                        </button>
+                                        <button class="btn btn-secondary">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">取消</font>
+                                            </font>
+                                        </button>
+                                    </div>
+                                    <!-- form-layout-footer -->
+                                </div>
+                                <!-- col-8 -->
+                            </div>
+                        </div>
+                        <!-- form-layout -->
+                    </div>
+                    <!-- col-6 -->
+                </div>
+                <!-- row -->
+
+
+                <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-t-80 mg-b-10">
+                    <font style="vertical-align: inherit;">
+                        <font style="vertical-align: inherit;">边界左标签对齐</font>
+                    </font>
+                </h6>
+                <p class="mg-b-30 tx-gray-600">
+                    <font style="vertical-align: inherit;">
+                        <font style="vertical-align: inherit;">标签在左边与边框包装对齐的基本形式。</font>
+                    </font>
+                </p>
+
+                <div class="form-layout form-layout-6">
+                    <div class="row no-gutters">
+                        <div class="col-5 col-sm-4">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">
+                                    名字：
+                                </font>
+                            </font>
+                        </div>
+                        <!-- col-4 -->
+                        <div class="col-7 col-sm-8">
+                            <input class="form-control" type="text" name="fullname" placeholder="Enter your fullname">
+                        </div>
+                        <!-- col-8 -->
+                    </div>
+                    <!-- row -->
+                    <div class="row no-gutters">
+                        <div class="col-5 col-sm-4">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">
+                                    电子邮件地址：
+                                </font>
+                            </font>
+                        </div>
+                        <!-- col-4 -->
+                        <div class="col-7 col-sm-8">
+                            <input class="form-control" type="text" name="firstname" placeholder="Enter your email address">
+                        </div>
+                        <!-- col-8 -->
+                    </div>
+                    <!-- row -->
+                </div>
+                <!-- form-layout -->
+
+
+                <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-t-80 mg-b-10">
+                    <font style="vertical-align: inherit;">
+                        <font style="vertical-align: inherit;">边界右标签对齐</font>
+                    </font>
+                </h6>
+                <p class="mg-b-30 tx-gray-600">
+                    <font style="vertical-align: inherit;">
+                        <font style="vertical-align: inherit;">标签在左边与边框包装对齐的基本形式。</font>
+                    </font>
+                </p>
+
+                <div class="form-layout form-layout-7">
+                    <div class="row no-gutters">
+                        <div class="col-5 col-sm-4">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">
+                                    名字：
+                                </font>
+                            </font>
+                        </div>
+                        <!-- col-4 -->
+                        <div class="col-7 col-sm-8">
+                            <input class="form-control" type="text" name="fullname" placeholder="Enter your fullname">
+                        </div>
+                        <!-- col-8 -->
+                    </div>
+                    <!-- row -->
+                    <div class="row no-gutters">
+                        <div class="col-5 col-sm-4">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">
+                                    电子邮件地址：
+                                </font>
+                            </font>
+                        </div>
+                        <!-- col-4 -->
+                        <div class="col-7 col-sm-8">
+                            <input class="form-control" type="text" name="firstname" placeholder="Enter your email address">
+                        </div>
+                        <!-- col-8 -->
+                    </div>
+                    <!-- row -->
+                </div>
+                <!-- form-layout -->
+
+                <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-t-80 mg-b-10">
+                    <font style="vertical-align: inherit;">
+                        <font style="vertical-align: inherit;">表格对齐</font>
+                    </font>
+                </h6>
+                <p class="mg-b-30 tx-gray-600">
+                    <font style="vertical-align: inherit;">
+                        <font style="vertical-align: inherit;">内联对齐并右对齐的内联表单。</font>
+                    </font>
+                </p>
+
+                <div class="d-flex align-items-center justify-content-center bg-gray-100 ht-md-80 bd pd-x-20">
+                    <div class="d-md-flex pd-y-20 pd-md-y-0">
+                        <input type="text" class="form-control" placeholder="Email address">
+                        <input type="password" class="form-control mg-md-l-10 mg-t-10 mg-md-t-0" placeholder="Password">
+                        <button class="btn btn-info pd-y-13 pd-x-20 bd-0 mg-md-l-10 mg-t-10 mg-md-t-0 tx-uppercase tx-11 tx-spacing-2">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">签到</font>
+                            </font>
+                        </button>
+                    </div>
+                </div>
+                <!-- d-flex -->
+
+                <div class="d-flex align-items-center justify-content-end bg-gray-100 ht-md-80 bd pd-x-20 mg-t-10">
+                    <div class="d-md-flex pd-y-20 pd-md-y-0">
+                        <input type="text" class="form-control" placeholder="Email address">
+                        <input type="password" class="form-control mg-md-l-10 mg-t-10 mg-md-t-0" placeholder="Password">
+                        <button class="btn btn-info pd-y-13 pd-x-20 bd-0 mg-md-l-10 mg-t-10 mg-md-t-0 tx-uppercase tx-11 tx-spacing-2">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">签到</font>
+                            </font>
+                        </button>
+                    </div>
+                </div>
+                <!-- d-flex -->
+
+
+            </div>
+            <!-- br-section-wrapper -->
+        </div>
+
+
+        <footer class="br-footer">
+            <div class="footer-left">
+                <div class="mg-b-2">Copyright &copy; 2017. Bracket. All Rights Reserved.</div>
+                <div>Attentively and carefully made by ThemePixels.</div>
+            </div>
+            <div class="footer-right d-flex align-items-center">
+                <span class="tx-uppercase mg-r-10">Share:</span>
+                <a target="_blank" class="pd-x-5" href="https://www.facebook.com/sharer/sharer.php?u=http%3A//themepixels.me/bracket/intro">
+                    <i class="fa fa-facebook tx-20"></i>
+                </a>
+                <a target="_blank" class="pd-x-5" href="https://twitter.com/home?status=Bracket,%20your%20best%20choice%20for%20premium%20quality%20admin%20template%20from%20Bootstrap.%20Get%20it%20now%20at%20http%3A//themepixels.me/bracket/intro">
+                    <i class="fa fa-twitter tx-20"></i>
+                </a>
+            </div>
+        </footer>
+    </div>
+    <!-- br-mainpanel -->
+    <!-- ########## END: MAIN PANEL ########## -->
+
+    <script src="https://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/lib/popper.js/popper.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.js"></script>
+    <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment.min.js"></script>
+    <script src="/lib/jquery-ui/jquery-ui.js"></script>
+    <script src="/lib/jquery-switchbutton/jquery.switchButton.js"></script>
+    <script src="/lib/peity/jquery.peity.js"></script>
+    <script src="/lib/chartist/chartist.js"></script>
+    <script src="/lib/jquery.sparkline.bower/jquery.sparkline.min.js"></script>
+    <script src="/lib/d3/d3.js"></script>
+    <script src="/lib/rickshaw/rickshaw.min.js"></script>
+    <script src="/lib/select2/js/select2.min.js"></script>
+
+    <script src="/js/back/bracket.js"></script>
+    <script src="/js/back/common.js"></script>
+    <script>
+        $(function () {
+            'use strict'
+
+            // FOR DEMO ONLY
+            // menu collapsed by default during first page load or refresh with screen
+            // having a size between 992px and 1299px. This is intended on this page only
+            // for better viewing of widgets demo.
+            $(window).resize(function () {
+                minimizeMenu();
+            });
+
+            minimizeMenu();
+
+            function minimizeMenu() {
+                if (window.matchMedia('(min-width: 992px)').matches && window.matchMedia('(max-width: 1299px)')
+                    .matches) {
+                    // show only the icons and hide left menu label by default
+                    $('.menu-item-label,.menu-item-arrow').addClass('op-lg-0-force d-lg-none');
+                    $('body').addClass('collapsed-menu');
+                    $('.show-sub + .br-menu-sub').slideUp();
+                } else if (window.matchMedia('(min-width: 1300px)').matches && !$('body').hasClass(
+                        'collapsed-menu')) {
+                    $('.menu-item-label,.menu-item-arrow').removeClass('op-lg-0-force d-lg-none');
+                    $('body').removeClass('collapsed-menu');
+                    $('.show-sub + .br-menu-sub').slideDown();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
+
+
+<script>
+    $(function () {
+        'use strict'
+
+        $('.form-layout .form-control').on('focusin', function () {
+            $(this).closest('.form-group').addClass('form-group-active');
+        });
+
+        $('.form-layout .form-control').on('focusout', function () {
+            $(this).closest('.form-group').removeClass('form-group-active');
+        });
+
+        // Select2
+        $('#select2-a, #select2-b').select2({
+            minimumResultsForSearch: Infinity
+        });
+
+        $('#select2-a').on('select2:opening', function (e) {
+            $(this).closest('.form-group').addClass('form-group-active');
+        });
+
+        $('#select2-a').on('select2:closing', function (e) {
+            $(this).closest('.form-group').removeClass('form-group-active');
+        });
+
+    });
+</script>

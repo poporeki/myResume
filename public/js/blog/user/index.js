@@ -1,5 +1,6 @@
 $(function () {
   var cropper;
+  /* tab选项卡 */
   (function () {
     var $el = $('.tab'),
       $head = $el.find('.tab-head'),
@@ -18,6 +19,7 @@ $(function () {
 
     })
   })();
+  /* 剪裁头像 */
   (function () {
     var $image = $('#img_avatar');
     var $input = $('.select-img');
@@ -41,16 +43,7 @@ $(function () {
         $image.attr('src', objUrl);
         $image.cropper({
           aspectRatio: 1 / 1,
-          preview: ".small-preview,.small-preview2",
-          crop: function (event) {
-            console.log(event.detail.x);
-            console.log(event.detail.y);
-            console.log(event.detail.width);
-            console.log(event.detail.height);
-            console.log(event.detail.rotate);
-            console.log(event.detail.scaleX);
-            console.log(event.detail.scaleY);
-          }
+          preview: ".small-preview,.small-preview2"
         });
 
         // Get the Cropper.js instance after initialized
@@ -58,8 +51,10 @@ $(function () {
       }
 
     });
+    /* 提交头像 */
     $uploadBtn.on('click', function () {
       var $this = $(this);
+      if ($this.find('.loading-ani').length != 0) return;
       var imgBase = cropper.getCroppedCanvas().toDataURL('image/jpeg');
       var data = {
         imgBase: imgBase
@@ -81,7 +76,30 @@ $(function () {
     });
   })();
   (function () {
-
+    var $btnSubPwd = $('#submit_pwd');
+    $btnSubPwd.on('click', function () {
+      var $this = $(this);
+      if ($this.find('.loading-ani').length != 0) return;
+      var pwd = $('#pwd').val();
+      var new_pwd = $('#new_pwd').val();
+      if (pwd == '' || new_pwd == '') return alert('不能为空');
+      requestAjax({
+        el: $this,
+        url: '/blog/user/changeUserPassword',
+        data: {
+          password: pwd,
+          new_password: new_pwd
+        }
+      }, function (result) {
+        if (result.status) {
+          alert('修改成功');
+          $('#pwd').val('');
+          $('#new_pwd').val('');
+        } else {
+          alert('修改失败');
+        }
+      })
+    })
   })();
 });
 

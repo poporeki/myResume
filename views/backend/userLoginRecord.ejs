@@ -1,31 +1,48 @@
 <%- include('common') -%>
-<style>
-  .side-body li{
-    margin-bottom:20px;
-  }
-</style>
-<div class="side-body">
-    <div class="row">
-      <ol>
-      <%for(var i=0;i<record.length;i++){%>
-        <li>
-          |用户名：<%=record[i].user_id.user_name%> 
-          |使用设备：<%=record[i].login_OS.name%> 
-          <%=record[i].login_OS.version%> 
-          |使用浏览器：
-          <%=record[i].login_browser.name%>
-          <%=record[i].login_browser.version%> 
-          |位置：
-          <%=record[i].login_geolocation.ip%>
-          <%=record[i].login_geolocation.country%>
-          <%=record[i].login_geolocation.city%>
-          <%=record[i].login_geolocation.isp%>
-          <%=record[i].login_geolocation.region%>
-          <%=record[i].create_time%> 
-        </li>
-      <%}%>
-      </ol>
-    </div>
+<div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+  <h4 class="tx-gray-800 mg-b-5 mg-t-10 mg-sm-t-0">账号登录记录</h4>
+  <p class="mg-b-0">所有记录列表.</p>
 </div>
+<div class="br-pagebody">
+  <div class="br-section-wrapper">
+    <div class="row">
+    <div class="col-md-12">
+    <table class="table table-hover mg-b-0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>用户名</th>
+          <th>登录设备</th>
+          <th>登录浏览器</th>
+          <th>位置信息</th>
+          <th>登录时间</th>
+        </tr>
+      </thead>
+      <tbody>
+      <%for(var i=0;i<record.length;i++){%>
+      <%var data=record[i];%>
+        <tr>
+          <th scope="row"><%=i+1%></th>
+          <td><%=data.user_id.user_name%> </td>
+          <td><%=data.login_OS.name%> <%=data.login_OS.version%>  </td>
+          <td><%=data.login_browser.name%> <%=data.login_browser.version%></td>
+          <td><%=data.login_geolocation.ip%> <br>
+          <%=data.login_geolocation.country%> 
+          <%=data.login_geolocation.region%> 
+          <%=data.login_geolocation.city%><br>
+          <%=data.login_geolocation.isp%><br>
+          
+          
+          </td>
+          <td><%=data.create_time%>  </td>
+        </tr>
+      <%}%>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  </div>
+</div>
+
 
 <%- include('footer') -%>

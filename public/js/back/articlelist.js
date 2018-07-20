@@ -33,22 +33,22 @@ function readyFn(el) {
 	});
 	delDataFn(el);
 }
-/* 删除数据操作函数 */
+
+/* 删除数据操作 */
 function delDataFn(el) {
 	var $table = el;
 	var artid = ''; /* 文章id */
-	var $delBtnMod = ('#delArc_btn'); /* 模态框确认按钮 */
-	$tableParent = $table.parent('.card-body'); /* 表格外层 */
-	$tableParent.on('click', '.del-art-btn', function () { /* 单击事件 监听删除按钮 */
+	var $delBtnMod = $('#delArc_btn'); /* 模态框确认按钮 */
+	$table.on('click', '.del-art-btn', function () { /* 单击事件 监听删除按钮 */
 		artid = $(this).attr('data-artid'); /* 获取文章id并赋值 */
 	})
-	$tableParent.on('click', '#delArc_btn', function () { /* 单击事件 监听模态框确认按钮 */
+	$delBtnMod.on('click', function () { /* 单击事件 监听模态框确认按钮 */
 		var data = {
 			"artid": artid
 		};
 		/* 发起ajax请求 删除数据 */
 		$.ajax({
-			url: '/backend/art/remove',
+			url: '/backend/art/remove/toTrash',
 			data: data,
 			type: 'post',
 			success: function (result) { /* 响应并刷新 */
@@ -76,107 +76,42 @@ function getNewDatas(page, limit, $el) {
 	}, function (result) {
 		if (result.status !== 1 || result.data === null) return;
 		var artInfo = result.data.artInfo;
+		$tbody = $el.find('tbody');
+		$tbody.empty();
+		if (artInfo.length === 0) {
+			return $tbody.html('没有数据');
+		}
 		var artCount = result.data.artCount;
 		var artCon = '';
 		for (var i = 0; i < artInfo.length; i++) {
-			artCon += '<tr>' +
-				'<th scope="row">' + (i + 1) + '</th>' +
-				'<td>' + artInfo[i].title + '</td>' +
-				'<td>';
+			var info = artInfo[i],
+				artnum = i + 1,
+				artid = info.id,
+				arttit = info.title,
+				typeid = info.type.id,
+				typename = info.type.name,
+				read = info.read,
+				time_create = info.time_create,
+				time_lastchange = info.time_lastchange;
 
-			var types = artInfo[i].type_id;
-			for (var j = 0; j < types.length; j++) {
-				artCon += '<a href="?by[type_id]=' + types[j]._id + '">' + types[j].type_name + '</a>'
-			}
-			artCon += '</td>' +
-				'<td>' + artInfo[i].read + '</td>' +
-				'<td>' + artInfo[i].create_time + '</td>' +
-				'<td>' + artInfo[i].update_time + '</td>' +
+			artCon +=
+				'<tr>' +
+				'<th scope="row">' + artnum + '</th>' +
+				'<td>' + arttit + '</td>' +
 				'<td>' +
-				'<a href="updatearticle/' + artInfo[i]._id + '" class="btn btn-primary">修改</a>' +
-				'<a href="javascript:void(0);" data-toggle="modal" data-target="#delArcModal" class="btn btn-danger del-art-btn"  data-artid=' + artInfo[i]._id + '>删除</a>' +
+				'<a class="badge badge-light" href="?by[type_id]=' + typeid + '">' + typename + '</a>' +
+				'</td>' +
+				'<td>' + read + '</td>' +
+				'<td>' + time_create + '</td>' +
+				'<td>' + time_lastchange + '</td>' +
+				'<td>' +
+				'<a href="updatearticle/' + artid + '" class="btn btn-teal btn-block">修改</a>' +
+				'<a href="javascript:void(0);" data-toggle="modal" data-target="#delArcModal" class="btn btn-dark btn-block del-art-btn"  data-artid=' + artid + '>删除</a>' +
 				'</td>' +
 				'</tr>';
 		}
-		$tbody = $el.find('tbody');
-		$tbody.empty();
 		$tbody.html(artCon);
-
-		/* 分页器 */
-		var totalPages = Math.ceil(artCount / 10); /* 根据返回artCount值 计算总页数 */
-		var disabled = totalPages == 1 ? ' class="disabled"' : '';
-		var nCon = '<ul class="pagination">' +
-			'<li' + disabled + '>' +
-			'<a href="#" data-page="prev" class="btn-prev" aria-label="上一页">' +
-			'<span aria-hidden="true">&laquo;</span>' +
-			'</a>' +
-			'</li>';
-
-		for (var pgs = 1; pgs <= totalPages; pgs++) {
-			nCon += '<li><a href="#" class="page" data-page="page-' + pgs + '">' + pgs + '</a></li>'
-		}
-		nCon += '<li' + disabled + '>' +
-			'<a href="#" data-page="next" class="btn-next" aria-label="下一页">' +
-			'<span aria-hidden="true">&raquo;</span>' +
-			'</a>' +
-			'</li>' +
-			'</ul>';
-		var $navig = $el.parent().find('.navigation');
-		$navig.empty().append(nCon);
-		var $nextBtn = $('.navigation').find('.btn-next'),
-			$prevBtn = $('.navigation').find('.btn-prev'),
-			$pageBtn = $('.navigation').find('.page');
-
-		$('.navigation').find('li').removeClass('disabled active');
-		$pageBtn.each(function () {
-			var $this = $(this);
-			var wrds = $this.attr('data-page');
-			var exec = RegP.exec(wrds);
-			if (exec) {
-				if (Number(exec[2]) === page) {
-					$this.parent('li').addClass('disabled active');
-				}
-			}
-		})
-		if (page === 1) {
-			$prevBtn.parent('li').addClass('disabled');
-		}
-		if (totalPages === 1) {
-			$prevBtn.parent('li').addClass('disabled');
-			$nextBtn.parent('li').addClass('disabled');
-		}
-		if (page === totalPages) {
-			$nextBtn.parent('li').addClass('disabled');
-		}
-
+		/* 更新分页器 */
+		refreshPaginator($el, artCount);
 	});
-}
-
-
-/* 当前url参数转为对象 */
-function formatSearch(se) {
-	if (typeof se !== "undefined") {
-		se = se.substr(1);
-		var arr = se.split("&"),
-			obj = {},
-			newarr = [],
-			Reg = /([^\)]*)\[([^\)]*)\]/; /* 匹配  [内容] */
-		$.each(arr, function (i, v) {
-			newarr = v.split("=");
-			if (typeof obj[newarr[0]] === "undefined") {
-				var n0 = newarr[0];
-				var exec = Reg.exec(n0); /* 匹配 by[id]=11形式 */
-				if (exec) {
-					if (typeof obj['by'] === "undefined") {
-						obj['by'] = {};
-					}
-					var key = exec[2];
-					obj.by[key] = newarr[1];
-					return;
-				}
-				obj[newarr[0]] = newarr[1];
-			}
-		});
-		return obj;
-	}
 }

@@ -33,13 +33,18 @@ $(function () {
         data: data
       }, function (result) {
         if (!resultFalse(result, $this)) return;
-        var data = result.data;
+        var data = result.data,
+          floor = data.floor,
+          username = data.username,
+          submitAddress = data.submitAddress,
+          timeCreate = data.create_time,
+          artContent = data.art_content;
         $replyList.addClass('show');
         var context =
           '<li class="comment-item">' +
           '<div>' +
           '<span>' +
-          '#' + data.floor +
+          '#' + floor +
           '</span>' +
           '<div class="head-pic">' +
           '<a href="javascript:void(0);"><img src="/images/my-head.png" alt=""></a>' +
@@ -47,12 +52,12 @@ $(function () {
           '<div class="content">' +
           '<div class="info">' +
           '<div class="lt">' +
-          '<div class="username">' + data.username + '</div>' +
-          '<div class="address">' + data.submitAddress + '</div>' +
-          '<div class="p-date">' + data.create_time + '</div>' +
+          '<div class="username">' + username + '</div>' +
+          '<div class="address">' + submitAddress + '</div>' +
+          '<div class="p-date">' + timeCreate + '</div>' +
           '</div>' +
           '</div>' +
-          '<p>' + data.art_content + '</p>' +
+          '<p>' + artContent + '</p>' +
           '</div>' +
           '</div>' +
           '</li>';
@@ -78,12 +83,18 @@ $(function () {
         data: data
       }, function (result) {
         if (!resultFalse(result, $this)) return;
-        var data = result.data;
+        var data = result.data,
+          floor = data.floor,
+          username = data.username,
+          submitAddress = data.submitAddress,
+          timeCreate = data.create_time,
+          to = data.to,
+          artContent = data.art_content;
         var context =
           '<li class="comment-item">' +
           '<div>' +
           '<span>' +
-          '#' + data.floor +
+          '#' + floor +
           '</span>' +
           '<div class="head-pic">' +
           '<a href="javascript:void(0);"><img src="/images/my-head.png" alt=""></a>' +
@@ -91,12 +102,12 @@ $(function () {
           '<div class="content">' +
           '<div class="info">' +
           '<div class="lt">' +
-          '<div class="username">' + data.username + '</div>' +
-          '<div class="address">' + data.submitAddress + '</div>' +
-          '<div class="p-date">' + data.create_time + '</div>' +
+          '<div class="username">' + username + '</div>' +
+          '<div class="address">' + submitAddress + '</div>' +
+          '<div class="p-date">' + timeCreate + '</div>' +
           '</div>' +
           '</div>' +
-          '<p>回复 ' + data.to + ':' + data.art_content + '</p>' +
+          '<p>回复 ' + to + ':' + artContent + '</p>' +
           '</div>' +
           '</div>' +
           '</li>';
@@ -135,7 +146,12 @@ $(function () {
         },
         function (result) {
           if (!resultFalse(result, $this)) return;
-          var data = result.data;
+          var data = result.data,
+            username = data.username,
+            submitAddress = data.submitAddress,
+            timeCreate = data.create_time,
+            floor = data.floor,
+            artContent = data.art_content;
           var context =
             '<li class="comment-item">' +
             '<div>' +
@@ -145,13 +161,13 @@ $(function () {
             '<div class="content">' +
             '<div class="info">' +
             '<div class="lt">' +
-            '<div class="username">' + data.username + '</div>' +
-            '<div class="address">' + data.submitAddress + '</div>' +
-            '<div class="p-date">' + data.create_time + '</div>' +
+            '<div class="username">' + username + '</div>' +
+            '<div class="address">' + submitAddress + '</div>' +
+            '<div class="p-date">' + timeCreate + '</div>' +
             '</div>' +
-            '<div class="floor-blk">' + data.floor + '楼</div>' +
+            '<div class="floor-blk">' + floor + '楼</div>' +
             '</div>' +
-            '<p>' + data.art_content + '</p>' +
+            '<p>' + artContent + '</p>' +
             '</div>' +
             '</div>' +
             '</li>';
@@ -231,25 +247,26 @@ $(function () {
         return;
       }
       for (var i = 0; i < artComms.length; i++) {
-        var reps = artComms[i].commReps;
+        var comms = artComms[i],
+          repsList = getreplyList(artComms[i].commReps);
         var context =
-          '<li class="comment-item" data-commid=' + artComms[i].id + '>' +
+          '<li class="comment-item" data-commid=' + comms.id + '>' +
           '<div >' +
           '<div class="head-pic" >' +
           '<a href = "##" >' +
-          '<img src = "/images/my-head.png" alt = "" >' +
+          '<img src = "' + comms.user.avatar + '" alt = "" >' +
           '</a>' +
           '</div>' +
           '<div class="content">' +
           '<div class ="info">' +
           '<div class = "lt">' +
-          '<div class = "username">' + artComms[i].user.name + '</div>' +
-          '<div class = "address">' + artComms[i].submitAddress + '</div>' +
-          '<div class = "p-date" >' + artComms[i].createTime + '</div>' +
+          '<div class = "username">' + comms.user.name + '</div>' +
+          '<div class = "address">' + comms.submitAddress + '</div>' +
+          '<div class = "p-date" >' + comms.createTime + '</div>' +
           '</div>' +
-          '<div class ="floor-blk">' + artComms[i].floor + "楼" + '</div>' +
+          '<div class ="floor-blk">' + comms.floor + "楼" + '</div>' +
           '</div>' +
-          '<p>' + artComms[i].text + '</p>' +
+          '<p>' + comms.text + '</p>' +
           '<div class ="tools">' +
           '<a href ="##" class = "comm-reply-btn" > 回复 </a>' +
           '</div>' +
@@ -261,64 +278,70 @@ $(function () {
           '<a href="javascript:void(0);" class="comm-submit-btn">提交</a>' +
           '</div>' +
           '<div class="close-btn"></div>' +
-          '</div>';
-        if (typeof artComms[i].commReps != 'undefined' && artComms[i].commReps.length != 0) {
-          context += '<ul class="reply-list show">'
-        } else {
-          context += '<ul class="reply-list">'
-        }
-        if (typeof (artComms[i].commReps) != 'undefined' && artComms[i].commReps.length != 0) {
-          var reps = artComms[i].commReps;
-          for (var j = 0; j < reps.length; j++) {
-            context += '<li class="comment-item">' +
-              '<div>' +
-              '<span>' +
-              '#' + reps[j].floor +
-              '</span>' +
-              '<div class="head-pic">' +
-              '<a href="javascript:void(0);">' +
-              '<img src="/images/my-head.png" alt="">' +
-              '</a>' +
-              '</div>' +
-              '<div class="content">' +
-              '<div class="info">' +
-              '<div class="lt">' +
-              '<div class="username">' +
-              reps[j].user.name +
-              '</div>' +
-              '<div class="address">' +
-              reps[j].submitAddress +
-              '</div>' +
-              '<div class="p-date">' +
-              reps[j].createTime +
-              '</div>' +
-              '</div>' +
-              '</div>';
-            if (reps[j].to == '') {
-              context += '<p>' + reps[j].repContent + '</p>';
-            } else {
-              context += '<p>' + '回复 #' + reps[j].to.floor + " " + reps[j].to.author_id.user_name + ':' + reps[j].repContent + '</p>';
-            }
-            context += '<div class="tools">' +
-              '<a href="javascript:void(0);" class="comm-reply-btn">回复' + '</a>' +
-              '</div>' +
-              '</div>' +
-              '</div>' +
-              '<div class="reply-block">' +
-              '<div class="add-comm clearfix">' +
-              '<textarea name="comm_textarea" class="comm-textarea" cols="30" rows="10"></textarea>' +
-              '<a href="javascript:void(0);" class="comm-submit-btn reply-child" data-repid=' + reps[j].id + '>提交</a>' +
-              '</div>' +
-              '<div class="close-btn"></div>' +
-              '</div>' +
-              '</li>';
-          }
-
-        }
-        context += '</ul>' +
+          '</div>' + repsList +
           '</li>';
         $('.comment-block .list').children('.comment-more').before(context);
       }
     })
   })
 });
+/* 得到回复列表 */
+function getreplyList(reps) {
+  if (typeof reps == 'undefined' || reps.length == 0) {
+    return '<ul class="reply-list"></ul>';
+  }
+  var repCon = '';
+  for (var j = 0; j < reps.length; j++) {
+    var rep = reps[j],
+      floor = rep.floor,
+      username = rep.user.name,
+      avatar = rep.user.avatar,
+      subAddress = rep.subAddress,
+      timeCreate = rep.createTime,
+      to = rep.to,
+      repContent = rep.repContent;
+    repCon += '<li class="comment-item">' +
+      '<div>' +
+      '<span>' +
+      '#' + floor +
+      '</span>' +
+      '<div class="head-pic">' +
+      '<a href="javascript:void(0);">' +
+      '<img src="' + avatar + '" alt="avatar">' +
+      '</a>' +
+      '</div>' +
+      '<div class="content">' +
+      '<div class="info">' +
+      '<div class="lt">' +
+      '<div class="username">' +
+      username +
+      '</div>' +
+      '<div class="address">' +
+      subAddress +
+      '</div>' +
+      '<div class="p-date">' +
+      timeCreate +
+      '</div>' +
+      '</div>' +
+      '</div>';
+    if (to == '') {
+      repCon += '<p>' + repContent + '</p>';
+    } else {
+      repCon += '<p>' + '回复 #' + to.floor + " " + to.author_id.user_name + ':' + repContent + '</p>';
+    }
+    repCon += '<div class="tools">' +
+      '<a href="javascript:void(0);" class="comm-reply-btn">回复' + '</a>' +
+      '</div>' +
+      '</div>' +
+      '</div>' +
+      '<div class="reply-block">' +
+      '<div class="add-comm clearfix">' +
+      '<textarea name="comm_textarea" class="comm-textarea" cols="30" rows="10"></textarea>' +
+      '<a href="javascript:void(0);" class="comm-submit-btn reply-child" data-repid=' + rep.id + '>提交</a>' +
+      '</div>' +
+      '<div class="close-btn"></div>' +
+      '</div>' +
+      '</li>';
+  }
+  return '<ul class="reply-list show">' + repCon + '</ul>';
+}

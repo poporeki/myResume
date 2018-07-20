@@ -39,7 +39,7 @@
   <div class="swiper-wrapper">
     <%for(var i=0;i<carouList.length;i++){%>
       <div class="swiper-slide">
-      <a href=<%="/blog/article/"+carouList[i]._id %>>
+      <a href="/blog/article/<%=carouList[i]._id %>">
         <h3><%=carouList[i].title%></h3>
         <% var str = carouList[i].content; var imgReg = /<img.*?(?:>|\/>)/gi; var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i; var arr = str.match(imgReg); %>
         <% if(arr!=null){ %>
@@ -47,7 +47,7 @@
             <% if(src==null) {%>
               <img src="/images/dark_geometric2.png" alt="空白">
             <%}else{%>
-              <img src=<%=src[1] %> alt="">
+              <img src="<%=src[1] %>" alt="">
             <%}%>
           <% } else{%>
             <img src="/images/dark_geometric2.png" alt="空白">

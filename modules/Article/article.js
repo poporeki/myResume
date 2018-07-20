@@ -1,3 +1,6 @@
+var moment = require('moment');
+
+
 var articleType = require('../../db/schema/article/ArticleType');
 var articles = require('../../db/schema/article/Article');
 var articleList = require('../../db/schema/article/ArticleList');
@@ -13,6 +16,7 @@ module.exports = {
       },
       type_id: (req.body.arc_type).trim(),
       tags_id: req.body.arc_tags,
+      is_delete: false,
       read: 0,
       content: req.body.arc_content,
       source: req.body.arc_conSource,
@@ -28,6 +32,7 @@ module.exports = {
   },
   /*查找文章列表*/
   showArticleList: function (req, cb) {
+    var isAdmin = req.session.user && req.session.user.permissions === 'admin' ? true : false;
     var by = req.query.by || req.body.by || {};
     var limit = Number(req.query.num || req.body.num) || 10; /* 查找数量默认10 */
     var page = req.query.page || req.body.page; /* 当前页数 */
@@ -41,7 +46,37 @@ module.exports = {
       "skip": skip,
       "sort": sort
     }
-    articles.findArticle(pars, cb);
+    articles.findArticle(pars, function (err, result) {
+      if (err) {
+        return cb(err, null);
+      }
+      var artArr = [];
+      for (var a = 0; a < result.length; a++) {
+        var art = result[a];
+        var obj = {
+          id: art._id,
+          title: art.title,
+          author: {
+            id: art.author_id._id,
+            name: art.author_id.user_name
+          },
+          content: art.content,
+          read: art.read,
+          source: art.source,
+          type: {
+            id: art.type_id[0]._id,
+            name: art.type_id[0].type_name
+          },
+          tags: art.tags_id,
+          time_create: moment(art.create_time).format('YYYY-MM-DD hh:mm:ss')
+        }
+        if (isAdmin) {
+          obj['time_lastchange'] = moment(art.update_time).format('YYYY-MM-DD hh:mm:ss');
+        }
+        artArr.push(obj);
+      }
+      return cb(null, artArr);
+    });
   },
   /* 根据id查找文章 */
   showOneArticle: function (artid, cb) {
@@ -61,6 +96,7 @@ module.exports = {
       attribute: {
         carousel: req.body.arc_carousel === 'on' ? true : false
       },
+      is_delete: false,
       /*  */
       type_id: req.body.arc_type,
       tags_id: req.body.arc_tags,
@@ -78,6 +114,24 @@ module.exports = {
       }
     }, cb);
   },
+  moveToTrash: function (artid, cb) {
+    return articles.update({
+      '_id': artid
+    }, {
+      $set: {
+        'is_delete': true
+      }
+    }, cb);
+  },
+  recoveryArticle: function (arcid, cb) {
+    return articles.update({
+      '_id': arcid
+    }, {
+      $set: {
+        'is_delete': false
+      }
+    }, cb)
+  },
   getCount: function (req, cb) {
     var by = req.body.by || req.query.by || {};
     return articles.getCount(by, cb);
@@ -91,6 +145,7 @@ module.exports = {
     var keywords = keyword;
     var reg = new RegExp(keywords, 'i');
     return articles.find({
+        'is_delete': false,
         $or: [{
           title: {
             $regex: reg
@@ -102,7 +157,9 @@ module.exports = {
       .exec(cb);
   },
   getArtsByRead: function (cb) {
-    articles.find().limit(10).sort({
+    articles.find({
+      'is_delete': false
+    }).limit(10).sort({
       'read': -1
     }).exec(function (err, result) {
       if (err) {

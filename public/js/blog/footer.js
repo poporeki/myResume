@@ -2,8 +2,11 @@ $(function () {
   backToTopFn();
   listeningSearch();
   $('.sidebar-btn ').on('click', function () {
-    $(this).addClass('go');
-    $(this).one('animationend', function () {
+    var $this = $(this);
+    var parTransform = $this.parent('.l-aside').css('transform');
+    if (parTransform !== 'matrix(1, 0, 0, 1, 0, 0)') return;
+    $this.addClass('go');
+    $this.one('animationend', function () {
       window.location.href = '/blog/user';
     })
   })

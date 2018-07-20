@@ -5,7 +5,7 @@ var moment = require('moment');
 var articleMod = require('../../modules/Article/article');
 var articleTypeMod = require('../../modules/Article/articleType');
 var arcticleTagMod = require('../../modules/Article/articleTag');
-/* router.use('/', function (req, res, next) {
+/* router.use('/',  (req, res, next) {
   if (!req.session.user || !req.session.user.username) {
     res.redirect('/login');
     return;
@@ -13,38 +13,48 @@ var arcticleTagMod = require('../../modules/Article/articleTag');
   next();
 }) */
 
-router.get('/', function (req, res, next) {
-  articleMod.showArticleList(req, function (err, resListSortTime) {
+router.get('/', (req, res, next) => {
+  articleTypeMod.findArticleType('', (err, resTypeList) => {
     if (err) return next(err);
-    articleTypeMod.findArticleType('', function (err, resTypeList) {
+    arcticleTagMod.findArticleTags('', (err, resTagList) => {
       if (err) return next(err);
-      arcticleTagMod.findArticleTags('', function (err, resTagList) {
-
-        if (err) return next(err);
-        var by = {
-          by: {
-            attribute: {
-              carousel: true
-            }
+      var by = {
+        by: {
+          attribute: {
+            carousel: true
           }
-        };
-        req.query = by;
-        articleMod.showArticleList(req, function (err, resCarouselList) {
-          if (err) return next(err);
-          res.render('./blog/index', {
-            artList: resListSortTime,
-            typeList: resTypeList,
-            tagList: resTagList,
-            carouList: resCarouselList
-          });
-        })
+        }
+      };
+      req.query = by;
+      articleMod.showArticleList(req, (err, resCarouselList) => {
+        if (err) return next(err);
+        res.render('./blog/index', {
+          typeList: resTypeList,
+          tagList: resTagList,
+          carouList: resCarouselList
+        });
+      })
 
-      });
-
-    })
+    });
 
   })
 });
+
+router.get('/getArtList', (req, res, next) => {
+  req.query.by ? req.query.by['is_delete'] = false : req.query['by'] = {
+    'is_delete': false
+  }
+  articleMod.showArticleList(req, (err, resListSortTime) => {
+    if (err) {
+      next(err);
+    }
+    res.json({
+      status: true,
+      msg: '',
+      data: resListSortTime
+    })
+  });
+})
 router.use('/search', require('./search'));
 router.use('/user', require('./user'));
 router.use('/article', require('./article'));

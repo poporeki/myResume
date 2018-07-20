@@ -12,6 +12,7 @@ var articleSchema = new schema({
   content: String,
   source: String,
   support: Number,
+  is_delete: Boolean,
   author_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'myweb_user'

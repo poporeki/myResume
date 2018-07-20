@@ -37,18 +37,28 @@ userSchema.statics.findByName = function (name, cb) {
         user_name: name
     }, cb);
 }
-userSchema.statics.findByNP = function (params, cb) {
+userSchema.statics.findByNP = function (pars, cb) {
     return this.find({
-        user_name: params.name,
-        password: params.pwd
+        user_name: pars.name,
+        password: pars.pwd
     }, cb);
 }
-userSchema.statics.pushLoginTime = function (params, cb) {
+userSchema.statics.updateUserPassword = function (pars, cb) {
+    return this.findOneAndUpdate({
+        user_name: pars.name,
+        password: pars.pwd
+    }, {
+        $set: {
+            password: pars.newPwd
+        }
+    }, cb);
+}
+userSchema.statics.pushLoginTime = function (pars, cb) {
     return this.update({
-        user_name: params.name
+        user_name: pars.name
     }, {
         $push: {
-            login_time: params.time
+            login_time: pars.time
         }
     }, cb);
 }

@@ -1,0 +1,33 @@
+.btn {
+  cursor: pointer;
+}
+
+#editor {
+  position: relative;
+  z-index: 10;
+}
+
+.arc-submit-block {
+  position: relative;
+  .checkbox-wrap {
+    position: absolute;
+    right: 15px;
+    bottom: 0;
+    >p {
+      float: left;
+      padding-right: 5px;
+    }
+  }
+}
+
+.arc-submit-block {
+  border-top: none !important;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+  background-color: rgb(21, 168, 144);
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  background-color: rgb(5, 92, 44);
+}

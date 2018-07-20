@@ -104,6 +104,7 @@
       background-color: transparent;
     }
     .hot-list-item {
+      animation: scaleIn_2x .3s ease;
       &:hover {
         .hot-lk {
           background-color: $highlight-color-block-wrap;
@@ -334,7 +335,7 @@ section.classify {
   li {
     flex-basis: 50%;
     opacity: 0;
-    animation: scaleIn 1s .5s forwards;
+    animation: flipXIn .3s forwards;
     &:hover {
       .card {
         background-color: $highlight-color-black;

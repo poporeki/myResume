@@ -103,38 +103,45 @@ router.post('/getComments', function (req, res) {
     var artComms = [];
     for (var i = 0; i < commsDatas.length; i++) {
       var commReps = [];
-      var reply = commsDatas[i].reply;
+      var comm = commsDatas[i],
+        reply = comm.reply;
 
       if (reply.length != 0) {
         for (var idx = 0; idx < reply.length; idx++) {
-          var a = reply[idx].author_id;
+          var rep = reply[idx];
+          var author = reply[idx].author_id;
+          var repAvatar = author.avatar_path ? author.avatar_path.save_path + 'thumbnail_' + author.avatar_path.new_name : "/images/my-head.png";
           var obj = {
             user: {
-              name: reply[idx].author_id.user_name,
-              id: reply[idx].author_id._id
+              name: author.user_name,
+              id: author._id,
+              avatar: repAvatar
             },
-            id: reply[idx]._id,
-            repContent: reply[idx].comment_text,
-            likeNum: reply[idx].like_num,
-            createTime: moment(reply[idx].createdAt).format('YYYY-MM-DD hh:mm:ss'),
-            submitAddress: reply[idx].submit_address,
-            to: reply[idx].to ? reply[idx].to : '',
-            floor: reply[idx].floor
+            id: rep._id,
+            repContent: rep.comment_text,
+            likeNum: rep.like_num,
+            createTime: moment(rep.createdAt).format('YYYY-MM-DD hh:mm:ss'),
+            submitAddress: rep.submit_address,
+            to: rep.to ? rep.to : '',
+            floor: rep.floor
           }
           commReps.push(obj);
         }
       }
+      commUser = comm.author_id;
+      var commAvatar = commUser.avatar_path ? commUser.avatar_path.save_path + 'thumbnail_' + commUser.avatar_path.new_name : "/images/my-head.png";
       var obj = {
-        id: commsDatas[i]._id,
+        id: comm._id,
         user: {
-          name: commsDatas[i].author_id.user_name
+          name: commUser.user_name,
+          avatar: commAvatar
         },
-        submitAddress: commsDatas[i].submit_address,
-        createTime: moment(commsDatas[i].createdAt).format('YYYY-MM-DD hh:mm:ss'),
-        likeNum: commsDatas[i].like_num,
-        text: commsDatas[i].comment_text,
+        submitAddress: comm.submit_address,
+        createTime: moment(comm.createdAt).format('YYYY-MM-DD hh:mm:ss'),
+        likeNum: comm.like_num,
+        text: comm.comment_text,
         commReps: commReps,
-        floor: commsDatas[i].floor
+        floor: comm.floor
       }
       artComms.push(obj);
     }

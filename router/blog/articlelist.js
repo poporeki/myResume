@@ -4,15 +4,18 @@ var moment = require('moment');
 
 var articleMod = require('../../modules/Article/article');
 router.get('/', function (req, res) {
+  req.query.by ? req.query.by['is_delete'] = false : req.query['by'] = {
+    'is_delete': false
+  }
   articleMod.showArticleList(req, function (err, artlist) {
     if (err) return;
     var list = [];
     for (var i = 0; i < artlist.length; i++) {
       var obj = {
-        artid: artlist[i]._id,
+        artid: artlist[i].id,
         title: artlist[i].title,
         source: artlist[i].source,
-        create_time: moment(artlist[i].create_time).format('YYYY-MM-DD hh:mm:ss')
+        create_time: artlist[i].create_time
       }
       list.push(obj);
     }
@@ -22,6 +25,9 @@ router.get('/', function (req, res) {
   })
 })
 router.post('/', function (req, res) {
+  req.body.by ? req.body.by['is_delete'] = false : req.body['by'] = {
+    'is_delete': false
+  }
   articleMod.showArticleList(req, function (err, artlist) {
     if (err) return;
     var list = [];
@@ -34,15 +40,15 @@ router.post('/', function (req, res) {
     }
     for (var i = 0; i < artlist.length; i++) {
       var obj = {
-        artid: artlist[i]._id,
+        artid: artlist[i].id,
         title: artlist[i].title,
         source: artlist[i].source,
-        create_time: moment(artlist[i].create_time).format('YYYY-MM-DD hh:mm:ss')
+        create_time: artlist[i].create_time
       }
       list.push(obj);
     }
     res.json({
-      status: 1,
+      status: true,
       msg: '',
       result: list
     });
