@@ -45,7 +45,7 @@ li {
   header {
     height: 100px; }
     header nav {
-      padding: 50px 10px 20px !important;
+      padding: 50px 0 20px !important;
       flex-direction: column-reverse !important; }
       header nav .rt {
         align-self: flex-end !important;
