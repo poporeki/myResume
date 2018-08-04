@@ -177,6 +177,8 @@ section.article-wrapper {
         border-radius: 50%;
         padding: 0 5px;
         text-align: center; }
+        section.article-wrapper .article-box .article-header .pt-info .type-lk:hover {
+          background-color: #728296; }
     section.article-wrapper .article-box .article-body {
       color: #ececec; }
   section.article-wrapper .comment-block h3 {

@@ -170,6 +170,9 @@ section.article-wrapper {
           border-radius: 50%;
           padding: 0 5px;
           text-align: center;
+          &:hover {
+            background-color: #728296;
+          }
         }
       }
     }
