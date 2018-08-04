@@ -137,7 +137,7 @@ module.exports = {
     findCommentTop: function (cb) {
         commentSchema.aggregate([{
             $sort: {
-                create_time: -1
+                createdAt: -1
             }
         }, {
             $limit: 5
