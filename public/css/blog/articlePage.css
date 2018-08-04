@@ -172,7 +172,9 @@ section.article-wrapper {
         text-shadow: 0 0 5px #424242; }
       section.article-wrapper .article-box .article-header .pt-info .type-lk {
         display: inline-block;
-        color: #000;
+        color: #fff;
+        background-color: #728092;
+        border-radius: 50%;
         padding: 0 5px;
         text-align: center; }
     section.article-wrapper .article-box .article-body {
