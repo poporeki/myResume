@@ -1,0 +1,64 @@
+@import 'loading-ani';
+/* chartist custom */
+
+@keyframes width-pulse {
+  0% {
+    stroke-width: 2px
+  }
+  50% {
+    stroke-width: 4px;
+  }
+  100% {
+    stroke-width: 2px;
+  }
+}
+
+@keyframes dashoffset-seven {
+  0% {
+    stroke-dashoffset: 7px;
+  }
+  100% {
+    stroke-dashoffset: 0px;
+  }
+}
+
+@keyframes dasharray-craziness {
+  0% {
+    stroke-dasharray: 7px 2px;
+  }
+  80% {
+    stroke-dasharray: 7px 100px;
+    stroke-width: 10px
+  }
+  100% {
+    stroke-dasharray: 7px 2px;
+  }
+}
+
+.ct-grid.ct-vertical,
+.ct-grid.ct-horizontal {
+  stroke-dasharray: 2px;
+  shape-rendering: crispEdges;
+}
+
+.ct-series.ct-series-a .ct-line {
+  stroke-linecap: round;
+  animation: width-pulse 2s infinite;
+}
+
+.ct-series.ct-series-b .ct-line {
+  stroke-width: 2px;
+  stroke-dasharray: 5px 2px;
+  animation: dashoffset-seven 200ms infinite linear;
+}
+
+.ct-series.ct-series-c .ct-line {
+  stroke-width: 3px;
+  stroke-linecap: round;
+  stroke-dasharray: 30px 5px;
+  animation: dasharray-craziness 10s infinite linear;
+}
+
+.widget-2 {
+  position: relative;
+}

@@ -13,9 +13,9 @@
               <%=art.createTime %>
             </span>
             <span class="source">分类：
-              <a href= <%="/blog/articlelist?by[type_id]="+art.type.id %> > <%=art.type.name%> </a>
+              <a class="type-lk" href= <%="/blog/articlelist?by[type_id]="+art.type.id %> > <%=art.type.name%> </a>
             </span>
-            <span class="author">作者:
+            <span class="author">发布:
               <%=art.author %>
             </span>
             <span class="count">阅读数:
@@ -25,6 +25,15 @@
         </div>
         <div class="article-body">
           <%-art.content %>
+        </div>
+        <div class="article-tags-list">
+        <div class="tit">
+          TAG标签
+        </div>
+        <%var tags=art.tags;%>
+        <%for(var i=0;i<tags.length;i++){%>
+          <a href="/blog/articlelist?by[tags_id]=<%=tags[i]._id%>" class="tag-lk"><%=tags[i].tag_name%></a>
+        <%}%>
         </div>
       </article>
       <div class="line"></div>

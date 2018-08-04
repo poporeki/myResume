@@ -11,9 +11,8 @@ router.get('/', function (req, res) {
 router.post('/', function (req, res) {
   var name = req.body.uname;
   var pwd = req.body.upwd || '';
-  var hash = crypto.createHash('md5');
-  hash.update(pwd);
-  pwd = hash.digest('hex');
+  var hash = crypto.createHash('md5').update(pwd).digest('hex');
+  pwd = hash;
   userMod.checkUserPwd({
     name: name,
     pwd: pwd

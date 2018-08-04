@@ -22,6 +22,11 @@ var userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'myweb_user'
     }
+}, {
+    timestamps: {
+        createdAt: 'create_time',
+        updateAt: 'update_time'
+    }
 });
 
 userSchema.statics.findUserById = function (id, cb) {

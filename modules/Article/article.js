@@ -64,8 +64,8 @@ module.exports = {
           read: art.read,
           source: art.source,
           type: {
-            id: art.type_id[0]._id,
-            name: art.type_id[0].type_name
+            id: art.type_id ? art.type_id._id : 'null',
+            name: art.type_id ? art.type_id.type_name : 'null'
           },
           tags: art.tags_id,
           time_create: moment(art.create_time).format('YYYY-MM-DD hh:mm:ss')
@@ -77,6 +77,66 @@ module.exports = {
       }
       return cb(null, artArr);
     });
+  },
+  findArticleTypeInfo: function (cb) {
+    articles.aggregate([{
+      $group: {
+        _id: "$type_id",
+        count: {
+          $sum: 1
+        }
+      }
+    }, {
+      $lookup: {
+        from: 'arc_types',
+        localField: '_id',
+        foreignField: '_id',
+        as: 'type_info'
+      }
+    }, {
+      $project: {
+        '_id': 1,
+        'count': 1,
+        'type_info.type_name': 1
+      }
+    }]).exec(cb);
+  },
+  findArticleTagsInfo: function (cb) {
+    articles.aggregate([{
+      $unwind: "$tags_id"
+    }, {
+      $group: {
+        _id: "$tags_id",
+        count: {
+          $sum: 1
+        }
+      }
+    }, {
+      $lookup: {
+        from: 'arc_tags',
+        localField: '_id',
+        foreignField: '_id',
+        as: 'tags_info'
+      }
+    }, {
+      $replaceRoot: {
+        newRoot: {
+          $mergeObjects: [{
+            $arrayElemAt: ["$tags_info", 0]
+          }, "$$ROOT"]
+        }
+      }
+    }, {
+      $project: {
+        'tags_info': 0
+      }
+    }, {
+      $project: {
+        '_id': 1,
+        'count': 1,
+        'tag_name': 1
+      }
+    }]).exec(cb);
   },
   /* 根据id查找文章 */
   showOneArticle: function (artid, cb) {

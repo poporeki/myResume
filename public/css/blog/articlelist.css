@@ -106,8 +106,7 @@
     .article-list > .article-list-item:last-child {
       margin-bottom: 0; }
     .article-list > .article-list-item:hover > a, .article-list > .article-list-item:active > a {
-      /* transform: translateX(5px); */
-      transform: rotateX(20deg); }
+      transform: translateX(5px); }
     .article-list > .article-list-item > a {
       display: flex;
       justify-content: space-between;

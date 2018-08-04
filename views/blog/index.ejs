@@ -50,8 +50,13 @@
           内容为空
         <% }else{ %>
         <% for(var i=0;i<tagList.length;i++){ %>
-          <a class='tag-lk' href= "/blog/articlelist?by[tags_id]= <%=tagList[i].id %>">
+          <a class='tag-lk' href= "/blog/articlelist?by[tags_id]=<%=tagList[i]._id %>">
             <%= tagList[i].tag_name %>
+            <div class="lk-inner">
+              <div class="front"><span><%= tagList[i].tag_name %></span></div>
+              <div class="back"><span><%= tagList[i].count %></span></div>
+            </div>
+            
           </a>
         <% }} %>
         </div>

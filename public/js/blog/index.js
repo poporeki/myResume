@@ -74,13 +74,16 @@ function getNewArtList() {
         artAuthor_name = art.author.name,
         /* 作者 */
         source = art.source,
+        typeName = art.type.name,
         /* html内容 */
         time_create = art.time_create; /* 发布时间 */
       html += '<li>' +
         '<a href="/blog/article/' + artid + '">' +
         '<div class="card">' +
         '<div class="card-header">' +
-        '<h4>' + artTitle + '</h4>' +
+        '<div class="title">' +
+        '<h4><span class="art-type-tips">' + typeName + '</span>' + artTitle + '</h4>' +
+        '</div>' +
         '<div class="info-box">' +
         '<div class="item read-num">' +
         '<i class="iconfont bottom icon-read"></i>' +

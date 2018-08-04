@@ -75,8 +75,7 @@
     &:hover,
     &:active {
       >a {
-        /* transform: translateX(5px); */
-        transform: rotateX(20deg);
+        transform: translateX(5px);
       }
     }
     >a {

@@ -3,7 +3,7 @@ var router = express.Router();
 var TouristsMod = require('../../modules/Tourists');
 
 router.get('/ofTheDayVistorList', function (req, res) {
-  TouristsMod.getTheDayVistor(function (result) {
+  TouristsMod.getTheDayVistor(function (err, result) {
     res.render('./backend/vistorlist', {
       pageTitle: '今天的访问量',
       username: res.locals.USER,

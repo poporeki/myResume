@@ -24,9 +24,15 @@ body {
   position: relative;
   overflow: hidden;
   color: #fff;
-  perspective: 1500;
-  -webkit-perspective: 1500;
-  /* Safari and Chrome */
+}
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  perspective: 1500px;
+  -webkit-perspective: 1500px;
+  transform-style: preserve-3d;
 }
 
 .loading-ani {
@@ -74,8 +80,6 @@ body {
   animation: loginbox_in 1s forwards;
   backface-visibility: hidden;
   box-sizing: border-box;
-  perspective: 1500;
-  -webkit-perspective: 1500;
   .dog {
     position: absolute;
     transform: scale(0);

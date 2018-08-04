@@ -11,7 +11,6 @@ router.get('/:id', function (req, res, next) {
   /* 获取文章信息 */
   var artid = req.params.id;
   articleMod.showOneArticle(artid, function (err, artDatas) {
-
     if (err || artDatas.length == 0) {
       return res.render('404');
     }
@@ -22,9 +21,10 @@ router.get('/:id', function (req, res, next) {
       /* 文章id */
       title: thisArt.title,
       type: {
-        id: thisArt.type_id[0]._id,
-        name: thisArt.type_id[0].type_name
+        id: thisArt.type_id._id,
+        name: thisArt.type_id.type_name
       },
+      tags: thisArt.tags_id,
       /* 文章标题名 */
       createTime: moment(thisArt.create_time).format('YYYY-MM-DD hh:mm'),
       /* 文章创建时间 */
@@ -96,10 +96,14 @@ router.get('/:id', function (req, res, next) {
   })
 })
 
-router.post('/getTop', function (req, res) {
+router.post('/getTop', function (req, res, next) {
   articleMod.getArtsByRead(function (err, result) {
     if (err) {
-      return;
+      res.json({
+        status: false,
+        msg: '数据获取失败'
+      })
+      return next(err);
     }
     return res.json({
       status: true,

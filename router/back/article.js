@@ -25,18 +25,6 @@ router.post('/uploadArtIMG', function (req, res) {
 
 /* 显示所有文章 */
 router.get('/articlelist', function (req, res) {
-  // articleMod.getCount({}, function (err, artCount) {
-  //     if (err) return;
-  //     articleMod.showArticleList(req, function (err, result) {
-  //         if (err) return;
-  //         res.render('./backend/articlelist', {
-  //             pageTitle: "文章列表",
-  //             userName: req.session.user.username,
-  //             artInfo: result,
-  //             artCount:artCount
-  //         });
-  //     })
-  // })
   res.render('./backend/articlelist', {
     pageTitle: "文章列表",
     userName: req.session.user.username,

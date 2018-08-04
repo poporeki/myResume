@@ -56,7 +56,7 @@
   position: relative;
   display: flex;
   flex-direction: row;
-  @media(min-width: 851px) {
+  @media(min-width: 768.1px) {
     max-height: 400px;
     height: 400vw;
     >.lt {
@@ -67,7 +67,7 @@
       padding-left: 10px;
     }
   }
-  @media(max-width: 850px) {
+  @media(max-width: 768px) {
     flex-direction: column;
     >.lt,
     >.rt {
@@ -190,7 +190,6 @@ section.classify {
   margin-top: 50px;
   display: flex;
   flex-direction: row;
-  color: rgb(168, 168, 168);
   box-sizing: border-box;
   .lt {
     margin-right: 15px;
@@ -273,7 +272,8 @@ section.classify {
         left: 0;
         margin: 0;
         bottom: 0;
-        color: $color-lk-font;
+        font-size: 1.2rem;
+        color: $color-black;
         background-color: $color-lk-bgcolor;
         box-sizing: border-box;
         text-align: center;
@@ -287,13 +287,24 @@ section.classify {
   }
 }
 
-@media(max-width:850px) {
+@media (min-width: 992px) {
+  html,
+  body {
+    font-size: 14px;
+  }
+}
+
+@media(max-width:768px) {
+  html,
+  body {
+    font-size: 12px;
+  }
   .article {
     flex-direction: column-reverse !important;
     .article-list {
       width: 100% !important;
-      li {
-        flex-basis: 100% !important;
+      ul {
+        column-count: 1;
       }
     }
     .right-item {
@@ -325,17 +336,24 @@ section.classify {
   }
   >ul {
     position: relative;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    column-count: 2;
+    column-gap: 1px;
+    column-rule: 1px solid rgb(53, 53, 53);
     width: 100%;
     box-sizing: border-box;
-    background-color: #000
   }
   li {
-    flex-basis: 50%;
+    -webkit-column-break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    -moz-column-break-inside: avoid;
+    -o-column-break-inside: avoid;
+    -ms-column-break-inside: avoid;
+    column-break-inside: avoid;
+    -webkit-backface-visibility: hidden;
     opacity: 0;
     animation: flipXIn .3s forwards;
+    box-sizing: border-box;
+    background-color: #000;
     &:hover {
       .card {
         background-color: $highlight-color-black;
@@ -354,16 +372,6 @@ section.classify {
       .card {
         transform: scale(.95);
       }
-    }
-    @media(min-width:851px) {
-      &:nth-child(even) {
-        .card {
-          margin-left: 10px;
-        }
-      }
-    }
-    &:nth-child(odd) {
-      .card {}
     }
   }
   .card {
@@ -389,6 +397,12 @@ section.classify {
     &:before {
       content: '';
       position: absolute;
+      -webkit-column-break-inside: avoid;
+      -moz-column-break-inside: avoid;
+      -o-column-break-inside: avoid;
+      -ms-column-break-inside: avoid;
+      column-break-inside: avoid;
+      -webkit-backface-visibility: hidden;
       width: 100%;
       height: 5px;
       bottom: 0;
@@ -400,8 +414,7 @@ section.classify {
     }
     .card-header {
       margin-bottom: 20px;
-      >h4 {
-        display: inline-block;
+      .title {
         border-left: 5px solid $color-green;
         margin: 0 0 10px;
         padding: 10px 5px;
@@ -409,6 +422,29 @@ section.classify {
         box-shadow: 0 0 1px rgb(119, 119, 119);
         border-top-right-radius: 2px;
         border-bottom-right-radius: 2px;
+      }
+      .art-type-tips {
+        position: relative;
+        padding: 5px 3px;
+        margin-right: 5px;
+        color: #fff;
+        z-index: 1;
+        &:after {
+          content: '';
+          position: absolute;
+          height: 50%;
+          width: 100%;
+          top: 8%;
+          left: 0;
+          z-index: -1;
+          background-color: $color-pink;
+        }
+      }
+      h4 {
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+        color: $color-font;
       }
       .info-box {
         display: flex;
@@ -433,6 +469,8 @@ section.classify {
         -webkit-line-clamp: 3;
         word-break: break-word;
         overflow: hidden;
+        margin: 10px 0 0 0;
+        font-size: 1rem;
         max-height: 100px;
         color: rgb(226, 226, 226);
       }
@@ -441,6 +479,12 @@ section.classify {
         overflow: hidden;
         >img {
           display: block;
+          -webkit-column-break-inside: avoid;
+          -moz-column-break-inside: avoid;
+          -o-column-break-inside: avoid;
+          -ms-column-break-inside: avoid;
+          column-break-inside: avoid;
+          -webkit-backface-visibility: hidden;
           height: 100%;
           transform: scale(.9);
           transition: transform .5s ease;
@@ -455,15 +499,62 @@ section.classify {
   box-sizing: border-box;
   .articletag-list {
     .tag-lk {
+      position: relative;
       display: inline-block;
       padding: 10px 20px;
       margin-bottom: 5px;
-      font-size: 16px;
-      background-color: $color-pink;
       transition: transform .2s ease-out;
-      transform: scale(.95);
+      transform: scale(1);
+      color: rgba(0, 0, 0, 0);
+      .lk-inner {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        color: #fff;
+        perspective: 1200px;
+        transform-style: preserve-3d;
+        transition: transform .3s ease;
+        background-color: $color-pink;
+      }
+      .front,
+      .back {
+        position: absolute;
+        backface-visibility: hidden;
+        background-color: $color-pink;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        transition: transform .3s ease;
+        >span {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+      .front {
+        /* z-index: 1; */
+        transform: rotateX(0);
+      }
+      .back {
+        /* z-index: 0; */
+        transform: rotateX(-180deg);
+        background-color: $color-green;
+      }
       &:hover {
         transform: scale(1);
+        .lk-inner {
+          transform: rotateX(180deg);
+        }
+        /* .front {
+          z-index: 0;
+        }
+        .back {
+          z-index: 1;
+        } */
       }
       &:active {
         transform: scale(.9);

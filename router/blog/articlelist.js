@@ -15,7 +15,7 @@ router.get('/', function (req, res) {
         artid: artlist[i].id,
         title: artlist[i].title,
         source: artlist[i].source,
-        create_time: artlist[i].create_time
+        create_time: artlist[i].time_create
       }
       list.push(obj);
     }
@@ -43,7 +43,7 @@ router.post('/', function (req, res) {
         artid: artlist[i].id,
         title: artlist[i].title,
         source: artlist[i].source,
-        create_time: artlist[i].create_time
+        create_time: artlist[i].time_create
       }
       list.push(obj);
     }

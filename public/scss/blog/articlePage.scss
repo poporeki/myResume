@@ -49,6 +49,14 @@ pre {
   overflow-x: auto;
 }
 
+.article-body {
+  p {
+    img {
+      width: 100%;
+    }
+  }
+}
+
 .loading-ani {
   position: absolute;
   width: 100%;
@@ -151,9 +159,15 @@ section.article-wrapper {
         text-align: center;
         margin-bottom: 50px;
         span {
-          margin-right: 10px;
+          margin-right: 20px;
           color: #8c9cb3;
           text-shadow: 0 0 5px #424242;
+        }
+        .type-lk {
+          display: inline-block;
+          color: #000;
+          padding: 0 5px;
+          text-align: center;
         }
       }
     }
@@ -414,6 +428,35 @@ section.article-wrapper {
         display: block;
         position: relative;
       }
+    }
+  }
+}
+
+.article-tags-list {
+  .tag-lk {
+    position: relative;
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 5px 0;
+    margin-right: 20px;
+    background-color: #085e2c;
+    &:hover {
+      background-color: #064922;
+    }
+    &:after,
+    &:before {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 100%;
+      width: 20%;
+      transform: skewX(30deg);
+      background-color: inherit;
+      z-index: -1;
+    }
+    &:before {
+      transform: skewX(-30deg) !important;
     }
   }
 }

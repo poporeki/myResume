@@ -17,10 +17,10 @@ var articleSchema = new schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'myweb_user'
   },
-  type_id: [{
+  type_id: {
     type: schema.Types.ObjectId,
     ref: 'arc_type'
-  }],
+  },
   tags_id: [{
     type: schema.Types.ObjectId,
     ref: 'arc_tag'
@@ -49,8 +49,7 @@ articleSchema.statics.findArticle = function (pars, cb) {
     path: 'author_id',
     select: 'user_name'
   }, {
-    path: 'type_id',
-    select: 'type_name'
+    path: 'type_id'
   }, {
     path: 'tags_id',
     select: 'tag_name'

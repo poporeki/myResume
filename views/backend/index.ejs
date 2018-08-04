@@ -1,4 +1,6 @@
 <% include common %>
+<link rel="stylesheet" href="/css/back/index.css">
+
 <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><%=pageTitle%></font></font></h4>
     <p class="mg-b-0"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">-</font></font></p>
@@ -60,13 +62,13 @@
         </div><!-- row -->
 
         <div class="row row-sm mg-t-20">
-          <div class="col-8">
+          <div class="col-md-8 col-sm-12">
             <div class="card pd-0 bd-0 shadow-base">
               <div class="pd-x-30 pd-t-30 pd-b-15">
                 <div class="d-flex align-items-center justify-content-between">
                   <div>
-                    <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">CPU负载状况</h6>
-                    <p class="mg-b-0">cpu实时状况</p>
+                    <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">CPU、内存状况</h6>
+                    <p class="mg-b-0">实时状况 5s刷新一次</p>
                   </div>
                   <div class="tx-13">
                     <p class="mg-b-0"><span class="square-8 rounded-circle bg-teal-info mg-r-10"></span></p>
@@ -78,25 +80,63 @@
                 <div id="ch1" class="br-chartist br-chartist-2 ht-200 ht-sm-300"></div>
               </div>
             </div><!-- card -->
+            <div class="widget-2">
+              <div class="card shadow-base overflow-hidden">
+                <div class="card-header">
+                  <h6 class="card-title">统计</h6>
+                  <div class="btn-group views-switch-block" role="group" aria-label="Basic example">
+                    <a href="javascript:void(0);" class="btn active week">一周</a>
+                    <a href="javascript:void(0);" class="btn month">一月</a>
+                  </div>
+                </div><!-- card-header -->
+                <div class="card-body pd-0 bd-color-gray-lighter">
+                  <div class="row no-gutters tx-center">
+                    <div class="col-12 col-sm-4 pd-y-20 tx-left">
+                      <p class="pd-l-20 tx-12 lh-8 mg-b-0">访问人数曲线</p>
+                    </div><!-- col-4 -->
+                    <div class="col-6 col-sm-2 pd-y-20">
+                      <h5 class="tx-inverse tx-lato tx-bold mg-b-5 views-total">0</h5>
+                      <p class="tx-12 mg-b-0">Views</p>
+                    </div><!-- col-2 -->
+                    <div class="col-6 col-sm-2 pd-y-20 bd-l bd-color-gray-lighter">
+                      <h5 class="tx-inverse tx-lato tx-bold mg-b-5">102</h5>
+                      <p class="tx-12 mg-b-0">Likes</p>
+                    </div><!-- col-2 -->
+                    <div class="col-6 col-sm-2 pd-y-20 bd-l bd-color-gray-lighter">
+                      <h5 class="tx-inverse tx-lato tx-bold mg-b-5">343</h5>
+                      <p class="tx-12 mg-b-0">Comments</p>
+                    </div><!-- col-2 -->
+                    <div class="col-6 col-sm-2 pd-y-20 bd-l bd-color-gray-lighter">
+                      <h5 class="tx-inverse tx-lato tx-bold mg-b-5">960</h5>
+                      <p class="tx-12 mg-b-0">Shares</p>
+                    </div><!-- col-2 -->
+                  </div><!-- row -->
+                </div><!-- card-body -->
+                <div class="card-body pd-0">
+                  <div id="rickshaw2" class="wd-100p ht-150 rickshaw_graph"></div>
+                </div><!-- card-body -->
+              </div>
+            </div>
+            
           </div><!-- col-9 -->
-          <div class="col-4">
+          <div class="col-md-4 col-sm-12">
             <div class="card bd-0 shadow-base pd-30">
               <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">服务器状态</h6>
               <p class="mg-b-25">服务器状态摘要.</p>
-              <%var cpu=(osInfo.loadavg[0]*100).toFixed(1);%>
-              <label class="tx-12 tx-gray-600 mg-b-10 cpus" data-cpus="<%=osInfo.loadavg[0]*100%>,<%=osInfo.loadavg[1]*100%>,<%=osInfo.loadavg[2]*100%>">CPU使用率 (<span class="cpu-value"><%=cpu%></span> %)</label>
+              
+              <label class="tx-12 tx-gray-600 mg-b-10 cpus">CPU使用率 (<span class="cpu-value"></span> %)</label>
               <div class="progress ht-5 mg-b-10">
-                <div class="progress-bar cpu-pb" style="width:<%=cpu%>%;" role="progressbar" aria-valuenow="<%=cpu%>" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-              <%var memony=(osInfo.freemem/osInfo.totalmem*100).toFixed(1);%>
-              <label class="tx-12 tx-gray-600 mg-b-10">内存使用率 (<%=memony%> %)</label>
-              <div class="progress ht-5 mg-b-10">
-                <div class="progress-bar bg-teal" style="width:<%=memony%>%;" role="progressbar" aria-valuenow="<%=memony%>" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar cpu-pb" style="width:0%;" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
 
-              <label class="tx-12 tx-gray-600 mg-b-10">硬盘使用率 (60.2%)</label>
+              <label class="tx-12 tx-gray-600 mg-b-10">内存使用率 (<span class="mem-value"></span> %)</label>
               <div class="progress ht-5 mg-b-10">
-                <div class="progress-bar bg-danger wd-60p" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar bg-teal mem-pb" style="width:0%;" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+
+              <label class="tx-12 tx-gray-600 mg-b-10">硬盘使用率 (<%=diskUsage%>%)</label>
+              <div class="progress ht-5 mg-b-10">
+                <div class="progress-bar bg-danger" style="width:<%=diskUsage%>%;" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
 
               <label class="tx-12 tx-gray-600 mg-b-10">数据库 (5%)</label>

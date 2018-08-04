@@ -10,12 +10,13 @@ var scriptlink = require('./arclist_script');
 router.get('/:artid', function (req, res) {
   arcMod.showOneArticle(req.params.artid, function (err, artInfo) {
     if (err) return;
+    var artInfo = artInfo[0];
     arcTypeMod.findArticleType({}, function (err, typeInfo) {
       arcTagMod.findArticleTags({}, function (err, tagsInfo) {
         var pars = {
           pageTitle: '修改文章',
           submitURL: '/backend/art/updatearticle/' + req.params.artid,
-          userName: artInfo[0].author_id.user_name,
+          userName: artInfo.author_id.user_name,
           typeName: typeInfo,
           tagName: tagsInfo,
           importScript: scriptlink,
@@ -25,22 +26,11 @@ router.get('/:artid', function (req, res) {
             ]
           },
           artInfo: {
-            name: artInfo[0].title,
-            types: artInfo[0].type_id,
-            tags: artInfo[0].tags_id,
-            content: artInfo[0].content,
-            attribute: artInfo[0].attribute
-          }
-        }
-        var aaa = pars.typeName;
-        var bbb = pars.artInfo.types;
-        for (var i = 0; i < aaa.length; i++) {
-          for (var j = 0; j < bbb.length; j++) {
-            var al = aaa[i];
-            var bl = bbb[j];
-            if (al == bl) {
-              console.log(al + bl);
-            }
+            name: artInfo.title,
+            type: artInfo.type_id,
+            tags: artInfo.tags_id,
+            content: artInfo.content,
+            attribute: artInfo.attribute
           }
         }
         res.render('./backend/addArticle', pars);

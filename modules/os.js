@@ -39,7 +39,7 @@ exports.getInfo = function () {
 exports.geteMemUsage = function () {
   var freemem = os.freemem();
   var totalmem = os.totalmem();
-  return ((totalmem - freemem) / totalmem).toFixed(2);
+  return ((totalmem - freemem) / totalmem * 100).toFixed(2);
 }
 //Create function to get CPU information
 function cpuAverage() {

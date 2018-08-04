@@ -32,10 +32,14 @@
   </div>
 </footer>
 <%- include('sidebar') -%>
-<div class="parallax-window"></div>
+<div class="parallax-window lazyload" data-original="/images/blog_bg.jpg"></div>
 <div class="back-to-top" id="back_to_top"></div>
 </body>
 <script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery_lazyload/1.9.7/jquery.lazyload.min.js"></script>
 <script src="/js/requestAjax.js"></script>
 <script src="/js/blog/footer.js"></script>
+<script>
+$(".lazyload").lazyload();
+</script>
 </html>
