@@ -133,5 +133,36 @@ module.exports = {
                 }
             }]
         }]).exec(cb);
+    },
+    findCommentTop: function (cb) {
+        commentSchema.aggregate([{
+            $sort: {
+                create_time: -1
+            }
+        }, {
+            $limit: 5
+        }, {
+            $lookup: {
+                from: 'myweb_users',
+                localField: 'author_id',
+                foreignField: '_id',
+                as: 'author'
+            }
+        }, {
+            $lookup: {
+                from: 'articles',
+                localField: 'article_id',
+                foreignField: '_id',
+                as: 'article'
+            }
+        }, {
+            $project: {
+                '_id': 0,
+                'comment_text': 1,
+                'author.user_name': 1,
+                'article._id': 1,
+                'article.title': 1
+            }
+        }]).exec(cb);
     }
 }

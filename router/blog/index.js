@@ -3,6 +3,7 @@ var router = express.Router();
 var moment = require('moment');
 
 var articleMod = require('../../modules/Article/article');
+var commentMod = require('../../modules/Article/articleComments');
 var articleTypeMod = require('../../modules/Article/articleType');
 var arcticleTagMod = require('../../modules/Article/articleTag');
 
@@ -11,24 +12,26 @@ router.get('/', (req, res, next) => {
     if (err) return next(err);
     articleMod.findArticleTagsInfo((err, resTagsList) => {
       if (err) return next(err);
-      var by = {
-        by: {
-          is_delete: false,
-          attribute: {
-            carousel: true
+      commentMod.findCommentTop(function (err, resCommList) {
+        var by = {
+          by: {
+            is_delete: false,
+            attribute: {
+              carousel: true
+            }
           }
-        }
-      };
-      req.query = by;
-      articleMod.showArticleList(req, (err, resCarouselList) => {
-        if (err) return next(err);
-        res.render('./blog/index', {
-          typeList: resTypeList,
-          tagList: resTagsList,
-          carouList: resCarouselList
-        });
-      })
-
+        };
+        req.query = by;
+        articleMod.showArticleList(req, (err, resCarouselList) => {
+          if (err) return next(err);
+          res.render('./blog/index', {
+            typeList: resTypeList,
+            tagList: resTagsList,
+            commList: resCommList,
+            carouList: resCarouselList
+          });
+        })
+      });
     });
 
   })
@@ -51,7 +54,7 @@ router.get('/getArtList', (req, res, next) => {
 })
 
 router.get('/info', function (req, res) {
-  articleMod.findArticleTagsInfo(function (err, result) {
+  commentMod.findCommentTop(function (err, result) {
     if (err) {
       console.log(err);
 

@@ -1,16 +1,18 @@
-var mongoose=require('mongoose');
+var mongoose = require('mongoose');
 
-var arcTypeSchema=new mongoose.Schema({
-    type_name:String,
-    author_id:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'myweb_user'
+var arcTypeSchema = new mongoose.Schema({
+    type_name: String,
+    author_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'myweb_user'
     }
-},{timestamps:{
-    createdAt: 'create_time', 
-    updatedAt: 'update_time'
-}});
+}, {
+    timestamps: {
+        createdAt: 'create_time',
+        updatedAt: 'update_time'
+    }
+});
 
-var arc_type=mongoose.model('arc_type',arcTypeSchema);
+var arc_type = mongoose.model('arc_type', arcTypeSchema);
 
-module.exports=arc_type;
+module.exports = arc_type;

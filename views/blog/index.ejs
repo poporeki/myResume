@@ -60,6 +60,18 @@
           </a>
         <% }} %>
         </div>
+        <h2>最新评论</h2>
+        <div class="artcomm-list">
+          <% if(commList.length==0){ %>
+          内容为空
+          <% }else{ %>
+          <% for(var i=0;i<commList.length;i++){ %>
+            <a class='comm-lk' href= "/blog/article/<%=commList[i].article[0]._id %>#comment">
+            <h6 class="arc-tit"><%=commList[i].article[0].title %></h6>
+            <div class="arc-comm"><%=commList[i].author[0].user_name %> : <span><%=commList[i].comment_text %></span></div> 
+            </a>
+          <% }} %>
+        </div>
       </div>
     </section>
 <%- include('footer_blog') -%>
