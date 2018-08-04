@@ -218,9 +218,10 @@ section.classify {
     align-items: center;
     text-align: center;
     justify-content: center;
-    flex-basis: 25%;
+    flex-grow: 1;
     height: 200px;
     min-width: 150px;
+    margin: 2px;
     margin-bottom: 20px;
     border-radius: 2px;
     box-sizing: border-box;
