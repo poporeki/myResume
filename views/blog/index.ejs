@@ -68,7 +68,7 @@
           <% for(var i=0;i<commList.length;i++){ %>
             <a class='comm-lk' href= "/blog/article/<%=commList[i].article[0]._id %>#comment">
             <h6 class="arc-tit"><%=commList[i].article[0].title %></h6>
-            <div class="arc-comm"><img class="head-pic" src="<%=commList[i].avatar[0].save_path+'thumbnail_'+commList[i].avatar[0].new_name%>" style="height:100%;" alt="头像"><%=commList[i].author[0].user_name %> : <span><%=commList[i].comment_text %></span></div> 
+            <div class="arc-comm"><img class="head-pic" src="<%=commList[i].avatar[0].save_path+'thumbnail_'+commList[i].avatar[0].new_name%>" alt="头像"><%=commList[i].author[0].user_name %> : <span><%=commList[i].comment_text %></span></div> 
             </a>
           <% }} %>
         </div>
