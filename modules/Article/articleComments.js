@@ -156,10 +156,19 @@ module.exports = {
                 as: 'article'
             }
         }, {
+            $lookup: {
+                from: 'upload_files',
+                localField: 'author.avatar_path',
+                foreignField: '_id',
+                as: 'avatar'
+            }
+        }, {
             $project: {
                 '_id': 0,
                 'comment_text': 1,
                 'author.user_name': 1,
+                'avatar.new_name': 1,
+                'avatar.save_path': 1,
                 'article._id': 1,
                 'article.title': 1
             }
