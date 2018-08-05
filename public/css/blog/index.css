@@ -248,7 +248,7 @@ section.classify {
         color: #2c2f34;
         transform: translateY(0); }
       section.classify .classify-item a.type-lk:hover > p {
-        background-color: #da6f28; }
+        background-color: #202020; }
       section.classify .classify-item a.type-lk .iconfont {
         font-size: 100px;
         position: absolute;
@@ -272,8 +272,8 @@ section.classify {
         margin: 0;
         bottom: 0;
         font-size: 1.2rem;
-        color: #000;
-        background-color: #d36d28;
+        color: #d36d28;
+        background-color: #000;
         box-sizing: border-box;
         text-align: center;
         letter-spacing: 5px;

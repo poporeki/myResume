@@ -247,7 +247,7 @@ section.classify {
           transform: translateY(0);
         }
         >p {
-          background-color: $color-lk-hover-bgcolor;
+          background-color: $color-block-hover;
         }
       }
       .iconfont {
@@ -275,8 +275,8 @@ section.classify {
         margin: 0;
         bottom: 0;
         font-size: 1.2rem;
-        color: $color-black;
-        background-color: $color-lk-bgcolor;
+        color: $color-lk-bgcolor;
+        background-color: $color-black;
         box-sizing: border-box;
         text-align: center;
         letter-spacing: 5px;
