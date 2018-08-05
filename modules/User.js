@@ -13,6 +13,18 @@ module.exports = {
   findUser: function (name, cb) {
     dbUser.findByName(name, cb);
   },
+  /* 获取用户列表 */
+  getUserList: function (pars, cb) {
+    var obj = {
+      by: pars.by ? pars.by : {},
+      limit: pars.limit ? pars.limit : 0,
+      skip: pars.page ? pars.page * obj.limit : 0,
+      sort: pars.sort ? pars.sort : {
+        reg_time: 1
+      }
+    }
+    dbUser.getUserList(obj, cb);
+  },
   /* 比对密码 */
   checkUserPwd: function (pars, cb) {
     dbUser.findByNP(pars, cb);
