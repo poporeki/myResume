@@ -297,7 +297,9 @@ section.classify {
       .article .article-list ul {
         column-count: 1; }
     .article .right-item {
-      width: 100% !important; } }
+      width: 100% !important; }
+  .artcomm-list .arc-tit {
+    white-space: normal !important; } }
 
 @media (min-width: 768.1px) {
   .artcomm-list .comm-lk {
@@ -519,6 +521,7 @@ section.classify {
       margin: 0;
       padding: 0;
       font-size: 1.1rem;
+      width: auto;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis; }
