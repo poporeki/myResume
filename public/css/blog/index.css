@@ -546,4 +546,5 @@ section.classify {
       font-weight: bold; }
       .right-item .artcomm-list .arc-comm > img {
         height: 2rem;
+        vertical-align: middle;
         margin-right: 5px; }
