@@ -541,3 +541,6 @@ section.classify {
       font-size: 1rem;
       color: #000;
       font-weight: bold; }
+      .right-item .artcomm-list .arc-comm .haed-pic {
+        height: 2rem;
+        margin-right: 5px; }
