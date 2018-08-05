@@ -7,12 +7,15 @@ var articleTypeMod = require('../../modules/Article/articleType');
 router.get('/add', function (req, res) {
   res.render('./backend/add', {
     pageTitle: '文章分类',
-    formAction: '/addtype',
+    formAction: '/type/add',
     userName: req.session.user.username
   });
 })
 
 router.post('/add', function (req, res) {
+  if (req.session.user.permission !== 'root') {
+    return res.send('该账号没有权限');
+  }
   articleTypeMod.addArticleType(req.body, function (err, result) {
     if (err) {
       console.log(err);

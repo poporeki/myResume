@@ -5,7 +5,9 @@ module.exports = {
         articleType.find(pars || {}, cb);
     },
     addArticleType: function (pars, cb) {
-        articleType.create(pars || {}, cb);
+        articleType.create({
+            type_name: pars.t_name
+        }, cb);
     },
     removeArticleType: function (typeid, cb) {
         articleType.remove({

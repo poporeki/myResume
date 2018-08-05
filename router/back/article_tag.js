@@ -6,7 +6,7 @@ var articleTagMod = require('../../modules/Article/articleTag');
 router.get('/add', function (req, res) {
   res.render('./backend/add', {
     pageTitle: 'Tag标签',
-    formAction: '/addtag',
+    formAction: '/tag/add',
     userName: req.session.user.username
   })
 })

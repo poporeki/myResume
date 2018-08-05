@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var userMod = require('../../modules/User');
+var arcMod = require('../../modules/Article/article');
 var Tourists = require('../../modules/Tourists');
 var osMod = require('../../modules/os');
 var childProcess = require('../../modules/child_process');
@@ -36,15 +37,22 @@ router.get('/', (req, res) => {
   userMod.getLastLoginInfo(req.session.user._id, function (err, loginInfo) {
     Tourists.getVistorTotal('day', function (err, vistor) {
       childProcess.diskUsage(function (diskUsage) {
-        res.render('./backend/index', {
-          pageTitle: '首页',
-          userName: req.session.user.username,
-          lastLoginInfo: loginInfo,
-          vistorNum: vistor,
-          diskUsage,
-          importStyle,
-          importScript
+        arcMod.getArticleTitle(3, function (err, arclist) {
+          if (err) {
+            return;
+          }
+          res.render('./backend/index', {
+            pageTitle: '首页',
+            userName: req.session.user.username,
+            lastLoginInfo: loginInfo,
+            vistorNum: vistor,
+            arclist,
+            diskUsage,
+            importStyle,
+            importScript
+          });
         });
+
       });
 
     });

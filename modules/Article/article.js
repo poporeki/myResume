@@ -251,5 +251,15 @@ module.exports = {
       }
       return cb(null, artList);
     })
+  },
+  getArticleTitle: function (limit, cb) {
+    articles.find({
+      is_delete: false
+    }, {
+      _id: 1,
+      title: 1
+    }).limit(limit).sort({
+      create_time: -1
+    }).exec(cb);
   }
 }
