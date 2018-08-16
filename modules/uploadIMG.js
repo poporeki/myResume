@@ -258,19 +258,19 @@ exports.baseUpload = function (req, uPath, cb) {
         author_id: req.session.user._id
       }, function (err, result) {
         if (err) return reject(err);
-        resolve();
+        resolve(result._id);
 
       })
     })
   }
   /* 更新用户信息-头像路径 */
-  function updateUserAvatarPath() {
+  function updateUserAvatarPath(avatarID) {
     return new Promise((resolve, reject) => {
       userSchema.update({
         _id: req.session.user._id
       }, {
         $set: {
-          avatar_path: result._id
+          avatar_path: avatarID
         }
       }, (err, result) => {
         if (err) {
