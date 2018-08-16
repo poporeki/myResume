@@ -34,107 +34,99 @@ exports.upLoadIMG = function (req, uPath, cb) {
     let resPath = uploadDir.split(path.sep + 'public')[1];
     form.uploadDir = uploadDir;
     form.hash = 'md5';
-    form.parse(req, function (err, fields, files) {
-      let file;
-      for (file in files) {};
-      let hash = files[file].hash;
-      checkDb(hash, function (err, result) {
-        if (err) return;
-        if (result) {
-          return cb(null, result);
-        };
+    /* 获取数据 */
+    let getFilesData = () => {
+      return new Promise((resolve, reject) => {
+        form.parse(req, (err, fields, files) => {
+          if (err) reject(err);
+          resolve(files);
+        })
+      })
+    }
+    /* 比对数据库md5 */
+    let comparisonDBisExist = (files) => {
+      return new Promise((resolve, reject) => {
+        let file;
+        for (file in files) {};
+        let hash = files[file].hash;
+        checkDb(hash, function (err, result) {
+          if (err) reject(err);
+          if (!result || result === null) return resolve({
+            file,
+            files
+          });
+          if (result) {
+            return cb(null, result);
+          };
+        });
+      })
+    }
+    /* 保存为文件并重命名 */
+    let saveFiles = (f) => {
+      return new Promise((resolve, reject) => {
+        let file = f.file,
+          files = f.files;
+
         let extname = path.extname(files[file].name); /* 扩展名 */
         let timestamp = moment().format('YYYYMMDDhhmmssms') + Math.floor(Math.random() * 90000 + 9999); /* 时间戳 */
         let new_name = timestamp + extname; /* 重命名 */
-        fs.rename(files[file].path, path.join(form.uploadDir, new_name), function (err) {
+        let oldPath = files[file].path;
+        let newPath = path.join(form.uploadDir, new_name);
+        fs.rename(oldPath, newPath, (err) => {
           if (err) {
             return cb(err, null);
           }
-          var ofileInfo = {
-            position: path.join(form.uploadDir, new_name),
-            file: files[file],
-            source_name: files[file].name,
-            save_path: resPath,
-            ext_name: extname,
-            new_name: new_name,
-            type: files[file].type,
-            size: files[file].size,
-            hash: files[file].hash,
-            last_modified_date: files[file].last_modified_date
-          };
-          upLoadSchema.create({
-            source_name: ofileInfo.source_name,
-            ext_name: ofileInfo.ext_name,
-            new_name: ofileInfo.new_name,
-            save_path: ofileInfo.save_path,
-            type: ofileInfo.type,
-            size: ofileInfo.size,
-            hash: ofileInfo.hash,
-            last_modified_date: ofileInfo.last_modified_date,
-            author_id: req.session.user._id
-          })
-          return cb(null, resPath + new_name);
-        })
-
-
+          resolve({
+            file,
+            files,
+            extname,
+            new_name
+          });
+        });
       })
-      /* 比對數據庫是否上传过 */
-      // upLoadSchema.find({
-      //     'hash': hash
-      // }, function (err, result) {
-      //     if (err) {
-      //         return;
-      //     }
+    };
+    /* 信息保存入数据库 */
+    let saveInfoToDB = (f) => {
+      return new Promise((resolve, reject) => {
+        let file = f.file,
+          files = f.files,
+          extname = f.extname,
+          new_name = f.new_name;
 
-      //     if (result.length == 0) {
-      //         var extname = path.extname(files[file].name); /* 扩展名 */
-      //         var timestamp = moment().format('YYYYMMDDhhmmssms') + Math.floor(Math.random() * 90000 + 9999); /* 时间戳 */
-      //         var new_name = timestamp + extname; /* 重命名 */
-      //         fs.rename(files[file].path, path.join(form.uploadDir, new_name), function (err) {
-      //             if (err) {
-      //                 console.log(err);
-      //                 return cb(err, null);
-      //             }
-
-      //             var ofileInfo = {
-      //                 position: path.join(form.uploadDir, new_name),
-      //                 file: files[file],
-      //                 source_name: files[file].name,
-      //                 save_path: resPath,
-      //                 ext_name: extname,
-      //                 new_name: new_name,
-      //                 type: files[file].type,
-      //                 size: files[file].size,
-      //                 hash: files[file].hash,
-      //                 last_modified_date: files[file].last_modified_date
-      //             };
-      //             upLoadSchema.create({
-      //                 source_name: ofileInfo.source_name,
-      //                 ext_name: ofileInfo.ext_name,
-      //                 new_name: ofileInfo.new_name,
-      //                 save_path: ofileInfo.save_path,
-      //                 type: ofileInfo.type,
-      //                 size: ofileInfo.size,
-      //                 hash: ofileInfo.hash,
-      //                 last_modified_date: ofileInfo.last_modified_date,
-      //                 author_id: req.session.user._id
-      //             })
-      //             return cb(null, {
-      //                 'errno': 0,
-      //                 'fileUrl': resPath + new_name
-      //             })
-      //         })
-      //     } else {
-      //         return cb(null, {
-      //             'errno': 0,
-      //             'fileUrl': result[0].save_path + result[0].new_name
-      //         })
-      //     }
-      // })
-
-
-
-    });
+        let ofileInfo = {
+          position: path.join(form.uploadDir, new_name),
+          file: files[file],
+          source_name: files[file].name,
+          save_path: resPath,
+          ext_name: extname,
+          new_name: new_name,
+          type: files[file].type,
+          size: files[file].size,
+          hash: files[file].hash,
+          last_modified_date: files[file].last_modified_date
+        };
+        upLoadSchema.create({
+          source_name: ofileInfo.source_name,
+          ext_name: ofileInfo.ext_name,
+          new_name: ofileInfo.new_name,
+          save_path: ofileInfo.save_path,
+          type: ofileInfo.type,
+          size: ofileInfo.size,
+          hash: ofileInfo.hash,
+          last_modified_date: ofileInfo.last_modified_date,
+          author_id: req.session.user._id
+        }, function (err, result) {
+          if (err) reject(err);
+          resolve(new_name);
+        })
+      });
+    }
+    getFilesData()
+      .then(comparisonDBisExist)
+      .then(saveFiles)
+      .then(saveInfoToDB)
+      .then((newName) => cb(null, resPath + newName))
+      .catch((err) => cb(err, null));
   }
 
 
@@ -290,65 +282,6 @@ exports.baseUpload = function (req, uPath, cb) {
     }).catch((err) => {
       return cb(err, null);
     })
-  // checkDb(hash, function (err, result) {
-  //   if (err) return;
-  //   if (result) {
-  //     return cb(null, result);
-  //   };
-  //   let timestamp = moment().format('YYYYMMDDhhmmssms') + Math.floor(Math.random() * 90000 + 9999); /* 时间戳 */
-  //   let new_name = timestamp + '.jpg'; /* 重命名 */
-  //   let dir = path.join(uploadDir, new_name);
-  //   let resPath = uploadDir.split(path.sep + 'public')[1];
-  //   fs.writeFile(dir, dataBuffer, function (err) {
-  //     if (err) {
-  //       return cb(err, null);
-  //     }
-  //     var thumbnail = path.join(uploadDir + 'thumbnail_' + timestamp + '.jpg');
-
-  //     var ofileInfo = {
-  //       position: dir,
-  //       file: new_name,
-  //       source_name: imgBase,
-  //       save_path: resPath,
-  //       ext_name: '.jpg',
-  //       new_name: new_name,
-  //       hash: hash
-  //     };
-  //     upLoadSchema.create({
-  //       source_name: ofileInfo.source_name,
-  //       ext_name: ofileInfo.ext_name,
-  //       new_name: ofileInfo.new_name,
-  //       save_path: ofileInfo.save_path,
-  //       hash: ofileInfo.hash,
-  //       author_id: req.session.user._id
-  //     }, function (err, result) {
-  //       if (err) return cb(err, null);
-  //       userSchema.update({
-  //         _id: req.session.user._id
-  //       }, {
-  //         $set: {
-  //           avatar_path: result._id
-  //         }
-  //       }, function (err, ress) {
-  //         if (err) {
-
-  //         }
-  //         console.log(ress);
-  //       })
-  //     })
-  //     gm(dir).resize(100).write(thumbnail, function (err) {
-  //       if (err) {
-  //         console.log('thumbnail error');
-  //         return cb(err, null);
-  //       }
-  //       console.log('thumbnail saved');
-  //       return cb(null, resPath + 'thumbnail_' + new_name);
-  //     });
-
-  //   });
-  // })
-
-
 }
 // 创建所有目录
 function mkdirs(dirpath, callback) {
