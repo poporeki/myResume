@@ -1,17 +1,17 @@
-var express = require('express');
-var app = express();
-var https = require('https');
-var fs = require('fs');
-var path = require('path');
-var bodyParser = require('body-parser');
-var useragent = require('express-useragent');
-var session = require('express-session');
-var compression = require('compression');
-var os = require('os');
+const express = require('express'),
+  app = express(),
+  https = require('https'),
+  fs = require('fs'),
+  path = require('path'),
+  bodyParser = require('body-parser'),
+  useragent = require('express-useragent'),
+  session = require('express-session'),
+  compression = require('compression'),
+  os = require('os');
 
-var socket = require('./router/back/socket');
+const socket = require('./router/back/socket');
 /* https配置证书 */
-var options;
+let options;
 if (os.platform() === 'win32') {
   options = {
     key: fs.readFileSync('d:/2_www.yansk.cn.key'),
@@ -26,7 +26,7 @@ if (os.platform() !== 'win32') {
   };
 }
 /* mongodb启用 */
-var db = require('./db/config');
+const db = require('./db/config');
 /* gzip */
 app.use(compression());
 /* body-parse */
@@ -59,12 +59,12 @@ app.use(session({
 /* 路由 */
 app.use('/', require('./router'));
 /* 错误处理 */
-app.use(function (err, req, res, next) {
+app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
 });
 /* 启动https服务 */
-var server = https.createServer(options, app).listen(PORT, function () {
+var server = https.createServer(options, app).listen(PORT, () => {
   console.log('server is running!');
 });
 /* 启动websocket服务 */

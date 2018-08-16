@@ -8,33 +8,75 @@ var articleTypeMod = require('../../modules/Article/articleType');
 var arcticleTagMod = require('../../modules/Article/articleTag');
 
 router.get('/', (req, res, next) => {
-  articleTypeMod.findArticleType('', (err, resTypeList) => {
-    if (err) return next(err);
-    articleMod.findArticleTagsInfo((err, resTagsList) => {
-      if (err) return next(err);
-      commentMod.findCommentTop(function (err, resCommList) {
-        var by = {
-          by: {
-            is_delete: false,
-            attribute: {
-              carousel: true
-            }
-          }
-        };
-        req.query = by;
-        articleMod.showArticleList(req, (err, resCarouselList) => {
-          if (err) return next(err);
-          res.render('./blog/index', {
-            typeList: resTypeList,
-            tagList: resTagsList,
-            commList: resCommList,
-            carouList: resCarouselList
-          });
-        })
+  var resObj = {};
+  /* 获取文章分类 */
+  function getArcType() {
+    return new Promise(function (resolve, reject) {
+      articleTypeMod.findArticleType('', (err, resTypeList) => {
+        if (err) {
+          reject(err);
+        }
+        resObj['typeList'] = resTypeList;
+        resolve();
       });
-    });
+    })
+  }
+  /* 获取文章tag标签 */
+  function getArcTags() {
+    return new Promise(function (resolve, reject) {
+      articleMod.findArticleTagsInfo((err, resTagsList) => {
+        if (err) {
+          reject(err);
+        }
+        resObj['tagList'] = resTagsList;
+        resolve();
+      });
+    })
+  }
+  /* 获取最新评论 */
+  function getCommTop() {
+    return new Promise(function (resolve, reject) {
+      commentMod.findCommentTop(function (err, resCommList) {
+        if (err) {
+          reject(err);
+        }
+        resObj['commList'] = resCommList;
+        resolve();
+      })
+    })
+  }
+  /* 获取文章列表 */
+  function getArcList() {
+    return new Promise(function (resolve, reject) {
+      var by = {
+        by: {
+          is_delete: false,
+          attribute: {
+            carousel: true
+          }
+        }
+      };
+      req.query = by;
+      articleMod.showArticleList(req, (err, resCarouselList) => {
+        if (err) {
+          reject(err);
+        }
+        resObj['carouList'] = resCarouselList;
+        resolve();
+      });
+    })
+  }
+  getArcType()
+    .then(getArcTags)
+    .then(getCommTop)
+    .then(getArcList)
+    .then(() => {
+      res.render('./blog/index', resObj);
+    })
+    .catch(err => {
+      return next(err);
+    })
 
-  })
 });
 
 router.get('/getArtList', (req, res, next) => {
@@ -53,8 +95,8 @@ router.get('/getArtList', (req, res, next) => {
   });
 })
 
-router.get('/info', function (req, res) {
-  commentMod.findCommentTop(function (err, result) {
+router.get('/info', (req, res) => {
+  commentMod.findCommentTop((err, result) => {
     if (err) {
       console.log(err);
 

@@ -25,6 +25,7 @@ module.exports = {
     };
     articles.addArticle(pars, cb);
   },
+  /* 阅读数+1 */
   incReadNum: function (artid) {
     articles.incReadNum(artid, function (err) {
       if (err) return;
@@ -78,6 +79,7 @@ module.exports = {
       return cb(null, artArr);
     });
   },
+  /* 获取所有文章分类 */
   findArticleTypeInfo: function (cb) {
     articles.aggregate([{
       $group: {
@@ -101,6 +103,7 @@ module.exports = {
       }
     }]).exec(cb);
   },
+  /* 获取所有tag标签信息 */
   findArticleTagsInfo: function (cb) {
     articles.aggregate([{
       $unwind: "$tags_id"
@@ -167,6 +170,7 @@ module.exports = {
     };
     return articles.updateOneArticle(artid, pars, cb);
   },
+  /* 删除文章 */
   removeArticle: function (artid, cb) {
     return articles.remove({
       _id: {
@@ -174,6 +178,7 @@ module.exports = {
       }
     }, cb);
   },
+  /* 删除文章到回收站 */
   moveToTrash: function (artid, cb) {
     return articles.update({
       '_id': artid
@@ -183,6 +188,7 @@ module.exports = {
       }
     }, cb);
   },
+  /* 恢复回收站的文章 */
   recoveryArticle: function (arcid, cb) {
     return articles.update({
       '_id': arcid
@@ -192,6 +198,7 @@ module.exports = {
       }
     }, cb)
   },
+  /* 获得文章总数 */
   getCount: function (req, cb) {
     var by = req.body.by || req.query.by || {};
     return articles.getCount(by, cb);
@@ -216,6 +223,7 @@ module.exports = {
       })
       .exec(cb);
   },
+  /* 获取文章列表-按阅读数排序 */
   getArtsByRead: function (cb) {
     articles.find({
       'is_delete': false

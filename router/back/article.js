@@ -1,20 +1,18 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express'),
+  router = express.Router();
 
 
-var articleMod = require('../../modules/Article/article');
-var articleTypeMod = require('../../modules/Article/articleType');
-var articleTagMod = require('../../modules/Article/articleTag');
-var uploadIMGMod = require('../../modules/uploadIMG');
+const articleMod = require('../../modules/Article/article');
+const articleTypeMod = require('../../modules/Article/articleType');
+const articleTagMod = require('../../modules/Article/articleTag');
+const uploadIMGMod = require('../../modules/uploadIMG');
 
-var scriptlink = require('./arclist_script');
+const scriptlink = require('./arclist_script');
 
-router.post('/uploadArtIMG', function (req, res) {
-  uploadIMGMod.upLoadIMG(req, '/images/upload/article/', function (err, result) {
-    if (err) {
-      return;
-    }
-    res.json({
+router.post('/uploadArtIMG', (req, res, next) => {
+  uploadIMGMod.upLoadIMG(req, '/images/upload/article/', (err, result) => {
+    if (err) return next(err);
+    return res.json({
       "errno": 0,
       "data": [result]
     })
@@ -24,48 +22,62 @@ router.post('/uploadArtIMG', function (req, res) {
 
 
 /* 显示所有文章 */
-router.get('/articlelist', function (req, res) {
+router.get('/articlelist', (req, res) => {
   res.render('./backend/articlelist', {
     pageTitle: "文章列表",
     userName: req.session.user.username,
     importScript: ['/js/back/articlelist.js']
   });
 })
-router.post('/articlelist', function (req, res) {
-  var isDel = false;
-  var referer = req.headers['referer'];
+router.post('/articlelist', (req, res) => {
+  let isDel = false;
+  let referer = req.headers['referer'];
   if (referer.indexOf('articleTrash') > 0) {
     isDel = true;
   }
   req.body.by ? req.body.by['is_delete'] = isDel : req.body.by = {
     'is_delete': isDel
   };
-  articleMod.getCount(req, function (err, artCount) {
-    if (err) {
-      return res.json({
-        status: 0,
-        msg: '获取数据失败'
-      });
-    }
-    articleMod.showArticleList(req, function (err, result) {
-      if (err) {
-        return res.json({
-          status: 0,
-          msg: '获取数据失败'
-        });
-      }
-      return res.json({
-        status: 1,
-        msg: '',
-        data: {
-          artInfo: result,
-          artCount: artCount
+  let resDatas = {};
+  /* 获取总数 */
+  function getArcCount() {
+    return new Promise(function (resolve, reject) {
+      articleMod.getCount(req, (err, result) => {
+        if (err) {
+          reject(err);
         }
+        resDatas['artCount'] = result;
+        resolve(result);
       });
+    })
+  }
+  /* 获取文章列表 */
+  function getArcList() {
+    return new Promise(function (resolve, reject) {
+      articleMod.showArticleList(req, (err, result) => {
+        if (err) {
+          reject(err);
+        }
+        resDatas['artInfo'] = result;
+        resolve(result);
+      });
+    })
+  }
+  getArcCount().then(getArcList).then(function () {
+    return res.json({
+      status: 1,
+      msg: '',
+      data: resDatas
     });
+  }).catch(function (err) {
+    return res.json({
+      status: 0,
+      msg: '获取数据失败'
+    })
   })
+
 });
-router.get('/articleTrash', function (req, res, next) {
+router.get('/articleTrash', (req, res, next) => {
   res.render('./backend/articlelist', {
     pageTitle: '文章回收站',
     modalTips: '确认删除吗，此操作无法恢复？！',
@@ -73,7 +85,7 @@ router.get('/articleTrash', function (req, res, next) {
   })
 });
 
-router.get('/recoveryArticle/:id', function (req, res, next) {
+router.get('/recoveryArticle/:id', (req, res, next) => {
   if (req.session.user.permissions !== 'root') {
     return res.json({
       status: 0,
@@ -81,7 +93,7 @@ router.get('/recoveryArticle/:id', function (req, res, next) {
     })
   }
   var arcid = req.params.id;
-  articleMod.recoveryArticle(arcid, function (err, result) {
+  articleMod.recoveryArticle(arcid, (err, result) => {
     if (err || !result) {
       return res.json({
         status: 0,

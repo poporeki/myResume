@@ -38,7 +38,7 @@ router.post('/', function (req, res) {
       });
       return;
     }
-    for (var i = 0; i < artlist.length; i++) {
+    for (var i = 0, len = artlist.length; i < len; i++) {
       var obj = {
         artid: artlist[i].id,
         title: artlist[i].title,

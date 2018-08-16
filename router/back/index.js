@@ -17,61 +17,111 @@ router.use('/', (req, res, next) => {
   }
   next();
 })
+
+
 /* 后台主页 */
 router.get('/', (req, res) => {
-  var nowUser = req.session.user ? req.session.user.username : 'test';
-
-  var importStyle = {
+  let nowUser = req.session.user ? req.session.user.username : 'test';
+  let importStyle = {
     cdn: [
       'select2/4.0.0/css/select2.min.css',
       'chartist/0.11.0/chartist.min.css',
       'rickshaw/1.6.6/rickshaw.min.css'
     ]
   }
-  var importScript = [
+  let importScript = [
     'https://cdn.bootcss.com/chartist/0.11.0/chartist.min.js',
     'https://cdn.bootcss.com/socket.io/2.1.1/socket.io.js',
     '/js/back/ResizeSensor.js',
     '/js/back/dashboard.js'
   ];
-  userMod.getLastLoginInfo(req.session.user._id, function (err, loginInfo) {
-    Tourists.getVistorTotal('day', function (err, vistor) {
-      childProcess.diskUsage(function (diskUsage) {
-        arcMod.getArticleTitle(3, function (err, arclist) {
-          if (err) {
-            return;
-          }
-          res.render('./backend/index', {
-            pageTitle: '首页',
-            userName: req.session.user.username,
-            lastLoginInfo: loginInfo,
-            vistorNum: vistor,
-            arclist,
-            diskUsage,
-            importStyle,
-            importScript
-          });
-        });
-
+  const renderObj = {
+    pageTitle: '首页',
+    userName: req.session.user.username,
+    importStyle,
+    importScript
+  }
+  /* 获取最后一次登陆信息 */
+  function getLastLoginInfo() {
+    return new Promise(function (resolve, reject) {
+      userMod.getLastLoginInfo(req.session.user._id, function (err, result) {
+        if (err) {
+          return next(err);
+          reject(err);
+        }
+        renderObj['lastLoginInfo'] = result;
+        resolve(result);
+      })
+    })
+  }
+  /* 获取当日访问人数 */
+  function getVistorTotal() {
+    return new Promise(function (resolve, reject) {
+      Tourists.getVistorTotal('day', function (err, result) {
+        if (err) {
+          return next(err);
+          reject(err);
+        }
+        renderObj['vistorNum'] = result;
+        resolve(result);
       });
-
     });
-
-  })
+  }
+  /* 获取磁盘使用率 */
+  function getDiskUsage() {
+    return new Promise(function (resolve, reject) {
+      childProcess.diskUsage(function (result) {
+        renderObj['diskUsage'] = result;
+        resolve(result);
+      });
+    })
+  }
+  /* 获取最后3篇文章信息 */
+  function getArticleTitle() {
+    return new Promise(function (resolve, reject) {
+      arcMod.getArticleTitle(3, function (err, result) {
+        if (err) {
+          next(err);
+          reject(err);
+        }
+        renderObj['arclist'] = result;
+        resolve(result);
+      });
+    })
+  }
+  getLastLoginInfo()
+    .then(getVistorTotal)
+    .then(getDiskUsage)
+    .then(getArticleTitle)
+    .then(function () {
+      res.render('./backend/index', renderObj);
+    });
 
 })
 /*get  获取浏览人数 */
 router.get('/getVistorTotal', function (req, res, next) {
-  var kind = req.query.kind || 'day';
-  Tourists.getVistorTotal(kind, function (err, result) {
-    if (err) {
-      return 0;
-    }
+  let kind = req.query.kind || 'day';
+  let resObj = {};
+  /* 获取访问人数 */
+  function getVistorTotal() {
+    return new Promise(function (resolve, reject) {
+      Tourists.getVistorTotal(kind, function (err, result) {
+        if (err) {
+          reject(err);
+        }
+        resolve(result);
+      })
+    })
+  }
+  getVistorTotal().then(function (result) {
     return res.json({
       status: true,
       data: result
     })
-  });
+  }).catch(function (err) {
+    return next(err);
+  })
+
 
 });
 /* 登出 */

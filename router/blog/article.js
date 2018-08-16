@@ -44,13 +44,13 @@ router.get('/:id', function (req, res, next) {
       }
 
       var artComms = [];
-      for (var i = 0; i < commsDatas.length; i++) {
+      for (var i = 0, commlen = commsDatas.length; i < commlen; i++) {
         var commReps = [],
           comms = commsDatas[i],
           reply = comms.reply;
 
         if (reply.length != 0) {
-          for (var idx = 0; idx < reply.length; idx++) {
+          for (var idx = 0, replylen = reply.length; idx < replylen; idx++) {
             var repUser = reply[idx].author_id;
             var repAvatar = repUser.avatar_path ? repUser.avatar_path.save_path + 'thumbnail_' + repUser.avatar_path.new_name : "/images/my-head.png"
             var obj = {

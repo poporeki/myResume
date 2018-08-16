@@ -31,7 +31,6 @@ module.exports = {
                 week(i, arr)
             })
         })(0, arr);
-        console.log('err')
     },
     getVistorTotal: function (kind, cb) {
         if (kind === 'day') {

@@ -1,22 +1,21 @@
-var formidable = require('formidable');
-var fs = require('fs');
-var path = require('path');
-var moment = require('moment');
-var crypto = require('crypto');
-var gm = require('gm').subClass({
-  imageMagick: true
-});
+const formidable = require('formidable'),
+  fs = require('fs'),
+  path = require('path'),
+  moment = require('moment'),
+  crypto = require('crypto'),
+  gm = require('gm').subClass({
+    imageMagick: true
+  });
 
-var upLoadSchema = require('../db/schema/uploadFile');
-var userSchema = require('../db/schema/userSchema');
+const upLoadSchema = require('../db/schema/uploadFile'),
+  userSchema = require('../db/schema/userSchema');
 
-var uploadPath;
-var pathArr;
-var nowDate, _year, _month, _day;
-var pathUrl, uploadDir;
+let uploadPath, pathArr;
+let nowDate, _year, _month, _day;
+let pathUrl, uploadDir;
 
 exports.upLoadIMG = function (req, uPath, cb) {
-  var form = new formidable.IncomingForm();
+  let form = new formidable.IncomingForm();
   uploadPath = uPath;
   pathArr = [];
   nowDate = new Date();
@@ -32,27 +31,25 @@ exports.upLoadIMG = function (req, uPath, cb) {
 
 
   function upfunc() {
-    var resPath = uploadDir.split(path.sep + 'public')[1];
+    let resPath = uploadDir.split(path.sep + 'public')[1];
     form.uploadDir = uploadDir;
     form.hash = 'md5';
     form.parse(req, function (err, fields, files) {
-      var file;
+      let file;
       for (file in files) {};
-      var hash = files[file].hash;
+      let hash = files[file].hash;
       checkDb(hash, function (err, result) {
         if (err) return;
         if (result) {
           return cb(null, result);
         };
-        var extname = path.extname(files[file].name); /* 扩展名 */
-        var timestamp = moment().format('YYYYMMDDhhmmssms') + Math.floor(Math.random() * 90000 + 9999); /* 时间戳 */
-        var new_name = timestamp + extname; /* 重命名 */
+        let extname = path.extname(files[file].name); /* 扩展名 */
+        let timestamp = moment().format('YYYYMMDDhhmmssms') + Math.floor(Math.random() * 90000 + 9999); /* 时间戳 */
+        let new_name = timestamp + extname; /* 重命名 */
         fs.rename(files[file].path, path.join(form.uploadDir, new_name), function (err) {
           if (err) {
-            console.log(err);
             return cb(err, null);
           }
-
           var ofileInfo = {
             position: path.join(form.uploadDir, new_name),
             file: files[file],
@@ -168,7 +165,7 @@ function mk() {
 function checkDb(hash, cb) {
   upLoadSchema.find({
     'hash': hash
-  }, function (err, result) {
+  }, (err, result) => {
     if (err) return;
     if (result.length != 0) {
       return cb(null, result[0].save_path + result[0].new_name);
@@ -189,28 +186,60 @@ exports.baseUpload = function (req, uPath, cb) {
   /* 判断目标文件夹是否存在不存在即创建 */
   mk();
   uploadDir = pathUrl;
-  var imgBase = req.body.imgBase;
-  var base64 = imgBase.replace(/^data:image\/\w+;base64,/, ""); //去掉图片base64码前面部分data:image/png;base64
-  var dataBuffer = new Buffer(base64, 'base64'); //把base64码转成buffer对象，
+  let imgBase = req.body.imgBase;
+  let base64 = imgBase.replace(/^data:image\/\w+;base64,/, ""); //去前缀 data:image/png;base64
+  let dataBuffer = new Buffer(base64, 'base64'); //base64码转成buffer对象，
   console.log('dataBuffer是否是Buffer对象：' + Buffer.isBuffer(dataBuffer));
-  var md5 = crypto.createHash('md5');
+  let md5 = crypto.createHash('md5');
   md5.update(dataBuffer);
-  var hash = md5.digest('hex');
-  checkDb(hash, function (err, result) {
-    if (err) return;
-    if (result) {
-      return cb(null, result);
-    };
-    var timestamp = moment().format('YYYYMMDDhhmmssms') + Math.floor(Math.random() * 90000 + 9999); /* 时间戳 */
-    var new_name = timestamp + '.jpg'; /* 重命名 */
-    var dir = path.join(uploadDir, new_name);
-    var resPath = uploadDir.split(path.sep + 'public')[1];
-    fs.writeFile(dir, dataBuffer, function (err) {
-      if (err) {
-        return cb(err, null);
-      }
-      var thumbnail = path.join(uploadDir + 'thumbnail_' + timestamp + '.jpg');
+  let hash = md5.digest('hex');
+  let timestamp, new_name, dir, resPath;
+  /* 比对数据库 该文件是否存在 */
+  function comparisonDBisExist() {
+    return new Promise((resolve, reject) => {
+      checkDb(hash, function (err, result) {
+        if (err) reject(err);
+        if (!result) {
+          resolve()
+        }
+        if (result) {
+          return cb(null, result);
+        }
+      })
+    })
+  }
+  /* 保存图片为文件 */
+  function saveIMGFile() {
+    return new Promise((resolve, reject) => {
+      timestamp = moment().format('YYYYMMDDhhmmssms') + Math.floor(Math.random() * 90000 + 9999); /* 时间戳 */
+      new_name = timestamp + '.jpg'; /* 重命名 */
+      dir = path.join(uploadDir, new_name);
+      resPath = uploadDir.split(path.sep + 'public')[1];
+      fs.writeFile(dir, dataBuffer, function (err) {
+        if (err) {
+          reject(err);
+        }
 
+        resolve();
+      });
+    })
+  }
+  /* 保存缩略图为文件 */
+  function saveThumbnail() {
+    return new Promise((resolve, reject) => {
+      let thumbnail = path.join(uploadDir + 'thumbnail_' + timestamp + '.jpg');
+      gm(dir).resize(100).write(thumbnail, function (err) {
+        if (err) {
+          reject(err);
+        }
+        console.log('thumbnail saved');
+        resolve();
+      });
+    })
+  }
+  /* 保存文件信息到数据库 */
+  function saveIMGInfo() {
+    return new Promise((resolve, reject) => {
       var ofileInfo = {
         position: dir,
         file: new_name,
@@ -228,31 +257,96 @@ exports.baseUpload = function (req, uPath, cb) {
         hash: ofileInfo.hash,
         author_id: req.session.user._id
       }, function (err, result) {
-        if (err) return cb(err, null);
-        userSchema.update({
-          _id: req.session.user._id
-        }, {
-          $set: {
-            avatar_path: result._id
-          }
-        }, function (err, ress) {
-          if (err) {
+        if (err) return reject(err);
+        resolve();
 
-          }
-          console.log(ress);
-        })
       })
-      gm(dir).resize(100).write(thumbnail, function (err) {
-        if (err) {
-          console.log('thumbnail error');
-          return cb(err, null);
+    })
+  }
+  /* 更新用户信息-头像路径 */
+  function updateUserAvatarPath() {
+    return new Promise((resolve, reject) => {
+      userSchema.update({
+        _id: req.session.user._id
+      }, {
+        $set: {
+          avatar_path: result._id
         }
-        console.log('thumbnail saved');
-        return cb(null, resPath + 'thumbnail_' + new_name);
-      });
-
+      }, (err, result) => {
+        if (err) {
+          reject(err);
+        }
+        resolve();
+      })
     });
-  })
+  }
+  comparisonDBisExist()
+    .then(saveIMGFile)
+    .then(saveThumbnail)
+    .then(saveIMGInfo)
+    .then(updateUserAvatarPath)
+    .then(() => {
+      return cb(null, resPath + 'thumbnail_' + new_name);
+    }).catch((err) => {
+      return cb(err, null);
+    })
+  // checkDb(hash, function (err, result) {
+  //   if (err) return;
+  //   if (result) {
+  //     return cb(null, result);
+  //   };
+  //   let timestamp = moment().format('YYYYMMDDhhmmssms') + Math.floor(Math.random() * 90000 + 9999); /* 时间戳 */
+  //   let new_name = timestamp + '.jpg'; /* 重命名 */
+  //   let dir = path.join(uploadDir, new_name);
+  //   let resPath = uploadDir.split(path.sep + 'public')[1];
+  //   fs.writeFile(dir, dataBuffer, function (err) {
+  //     if (err) {
+  //       return cb(err, null);
+  //     }
+  //     var thumbnail = path.join(uploadDir + 'thumbnail_' + timestamp + '.jpg');
+
+  //     var ofileInfo = {
+  //       position: dir,
+  //       file: new_name,
+  //       source_name: imgBase,
+  //       save_path: resPath,
+  //       ext_name: '.jpg',
+  //       new_name: new_name,
+  //       hash: hash
+  //     };
+  //     upLoadSchema.create({
+  //       source_name: ofileInfo.source_name,
+  //       ext_name: ofileInfo.ext_name,
+  //       new_name: ofileInfo.new_name,
+  //       save_path: ofileInfo.save_path,
+  //       hash: ofileInfo.hash,
+  //       author_id: req.session.user._id
+  //     }, function (err, result) {
+  //       if (err) return cb(err, null);
+  //       userSchema.update({
+  //         _id: req.session.user._id
+  //       }, {
+  //         $set: {
+  //           avatar_path: result._id
+  //         }
+  //       }, function (err, ress) {
+  //         if (err) {
+
+  //         }
+  //         console.log(ress);
+  //       })
+  //     })
+  //     gm(dir).resize(100).write(thumbnail, function (err) {
+  //       if (err) {
+  //         console.log('thumbnail error');
+  //         return cb(err, null);
+  //       }
+  //       console.log('thumbnail saved');
+  //       return cb(null, resPath + 'thumbnail_' + new_name);
+  //     });
+
+  //   });
+  // })
 
 
 }
