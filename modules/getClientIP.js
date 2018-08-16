@@ -14,8 +14,9 @@ function getClientIp(req, callback) {
     }
 
     ipInfo.ip = ipInfo.ip[0];
+    console.log(`当前ip：${ipInfo.ip}`);
     request.get('http://ip.taobao.com/service/getIpInfo.php?ip=' + ipInfo.ip, function (error, response, body) {
-        console.log(body);
+        console.log(`内容为：${body}`);
         var datas = JSON.parse(body);
         if (datas.code == 1) return;
         var data = datas.data;
