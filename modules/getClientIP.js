@@ -17,7 +17,8 @@ function getClientIp(req, callback) {
     console.log(`当前ip：${ipInfo.ip}`);
     /*淘宝ip接口 解析ip地址 */
     request.get('http://ip.taobao.com/service/getIpInfo.php?ip=' + ipInfo.ip, (error, response, body) => {
-        if (error && response.statusCode !== 200) {
+        console.log(typeof body);
+        if (error && response.statusCode !== 200 || !isJSON(body)) {
             return callback(ipInfo);
         }
         console.log(`内容为：${body}`);
@@ -33,5 +34,23 @@ function getClientIp(req, callback) {
     })
 
 };
+
+function isJSON(str) {
+    if (typeof str == 'string') {
+        try {
+            let obj = JSON.parse(str);
+            if (typeof obj == 'object' && obj) {
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (e) {
+            console.log('error：' + str + '!!!' + e);
+            return false;
+        }
+    }
+    console.log('It is not a string!')
+}
 
 module.exports = getClientIp;
