@@ -8,6 +8,7 @@ function getHotList() {
   requestAjax({
     el: $hotList,
     url: '/blog/article/getTop',
+    timeout: 'getHotList'
   }, function (result) {
     if (!result && !result.status) {
       return console.log('错误');
@@ -54,7 +55,8 @@ function getNewArtList() {
   requestAjax({
     el: $artList,
     url: '/blog/getArtList',
-    type: 'get'
+    type: 'get',
+    timeoutFunc: 'getNewArtList'
   }, function (result) {
     if (!result.status) {
       return alert('服务器错误，请刷新重试');

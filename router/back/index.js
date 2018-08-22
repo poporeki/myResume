@@ -135,6 +135,16 @@ router.get('/regg', function (req, res) {
     pageTitle: '注册'
   });
 });
+
+router.get('/test', (req, res, next) => {
+  userMod.TEST(req.session.user._id, function (err, result) {
+    if (err) {
+      return next(err);
+
+    }
+    res.send(result);
+  })
+})
 router.use('/art', require('./article'));
 router.use('/regg', require('./register'));
 router.use('/user', require('./user'));

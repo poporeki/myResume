@@ -18,13 +18,13 @@ function getClientIp(req, callback) {
     /*淘宝ip接口 解析ip地址 */
     request.get('http://ip.taobao.com/service/getIpInfo.php?ip=' + ipInfo.ip, (error, response, body) => {
         console.log(typeof body);
-        if (error && response.statusCode !== 200 || !isJSON(body)) {
+        if (error && response ? response.statusCode !== 200 : false || !isJSON(body)) {
             return callback(ipInfo);
         }
         console.log(`内容为：${body}`);
-        var datas = JSON.parse(body);
+        let datas = JSON.parse(body);
         if (datas.code === 1) return callback(ipInfo);
-        var data = datas.data;
+        let data = datas.data;
         ipInfo.country = data.country;
         ipInfo.country_id = data.country_id;
         ipInfo.city = data.city;

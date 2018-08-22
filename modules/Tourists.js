@@ -6,8 +6,8 @@ module.exports = {
         Tourists.create(pars, cb);
     },
     getTheDayVistor: (cb) => {
-        var nowDay = moment().format('YYYY-MM-DD');
-        var reg = new RegExp(nowDay);
+        let nowDay = moment().format('YYYY-MM-DD');
+        let reg = new RegExp(nowDay);
         Tourists.visitorOfTheDay(reg, cb);
     },
     getTheDayVistorTotal: (cb) => {
@@ -18,12 +18,11 @@ module.exports = {
         Tourists.visitorTotalOfTheDay(nowDay, cb);
     },
     getFewDaysVistor: function (days, cb) {
-        var nowDay = moment().format();
-        var arr = [];
+        const arr = [];
         (function week(i, arr) {
             i++;
-            if (i > days) return cb(null, arr);;
-            var d = moment().subtract(i, 'days').format('YYYY-MM-DD');
+            if (i > days) return cb(null, arr);
+            let d = moment().subtract(i, 'days').format('YYYY-MM-DD');
             Tourists.visitorTotalOfTheDay(d, function (err, result) {
                 if (err) return 0;
                 arr.push(result);
@@ -38,7 +37,7 @@ module.exports = {
         } else if (kind === 'week') {
             this.getFewDaysVistor(7, cb);
         } else if (kind === 'month') {
-            var curMonthDays = moment().daysInMonth();
+            let curMonthDays = moment().daysInMonth();
             this.getFewDaysVistor(curMonthDays, cb);
         }
     }

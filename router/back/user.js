@@ -1,11 +1,11 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express'),
+  router = express.Router();
 
-var userMod = require('../../modules/User');
-var TouristsMod = require('../../modules/Tourists');
+const userMod = require('../../modules/User'),
+  TouristsMod = require('../../modules/Tourists');
 
-router.get('/ofTheDayVistorList', function (req, res) {
-  TouristsMod.getTheDayVistor(function (err, result) {
+router.get('/ofTheDayVistorList', (req, res) => {
+  TouristsMod.getTheDayVistor((err, result) => {
     res.render('./backend/vistorlist', {
       pageTitle: '今天的访问量',
       username: res.locals.USER,

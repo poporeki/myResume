@@ -35,7 +35,6 @@ function makeCapcha(num) {
         x += f.w + rand(2, 8);
     }
     const dataUrl = 'data:image/bmp;base64,' + img.getFileData().toString('base64');
-    console.log(dataUrl);
     result.dataUrl = dataUrl;
     return result;
 }

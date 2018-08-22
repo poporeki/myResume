@@ -10,48 +10,87 @@ function requestAjax(options, func, callback) {
     this.options = options;
     this.el = this.options.el;
     this.func = func;
-    this.aniEle = this.options.aniEle || 'loading-ani';
+    this.timeout = this.options.timeout;
+    this.timeoutFunc = this.options.timeoutFunc;
+    this.aniEle = this.options.aniEle || "loading-ani";
     this.callback = callback;
     /* 发起ajax请求 */
     this.xhr(this);
   }
   fn.prototype.ajaxLoadingAnimate = {
     self: this,
-    start: function (_this) {
+    isClassName: function(aniCon) {
+      var Reg = /<[^>]+>/;
+      if (Reg.test(aniCon)) {
+        return false;
+      }
+      return true;
+    },
+    addHtml: function(aniCon) {
+      if (this.isClassName(aniCon)) {
+        return "<div class=" + aniCon + "></div>";
+      }
+      return anicon;
+    },
+    getClassName: function(aniCon) {
+      if (this.isClassName(aniCon)) {
+        return aniCon;
+      }
+      var str = anicon;
+      var Reg = /class=\'(\w+)\'/;
+      var tempt_result = Reg.exec(str);
+      if (tempt_result.length !== 0 || tempt_result !== null)
+        return tempt_result[1];
+      return "loading-ani";
+    },
+    start: function(_this) {
       this.remove(_this);
-      var addCon = '<div class=' + _this.aniEle + '></div>';
+      var addCon = this.addHtml(_this.aniEle);
       _this.el.append(addCon);
     },
-    remove: function (_this) {
-      var $target = _this.el.find('.' + _this.aniEle);
+    remove: function(_this) {
+      var className = this.getClassName(_this.aniEle);
+      var $target = _this.el.find("." + className);
       if ($target.length === 0) return;
       $target.remove();
     }
-  }
-  fn.prototype.xhr = function (_this) {
+  };
+  fn.prototype.xhr = function(_this) {
     _this.currentAjax = $.ajax({
-      type: this.options.type || 'post',
+      type: this.options.type || "post",
       url: this.options.url,
-      timeout: this.options.timeout || 30000,
+      timeout: this.options.timeout || 10000,
       data: this.options.data,
       async: this.options.async || true,
       contentType: this.options.contentType,
-      beforeSend: function () {
+      beforeSend: function() {
         _this.ajaxLoadingAnimate.start(_this);
       },
       error: _this.callback,
-      complete: function (XMLHttpRequest, status) {
-        if (status == 'timeout') {
+      complete: function(XMLHttpRequest, status) {
+        if (status == "timeout") {
           _this.currentAjax.abort(); // 超时后中断请求
           _this.ajaxLoadingAnimate.remove(_this);
-          _this.el.empty().append('链接超时');
+          var func = _this.timeoutFunc;
+          if (func) {
+            _this.el
+              .empty()
+              .append(
+                '<a onclick="' +
+                  func +
+                  '();this.remove();" href="javascript:void(0);" style="text-align:center;">链接超时</a>'
+              );
+            return;
+          }
+          _this.el
+            .empty()
+            .append('<span style="text-align:center;">链接超时</span>');
           return;
         }
         _this.ajaxLoadingAnimate.remove(_this);
       },
       success: _this.func
     });
-  }
+  };
   return new fn(options, func, callback);
-
 }

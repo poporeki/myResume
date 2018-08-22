@@ -1,31 +1,36 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express'),
+  router = express.Router();
 
-var arcMod = require('../../modules/Article/article');
+const arcMod = require('../../modules/Article/article');
 
-router.post('/', function (req, res) {
+router.post('/', (req, res) => {
   if (req.session.user.permissions !== 'root') {
     return res.json({
       status: 0,
       msg: '没有此操作权限'
     })
   }
-  arcMod.removeArticle(req.body.artid, function (err, result) {
-    if (err) return;
-    res.json({
+  arcMod.removeArticle(req.body.artid, (err, result) => {
+    if (err) {
+      return res.json({
+        status: 0,
+        msg: '错误'
+      })
+    };
+    return res.json({
       status: 1,
       msg: ''
     })
   })
 });
-router.post('/toTrash', function (req, res) {
+router.post('/toTrash', (req, res) => {
   if (req.session.user.permissions !== 'admin') {
     return res.json({
       status: 0,
       msg: '没有此操作权限'
     })
   }
-  arcMod.moveToTrash(req.body.artid, function (err, result) {
+  arcMod.moveToTrash(req.body.artid, (err, result) => {
     if (err) {
       return res.json({
         status: 0,

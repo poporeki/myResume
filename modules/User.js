@@ -1,103 +1,134 @@
-var crypto = require('crypto');
-var moment = require('moment');
-var dbUser = require('../db/schema/userSchema');
-var getClientIP = require('./getClientIP');
-var dbLoginRecord = require('../db/schema/userLoginRecord');
+const crypto = require("crypto"),
+  moment = require("moment"),
+  mongoose = require('mongoose');
+
+const dbUser = require("../db/schema/userSchema"),
+  getClientIP = require("./getClientIP"),
+  dbLoginRecord = require("../db/schema/userLoginRecord");
 
 module.exports = {
   /* 根据id查找用户 */
-  findUserById: function (id, cb) {
+  findUserById: (id, cb) => {
     dbUser.findUserById(id, cb);
   },
   /* 根据名字查找用户 */
-  findUser: function (name, cb) {
+  findUser: (name, cb) => {
     dbUser.findByName(name, cb);
   },
   /* 获取用户列表 */
-  getUserList: function (pars, cb) {
-    var obj = {
+  getUserList: (pars, cb) => {
+    let obj = {
       by: pars.by ? pars.by : {},
       limit: pars.limit ? pars.limit : 0,
       skip: pars.page ? pars.page * obj.limit : 0,
-      sort: pars.sort ? pars.sort : {
-        reg_time: 1
-      }
-    }
+      sort: pars.sort ?
+        pars.sort : {
+          reg_time: 1
+        }
+    };
     dbUser.getUserList(obj, cb);
   },
   /* 比对密码 */
-  checkUserPwd: function (pars, cb) {
+  checkUserPwd: (pars, cb) => {
     dbUser.findByNP(pars, cb);
   },
   /**
    * 修改密码
-   * 
+   *
    */
   updateAccountPassword: (pars, cb) => {
-    var username = pars.username,
+    let username = pars.username,
       password = pars.password,
       newPassword = pars.newPassword;
-    password = crypto.createHash('md5')
+    password = crypto
+      .createHash("md5")
       .update(password)
-      .digest('hex');
-    newPassword = crypto.createHash('md5')
+      .digest("hex");
+    newPassword = crypto
+      .createHash("md5")
       .update(newPassword)
-      .digest('hex');
+      .digest("hex");
     dbUser.updateUserPassword({
-      name: username,
-      pwd: password,
-      newPwd: newPassword
-    }, cb);
+        name: username,
+        pwd: password,
+        newPwd: newPassword
+      },
+      cb
+    );
   },
   /* 创建用户 */
-  createUser: function (req, pars, cb) {
+  createUser: (req, pars, cb) => {
     /* 解析客户端ip */
-    getClientIP(req, function (result) {
-      if (!result) return;
-      var name = pars.reg_name;
-      var pwd = pars.reg_pwd;
-      var tel = pars.reg_tel || 0;
-      var permissions = pars.reg_permissions || 'normal';
-      var nowDate = moment().format();
-      var userAgent = pars.userAent || 'not';
-      var hash = crypto.createHash('md5');
-      hash.update(pwd);
-      pwd = hash.digest('hex');
-      var ip_info = result;
+    let getIP = () => {
+      return new Promise((resolve, reject) => {
+        getClientIP(req, result => {
+          if (!result) reject(result);
+          resolve(result);
+        });
+      });
+    };
+    /* 比对用户名是否存在 */
+    let comparisonDBtoName = ip => {
+      return new Promise((resolve, reject) => {
+        let name = pars.reg_name,
+          pwd = pars.reg_pwd,
+          tel = pars.reg_tel || 0,
+          permissions = pars.reg_permissions || "normal",
+          nowDate = moment().format(),
+          userAgent = pars.userAent || "not",
+          hash = crypto.createHash("md5"),
+          ip_info = ip;
+        pwd = crypto
+          .createHash("md5")
+          .update(pwd)
+          .digest("hex");
 
-      var parms = {
-        serial: moment().format('YYMMDD') + 1,
-        username: name,
-        password: pwd,
-        tel_num: tel,
-        permissions: permissions,
-        now_date: nowDate,
-        ip_info: ip_info,
-        author: req.session.user ? req.session.user._id : undefined
-      };
-      /* 查找注册用户名是否存在 */
-      dbUser.findByName(name, function (err, result) {
-        if (err || result.length != 0) return cb(1, null);
-        var pars = {
-          serial_num: parms.serial,
-          user_name: parms.username,
-          password: parms.password,
-          tel_num: parms.telnumber,
-          permissions: parms.permissions,
-          reg_time: parms.now_date,
-          reg_ip: parms.ip_info.ip,
-          reg_country: parms.ip_info.country,
-          reg_country_id: parms.ip_info.country_id,
-          reg_city: parms.ip_info.city,
-          reg_isp: parms.ip_info.isp,
-          reg_region: parms.ip_info.region,
-          reg_user_agent: parms.userAgent,
-          author_id: parms.author
+        let parms = {
+          serial: moment().format("YYMMDD") + 1,
+          username: name,
+          password: pwd,
+          tel_num: tel,
+          permissions: permissions,
+          now_date: nowDate,
+          ip_info: ip_info,
+          author: req.session.user ? req.session.user._id : undefined
         };
-        return dbUser.create(pars, cb);
-      })
-    });
-
+        dbUser.findByName(name, (err, result) => {
+          if (err || result.length != 0) return cb(1, null);
+          var pars = {
+            serial_num: parms.serial,
+            user_name: parms.username,
+            password: parms.password,
+            tel_num: parms.telnumber,
+            permissions: parms.permissions,
+            reg_time: parms.now_date,
+            reg_ip: parms.ip_info.ip,
+            reg_country: parms.ip_info.country,
+            reg_country_id: parms.ip_info.country_id,
+            reg_city: parms.ip_info.city,
+            reg_isp: parms.ip_info.isp,
+            reg_region: parms.ip_info.region,
+            reg_user_agent: parms.userAgent,
+            author_id: parms.author
+          };
+          resolve(pars);
+        });
+      });
+    };
+    /* 创建用户 */
+    let createUser = pars => {
+      return new Promise((resolve, reject) => {
+        dbUser.create(pars, (err, result) => {
+          if (err) reject(err);
+          resolve(result);
+        });
+      });
+    };
+    getIP()
+      .then(comparisonDBtoName)
+      .then(createUser)
+      .then(result => cb(null, result))
+      .catch(err => cb(err, null));
   },
   /* 记录登陆时间 */
   pushLoginTime: function (req, userid, cb) {
@@ -121,47 +152,91 @@ module.exports = {
           region: resIPinfo.region
         },
         login_userAgent: ua.source
-      }
+      };
       dbLoginRecord.create(pars, cb);
-    })
+    });
   },
   /* 查询登陆时间 */
   getLastLoginInfo: function (userid, cb) {
-    dbLoginRecord.find({
-      'user_id': userid
-    }).sort({
-      'create_time': -1
-    }).limit(2).exec(function (err, result) {
-      if (err && result.length === 0) return cb(err, null);
-      var data = result[1];
-      var lastLogin = {
-        geolocation: data.login_geolocation,
-        os: data.login_OS,
-        login_time: moment(data.create_time).format('YYYY-MM-DD hh:mm:ss')
-      }
-      dbLoginRecord.find({
-        'user_id': userid
-      }).count().exec(function (err, total) {
-        if (err) return cb(err, null);
-        lastLogin['loginTotal'] = total;
-        return cb(null, lastLogin);
-      });
-    })
-
+    /* 获取上次登录信息 */
+    let getLastLogRecord = () => {
+      return new Promise((resolve, reject) => {
+        dbLoginRecord
+          .find({
+            user_id: userid
+          })
+          .sort({
+            create_time: -1
+          })
+          .limit(2)
+          .exec((err, result) => {
+            if (err) reject(err);
+            if (result.length === 0) return cb(0, null);
+            let data = result[1];
+            let lastLogin = {
+              geolocation: data.login_geolocation,
+              os: data.login_OS,
+              login_time: moment(data.create_time).format("YYYY-MM-DD hh:mm:ss")
+            };
+            resolve(lastLogin);
+          })
+      })
+    }
+    /* 获取登陆总数 */
+    let getCount = (lastLogin) => {
+      return new Promise((resolve, reject) => {
+        dbLoginRecord
+          .find({
+            user_id: userid
+          })
+          .count()
+          .exec(function (err, total) {
+            if (err) return reject(err);
+            lastLogin["loginTotal"] = total;
+            return resolve(lastLogin);
+          });
+      })
+    }
+    getLastLogRecord()
+      .then(getCount)
+      .then((result) => cb(null, result))
+      .catch((err) => cb(err, null));
   },
   findUserLoginRecordByName: function (username, cb) {
-    dbUser.findByName(username, function (err, result) {
-      if (err) return;
-      var userID = result[0]._id;
-    })
-    dbLoginRecord.find({
-      'user_id': userID
-    }, cb);
+    let getUserID = () => {
+      return new Promise((resolve, reject) => {
+        dbUser.findByName(username, function (err, result) {
+          if (err) reject(err);
+          let userID = result[0]._id;
+          resolve(userID);
+        });
+      })
+    }
+    let getUserInfo = () => {
+      return new Promise((resolve, reject) => {
+        dbLoginRecord.find({
+            user_id: userID
+          },
+          (err, result) => {
+            if (err) reject(err);
+            resolve(result);
+          }
+        );
+      })
+    }
+    getUserID()
+      .then(getUserInfo)
+      .then(result => cb(null, result))
+      .catch(err => cb(err, null));
   },
+  /* 获取所有用户登陆记录 */
   findAllUserLoginRecord: function (cb) {
-    dbLoginRecord.find({}).populate({
-      path: 'user_id'
-    }).exec(cb);
-  }
+    dbLoginRecord
+      .find({})
+      .populate({
+        path: "user_id"
+      })
+      .exec(cb);
+  },
 
-}
+};

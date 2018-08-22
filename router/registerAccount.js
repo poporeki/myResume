@@ -1,15 +1,15 @@
-var express = require('express');
-var router = express.Router();
-var moment = require('moment');
+const express = require('express'),
+  router = express.Router(),
+  moment = require('moment');
 const {
   check,
   validationResult
 } = require('express-validator/check');
 
-var drawCap = require('../modules/drawCap');
-var userMod = require('../modules/User');
+const drawCap = require('../modules/drawCap'),
+  userMod = require('../modules/User');
 
-router.get('/', function (req, res) {
+router.get('/', (req, res) => {
   var createCaptcha = drawCap(5);
   req.session.captcha = (createCaptcha.str).toLowerCase();
   res.render('./sign_up', {
@@ -29,7 +29,7 @@ router.post('/', [
     max: 20
   }).withMessage('密码长度错误')
   .matches(/^\S{6,20}$/).withMessage('密码格式错误')
-], function (req, res) {
+], (req, res) => {
   const errorFormatter = ({
     location,
     msg,
@@ -47,7 +47,7 @@ router.post('/', [
       msg: errors.array()
     });
   }
-  var pars = {
+  let pars = {
     reg_name: req.body.su_name,
     reg_pwd: req.body.su_pwd,
     reg_tel: req.body.su_tel,
