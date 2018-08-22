@@ -47,16 +47,13 @@ router.get("/:artid", function (req, res, next) {
   };
   /* 获取文章tag标签 */
   let getArcTags = () => {
-    return new Promise(
-      (resolve,
-        reject => {
-          arcTagMod.findArticleTags({}, function (err, result) {
-            if (err) reject(err);
-            renObj["tagName"] = result;
-            resolve();
-          });
-        })
-    );
+    return new Promise((resolve, reject) => {
+      arcTagMod.findArticleTags({}, function (err, result) {
+        if (err) reject(err);
+        renObj["tagName"] = result;
+        resolve();
+      });
+    });
   };
   getArcInfo()
     .then(getArcType)
