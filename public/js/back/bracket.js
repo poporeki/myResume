@@ -182,9 +182,9 @@ $(document).ready(function () {
   /*   $('.peity-bar').peity('bar'); */
 
   // highlight syntax highlighter
-  $('pre code').each(function (i, block) {
-    hljs.highlightBlock(block);
-  });
+  // $('pre code').each(function (i, block) {
+  //   hljs.highlightBlock(block);
+  // });
 
   // Initialize toolt ip
   $('[data-toggle="tooltip"]').tooltip();
