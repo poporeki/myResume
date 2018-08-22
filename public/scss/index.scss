@@ -195,6 +195,12 @@ body {
   .navbar-link {
     transition: all .3s ease-in-out;
   }
+  .header-header {
+    .navbar-brand {
+      display: inline-block;
+      position: relative;
+    }
+  }
 }
 
 .navtop {

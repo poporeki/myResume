@@ -53,6 +53,8 @@ aside.l-aside {
       transform: rotate(0); }
       aside.l-aside:hover .sidebar-btn p {
         transform: translateY(0); }
+  aside.l-aside .img-logo {
+    width: 100%; }
   aside.l-aside .navbar {
     position: relative;
     margin-top: 20vh;

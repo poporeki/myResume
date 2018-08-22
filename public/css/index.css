@@ -153,6 +153,9 @@ body {
   transition: all .3s ease-in-out; }
   .navbar .navbar-link {
     transition: all .3s ease-in-out; }
+  .navbar .header-header .navbar-brand {
+    display: inline-block;
+    position: relative; }
 
 .navtop {
   background: none;
