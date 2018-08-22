@@ -64,7 +64,7 @@ router.get("/:artid", function (req, res, next) {
     .then(() => {
       res.render("./backend/addArticle", renObj);
     })
-    .catch(() => next(err));
+    .catch((err) => next(err));
 });
 /* 修改文章 */
 router.post("/:artid", function (req, res) {
