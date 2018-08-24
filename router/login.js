@@ -1,58 +1,76 @@
-var express = require('express');
+const express = require('express'),
+  router = express.Router(),
+  crypto = require('crypto'),
+  moment = require('moment');
 
-var router = express.Router();
-var crypto = require('crypto');
-var moment = require('moment');
-var userMod = require('../modules/User');
+const userMod = require('../modules/User');
+
 router.get('/', function (req, res) {
   res.render('login');
 })
 
-router.post('/', function (req, res) {
+router.post('/', function (req, res, next) {
   var name = req.body.uname;
   var pwd = req.body.upwd || '';
   var hash = crypto.createHash('md5').update(pwd).digest('hex');
   pwd = hash;
-  userMod.checkUserPwd({
-    name: name,
-    pwd: pwd
-  }, function (err, result) {
-    if (err || result.length === 0) {
-      return res.json({
-        status: false,
-        msg: '账号或密码错误'
-      });
-    };
-    var userid = result[0]._id;
-    /* 记录登陆信息 */
-    userMod.pushLoginTime(req, userid, function (err, results) {
-      if (err) return;
+  let comPwd = () => {
+    return new Promise((resolve, reject) => {
+      userMod.checkUserPwd({
+        name: name,
+        pwd: pwd
+      }, (err, result) => {
+        if (err) {
+          return res.json({
+            status: false,
+            msg: '服务器错误'
+          })
+        }
+        if (result === 0) {
+          return res.json({
+            status: false,
+            msg: '账号或密码错误'
+          })
+        }
+        resolve(result);
+      })
     })
-    var per = result[0].permissions;
-    if (per == 'admin') {
-      req.session.user = {
-        permissions: 'admin',
-        username: name,
-        _id: result[0]._id
-      }
-      res.json({
-        status: true,
-        msg: "登录成功",
-        href: '/backend'
-      });
-    } else if (per == 'normal') {
-      req.session.user = {
-        permissions: 'normal',
-        username: name,
-        _id: result[0]._id
-      }
-      res.json({
-        status: true,
-        msg: "登录成功",
-        href: '/blog'
-      });
-    }
-  })
+  }
+  /* 记录登陆信息 */
+  let pushLoginRecord = (user) => {
+    return new Promise((resolve, rejecet) => {
+      userMod.pushLoginTime(req, user.user_id, function (err, result) {
+        if (err) reject(err);
+        let per = user.permissions;
+        let jumpPath = '';
+        let obj = {
+          username: name,
+          permissions: per,
+          avatarPath: user.avatar_path,
+          _id: result.user_id
+        }
+        req.session.user = obj;
+        switch (per) {
+          case 'admin':
+            jumpPath = '/backend';
+            break;
+          case 'normal':
+            jumpPath = '/blog';
+            break;
+          default:
+            jumpPath = '/blog';
+            break;
+        }
+        return res.json({
+          status: true,
+          msg: "登录成功",
+          href: jumpPath
+        });
+        resolve();
+      })
+    })
+  }
+  comPwd().then(pushLoginRecord).catch(err => next(err));
 })
 
 module.exports = router;

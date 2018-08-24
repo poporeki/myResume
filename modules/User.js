@@ -4,7 +4,8 @@ const crypto = require("crypto"),
 
 const dbUser = require("../db/schema/userSchema"),
   getClientIP = require("./getClientIP"),
-  dbLoginRecord = require("../db/schema/userLoginRecord");
+  dbLoginRecord = require("../db/schema/userLoginRecord"),
+  uploadFile = require('../db/schema/uploadFile');
 
 module.exports = {
   /* 根据id查找用户 */
@@ -30,7 +31,45 @@ module.exports = {
   },
   /* 比对密码 */
   checkUserPwd: (pars, cb) => {
-    dbUser.findByNP(pars, cb);
+    /* 比对数据库 */
+    let comparisonPwd = () => {
+      return new Promise((resolve, reject) => {
+        dbUser.findByNP(pars, (err, result) => {
+          if (err) return cb(err, null);
+          if (result.length === 0) return cb(null, false);
+          let avatarId = result[0].avatar_path; /* 头像路径 */
+          let userId = result[0]._id; /* 用户id */
+          let permissions = result[0].permissions; /* 用户权限 */
+          resolve({
+            avatarId,
+            userId,
+            permissions
+          });
+        });
+      })
+    }
+    /* 获取头像路径 */
+    let getAvatarPath = (pars) => {
+      return new Promise((resolve, reject) => {
+        uploadFile.findById(pars.avatarId, (err, result) => {
+          if (err) reject(err);
+          if (!result) reject(false);
+          let data = result || result[0];
+          let avatarPath = data.save_path + data.new_name;
+          let obj = {
+            user_id: pars.userId,
+            avatar_path: avatarPath,
+            permissions: pars.permissions
+          }
+          resolve(obj);
+        })
+
+      })
+    }
+    comparisonPwd()
+      .then(getAvatarPath)
+      .then((result) => cb(null, result))
+      .catch((err) => cb(err, null));
   },
   /**
    * 修改密码
@@ -203,6 +242,7 @@ module.exports = {
       .catch((err) => cb(err, null));
   },
   findUserLoginRecordByName: function (username, cb) {
+    /* 获取用户id */
     let getUserID = () => {
       return new Promise((resolve, reject) => {
         dbUser.findByName(username, function (err, result) {
@@ -212,6 +252,7 @@ module.exports = {
         });
       })
     }
+    /* 获取用户信息 */
     let getUserInfo = () => {
       return new Promise((resolve, reject) => {
         dbLoginRecord.find({
