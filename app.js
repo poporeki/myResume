@@ -61,7 +61,7 @@ app.use('/', require('./router'));
 /* 错误处理 */
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send('Something broke!');
+  res.status(500).render('error');
 });
 /* 启动https服务 */
 var server = https.createServer(options, app).listen(PORT, () => {

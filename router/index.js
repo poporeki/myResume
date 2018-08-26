@@ -1,7 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var saveTourists = require('../modules/saveTourists');
-var addTourists = require('../db/schema/addTourists');
+const express = require('express'),
+  router = express.Router();
+
+const saveTourists = require('../modules/saveTourists'),
+  addTourists = require('../db/schema/addTourists');
 
 router.use('/', (req, res, next) => {
   res.locals['USER'] = req.session.user ? req.session.user : null;

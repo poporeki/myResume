@@ -111,7 +111,8 @@ $(function () {
         'kind': days
       },
       type: 'get',
-      el: $('.widget-2>.card')
+      el: $('.widget-2>.card'),
+      aniEle: '<div class="widget-animate"><div class="sk-rotating-plane bg-gray-800"></div></div>'
     }, function (result) {
       var total = 0;
       var datas = result.data;

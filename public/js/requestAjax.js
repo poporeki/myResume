@@ -19,43 +19,43 @@ function requestAjax(options, func, callback) {
   }
   fn.prototype.ajaxLoadingAnimate = {
     self: this,
-    isClassName: function(aniCon) {
+    isClassName: function (aniCon) {
       var Reg = /<[^>]+>/;
       if (Reg.test(aniCon)) {
         return false;
       }
       return true;
     },
-    addHtml: function(aniCon) {
+    addHtml: function (aniCon) {
       if (this.isClassName(aniCon)) {
         return "<div class=" + aniCon + "></div>";
       }
-      return anicon;
+      return aniCon;
     },
-    getClassName: function(aniCon) {
+    getClassName: function (aniCon) {
       if (this.isClassName(aniCon)) {
         return aniCon;
       }
-      var str = anicon;
-      var Reg = /class=\'(\w+)\'/;
+      var str = aniCon;
+      var Reg = /class=[\"|'](.*?)[\"|']/g;
       var tempt_result = Reg.exec(str);
-      if (tempt_result.length !== 0 || tempt_result !== null)
+      if (tempt_result.length === 0 || tempt_result !== null)
         return tempt_result[1];
       return "loading-ani";
     },
-    start: function(_this) {
+    start: function (_this) {
       this.remove(_this);
       var addCon = this.addHtml(_this.aniEle);
       _this.el.append(addCon);
     },
-    remove: function(_this) {
+    remove: function (_this) {
       var className = this.getClassName(_this.aniEle);
       var $target = _this.el.find("." + className);
       if ($target.length === 0) return;
       $target.remove();
     }
   };
-  fn.prototype.xhr = function(_this) {
+  fn.prototype.xhr = function (_this) {
     _this.currentAjax = $.ajax({
       type: this.options.type || "post",
       url: this.options.url,
@@ -63,11 +63,11 @@ function requestAjax(options, func, callback) {
       data: this.options.data,
       async: this.options.async || true,
       contentType: this.options.contentType,
-      beforeSend: function() {
+      beforeSend: function () {
         _this.ajaxLoadingAnimate.start(_this);
       },
       error: _this.callback,
-      complete: function(XMLHttpRequest, status) {
+      complete: function (XMLHttpRequest, status) {
         if (status == "timeout") {
           _this.currentAjax.abort(); // 超时后中断请求
           _this.ajaxLoadingAnimate.remove(_this);
@@ -77,8 +77,8 @@ function requestAjax(options, func, callback) {
               .empty()
               .append(
                 '<a onclick="' +
-                  func +
-                  '();this.remove();" href="javascript:void(0);" style="text-align:center;">链接超时</a>'
+                func +
+                '();this.remove();" href="javascript:void(0);" style="text-align:center;">链接超时</a>'
               );
             return;
           }
