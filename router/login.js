@@ -26,7 +26,7 @@ router.post('/', function (req, res, next) {
             msg: '服务器错误'
           })
         }
-        if (result === 0) {
+        if (result === 0 || !result) {
           return res.json({
             status: false,
             msg: '账号或密码错误'

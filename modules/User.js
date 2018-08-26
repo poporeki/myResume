@@ -51,17 +51,19 @@ module.exports = {
     /* 获取头像路径 */
     let getAvatarPath = (pars) => {
       return new Promise((resolve, reject) => {
+        let obj = {
+          user_id: pars.userId,
+          avatar_path: false,
+          permissions: pars.permissions
+        }
+        if (!pars.avatarId) return resolve(obj);
         uploadFile.findById(pars.avatarId, (err, result) => {
-          if (err) reject(err);
-          if (!result) reject(false);
-          let data = result || result[0];
+          if (err) return reject(err);
+          if (result === null || !result) return reject(false);
+          let data = result;
           let avatarPath = data.save_path + data.new_name;
-          let obj = {
-            user_id: pars.userId,
-            avatar_path: avatarPath,
-            permissions: pars.permissions
-          }
-          resolve(obj);
+          obj['avatar_path'] = avatarPath;
+          return resolve(obj);
         })
 
       })
@@ -158,8 +160,8 @@ module.exports = {
     let createUser = pars => {
       return new Promise((resolve, reject) => {
         dbUser.create(pars, (err, result) => {
-          if (err) reject(err);
-          resolve(result);
+          if (err) return reject(err);
+          return resolve(result);
         });
       });
     };
@@ -209,7 +211,7 @@ module.exports = {
           })
           .limit(2)
           .exec((err, result) => {
-            if (err) reject(err);
+            if (err) return reject(err);
             if (result.length === 0) return cb(0, null);
             let data = result[1];
             let lastLogin = {
@@ -217,7 +219,7 @@ module.exports = {
               os: data.login_OS,
               login_time: moment(data.create_time).format("YYYY-MM-DD hh:mm:ss")
             };
-            resolve(lastLogin);
+            return resolve(lastLogin);
           })
       })
     }
@@ -246,9 +248,9 @@ module.exports = {
     let getUserID = () => {
       return new Promise((resolve, reject) => {
         dbUser.findByName(username, function (err, result) {
-          if (err) reject(err);
+          if (err) return reject(err);
           let userID = result[0]._id;
-          resolve(userID);
+          return resolve(userID);
         });
       })
     }
@@ -259,8 +261,8 @@ module.exports = {
             user_id: userID
           },
           (err, result) => {
-            if (err) reject(err);
-            resolve(result);
+            if (err) return reject(err);
+            return resolve(result);
           }
         );
       })
