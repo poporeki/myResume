@@ -1,9 +1,9 @@
 const express = require('express'),
   router = express.Router();
 
-const articleMod = require('../../modules/Article/article'),
-  articleTypeMod = require('../../modules/Article/articleType'),
-  articleTagMod = require('../../modules/Article/articleTag');
+const articleMod = require('../../../modules/Article/article'),
+  articleTypeMod = require('../../../modules/Article/articleType'),
+  articleTagMod = require('../../../modules/Article/articleTag');
 
 const scriptlink = require('./arclist_script');
 

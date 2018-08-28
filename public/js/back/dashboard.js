@@ -69,6 +69,7 @@ $(function () {
       });
     }
   }); */
+  /*访问状况 */
   var ch2 = new Chartist.Line('#rickshaw2', {
     labels: [1, 2, 3, 4, 5, 6, 7],
     series: []
@@ -85,7 +86,7 @@ $(function () {
     }
   });
   updateCh2('week');
-
+  /* 点击切换单周单月 */
   $v_s_blk.on('click', '.btn', function () {
     var $this = $(this);
     $(this).addClass('active').siblings().removeClass('active');
@@ -105,6 +106,10 @@ $(function () {
   })
 
   function updateCh2(days) {
+    var aniCon =
+      '<div class="widget-animate">' +
+      '<div class="sk-rotating-plane bg-gray-800"></div>' +
+      '</div>';
     requestAjax({
       url: '/backend/getVistorTotal',
       data: {
@@ -112,7 +117,7 @@ $(function () {
       },
       type: 'get',
       el: $('.widget-2>.card'),
-      aniEle: '<div class="widget-animate"><div class="sk-rotating-plane bg-gray-800"></div></div>'
+      aniEle: aniCon
     }, function (result) {
       var total = 0;
       var datas = result.data;

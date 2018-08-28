@@ -2,10 +2,10 @@ const express = require('express'),
   router = express.Router();
 
 
-const articleMod = require('../../modules/Article/article');
-const articleTypeMod = require('../../modules/Article/articleType');
-const articleTagMod = require('../../modules/Article/articleTag');
-const uploadIMGMod = require('../../modules/uploadIMG');
+const articleMod = require('../../../modules/Article/article');
+const articleTypeMod = require('../../../modules/Article/articleType');
+const articleTagMod = require('../../../modules/Article/articleTag');
+const uploadIMGMod = require('../../../modules/uploadIMG');
 
 const scriptlink = require('./arclist_script');
 

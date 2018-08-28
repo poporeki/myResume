@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express'),
+  router = express.Router();
 
-router.get('/', function (req, res) {
+router.get('/', (req, res, next) => {
   res.render('index', {
     pageTitle: '晏思凯的简历'
   });

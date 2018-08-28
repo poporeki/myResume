@@ -144,7 +144,7 @@ body {
   }
   .text-block {
     .row {
-      >div {
+      .masonry-item {
         transition: background-color 1s ease, color 1s ease;
         &:hover,
         &:active {
@@ -176,6 +176,89 @@ body {
 .page-title-ani {
   display: inline-block;
   animation: titleAniTop 2s ease-in-out;
+}
+
+.circle-wrapper {
+  transition: transform .5s ease;
+  height: 40vh;
+  width: 100%;
+  position: absolute;
+  /* Enable clipping */
+  clip: rect(0px, 100px, 100px, 50px);
+  /* Hide half of the progress bar */
+}
+
+/* Set the sizes of the elements that make up
+the progress bar */
+
+.circle {
+  width: 80%;
+  padding-top: 100%;
+  border: 10px solid green;
+  border-radius: 50px;
+  position: absolute;
+  clip: rect(0px, 50px, 100px, 0px);
+}
+
+div[data-anim~=base] {
+  animation-iteration-count: 1;
+  /* Only run once */
+  animation-fill-mode: forwards;
+  /* Hold the last keyframe */
+  animation-timing-function: linear;
+  /* Linear animation */
+}
+
+.circle-wrapper[data-anim~=wrapper] {
+  animation-duration: 0.01s;
+  /* Complete keyframes asap */
+  animation-delay: 3s;
+  /* Wait half of the animation
+*/
+  animation-name: close-wrapper;
+  /* Keyframes name */
+}
+
+.circle[data-anim~=left] {
+  animation-duration: 6s;
+  /* Full animation time */
+  animation-name: left-spin;
+}
+
+.circle[data-anim~=right] {
+  animation-duration: 3s;
+  /* Half animation time */
+  animation-name: right-spin;
+}
+
+@keyframes right-spin {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(180deg);
+  }
+}
+
+/*
+Rotate the left side of the progress bar from 0 to 360 degrees */
+
+@keyframes left-spin {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+/* Set the wrapper clip to auto, effectively removing the clip
+*/
+
+@keyframes close-wrapper {
+  to {
+    clip: rect(auto, auto, auto, auto);
+  }
 }
 
 /* ------.page-title-ani 标题进入动画----------- */

@@ -431,7 +431,7 @@ body {
     color: slategrey; }
   .skills-page .page-content .under-panel .echars-ele {
     transition: transform .5s ease;
-    height: 40vh;
+    height: 30vh;
     width: 100%; }
   .skills-page .page-content .under-panel .panel-mask {
     position: absolute;

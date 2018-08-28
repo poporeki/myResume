@@ -145,7 +145,7 @@ router.get('/test', (req, res, next) => {
     res.send(result);
   })
 })
-router.use('/art', require('./article'));
+router.use('/art', require('./article/article'));
 router.use('/regg', require('./register'));
 router.use('/user', require('./user'));
 router.use('/loginRecord', require('./loginRecord'));

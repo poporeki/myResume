@@ -1,7 +1,7 @@
 const express = require('express'),
   router = express.Router();
 
-const arcMod = require('../../modules/Article/article');
+const arcMod = require('../../../modules/Article/article');
 
 router.post('/', (req, res) => {
   if (req.session.user.permissions !== 'root') {

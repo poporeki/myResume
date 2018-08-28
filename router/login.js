@@ -40,7 +40,7 @@ router.post('/', function (req, res, next) {
   let pushLoginRecord = (user) => {
     return new Promise((resolve, rejecet) => {
       userMod.pushLoginTime(req, user.user_id, function (err, result) {
-        if (err) reject(err);
+        if (err) return reject(err);
         let per = user.permissions;
         let jumpPath = '';
         let obj = {
@@ -61,16 +61,20 @@ router.post('/', function (req, res, next) {
             jumpPath = '/blog';
             break;
         }
-        return res.json({
-          status: true,
-          msg: "登录成功",
-          href: jumpPath
-        });
-        resolve();
+        resolve(jumpPath);
       })
     })
   }
-  comPwd().then(pushLoginRecord).catch(err => next(err));
+  comPwd()
+    .then(pushLoginRecord)
+    .then((jumpPath) => {
+      return res.json({
+        status: true,
+        msg: "登录成功",
+        href: jumpPath
+      });
+    })
+    .catch(err => next(err));
 })
 
 module.exports = router;

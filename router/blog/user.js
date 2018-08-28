@@ -1,26 +1,26 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express'),
+  router = express.Router();
 const {
   check,
   validationResult
 } = require('express-validator/check');
 
-var uploadIMGMod = require('../../modules/uploadIMG');
-var userMod = require('../../modules/User');
+const uploadIMGMod = require('../../modules/uploadIMG'),
+  userMod = require('../../modules/User');
 
-router.use('/', function (req, res, next) {
+router.use('/', (req, res, next) => {
   if (!req.session.user) {
     return res.redirect('/login');
   }
   next();
 })
 
-router.get('/', function (req, res) {
+router.get('/', (req, res) => {
 
-  userMod.findUserById(req.session.user._id, function (err, userInfo) {
+  userMod.findUserById(req.session.user._id, (err, userInfo) => {
     if (err) return next(err);
-    var repAvatar = userInfo.avatar_path ? userInfo.avatar_path.save_path + 'thumbnail_' + userInfo.avatar_path.new_name : "/images/my-head.png";
-    var path = repAvatar;
+    let repAvatar = userInfo.avatar_path ? userInfo.avatar_path.save_path + 'thumbnail_' + userInfo.avatar_path.new_name : "/images/my-head.png";
+    let path = repAvatar;
     res.render('./blog/user', {
       username: userInfo.user_name,
       avatar: path
@@ -28,11 +28,9 @@ router.get('/', function (req, res) {
   })
 
 });
-router.post('/uploadAvatar', function (req, res, next) {
-  uploadIMGMod.baseUpload(req, '/images/upload/userAvatar/', function (err, result) {
-    if (err) {
-      return next(err);
-    }
+router.post('/uploadAvatar', (req, res, next) => {
+  uploadIMGMod.baseUpload(req, '/images/upload/userAvatar/', (err, result) => {
+    if (err) return next(err);
     res.json({
       status: true,
       data: {
@@ -73,9 +71,7 @@ router.post('/changeUserPassword', [
       password: req.body.password,
       newPassword: req.body.new_password
     }, function (err, result) {
-      if (err) {
-        return next(err);
-      }
+      if (err) return next(err);
       if (err || !result) {
         return res.json({
           status: false

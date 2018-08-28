@@ -1,13 +1,13 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express"),
+  router = express.Router();
 
-var arcMod = require("../../modules/Article/article");
-var arcTypeMod = require("../../modules/Article/articleType");
-var arcTagMod = require("../../modules/Article/articleTag");
+const arcMod = require("../../../modules/Article/article"),
+  arcTypeMod = require("../../../modules/Article/articleType"),
+  arcTagMod = require("../../../modules/Article/articleTag");
 
-var scriptlink = require("./arclist_script");
+const scriptlink = require("./arclist_script");
 /* 修改文章 */
-router.get("/:artid", function (req, res, next) {
+router.get("/:artid", (req, res, next) => {
   let renObj = {
     pageTitle: "修改文章",
     submitURL: "/backend/art/updatearticle/" + req.params.artid,
@@ -19,8 +19,8 @@ router.get("/:artid", function (req, res, next) {
   /* 获取文章信息 */
   let getArcInfo = () => {
     return new Promise((resolve, reject) => {
-      arcMod.showOneArticle(req.params.artid, function (err, result) {
-        if (err) reject(err);
+      arcMod.showOneArticle(req.params.artid, (err, result) => {
+        if (err) return reject(err);
         if (result.length === 0) reject("not article");
         let arc = result[0];
         renObj["userName"] = arc.author_id.user_name;
@@ -38,8 +38,8 @@ router.get("/:artid", function (req, res, next) {
   /* 获取文章分类 */
   let getArcType = () => {
     return new Promise((resolve, reject) => {
-      arcTypeMod.findArticleType({}, function (err, result) {
-        if (err) reject(err);
+      arcTypeMod.findArticleType({}, (err, result) => {
+        if (err) return reject(err);
         renObj["typeName"] = result;
         resolve();
       });
@@ -48,8 +48,8 @@ router.get("/:artid", function (req, res, next) {
   /* 获取文章tag标签 */
   let getArcTags = () => {
     return new Promise((resolve, reject) => {
-      arcTagMod.findArticleTags({}, function (err, result) {
-        if (err) reject(err);
+      arcTagMod.findArticleTags({}, (err, result) => {
+        if (err) return reject(err);
         renObj["tagName"] = result;
         resolve();
       });
@@ -64,8 +64,8 @@ router.get("/:artid", function (req, res, next) {
     .catch((err) => next(err));
 });
 /* 修改文章 */
-router.post("/:artid", function (req, res) {
-  arcMod.updateArticle(req, function (err, result) {
+router.post("/:artid", (req, res) => {
+  arcMod.updateArticle(req, (err, result) => {
     if (err) {
       console.log(err);
       return;

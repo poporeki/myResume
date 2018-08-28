@@ -1,10 +1,10 @@
-var express = require('express');
-var router = express.Router();
-var moment = require('moment');
+const express = require('express'),
+  router = express.Router(),
+  moment = require('moment');
 
-var articleTypeMod = require('../../modules/Article/articleType');
+const articleTypeMod = require('../../../modules/Article/articleType');
 
-router.get('/add', function (req, res) {
+router.get('/add', (req, res) => {
   res.render('./backend/add', {
     pageTitle: '文章分类',
     formAction: '/type/add',
@@ -12,11 +12,11 @@ router.get('/add', function (req, res) {
   });
 })
 
-router.post('/add', function (req, res) {
+router.post('/add', (req, res) => {
   if (req.session.user.permission !== 'root') {
     return res.send('该账号没有权限');
   }
-  articleTypeMod.addArticleType(req.body, function (err, result) {
+  articleTypeMod.addArticleType(req.body, (err, result) => {
     if (err) {
       console.log(err);
       return;
@@ -24,16 +24,16 @@ router.post('/add', function (req, res) {
     res.redirect('/backend');
   })
 });
-router.get('/list', function (req, res) {
-  articleTypeMod.findArticleType(req.query, function (err, result) {
+router.get('/list', (req, res) => {
+  articleTypeMod.findArticleType(req.query, (err, result) => {
     if (err) {
       console.log(err);
       return;
     }
-    var datas = [];
-    for (var i = 0; i < result.length; i++) {
-      var data = result[i];
-      var obj = {
+    let datas = [];
+    for (let i = 0; i < result.length; i++) {
+      let data = result[i];
+      let obj = {
         id: data._id,
         name: data.type_name,
         timeCreate: moment(data.create_time).format('YYYY-MM-DD hh:mm:ss'),
