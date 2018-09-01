@@ -273,9 +273,13 @@ module.exports = {
       .catch(err => cb(err, null));
   },
   /* 获取所有用户登陆记录 */
-  findAllUserLoginRecord: function (cb) {
+  findAllUserLoginRecord: function (limit, cb) {
     dbLoginRecord
       .find({})
+      .limit(limit)
+      .sort({
+        'create_time': -1
+      })
       .populate({
         path: "user_id"
       })

@@ -15,6 +15,7 @@
           <th>登录设备</th>
           <th>登录浏览器</th>
           <th>位置信息</th>
+          <th>ISP</th>
           <th>登录时间</th>
         </tr>
       </thead>
@@ -23,16 +24,14 @@
       <%var data=record[i];%>
         <tr>
           <th scope="row"><%=i+1%></th>
-          <td><%=data.user_id.user_name%> </td>
-          <td><%=data.login_OS.name%> <%=data.login_OS.version%>  </td>
-          <td><%=data.login_browser.name%> <%=data.login_browser.version%></td>
-          <td><%=data.login_geolocation.ip%> <br>
-          <%=data.login_geolocation.country%> 
-          <%=data.login_geolocation.region%> 
-          <%=data.login_geolocation.city%><br>
-          <%=data.login_geolocation.isp%><br>
+          <td><%=data.username%> </td>
+          <td><%=data.os%>  </td>
+          <td><%=data.browser%></td>
+          <td><%=data.ip%><br>
+          <%=data.address%>
           </td>
-          <td><%=data.create_time%>  </td>
+          <td><%=data.isp%></td>
+          <td><%=data.logtime%>  </td>
         </tr>
       <%}%>
       </tbody>
