@@ -36,7 +36,11 @@
               <div class="col-md-4 mg-t--1 mg-md-t-0">
                 <div class="form-group mg-md-l--1">
                   <label class="form-control-label"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">转载地址：</font></font></label>
-                  <input class="form-control" type="text" name="arc_reproduction"  placeholder="无" value="<%=typeof artInfo!==undefined&&typeof artInfo.from!==undefined?artInfo.from:''%>">
+                  <%var from='';%>      
+                  <% if(typeof artInfo!=='undefined'&&typeof artInfo.from!=='undefined') { %>
+                    <%form=artInfo.from;%>
+                  <%}%>                  
+                  <input class="form-control" type="text" name="arc_reproduction"  placeholder="无" value="<%=from%>">
                 </div>
               </div><!-- col-4 -->
               <div class="col-md-8">
