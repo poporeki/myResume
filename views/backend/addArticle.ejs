@@ -131,7 +131,7 @@
               <button class="btn btn-info submit-btn"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">提交</font></font></button>
               <div class="checkbox-wrap">
                 <p>加入轮播:</p>
-                <% if(typeof artInfo!=='undefined'&&typeof artInfo.types!=='undefined'&&artInfo.types.length!==0) { %>
+                <% if(typeof artInfo!=='undefined'&&typeof artInfo.attribute!=='undefined') { %>
                   <%if(artInfo.attribute&&artInfo.attribute.carousel===true){%>
                     <input type="checkbox" class="switch-button 1" name="arc_carousel" checked>
                   <%}else{%>
