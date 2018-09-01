@@ -25,6 +25,10 @@
         </div>
         <div class="article-body">
           <%-art.content %>
+          <%if(typeof art.from!==undefined||art.from!==null){%>
+          原帖地址：<a href="<%=art.from%>"><%=art.from%></a><br>
+          <%}%>
+          
         </div>
         <div class="article-tags-list">
         <div class="tit">

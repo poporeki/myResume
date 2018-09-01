@@ -14,6 +14,7 @@ module.exports = {
       attribute: {
         carousel: req.body.arc_carousel === 'on' ? true : false
       },
+      from: req.body.arc_reproduction,
       type_id: (req.body.arc_type).trim(),
       tags_id: req.body.arc_tags,
       is_delete: false,
@@ -159,6 +160,7 @@ module.exports = {
       attribute: {
         carousel: req.body.arc_carousel === 'on' ? true : false
       },
+      from: req.body.arc_reproduction,
       is_delete: false,
       /*  */
       type_id: req.body.arc_type,

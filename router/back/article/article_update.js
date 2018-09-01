@@ -28,6 +28,7 @@ router.get("/:artid", (req, res, next) => {
           name: arc.title,
           type: arc.type_id,
           tags: arc.tags_id,
+          from: arc.from,
           content: arc.content,
           attribute: arc.attribute
         };

@@ -30,6 +30,7 @@ router.get('/:id', (req, res, next) => {
             id: thisArt.type_id._id,
             name: thisArt.type_id.type_name
           },
+          from: thisArt.from,
           tags: thisArt.tags_id,
           /* 文章标题名 */
           createTime: moment(thisArt.create_time).format('YYYY-MM-DD hh:mm'),

@@ -9,6 +9,7 @@ var articleSchema = new schema({
   title: String,
   attribute: {},
   read: Number,
+  from: String,
   content: String,
   source: String,
   support: Number,
