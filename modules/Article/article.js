@@ -36,7 +36,7 @@ module.exports = {
   showArticleList: function (req, cb) {
     var isAdmin = req.session.user && req.session.user.permissions === 'admin' ? true : false;
     var by = req.query.by || req.body.by || {};
-    var limit = Number(req.query.num || req.body.num) || 10; /* 查找数量默认10 */
+    var limit = parseInt(req.query.num || req.body.num) || 10; /* 查找数量默认10 */
     var page = req.query.page || req.body.page; /* 当前页数 */
     var skip = page ? ((page - 1) * limit) : 0; /* 跳过数量*/
     var sort = req.query.sort || {
@@ -48,37 +48,48 @@ module.exports = {
       "skip": skip,
       "sort": sort
     }
-    articles.findArticle(pars, function (err, result) {
-      if (err) {
-        return cb(err, null);
-      }
-      var artArr = [];
-      for (var a = 0; a < result.length; a++) {
-        var art = result[a];
-        var obj = {
-          id: art._id,
-          title: art.title,
-          author: {
-            id: art.author_id._id,
-            name: art.author_id.user_name
-          },
-          content: art.content,
-          read: art.read,
-          source: art.source,
-          type: {
-            id: art.type_id ? art.type_id._id : 'null',
-            name: art.type_id ? art.type_id.type_name : 'null'
-          },
-          tags: art.tags_id,
-          time_create: moment(art.create_time).format('YYYY-MM-DD hh:mm:ss')
+    let getArcList = () => {
+      return new Promise((resolve, reject) => {
+        articles.findArticle(pars, function (err, result) {
+          if (err) return reject(err);
+          resolve(result);
+        });
+      })
+    }
+    let formatList = (list) => {
+      return new Promise((resolve) => {
+        let arcArr = [];
+        for (let a = 0; a < list.length; a++) {
+          let arc = list[a];
+          let obj = {
+            id: arc._id,
+            title: arc.title,
+            author: {
+              id: arc.author_id._id,
+              name: arc.author_id.user_name
+            },
+            content: arc.content,
+            read: arc.read,
+            source: arc.source,
+            type: {
+              id: arc.type_id ? arc.type_id._id : 'null',
+              name: arc.type_id ? arc.type_id.type_name : 'null'
+            },
+            tags: arc.tags_id,
+            time_create: moment(arc.create_time).format('YYYY-MM-DD hh:mm:ss')
+          }
+          if (isAdmin) {
+            obj['time_lastchange'] = moment(arc.update_time).format('YYYY-MM-DD hh:mm:ss');
+          }
+          arcArr.push(obj);
         }
-        if (isAdmin) {
-          obj['time_lastchange'] = moment(art.update_time).format('YYYY-MM-DD hh:mm:ss');
-        }
-        artArr.push(obj);
-      }
-      return cb(null, artArr);
-    });
+        resolve(arcArr);
+      })
+    }
+    getArcList()
+      .then(formatList)
+      .then((arcList) => cb(null, arcList))
+      .catch((err) => cb(err, null));
   },
   /* 获取所有文章分类 */
   findArticleTypeInfo: function (cb) {

@@ -1,15 +1,15 @@
 $(function () {
   $('.table').pagination({
     updateDataUrl: '/backend/art/articlelist',
-    delDataURL: '/backend/art/remove',
+    delDataURL: '/backend/art/remove/toTrash',
     process: function (result) {
-      var artInfo = result.data.artInfo;
       var artCount = result.data.artCount;
       var artCon = '';
+      var artInfo = result.data.artInfo;
       for (var i = 0; i < artInfo.length; i++) {
         var info = artInfo[i],
-          artnum = i + 1;
-        artid = info.id,
+          artnum = i + 1,
+          artid = info.id,
           arttit = info.title,
           typeid = info.type.id,
           typename = info.type.name,
@@ -28,14 +28,14 @@ $(function () {
           '<td>' + time_create + '</td>' +
           '<td>' + time_lastchange + '</td>' +
           '<td>' +
-          '<a href="recoveryarticle/' + artid + '" class="btn btn-teal btn-block">恢复</a>' +
-          '<a href="javascript:void(0);" data-toggle="modal" data-target="#delArcModal" class="btn  btn-dark btn-block del-art-btn"  data-artid=' + artid + '>删除</a>' +
+          '<a href="updatearticle/' + artid + '" class="btn btn-teal btn-block">修改</a>' +
+          '<a href="javascript:void(0);" data-toggle="modal" data-target="#delArcModal" class="btn btn-dark btn-block del-art-btn"  data-artid=' + artid + '>删除</a>' +
           '</td>' +
           '</tr>';
       }
       return {
-        addHtml: artCon,
-        Count: artCount
+        Count: artCount,
+        addHtml: artCon
       }
     }
   })

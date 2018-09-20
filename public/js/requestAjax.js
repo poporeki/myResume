@@ -84,7 +84,7 @@ function requestAjax(options, func, callback) {
           }
           _this.el
             .empty()
-            .append('<span style="text-align:center;">链接超时</span>');
+            .append('<a href="##" class="btn-retry" style="text-align:center;">链接超时</a>');
           return;
         }
         _this.ajaxLoadingAnimate.remove(_this);

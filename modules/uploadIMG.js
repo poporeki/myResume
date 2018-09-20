@@ -207,11 +207,8 @@ exports.baseUpload = function (req, uPath, cb) {
       new_name = timestamp + '.jpg'; /* 重命名 */
       dir = path.join(uploadDir, new_name);
       resPath = uploadDir.split(path.sep + 'public')[1];
-      fs.writeFile(dir, dataBuffer, function (err) {
-        if (err) {
-          reject(err);
-        }
-
+      fs.writeFile(dir, dataBuffer, (err) => {
+        if (err) return reject(err);
         resolve();
       });
     })

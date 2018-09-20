@@ -273,17 +273,42 @@ module.exports = {
       .catch(err => cb(err, null));
   },
   /* 获取所有用户登陆记录 */
-  findAllUserLoginRecord: function (limit, cb) {
-    dbLoginRecord
-      .find({})
-      .limit(limit)
-      .sort({
-        'create_time': -1
+  findAllUserLoginRecord: function (limit, page, cb) {
+
+    let getCount = () => {
+      return new Promise((resolve, reject) => {
+        dbLoginRecord.find({}).count().exec((err, result) => {
+          if (err) return reject(err);
+          return resolve(result);
+        })
       })
-      .populate({
-        path: "user_id"
+    }
+    let getInfo = (count) => {
+      return new Promise((resolve, reject) => {
+        let lim = limit || 10;
+
+        let sk = page ? page * lim : lim;
+        dbLoginRecord.find({})
+          .limit(lim)
+          .skip(sk)
+          .sort({
+            'create_time': -1
+          })
+          .populate({
+            path: "user_id"
+          })
+          .exec((err, result) => {
+            if (err) return reject(err);
+            result['count'] = count;
+            resolve(result);
+          });
       })
-      .exec(cb);
+    }
+    getCount().then(getInfo)
+      .then((result) => {
+        return cb(null, result);
+      })
+      .catch((err) => cb(err, null));
   },
 
 };

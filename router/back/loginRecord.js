@@ -5,39 +5,66 @@ const moment = require('moment');
 
 const userMod = require('../../modules/User');
 
+/* 用户登录记录 */
 router.get('/', (req, res, next) => {
-  userMod.findAllUserLoginRecord(20, (err, result) => {
-    if (err) return next(err);
-    var arr = [];
-    for (var idx = 0, userLen = result.length; idx < userLen; idx++) {
-      let user = result[idx];
-      let country = user.login_geolocation.country ? user.login_geolocation.country : '';
-      let region = user.login_geolocation.region ? user.login_geolocation.region : '';
-      let city = user.login_geolocation.city ? user.login_geolocation.city : '';
-      let isp = user.login_geolocation.isp ? user.login_geolocation.isp : 'NOT';
-      arr.push({
-        username: user.user_id.user_name || '',
-        os: user.login_OS.name + user.login_OS.version,
-        browser: user.login_browser.name + user.login_browser.version,
-        ip: user.login_geolocation.ip,
-        address: country + ' ' + region + ' ' + city,
-        isp: isp,
-        logtime: moment(user.create_time).format('YYYY-MM-DD hh:mm:ss:ms')
-      })
-    }
-    res.render('./backend/userLoginRecord', {
-      pageTitle: '登陆记录',
-      record: arr
-    });
+  res.render('./backend/userLoginRecord', {
+    pageTitle: '登陆记录',
+    importScript: ['/js/back/loginRecord.js']
   });
-
 });
 
-router.post('/', function (req, res) {
-  userMod.findAllUserLoginRecord((err, result) => {
-    if (err) return;
+router.post('/', function (req, res, next) {
+  /* 获取登陆数据 */
+  let getLoginDatas = () => {
+    return new Promise((resolve, reject) => {
+      let limit = parseInt(req.body.limit);
+      let page = parseInt(req.body.limit);
+      userMod.findAllUserLoginRecord(limit, page, (err, result) => {
+        if (err) return reject(err);
+        resolve(result);
+      });
+    })
+  }
+  getLoginDatas()
+    .then((result) => {
+      let arr = [];
+      for (let idx = 0, userLen = result.length; idx < userLen; idx++) {
+        let user = result[idx];
 
-  });
+        let username = user.user_id ? user.user_id.user_name : 'not',
+          os = user.login_OS.name + ' \n ' + user.login_OS.version,
+          /* 系統 */
+          browser = user.login_browser.name + ' \n ' + user.login_browser.version,
+          /* 浏览器 */
+          country = user.login_geolocation.country ? user.login_geolocation.country : '',
+          /* 国家 */
+          region = user.login_geolocation.region ? user.login_geolocation.region : '',
+          /* 地区 */
+          city = user.login_geolocation.city ? user.login_geolocation.city : '',
+          /* 城市 */
+          isp = user.login_geolocation.isp ? user.login_geolocation.isp : 'NOT'; /* 互联网服务提供商 */
+        arr.push({
+          username: username,
+          os: os,
+          browser: browser,
+          ip: user.login_geolocation.ip,
+          address: country + ' ' + region + ' ' + city,
+          isp: isp,
+          logtime: moment(user.create_time).format('YYYY-MM-DD hh:mm:ss:ms')
+        })
+      }
+      var obj = {
+        count: result.count,
+        list: arr
+      }
+
+      return res.json({
+        status: 1,
+        msg: '',
+        data: obj
+      })
+    })
+    .catch((err) => next(err));
 });
 
 module.exports = router;

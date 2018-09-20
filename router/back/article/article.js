@@ -26,7 +26,9 @@ router.get('/articlelist', (req, res) => {
   res.render('./backend/articlelist', {
     pageTitle: "文章列表",
     userName: req.session.user.username,
-    importScript: ['/js/back/articlelist.js']
+    importScript: [
+      '/js/back/articlelist.js'
+    ]
   });
 })
 router.post('/articlelist', (req, res) => {

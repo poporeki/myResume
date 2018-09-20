@@ -47,6 +47,7 @@ router.get('/:id', (req, res, next) => {
       })
     })
   }
+  /* 获取文章评论 */
   let getArcComm = () => {
     return new Promise((resolve, reject) => {
       artCommMod.showThisArticleComments(req, (err, result) => {

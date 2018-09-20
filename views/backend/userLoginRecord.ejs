@@ -20,26 +20,15 @@
         </tr>
       </thead>
       <tbody>
-      <%for(var i=0;i<record.length;i++){%>
-      <%var data=record[i];%>
-        <tr>
-          <th scope="row"><%=i+1%></th>
-          <td><%=data.username%> </td>
-          <td><%=data.os%>  </td>
-          <td><%=data.browser%></td>
-          <td><%=data.ip%><br>
-          <%=data.address%>
-          </td>
-          <td><%=data.isp%></td>
-          <td><%=data.logtime%>  </td>
-        </tr>
-      <%}%>
+      
       </tbody>
     </table>
+    <div class="ht-80 d-flex align-items-center justify-content-center">
+    <nav aria-label="Page navigation" class="navigation"></nav>
+    </div>
+    
     </div>
   </div>
   </div>
 </div>
-
-
 <%- include('footer') -%>
