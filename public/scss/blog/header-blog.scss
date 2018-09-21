@@ -1,4 +1,5 @@
 @import 'set-color';
+
 html,
 body {
   font-size: 14px;
@@ -15,6 +16,7 @@ body {
   width: 100%; // background-image: url(/images/dark_geometric2.png);
   background-color: $color-bg;
   font-family: 'Microsoft YaHei';
+  overflow-x: hidden;
 }
 
 a {
@@ -34,18 +36,23 @@ li {
 @media(width:360px) {
   header {
     height: 80px;
+
     nav {
       flex-direction: column-reverse !important;
+
       .rt {
         align-self: flex-end !important;
         margin-bottom: 50px;
         width: 100% !important;
+
         .s-wrap {
           width: 100% !important;
         }
       }
+
       .navbar {
         display: none !important;
+
         a {
           padding: 5px 15px !important;
         }
@@ -57,19 +64,24 @@ li {
 @media(max-width:768px) {
   header {
     height: 100px;
+
     nav {
       padding: 50px 0 20px !important;
       flex-direction: column-reverse !important;
+
       .rt {
         align-self: flex-end !important;
         margin-bottom: 50px;
         width: 100% !important;
+
         .s-wrap {
           width: 100% !important;
         }
       }
+
       .navbar {
         display: none !important;
+
         a {
           padding: 5px 15px !important;
         }
@@ -94,12 +106,14 @@ header {
 header {
   position: relative;
   max-height: 300px;
+
   .top-box {
     position: absolute;
     right: 5px;
     top: 5px;
     display: flex;
     flex-direction: row;
+
     .box {
       position: relative;
       width: 50px;
@@ -107,11 +121,13 @@ header {
       right: 5px;
       margin-bottom: 5px;
       margin-left: 5px; // background-color: rgba(0, 0, 0, 0.712);
+
       &:nth-child(even) {
         >a {
           border-left: 1px solid rgb(139, 139, 139);
         }
       }
+
       >a {
         position: absolute;
         display: block;
@@ -122,6 +138,7 @@ header {
         line-height: 20px;
         font-size: 12px;
         text-align: center;
+
         >p {
           position: absolute;
           margin: 0;
@@ -132,16 +149,19 @@ header {
       }
     }
   }
+
   nav {
     display: flex;
     flex-direction: row;
     padding: 100px 0;
     justify-content: space-between;
+
     ul.navbar {
       display: flex;
       flex-direction: row;
       align-items: center;
       align-content: center;
+
       li {
         a {
           position: relative;
@@ -156,6 +176,7 @@ header {
           transition: color .3s ease;
           overflow: hidden;
           color: #fff;
+
           &:after,
           &:before {
             content: '';
@@ -166,6 +187,7 @@ header {
             opacity: 0;
             transition: transform .3s ease, opacity .3s ease;
           }
+
           &:after {
             bottom: 0;
             right: 0;
@@ -173,6 +195,7 @@ header {
             border-left-color: transparent;
             border-top-color: transparent;
           }
+
           &:before {
             top: 0;
             left: 0;
@@ -181,9 +204,11 @@ header {
             border-bottom-color: transparent;
           }
         }
+
         &:hover {
           >a {
             color: $color-lk-bgcolor;
+
             &:after,
             &:before {
               transform: translate(0);
@@ -193,15 +218,18 @@ header {
         }
       }
     }
+
     .rt {
       display: flex;
       position: relative;
       align-self: center;
       justify-content: flex-end;
+
       .s-wrap {
         position: relative;
         width: 200px;
       }
+
       .search-box {
         position: relative;
         border-radius: 2px;
@@ -209,14 +237,17 @@ header {
         box-sizing: border-box;
         overflow: hidden;
         z-index: 101;
+
         &.show {
           .input-box {
             transform: translateX(0);
           }
+
           .s-btn {
             transform: rotate(360deg);
           }
         }
+
         .s-btn {
           position: absolute;
           height: 40px;
@@ -229,6 +260,7 @@ header {
           border-radius: $bor-radius;
           box-sizing: border-box;
           transition: transform 1s ease;
+
           &:after {
             content: '';
             position: absolute;
@@ -240,6 +272,7 @@ header {
             border-radius: 50%;
             border: 2px solid rgb(226, 226, 226);
           }
+
           &:before {
             content: '';
             position: absolute;
@@ -250,6 +283,7 @@ header {
             transform: rotate(45deg);
           }
         }
+
         .input-box {
           display: flex;
           position: relative;
@@ -266,6 +300,7 @@ header {
           justify-content: center;
           align-items: center;
           transform: translateX(100%);
+
           .search {
             background-color: transparent;
             outline: none;
@@ -274,6 +309,7 @@ header {
             color: #2a2a2a;
             justify-self: center;
           }
+
           .loading-ani-searchlike {
             position: absolute;
             height: 2px;
@@ -286,20 +322,24 @@ header {
             animation: inputLoadAni 1s infinite;
             background-color: #000;
           }
+
           @keyframes inputLoadAni {
             0% {
               transform: scale(0)
             }
+
             50% {
               transform: scale(1);
               background-color: rgb(131, 131, 131);
             }
+
             100% {
               transform: scale(0)
             }
           }
         }
       }
+
       .search-dropdown {
         position: absolute;
         top: 40px;
@@ -312,14 +352,17 @@ header {
         box-shadow: 0 2px 5px rgb(129, 129, 129);
         transition: all 1s ease;
         z-index: 100;
+
         &.show {
           display: block;
           animation: ddAni_in 1s both;
         }
+
         &.hide {
           display: none;
           animation: ddAni_out 1s both;
         }
+
         .arc-lk {
           display: block;
           margin: 0 5px;
@@ -327,26 +370,31 @@ header {
           font-size: 12px;
           border-bottom: 1px solid rgba(218, 218, 218, 0.445);
           color: rgb(95, 95, 95);
+
           &:hover,
           &:active {
             background-color: #e2e2e2;
           }
         }
+
         @keyframes ddAni_in {
           0% {
             opacity: 0;
             transform: translateY(-10%);
           }
+
           100% {
             opacity: 1;
             transform: translateY(0);
           }
         }
+
         @keyframes ddAni_out {
           0% {
             opacity: 1;
             transform: translateY(0);
           }
+
           100% {
             opacity: 0;
             transform: translateY(-10%);

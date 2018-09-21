@@ -12,7 +12,8 @@ body {
   font-size: 1em;
   width: 100%;
   background-color: #141518;
-  font-family: 'Microsoft YaHei'; }
+  font-family: 'Microsoft YaHei';
+  overflow-x: hidden; }
 
 a {
   color: #fff;
