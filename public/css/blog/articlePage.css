@@ -81,7 +81,7 @@ pre {
   overflow-x: auto; }
 
 .article-body p img {
-  width: 100%; }
+  max-width: 100%; }
 
 .loading-ani {
   position: absolute;
