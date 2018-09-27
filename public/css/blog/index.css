@@ -42,6 +42,13 @@
     opacity: 1;
     transform: scale(1) rotateX(0); } }
 
+.p10 {
+  padding: 10px; }
+
+.p10-lr {
+  padding-left: 10px;
+  padding-right: 10px; }
+
 .loading-ani {
   position: relative;
   padding: 30px;
@@ -159,15 +166,29 @@
             transform: translateY(-50%);
             width: 100%; }
         .hot-box .hot-list .hot-list-item .hot-lk .rt {
-          display: block;
+          display: flex;
           width: 70%;
-          word-wrap: break-word; }
+          word-wrap: break-word;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-content: space-around;
+          font-size: 12px; }
           .hot-box .hot-list .hot-list-item .hot-lk .rt .art-tit {
-            padding: 10px;
             box-sizing: border-box;
-            font-size: 12px;
             word-wrap: break-word;
             overflow: hidden; }
+          .hot-box .hot-list .hot-list-item .hot-lk .rt .art-info {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-end; }
+            .hot-box .hot-list .hot-list-item .hot-lk .rt .art-info .read {
+              display: flex;
+              flex-direction: row;
+              color: #6e6e6e; }
+            .hot-box .hot-list .hot-list-item .hot-lk .rt .art-info .time {
+              color: #6e6e6e; }
 
 .line {
   position: relative;
@@ -527,23 +548,21 @@ section.classify {
       text-overflow: ellipsis; }
     .right-item .artcomm-list .comm-lk {
       display: block;
-      margin: 2px;
       flex-grow: 1;
       margin-bottom: 5px;
       padding: 10px;
-      background-color: #1ebbcc;
       color: white;
-      border-bottom: 5px solid white;
-      box-shadow: 0 0 5px #1ebbcc;
+      border-bottom: 3px solid #949494;
       box-sizing: border-box;
-      transition: background-color .3s ease; }
+      transition: border-radius .5s ease, background-color .3s ease; }
       .right-item .artcomm-list .comm-lk:hover {
-        background-color: #21d2e6; }
+        border-bottom-left-radius: 20%;
+        border-bottom-right-radius: 20%;
+        background-color: #636363; }
     .right-item .artcomm-list .arc-comm {
       padding: 10px 0;
       font-size: 1rem;
-      color: #000;
-      font-weight: bold; }
+      color: #cacaca; }
       .right-item .artcomm-list .arc-comm > img {
         height: 2rem;
         vertical-align: bottom;

@@ -267,7 +267,9 @@ module.exports = {
         artList.push({
           artid: result[i]._id,
           title: result[i].title,
-          previewImage: imgSrc
+          read: result[i].read,
+          previewImage: imgSrc,
+          timeCreate: moment(result[i].create_time).format('YYYY-MM-DD hh:mm:ss')
         })
       }
       return cb(null, artList);

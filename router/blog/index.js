@@ -1,21 +1,19 @@
-var express = require('express');
-var router = express.Router();
-var moment = require('moment');
+const express = require('express'),
+  router = express.Router(),
+  moment = require('moment');
 
-var articleMod = require('../../modules/Article/article');
-var commentMod = require('../../modules/Article/articleComments');
-var articleTypeMod = require('../../modules/Article/articleType');
-var arcticleTagMod = require('../../modules/Article/articleTag');
+var articleMod = require('../../modules/Article/article'),
+  commentMod = require('../../modules/Article/articleComments'),
+  articleTypeMod = require('../../modules/Article/articleType'),
+  arcticleTagMod = require('../../modules/Article/articleTag');
 
 router.get('/', (req, res, next) => {
-  var resObj = {};
+  let resObj = {};
   /* 获取文章分类 */
   function getArcType() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
       articleTypeMod.findArticleType('', (err, resTypeList) => {
-        if (err) {
-          reject(err);
-        }
+        if (err) return reject(err);
         resObj['typeList'] = resTypeList;
         resolve();
       });
@@ -23,11 +21,9 @@ router.get('/', (req, res, next) => {
   }
   /* 获取文章tag标签 */
   function getArcTags() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
       articleMod.findArticleTagsInfo((err, resTagsList) => {
-        if (err) {
-          reject(err);
-        }
+        if (err) return reject(err);
         resObj['tagList'] = resTagsList;
         resolve();
       });
@@ -35,11 +31,9 @@ router.get('/', (req, res, next) => {
   }
   /* 获取最新评论 */
   function getCommTop() {
-    return new Promise(function (resolve, reject) {
-      commentMod.findCommentTop(function (err, resCommList) {
-        if (err) {
-          reject(err);
-        }
+    return new Promise((resolve, reject) => {
+      commentMod.findCommentTop((err, resCommList) => {
+        if (err) return reject(err);
         resObj['commList'] = resCommList;
         resolve();
       })
@@ -47,7 +41,7 @@ router.get('/', (req, res, next) => {
   }
   /* 获取文章列表 */
   function getArcList() {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
       var by = {
         by: {
           is_delete: false,
@@ -58,9 +52,7 @@ router.get('/', (req, res, next) => {
       };
       req.query = by;
       articleMod.showArticleList(req, (err, resCarouselList) => {
-        if (err) {
-          reject(err);
-        }
+        if (err) return reject(err);
         resObj['carouList'] = resCarouselList;
         resolve();
       });

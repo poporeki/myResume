@@ -17,14 +17,17 @@ function getHotList() {
     var con = '';
     for (var i = 0; i < data.length; i++) {
       var theData = data[i];
-      var imgsrc = theData.previewImage ? theData.previewImage : '/images/my-head.png';
+      var imgsrc = theData.previewImage ? theData.previewImage : '/images/exp.png';
       con += '<div class="swiper-slide hot-list-item">' +
         '<a href="/blog/article/' + theData.artid + '" class="hot-lk">' +
         '<span class="lt">' +
-        '<img src="' + imgsrc + '" alt="">' +
+        '<img src="' + imgsrc + '" alt="images">' +
         '</span>' +
-        '<span class="rt">' +
-        '<div class="art-tit">' + theData.title +
+        '<span class="rt p10">' +
+        '<div class="art-tit">' + theData.title + '</div>' +
+        '<div class="art-info">' +
+        '<div class="read"><i class="iconfont bottom icon-read"></i>' + theData.read + '</div>' +
+        '<div class="time">' + theData.timeCreate + '</div>' +
         '</div>' +
         '</span>' +
         '</a>' +
