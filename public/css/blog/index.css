@@ -302,6 +302,12 @@ section.classify {
     section.classify .classify-item:last-child {
       margin-right: 0; }
 
+section#weather {
+  display: flex;
+  flex-grow: 1; }
+  section#weather .container {
+    background: transparent; }
+
 @media (min-width: 992px) {
   html,
   body {

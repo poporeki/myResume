@@ -132,21 +132,30 @@ function getNewArtList() {
 }
 
 function weatherFn() {
-  var geolo = getGeolocation();
+  getGeolocation(function (geolo) {
+    requestAjax({
+      el: $('body'),
+      url: '/blog/weather',
+      type: 'get',
+      data: {
+        geolocation: geolo
+      }
+    }, function (result) {
+      if (parseInt(result.status) !== 1) {
+        return;
+      }
+      var weatherInfo = result.lives[0];
+      $('#date').html(weatherInfo.reporttime);
+      $('.temp .s-wd').html(weatherInfo.temperature);
+      $('#summary').html(weatherInfo.city);
+      console.log(result);
+    })
+  });
 
-  requestAjax({
-    el: $('body'),
-    url: '/blog/weather',
-    type: 'get',
-    data: {
-      geolocation: geolo
-    }
-  }, function (result) {
-    console.log(result);
-  })
+
 }
 /* 获取定位 */
-function getGeolocation() {
+function getGeolocation(cb) {
   var geolocation = false;
   var options = {
     enableHighAccuracy: true,
@@ -161,7 +170,7 @@ function getGeolocation() {
     //纬度
     var latitude = crd.latitude;
     geolocation = longitude + ',' + latitude;
-    return geolocation;
+    return cb(geolocation);
   }
 
   function error(err) {
