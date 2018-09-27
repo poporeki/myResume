@@ -1,6 +1,7 @@
 $(function () {
   getHotList();
   getNewArtList();
+  weatherFn();
 });
 
 function getHotList() {
@@ -128,4 +129,49 @@ function getNewArtList() {
       }
     }
   });
+}
+
+function weatherFn() {
+  var geolo = getGeolocation();
+
+  requestAjax({
+    el: $('body'),
+    url: '/blog/weather',
+    type: 'get',
+    data: {
+      geolocation: geolo
+    }
+  }, function (result) {
+    console.log(result);
+  })
+}
+/* 获取定位 */
+function getGeolocation() {
+  var geolocation = false;
+  var options = {
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 0
+  };
+
+  function success(pos) {
+    var crd = pos.coords;
+    //经度
+    var longitude = crd.longitude;
+    //纬度
+    var latitude = crd.latitude;
+    geolocation = longitude + ',' + latitude;
+    return geolocation;
+  }
+
+  function error(err) {
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+  }
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(success, error, options);
+  }
+
+
+
+
 }

@@ -5,7 +5,9 @@ const express = require('express'),
 var articleMod = require('../../modules/Article/article'),
   commentMod = require('../../modules/Article/articleComments'),
   articleTypeMod = require('../../modules/Article/articleType'),
-  arcticleTagMod = require('../../modules/Article/articleTag');
+  arcticleTagMod = require('../../modules/Article/articleTag'),
+  weatherMod = require('../../modules/weather'),
+  getIP = require('../../modules/getIP');
 
 router.get('/', (req, res, next) => {
   let resObj = {};
@@ -94,6 +96,20 @@ router.get('/info', (req, res) => {
 
     }
     res.send(result);
+  })
+})
+router.get('/weather', (req, res, next) => {
+  let geolo = {};
+  if (req.query.geolocation && req.query.geolocation !== 'false') {
+    var g = "" + req.query.geolocation;
+    geolo.geolocation = g;
+  } else {
+    let ip = getIP(req);
+    geolo.ip = ip;
+  }
+
+  weatherMod.getWeather(geolo, (err, result) => {
+    return res.json(result);
   })
 })
 router.use('/search', require('./search'));

@@ -1,13 +1,10 @@
 const request = require('request');
+
+const getIP = require('./getIP');
 /* 获取客户端ip */
 function getClientIp(req, callback) {
     var ipInfo = {};
-    var ip = req.headers['x-forwarded-for'] ||
-        req.connection.remoteAddress ||
-        req.socket.remoteAddress ||
-        req.connection.socket.remoteAddress;
-    var Reg = /([1,9]{1}\d{0,2}\.\d{1,3}\.\d{1,3}\.\d{1,3})/;
-    ipInfo.ip = ip.match(Reg);
+    ipInfo.ip = getIP;
     if (!ipInfo.ip) {
         ipInfo.ip = "未知领域";
         return callback(ipInfo);
@@ -28,6 +25,7 @@ function getClientIp(req, callback) {
         ipInfo.country = data.country;
         ipInfo.country_id = data.country_id;
         ipInfo.city = data.city;
+        ipInfo.city_id = data.city_id;
         ipInfo.region = data.region;
         ipInfo.isp = data.isp;
         return callback(ipInfo);
