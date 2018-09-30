@@ -100,7 +100,7 @@ router.get('/info', (req, res) => {
 })
 router.get('/weather', (req, res, next) => {
   let geolo = {};
-  if (req.query.geolocation && req.query.geolocation !== 'false') {
+  if (req.query.geolocation && req.query.geolocation !== '' && req.query.geolocation !== 'false') {
     var g = "" + req.query.geolocation;
     geolo.geolocation = g;
   } else {

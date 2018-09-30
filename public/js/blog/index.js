@@ -132,7 +132,7 @@ function getNewArtList() {
 }
 
 function weatherFn() {
-  getGeolocation(function (geolo) {
+  function updateWeather(geolo) {
     requestAjax({
       el: $('body'),
       url: '/blog/weather',
@@ -178,6 +178,9 @@ function weatherFn() {
       $w_block.find('.w-province').html(weatherInfo.province);
       console.log(result);
     })
+  }
+  getGeolocation(function (err, geolo) {
+    updateWeather(geolo);
   });
 
 
@@ -198,11 +201,11 @@ function getGeolocation(cb) {
     //纬度
     var latitude = crd.latitude;
     geolocation = longitude + ',' + latitude;
-    return cb(geolocation);
+    return cb(null, geolocation);
   }
 
   function error(err) {
-    console.warn(`ERROR(${err.code}): ${err.message}`);
+    return cb(err, null);
   }
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(success, error, options);

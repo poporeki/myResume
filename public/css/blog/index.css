@@ -292,7 +292,7 @@ section.classify {
         margin: 0;
         bottom: 0;
         font-size: 1.2rem;
-        color: #d36d28;
+        color: #ff8800;
         background-color: #000;
         box-sizing: border-box;
         text-align: center;
@@ -322,7 +322,8 @@ section.classify {
       position: absolute;
       right: 0;
       top: 0;
-      font-size: 4rem; }
+      font-size: 4rem;
+      color: #ff8800; }
       .sec-wrapper .weather .w-temp:after {
         content: 'c';
         vertical-align: super; }
@@ -338,10 +339,11 @@ section.classify {
       font-size: 3rem; }
     .sec-wrapper .weather .w-city {
       position: absolute;
-      width: 2rem;
+      width: 1.5rem;
       right: 0;
       bottom: 0;
-      font-size: 2rem; }
+      font-size: 1.5rem;
+      color: gray; }
 
 @media (min-width: 992px) {
   html,
