@@ -80,8 +80,10 @@ pre {
   box-sizing: border-box;
   overflow-x: auto; }
 
-.article-body p img {
-  max-width: 100%; }
+.article-body p {
+  word-break: break-all; }
+  .article-body p img {
+    max-width: 100%; }
 
 .loading-ani {
   position: absolute;
