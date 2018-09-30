@@ -145,9 +145,37 @@ function weatherFn() {
         return;
       }
       var weatherInfo = result.lives[0];
-      $('#date').html(weatherInfo.reporttime);
-      $('.temp .s-wd').html(weatherInfo.temperature);
-      $('#summary').html(weatherInfo.city);
+      var weather = weatherInfo.weather;
+
+      var $w_block = $('.weather');
+
+      function getWeatherClassName(weather) {
+        var wObj = {
+          'sun-shower': ['小雨转晴', '太阳雨'],
+          'thunder-storm': ['雷雨', '雷阵雨'],
+          'cloudy': ['多云', '阴'],
+          'flurries': ['雪', '小雪', '中雪', '大雪'],
+          'sunny': ['晴', '晴天'],
+          'rainy': ['雨', '小雨', '中雨', '大雨']
+        }
+
+        for (var key in wObj) {
+          if (wObj.hasOwnProperty(key)) {
+            var element = wObj[key];
+            for (var i = 0; i < element.length; i++) {
+              if (element[i] === weather) {
+                return key;
+              }
+            }
+          }
+        }
+      }
+      var className = getWeatherClassName(weather);
+      $('.' + className).addClass('show');
+      $w_block.find('.w-up-time').html(weatherInfo.reporttime);
+      $w_block.find('.w-city').html(weatherInfo.city);
+      $w_block.find('.w-temp').html(weatherInfo.temperature);
+      $w_block.find('.w-province').html(weatherInfo.province);
       console.log(result);
     })
   });

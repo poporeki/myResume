@@ -1,7 +1,11 @@
+@import "https://fonts.googleapis.com/css?family=Lato:300";
 @import 'set-color';
 
 html,
 body {
+  font-family: 'Lato',
+    'Microsoft YaHei',
+    sans-serif;
   font-size: 14px;
 }
 
@@ -15,7 +19,7 @@ body {
   font-size: 1em;
   width: 100%; // background-image: url(/images/dark_geometric2.png);
   background-color: $color-bg;
-  font-family: 'Microsoft YaHei';
+
   overflow-x: hidden;
 }
 

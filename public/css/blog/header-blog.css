@@ -1,5 +1,7 @@
+@import "https://fonts.googleapis.com/css?family=Lato:300";
 html,
 body {
+  font-family: 'Lato', 'Microsoft YaHei', sans-serif;
   font-size: 14px; }
 
 body {
@@ -12,7 +14,6 @@ body {
   font-size: 1em;
   width: 100%;
   background-color: #141518;
-  font-family: 'Microsoft YaHei';
   overflow-x: hidden; }
 
 a {

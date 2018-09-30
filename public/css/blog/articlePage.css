@@ -153,6 +153,35 @@ pre {
     width: 30%;
     background-color: #c34c9c; }
 
+.bread {
+  margin-bottom: 50px;
+  padding: 5px 0;
+  border-top: 2px solid #b1b1b1; }
+  .bread .breadcrumb {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    margin: 0;
+    font-size: 16px; }
+    .bread .breadcrumb > li {
+      color: #fff;
+      display: flex;
+      flex-direction: row; }
+      .bread .breadcrumb > li a {
+        display: block;
+        color: #fff;
+        transition: transform .3s ease, background-color .3s ease; }
+        .bread .breadcrumb > li a:hover {
+          transform: rotate(-15deg);
+          background-color: #000000; }
+        .bread .breadcrumb > li a:active {
+          transform: scale(0.9); }
+      .bread .breadcrumb > li:first-child:before {
+        content: ""; }
+      .bread .breadcrumb > li:before {
+        padding: 0 5px;
+        content: "/\00a0"; }
+
 section.article-wrapper {
   position: relative;
   width: 90%;

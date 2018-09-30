@@ -1,6 +1,13 @@
 <%- include('header_blog') -%>
   <link rel="stylesheet" href="/css/blog/articlePage.css">
     <section class="article-wrapper">
+      <div class="bread">
+        <ol class="breadcrumb">
+          <li><a href="/">Home</a></li>
+          <li><a href="/blog/articlelist?by[type_id]=<%=art.type.id %>"><%=art.type.name%></a></li>
+          <li><%=art.title %></li>
+          </ol>
+      </div>
       <article class="article-box" data-artID= <%=art.id %>>
         <div class="article-header">
           <div class="art-title">

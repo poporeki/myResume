@@ -154,6 +154,51 @@ pre {
   }
 }
 
+.bread {
+  margin-bottom: 50px;
+  padding: 5px 0;
+  border-top: 2px solid rgb(177, 177, 177);
+
+  .breadcrumb {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+
+
+    >li {
+      color: #fff;
+      display: flex;
+      flex-direction: row;
+
+      a {
+        display: block;
+        color: #fff;
+        transition: transform .3s ease, background-color .3s ease;
+
+        &:hover {
+          transform: rotate(-15deg);
+          background-color: #000000;
+        }
+
+        &:active {
+          transform: scale(.9);
+        }
+      }
+
+      &:first-child:before {
+        content: "";
+      }
+
+      &:before {
+        padding: 0 5px;
+        content: "/\00a0";
+      }
+    }
+  }
+}
+
 section.article-wrapper {
   position: relative;
   width: 90%;
