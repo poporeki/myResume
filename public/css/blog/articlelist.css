@@ -86,6 +86,10 @@
     opacity: 0;
     transform: scale(2); } }
 
+.list-tit small {
+  color: white;
+  background-color: #000; }
+
 .article-list {
   color: #fff;
   background-color: rgba(0, 0, 0, 0.74);
@@ -133,7 +137,5 @@
       .article-list > .article-list-item .lt .thumbnail {
         color: #bdbdbd;
         padding-top: 10px; }
-    .article-list > .article-list-item .thumbnail {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis; }
+    .article-list > .article-list-item .thumbnail:after {
+      content: '...'; }

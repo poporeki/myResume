@@ -31,7 +31,7 @@ $(function () {
             SEND = false;
             if (result.status) {
                 var html = '';
-                var con = result.result;
+                var con = result.data;
                 for (var i = 0; i < con.length; i++) {
                     var conn = con[i],
                         title = conn.title,

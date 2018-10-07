@@ -39,6 +39,7 @@ module.exports = {
     var limit = parseInt(req.query.num || req.body.num) || 10; /* 查找数量默认10 */
     var page = req.query.page || req.body.page; /* 当前页数 */
     var skip = page ? ((page - 1) * limit) : 0; /* 跳过数量*/
+    let typeName = '';
     var sort = req.query.sort || {
       'create_time': -1
     }; /* 排序 默认创建时间倒叙 */
@@ -48,6 +49,19 @@ module.exports = {
       "skip": skip,
       "sort": sort
     }
+    /* 获取分类名 */
+    let getTypeName = () => {
+      return new Promise((resolve, reject) => {
+        articleType.findById(by.type_id, (err, result) => {
+          if (err) return reject(err);
+          if (result && result.type_name) {
+            typeName = result.type_name;
+          }
+          resolve();
+        })
+      })
+    }
+    /* 获取文章列表 */
     let getArcList = () => {
       return new Promise((resolve, reject) => {
         articles.findArticle(pars, function (err, result) {
@@ -56,6 +70,7 @@ module.exports = {
         });
       })
     }
+    /* 格式化 */
     let formatList = (list) => {
       return new Promise((resolve) => {
         let arcArr = [];
@@ -76,7 +91,7 @@ module.exports = {
               name: arc.type_id ? arc.type_id.type_name : 'null'
             },
             tags: arc.tags_id,
-            time_create: moment(arc.create_time).format('YYYY-MM-DD hh:mm:ss')
+            time_create: moment(arc.create_time).fromNow()
           }
           if (isAdmin) {
             obj['time_lastchange'] = moment(arc.update_time).format('YYYY-MM-DD hh:mm:ss');
@@ -86,9 +101,16 @@ module.exports = {
         resolve(arcArr);
       })
     }
-    getArcList()
+    getTypeName()
+      .then(getArcList)
       .then(formatList)
-      .then((arcList) => cb(null, arcList))
+      .then((arcList) => {
+
+        return cb(null, {
+          typename: typeName,
+          arcList
+        });
+      })
       .catch((err) => cb(err, null));
   },
   /* 获取所有文章分类 */
@@ -269,7 +291,7 @@ module.exports = {
           title: result[i].title,
           read: result[i].read,
           previewImage: imgSrc,
-          timeCreate: moment(result[i].create_time).format('YYYY-MM-DD hh:mm:ss')
+          timeCreate: moment(result[i].create_time).fromNow()
         })
       }
       return cb(null, artList);

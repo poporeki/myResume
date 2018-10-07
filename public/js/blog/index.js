@@ -65,10 +65,10 @@ function getNewArtList() {
     if (!result.status) {
       return alert('服务器错误，请刷新重试');
     }
-    var data = result.data;
+    var arcList = result.data.arcList;
     var html = '';
-    for (var n = 0; n < data.length; n++) {
-      var art = data[n];
+    for (var n = 0; n < arcList.length; n++) {
+      var art = arcList[n];
       var artid = art.id,
         /* 文章id */
         artTitle = art.title,

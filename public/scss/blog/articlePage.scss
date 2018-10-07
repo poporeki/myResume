@@ -180,7 +180,7 @@ pre {
         transition: transform .3s ease, background-color .3s ease;
 
         &:hover {
-          transform: rotate(-15deg);
+          transform: rotate(-5deg);
           background-color: #000000;
         }
 
@@ -231,13 +231,15 @@ section.article-wrapper {
         .type-lk {
           display: inline-block;
           color: #fff;
-          background-color: #728092;
+          background-color: #000000;
           border-radius: 50%;
           padding: 0 5px;
           text-align: center;
+          transition: transform .3s ease;
 
           &:hover {
-            background-color: #586372;
+            transform: rotate(-5deg);
+            background-color: #222222;
           }
         }
       }

@@ -174,7 +174,7 @@ pre {
         color: #fff;
         transition: transform .3s ease, background-color .3s ease; }
         .bread .breadcrumb > li a:hover {
-          transform: rotate(-15deg);
+          transform: rotate(-5deg);
           background-color: #000000; }
         .bread .breadcrumb > li a:active {
           transform: scale(0.9); }
@@ -204,12 +204,14 @@ section.article-wrapper {
       section.article-wrapper .article-box .article-header .pt-info .type-lk {
         display: inline-block;
         color: #fff;
-        background-color: #728092;
+        background-color: #000000;
         border-radius: 50%;
         padding: 0 5px;
-        text-align: center; }
+        text-align: center;
+        transition: transform .3s ease; }
         section.article-wrapper .article-box .article-header .pt-info .type-lk:hover {
-          background-color: #586372; }
+          transform: rotate(-5deg);
+          background-color: #222222; }
     section.article-wrapper .article-box .article-body {
       color: #ececec; }
   section.article-wrapper .comment-block h3 {

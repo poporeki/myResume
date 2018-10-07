@@ -33,13 +33,13 @@ router.get('/:id', (req, res, next) => {
           from: thisArt.from,
           tags: thisArt.tags_id,
           /* 文章标题名 */
-          createTime: moment(thisArt.create_time).format('YYYY-MM-DD hh:mm'),
+          createTime: moment(thisArt.create_time).fromNow(),
           /* 文章创建时间 */
           content: thisArt.content,
           /* 文章内容 */
           source: thisArt.source,
           /* 文章发布源 */
-          author: thisArt.author_id ? thisArt.author_id.user_name : '佚名',
+          author: thisArt.author_id ? thisArt.author_id.user_name : '不知道是谁',
           /* 文章作者 */
           readNum: thisArt.read
         }
@@ -70,7 +70,7 @@ router.get('/:id', (req, res, next) => {
                 id: reply[idx]._id,
                 repContent: reply[idx].comment_text,
                 likeNum: reply[idx].like_num,
-                createTime: moment(reply[idx].createdAt).format('YYYY-MM-DD hh:mm:ss'),
+                createTime: moment(reply[idx].createdAt).fromNow(),
                 submitAddress: reply[idx].submit_address,
                 to: reply[idx].to ? reply[idx].to : '',
                 floor: reply[idx].floor
@@ -85,7 +85,7 @@ router.get('/:id', (req, res, next) => {
               avatar: comms.author_id.avatar_path ? comms.author_id.avatar_path.save_path + 'thumbnail_' + comms.author_id.avatar_path.new_name : "/images/my-head.png"
             },
             submitAddress: comms.submit_address,
-            createTime: moment(comms.createdAt).format('YYYY-MM-DD hh:mm:ss'),
+            createTime: moment(comms.createdAt).fromNow(),
             likeNum: comms.like_num,
             text: comms.comment_text,
             commReps: commReps,

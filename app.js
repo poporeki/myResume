@@ -7,8 +7,10 @@ const express = require('express'),
   useragent = require('express-useragent'),
   session = require('express-session'),
   compression = require('compression'),
-  os = require('os');
+  os = require('os'),
+  moment = require('moment');
 
+moment.locale('zh-cn');
 const socket = require('./router/back/socket');
 /* https配置证书 */
 let options;

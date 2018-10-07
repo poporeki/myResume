@@ -34,7 +34,7 @@ router.post('/postComment', (req, res) => {
         'user': req.session.user._id,
         'submitAddress': result.submit_address,
         'floor': result.floor,
-        'create_time': moment(result.createdAt).format('YYYY-MM-DD hh:mm:ss')
+        'create_time': moment(result.createdAt).fromNow()
       }
     });
   });
@@ -97,7 +97,7 @@ router.post('/submitReply', (req, res) => {
             'submitAddress': comm.submit_address,
             'to': result[0].author_id ? result[0].author_id.user_name : 'not',
             'floor': comm.floor,
-            'create_time': moment(comm.createdAt).format('YYYY-MM-DD hh:mm:ss')
+            'create_time': moment(comm.createdAt).fromNow()
           }
         })
         resolve(result);
@@ -137,7 +137,7 @@ router.post('/getComments', function (req, res) {
             id: rep._id,
             repContent: rep.comment_text,
             likeNum: rep.like_num,
-            createTime: moment(rep.createdAt).format('YYYY-MM-DD hh:mm:ss'),
+            createTime: moment(rep.createdAt).fromNow(),
             submitAddress: rep.submit_address,
             to: rep.to ? rep.to : '',
             floor: rep.floor
@@ -154,7 +154,7 @@ router.post('/getComments', function (req, res) {
           avatar: commAvatar
         },
         submitAddress: comm.submit_address,
-        createTime: moment(comm.createdAt).format('YYYY-MM-DD hh:mm:ss'),
+        createTime: moment(comm.createdAt).fromNow(),
         likeNum: comm.like_num,
         text: comm.comment_text,
         commReps: commReps,
