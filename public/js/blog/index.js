@@ -154,9 +154,9 @@ function weatherFn() {
           'sun-shower': ['小雨转晴', '太阳雨'],
           'thunder-storm': ['雷雨', '雷阵雨'],
           'cloudy': ['多云', '阴'],
-          'flurries': ['雪', '小雪', '中雪', '大雪'],
+          'flurries': ['雪', '小雪', '中雪', '大雪', '阵雪'],
           'sunny': ['晴', '晴天'],
-          'rainy': ['雨', '小雨', '中雨', '大雨']
+          'rainy': ['雨', '小雨', '中雨', '阵雨', '大雨']
         }
 
         for (var key in wObj) {
