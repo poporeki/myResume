@@ -94,7 +94,8 @@ footer {
   box-sizing: border-box;
   padding: 10px;
   z-index: 999;
-  transform: rotate(180deg); }
+  transform: rotate(180deg);
+  cursor: pointer; }
   .back-to-top:after, .back-to-top:before {
     content: '';
     position: absolute;
