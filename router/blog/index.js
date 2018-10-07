@@ -53,9 +53,9 @@ router.get('/', (req, res, next) => {
         }
       };
       req.query = by;
-      articleMod.showArticleList(req, (err, resCarouselList) => {
+      articleMod.showArticleList(req, (err, result) => {
         if (err) return reject(err);
-        resObj['carouList'] = resCarouselList;
+        resObj['carouList'] = result.arcList;
         resolve();
       });
     })
