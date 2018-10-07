@@ -305,7 +305,7 @@ section.classify {
   .sec-wrapper {
     flex-direction: column; }
   .weather {
-    align-self: flex-end; } }
+    align-self: center; } }
 
 .sec-wrapper {
   display: flex;
