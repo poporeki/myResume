@@ -106,10 +106,20 @@ function listeningSearch() {
     if (keyword !== '' || $sInput.is(":focus")) return;
     $sBox.removeClass('show');
   });
-  $(window).scroll(function () {
-    var top = $(this).scrollTop();
-    $(".parallax-window").css({
-      transform: "translate3d(0px," + -(top / 3) + "px,0px)"
-    }) //需要设置视差的元素
-  });
+  if (!isMobile()) {
+    $(window).scroll(function () {
+      var top = $(this).scrollTop();
+      $(".parallax-window").css({
+        transform: "translate3d(0px," + -(top / 3) + "px,0px)"
+      }) //需要设置视差的元素
+    });
+  }
+
+}
+
+function isMobile() {
+  if ((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)))
+    return true;
+  else
+    return false;
 }
