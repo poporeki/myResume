@@ -5,7 +5,7 @@ $(function () {
 		process: function (result) {
 			var artCount = result.data.artCount;
 			var artCon = '';
-			var artInfo = result.data.artInfo;
+			var artInfo = result.data.artInfo.arcList;
 			for (var i = 0; i < artInfo.length; i++) {
 				var info = artInfo[i],
 					artnum = i + 1,

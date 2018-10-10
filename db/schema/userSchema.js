@@ -17,6 +17,8 @@ var userSchema = new mongoose.Schema({
   'reg_isp': String,
   'reg_region': String,
   'reg_user_agent': String,
+  'reg_adcode': String,
+  'reg_rectangle': String,
   'login_time': [],
   'author_id': {
     type: mongoose.Schema.Types.ObjectId,

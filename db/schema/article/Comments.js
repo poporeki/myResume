@@ -19,6 +19,8 @@ var commentSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'commentReply'
     }],
+    useragent: String,
+    submit_ip: String,
     submit_address: String
 }, {
     timestamps: {

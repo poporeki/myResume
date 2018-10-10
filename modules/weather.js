@@ -2,6 +2,7 @@ const http = require('http');
 const request = require('request');
 
 
+
 const KEY = '9e8d5b997a9d41273bc648fb2fb4d968';
 exports.getWeather = (location, cb) => {
 
@@ -29,7 +30,8 @@ exports.getWeather = (location, cb) => {
   let getWeather = (adcode) => {
     if (adcode === null || adcode.length === 0 || !adcode) adcode = 110105;
     return new Promise((resolve, reject) => {
-      request.get('https://restapi.amap.com/v3/weather/weatherInfo?city=' + adcode + '&key=' + KEY, (err, result, resData) => {
+      let url = 'https://restapi.amap.com/v3/weather/weatherInfo?&city=' + adcode + '&key=' + KEY;
+      request.get(url, (err, result, resData) => {
         if (err) return reject(err);
         var toJSON = JSON.parse(result.body);
         resolve(toJSON);

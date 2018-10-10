@@ -2,6 +2,7 @@ const express = require('express'),
   router = express.Router(),
   moment = require('moment');
 
+
 var articleMod = require('../../modules/Article/article'),
   commentMod = require('../../modules/Article/articleComments'),
   articleTypeMod = require('../../modules/Article/articleType'),
@@ -112,6 +113,7 @@ router.get('/weather', (req, res, next) => {
     return res.json(result);
   })
 })
+router.use('/ip', require('./ip'));
 router.use('/search', require('./search'));
 router.use('/user', require('./user'));
 router.use('/article', require('./article'));

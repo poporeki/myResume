@@ -18,7 +18,7 @@ router.post('/', function (req, res, next) {
   let getLoginDatas = () => {
     return new Promise((resolve, reject) => {
       let limit = parseInt(req.body.limit);
-      let page = parseInt(req.body.limit);
+      let page = parseInt(req.body.page);
       userMod.findAllUserLoginRecord(limit, page, (err, result) => {
         if (err) return reject(err);
         resolve(result);

@@ -287,7 +287,9 @@ module.exports = {
       return new Promise((resolve, reject) => {
         let lim = limit || 10;
 
-        let sk = page ? page * lim : lim;
+        let sk = page ?
+          page === 1 ? 0 : page * lim :
+          lim;
         dbLoginRecord.find({})
           .limit(lim)
           .skip(sk)

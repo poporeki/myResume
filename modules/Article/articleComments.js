@@ -22,13 +22,15 @@ module.exports = {
       comment_text: (req.body.comm_content).trim(),
       article_id: req.body.art_id,
       like_num: 0,
-      replay: null
+      replay: null,
+      useragent: req.useragent.source
     }
     /* 获取客户端ip */
     function getIP() {
-      return new Promise(function (resolve, reject) {
-        getIPInfoMod(req, function (ipInfo) {
-          pars['submit_address'] = ipInfo.city && ipInfo.region ? ipInfo.city + ipInfo.region : '地球';
+      return new Promise((resolve, reject) => {
+        getIPInfoMod(req, ipInfo => {
+          pars['submit_ip'] = ipInfo.ip;
+          pars['submit_address'] = ipInfo.city && ipInfo.region ? ipInfo.region + ' ' + ipInfo.city : '地球';
           resolve();
         });
       });
@@ -39,9 +41,7 @@ module.exports = {
         commentSchema.find({
           article_id: pars.article_id
         }).count().exec(function (err, commCount) {
-          if (err) {
-            reject(err);
-          };
+          if (err) return reject(err);
           /* 增加楼层 */
           pars['floor'] = commCount + 1;
           /* 插入一条评论 */
@@ -85,13 +85,15 @@ module.exports = {
       article_id: req.body.art_id,
       /* 文章id */
       comment_id: req.body.commid,
-      to: req.body.reply_id
+      to: req.body.reply_id,
+      useragent: req.useragent.source
     }
     /* 获取用户当前ip */
     function getIP() {
       return new Promise(function (resolve, reject) {
         getIPInfoMod(req, function (ipInfo) {
-          pars['submit_address'] = ipInfo.city && ipInfo.region ? ipInfo.city + ipInfo.region : '未知领域';
+          pars['submit_ip'] = ipInfo.ip;
+          pars['submit_address'] = ipInfo.city && ipInfo.region ? ipInfo.region + ' ' + ipInfo.city : '也许是地球';
           resolve();
         });
       });

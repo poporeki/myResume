@@ -1,20 +1,24 @@
 $(function () {
-  getHotList();
-  getNewArtList();
+  hotArcFn();
+  newArcFn();
   weatherFn();
 });
-
-function getHotList() {
+/* 获取阅读数最多的文章列表 */
+function hotArcFn() {
   var $hotList = $('.hot-list');
   requestAjax({
     el: $hotList,
     url: '/blog/article/getTop',
-    timeout: 'getHotList'
+    timeout: 'hotArcFn'
   }, function (result) {
     if (!result && !result.status) {
       return console.log('错误');
     }
     var data = result.data;
+    updateDom(data);
+  });
+
+  function updateDom(data) {
     var con = '';
     for (var i = 0; i < data.length; i++) {
       var theData = data[i];
@@ -51,21 +55,25 @@ function getHotList() {
         }
       }
     });
-  });
+  }
 }
-
-function getNewArtList() {
+/* 获取最新文章列表 */
+function newArcFn() {
   var $artList = $('.article-list>ul');
   requestAjax({
     el: $artList,
     url: '/blog/getArtList',
     type: 'get',
-    timeoutFunc: 'getNewArtList'
+    timeoutFunc: 'newArcFn'
   }, function (result) {
     if (!result.status) {
       return alert('服务器错误，请刷新重试');
     }
     var arcList = result.data.arcList;
+    updateDom(arcList);
+  });
+  /* 更新dom */
+  function updateDom(arcList) {
     var html = '';
     for (var n = 0; n < arcList.length; n++) {
       var art = arcList[n];
@@ -73,7 +81,7 @@ function getNewArtList() {
         /* 文章id */
         artTitle = art.title,
         /* 文章名 */
-        artimg = getPic(art.content),
+        artimg = getImgSrc(art.content),
         /* 文章首张图片 */
         artRead = art.read,
         /* 阅读数 */
@@ -114,24 +122,58 @@ function getNewArtList() {
         '</li>';
     }
     $artList.append(html);
-    /* 得到文章首张图片，如果没有 则用默认替代 */
-    function getPic(str) {
-      var imgReg = /<img.*?(?:>|\/>)/gi;
-      var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-      var arr = str.match(imgReg);
-      if (arr != null) {
-        var src = arr[0].match(srcReg);
-        return src === null ?
-          '<img src="/images/login_pic.png" alt="空白">' :
-          '<img src=' + src[1] + ' alt="">';
-      } else {
-        return '<img src="/images/login_pic.png" alt="空白">';
+  }
+  /* 得到文章首张图片，如果没有 则用默认替代 */
+  function getImgSrc(str) {
+    var imgReg = /<img.*?(?:>|\/>)/gi;
+    var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+    var arr = str.match(imgReg);
+    if (arr != null) {
+      var src = arr[0].match(srcReg);
+      return src === null ?
+        '<img src="/images/login_pic.png" alt="空白">' :
+        '<img src=' + src[1] + ' alt="">';
+    } else {
+      return '<img src="/images/login_pic.png" alt="空白">';
+    }
+  }
+}
+/* 获取天气 */
+function weatherFn() {
+  /* 取得类名 */
+  function getWeatherClassName(weather) {
+    var wObj = {
+      'sun-shower': ['小雨转晴', '太阳雨'],
+      'thunder-storm': ['雷雨', '雷阵雨'],
+      'cloudy': ['多云', '阴'],
+      'flurries': ['雪', '小雪', '中雪', '大雪', '阵雪'],
+      'sunny': ['晴', '晴天'],
+      'rainy': ['雨', '小雨', '中雨', '阵雨', '大雨']
+    }
+
+    for (var key in wObj) {
+      if (wObj.hasOwnProperty(key)) {
+        var element = wObj[key];
+        for (var i = 0; i < element.length; i++) {
+          if (element[i] === weather) {
+            return key;
+          }
+        }
       }
     }
-  });
-}
-
-function weatherFn() {
+  }
+  /* 更新dom */
+  function updateDom(weatherInfo) {
+    var weather = weatherInfo.weather;
+    var $w_block = $('.weather');
+    var className = getWeatherClassName(weather);
+    $('.' + className).addClass('show');
+    $w_block.find('.w-up-time').html(weatherInfo.reporttime);
+    $w_block.find('.w-city').html(weatherInfo.city);
+    $w_block.find('.w-temp').html(weatherInfo.temperature);
+    $w_block.find('.w-province').html(weatherInfo.province);
+  }
+  /* 获取天气数据 */
   function updateWeather(geolo) {
     requestAjax({
       el: $('body'),
@@ -141,44 +183,11 @@ function weatherFn() {
         geolocation: geolo
       }
     }, function (result) {
-      if (parseInt(result.status) !== 1) {
-        return;
-      }
-      var weatherInfo = result.lives[0];
-      var weather = weatherInfo.weather;
-
-      var $w_block = $('.weather');
-
-      function getWeatherClassName(weather) {
-        var wObj = {
-          'sun-shower': ['小雨转晴', '太阳雨'],
-          'thunder-storm': ['雷雨', '雷阵雨'],
-          'cloudy': ['多云', '阴'],
-          'flurries': ['雪', '小雪', '中雪', '大雪', '阵雪'],
-          'sunny': ['晴', '晴天'],
-          'rainy': ['雨', '小雨', '中雨', '阵雨', '大雨']
-        }
-
-        for (var key in wObj) {
-          if (wObj.hasOwnProperty(key)) {
-            var element = wObj[key];
-            for (var i = 0; i < element.length; i++) {
-              if (element[i] === weather) {
-                return key;
-              }
-            }
-          }
-        }
-      }
-      var className = getWeatherClassName(weather);
-      $('.' + className).addClass('show');
-      $w_block.find('.w-up-time').html(weatherInfo.reporttime);
-      $w_block.find('.w-city').html(weatherInfo.city);
-      $w_block.find('.w-temp').html(weatherInfo.temperature);
-      $w_block.find('.w-province').html(weatherInfo.province);
-      console.log(result);
+      if (parseInt(result.status) !== 1) return;
+      updateDom(result.lives[0]);
     })
   }
+  /* 获取地理位置信息 */
   getGeolocation(function (err, geolo) {
     updateWeather(geolo);
   });
@@ -190,7 +199,7 @@ function getGeolocation(cb) {
   var geolocation = false;
   var options = {
     enableHighAccuracy: true,
-    timeout: 5000,
+    timeout: 20000,
     maximumAge: 0
   };
 
