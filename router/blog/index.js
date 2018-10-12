@@ -114,10 +114,11 @@ router.get('/weather', (req, res, next) => {
   })
 })
 router.use('/ip', require('./ip'));
-router.use('/search', require('./search'));
-router.use('/user', require('./user'));
-router.use('/article', require('./article'));
-router.use('/articlelist', require('./articlelist'));
+router.use('/search', require('./search')); /* 查询文章 */
+router.use('/user', require('./user')); /* 用户 */
+router.use('/article', require('./article')); /* 获取文章 */
+router.use('/articlelist', require('./articlelist')); /* 获取文章列表 */
+router.use('/getType', require('./getType')); /* 获取分类 */
 
 router.use('/', require('./comments'));
 module.exports = router;
