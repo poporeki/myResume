@@ -21,11 +21,18 @@ router.get('/bzonflash', (req, res) => {
 });
 
 router.post('/auth', (req, res) => {
-  var auth = false;
+  var auth = {
+    status: false
+  };
   if (req.session.user) {
-    auth = true;
+    auth.status = true;
+    auth.info = {
+      user: req.session.user
+    }
   }
-  res.json(auth);
+  res.json({
+    auth
+  });
 })
 
 router.use('/login', require('./login'));
@@ -34,9 +41,12 @@ router.use('/reg', require('./registerAccount'));
 router.use('/verify', require('./verify'));
 router.use('/backend', require('./back'));
 router.use('/blog', require('./blog'));
-router.get('/logout', (req, res) => {
+router.post('/logout', (req, res) => {
   req.session.destroy();
-  return res.redirect('/blog');
+  res.json({
+    status: true
+  })
+
 })
 router.get('*', (req, res) => {
   res.render('404');

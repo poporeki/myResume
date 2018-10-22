@@ -59,7 +59,7 @@ function hotArcFn() {
 }
 /* 获取最新文章列表 */
 function newArcFn() {
-  var $artList = $('.article-list>ul');
+  var $artList = $('.article-list ul');
   requestAjax({
     el: $artList,
     url: '/blog/getArtList',

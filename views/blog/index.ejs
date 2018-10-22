@@ -91,44 +91,49 @@
     </div>
     
     <section class="article">
-      <artilce class="article-list">
+      <div class="article-list">
         <h2 class='title'>最新文章
           <a href="blog/articlelist">MORE</a>
         </h2>
         <ul>
           
         </ul>
-      </artilce>
+      </div>
       <div class="right-item">
-        <h2>Tag标签</h2>
-        <div class="articletag-list">
-        <% if(tagList.length==0){ %>
-          内容为空
-        <% }else{ %>
-        <% for(var i=0;i<tagList.length;i++){ %>
-          <a class='tag-lk' href= "/blog/articlelist?by[tags_id]=<%=tagList[i]._id %>">
-            <%= tagList[i].tag_name %>
-            <div class="lk-inner">
-              <div class="front"><span><%= tagList[i].tag_name %></span></div>
-              <div class="back"><span><%= tagList[i].count %></span></div>
-            </div>
-            
-          </a>
-        <% }} %>
-        </div>
-        <h2>最新评论</h2>
-        <div class="artcomm-list">
-          <% if(commList.length==0){ %>
-          内容为空
+        <div class="arc-tag-box">
+          <h2>Tag标签</h2>
+          <div class="articletag-list">
+          <% if(tagList.length==0){ %>
+            内容为空
           <% }else{ %>
-          <% for(var i=0;i<commList.length;i++){ %>
-            <a class='comm-lk' href= "/blog/article/<%=commList[i].article[0]._id %>#comment">
-            <h6 class="arc-tit"><%=commList[i].article[0].title %></h6>
-            <%var avatarSrc=commList[i].avatar[0]!=null?commList[i].avatar[0].save_path+'thumbnail_'+commList[i].avatar[0].new_name:'/images/user/avatars/default/1.png';%>
-            <div class="arc-comm"><img class="head-pic" src="<%=avatarSrc%>" alt="头像"><%=commList[i].author[0].user_name %> : <span><%=commList[i].comment_text %></span></div> 
+          <% for(var i=0;i<tagList.length;i++){ %>
+            <a class='tag-lk' href= "/blog/articlelist?by[tags_id]=<%=tagList[i]._id %>">
+              <%= tagList[i].tag_name %>
+              <div class="lk-inner">
+                <div class="front"><span><%= tagList[i].tag_name %></span></div>
+                <div class="back"><span><%= tagList[i].count %></span></div>
+              </div>
+              
             </a>
           <% }} %>
+          </div>
         </div>
+        <div class="arc-comm-box">
+          <h2>最新评论</h2>
+          <div class="artcomm-list">
+            <% if(commList.length==0){ %>
+            内容为空
+            <% }else{ %>
+            <% for(var i=0;i<commList.length;i++){ %>
+              <a class='comm-lk' href= "/blog/article/<%=commList[i].article[0]._id %>#comment">
+              <h6 class="arc-tit"><%=commList[i].article[0].title %></h6>
+              <%var avatarSrc=commList[i].avatar[0]!=null?commList[i].avatar[0].save_path+'thumbnail_'+commList[i].avatar[0].new_name:'/images/user/avatars/default/1.png';%>
+              <div class="arc-comm"><img class="head-pic" src="<%=avatarSrc%>" alt="头像"><%=commList[i].author[0].user_name %> : <span><%=commList[i].comment_text %></span></div> 
+              </a>
+            <% }} %>
+          </div>
+        </div>
+        
       </div>
     </section>
 <%- include('footer_blog') -%>

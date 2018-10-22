@@ -35,7 +35,11 @@ module.exports = {
   /*查找文章列表*/
   showArticleList: function (req, cb) {
     var isAdmin = req.session.user && req.session.user.permissions === 'admin' ? true : false;
+
     var by = req.query.by || req.body.by || {};
+    if (typeof by === 'string') {
+      by ? by = JSON.parse(by) : by = {};
+    }
     var limit = parseInt(req.query.num || req.body.num) || 10; /* 查找数量默认10 */
     var page = req.query.page || req.body.page; /* 当前页数 */
     var skip = page ? ((page - 1) * limit) : 0; /* 跳过数量*/

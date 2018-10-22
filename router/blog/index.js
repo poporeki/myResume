@@ -99,26 +99,16 @@ router.get('/info', (req, res) => {
     res.send(result);
   })
 })
-router.get('/weather', (req, res, next) => {
-  let geolo = {};
-  if (req.query.geolocation && req.query.geolocation !== '' && req.query.geolocation !== 'false') {
-    var g = "" + req.query.geolocation;
-    geolo.geolocation = g;
-  } else {
-    let ip = getIP(req);
-    geolo.ip = ip;
-  }
 
-  weatherMod.getWeather(geolo, (err, result) => {
-    return res.json(result);
-  })
-})
 router.use('/ip', require('./ip'));
 router.use('/search', require('./search')); /* 查询文章 */
 router.use('/user', require('./user')); /* 用户 */
 router.use('/article', require('./article')); /* 获取文章 */
 router.use('/articlelist', require('./articlelist')); /* 获取文章列表 */
 router.use('/getType', require('./getType')); /* 获取分类 */
-
+router.use('/getTags', require('./getTags')); /* 获取标签 */
+router.use('/getCommtop', require('./getCommtop')); /* 获取最新评论 */
+router.use('/getCarousel', require('./getCarousel')) /* 获取轮播列表 */
+router.use('/getWeather', require('./getWeather')); /* 获取天气 */
 router.use('/', require('./comments'));
 module.exports = router;

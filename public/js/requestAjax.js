@@ -15,7 +15,7 @@ function requestAjax(options, func, callback) {
     this.aniEle = this.options.aniEle || "loading-ani";
     this.callback = callback;
     /* 发起ajax请求 */
-    this.xhr(this);
+    this.xhr();
   }
   fn.prototype.ajaxLoadingAnimate = {
     self: this,
@@ -55,7 +55,8 @@ function requestAjax(options, func, callback) {
       $target.remove();
     }
   };
-  fn.prototype.xhr = function (_this) {
+  fn.prototype.xhr = function () {
+    var _this = this;
     _this.currentAjax = $.ajax({
       type: this.options.type || "post",
       url: this.options.url,

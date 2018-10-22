@@ -7,6 +7,11 @@ module.exports = {
   addLikeNum: function (id, cb) {
     commentSchema.updateLikeNum(id, cb);
   },
+  /**
+   * 查询该文章评论总数
+   * @param {文章id} artid 
+   * @param {回调} cb 
+   */
   getCommentCountById: function (artid, cb) {
     commentSchema.find({
       article_id: artid
@@ -16,64 +21,81 @@ module.exports = {
     })
   },
   /* 插入一条评论 */
-  insertOneComment: function (req, cb) {
-    var pars = {
-      author_id: req.session.user._id,
-      comment_text: (req.body.comm_content).trim(),
-      article_id: req.body.art_id,
-      like_num: 0,
-      replay: null,
-      useragent: req.useragent.source
-    }
-    /* 获取客户端ip */
-    function getIP() {
-      return new Promise((resolve, reject) => {
-        getIPInfoMod(req, ipInfo => {
-          pars['submit_ip'] = ipInfo.ip;
-          pars['submit_address'] = ipInfo.city && ipInfo.region ? ipInfo.region + ' ' + ipInfo.city : '地球';
-          resolve();
-        });
-      });
-    }
+  insertOneComment: function ({
+    authorId,
+    commText,
+    arcid,
+    userAgent,
+    ip,
+    address
+  }, cb) {
     /* 获取当前文章评论总数量 */
-    function getComm() {
+    function getComm(arcid) {
       return new Promise(function (resolve, reject) {
         commentSchema.find({
-          article_id: pars.article_id
+          article_id: arcid
         }).count().exec(function (err, commCount) {
           if (err) return reject(err);
-          /* 增加楼层 */
-          pars['floor'] = commCount + 1;
+          let floor = commCount + 1;
           /* 插入一条评论 */
-          resolve();
+          resolve(floor);
         })
       })
     }
-    getIP()
-      .then(getComm)
-      .then(function () {
-        return commentSchema.insertOneComment(pars, cb);
-      }).catch(function (err) {
-        cb(err, null);
-      })
+    getComm(arcid).then((floor) => {
+      let obj = {
+        author_id: authorId,
+        comment_text: commText,
+        article_id: arcid,
+        like_num: 0,
+        replay: null,
+        useragent: userAgent,
+        submit_ip: ip,
+        submit_address: address,
+        floor
+      }
+      return commentSchema.insertOneComment(obj, cb);
+    }).catch(err => cb(err, null));
+
 
 
   },
-  /* 查询该文章所有评论 */
-  showThisArticleComments: function (req, cb) {
-    var limit = parseInt(req.query.number || req.body.number || 10); /* 返回数量 默认10*/
-    var skip = parseInt(req.skip || req.body.skip || req.query.page - 1 * 10); /* 跳过数量 */
-    var artid = req.params.id || req.body.artid; /* 文章id */
-    commentSchema.find({
-      "article_id": artid
-    }).count().exec(function (err, commCount) {
-      if (err) return cb(err, null);
-      return commentSchema.findThisArticleComments(artid, limit, skip, function (err, resComm) {
-        if (err) return cb(err, null);
-        resComm['total'] = commCount;
-        cb(null, resComm);
+  /**
+   * 
+   * @param {查询数量} limit 
+   * @param {跳过数量} skip 
+   * @param {文章id} artid 
+   * @param {回调} cb 
+   */
+  showThisArticleComments: function (limit, skip, artid, cb) {
+
+    /* 获取评论条数 */
+    let getCommCount = () => {
+      return new Promise((resolve, reject) => {
+        commentSchema.find({
+          "article_id": artid
+        }).count().exec(function (err, commCount) {
+          if (err) return reject(err);
+          resolve(commCount);
+        })
+      })
+    }
+    /* 获取文章评论 */
+    let getThisArcComments = (commentCount) => {
+      return new Promise((resolve, reject) => {
+        commentSchema.findThisArticleComments(artid, limit, skip, (err, resComm) => {
+          if (err) return reject(err);
+          if (resComm === undefined || resComm === null) return reject(0);
+          resComm['total'] = commentCount;
+          resolve(resComm);
+        });
+      })
+    }
+    getCommCount().then(getThisArcComments)
+      .then(commlist => cb(null, commlist))
+      .catch(err => {
+        return cb(err, null)
       });
-    });
 
   },
   insertOneReplyInComment: function (req, cb) {
