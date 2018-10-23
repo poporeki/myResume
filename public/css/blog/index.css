@@ -375,10 +375,10 @@ section.classify {
   display: flex;
   flex-direction: row; }
   .article .right-item {
-    width: 20%; }
+    width: 25%; }
 
 .article-list {
-  width: 80%;
+  width: 75%;
   opacity: 0;
   animation: translate_LeftToRight 1s forwards; }
   .article-list > .title > a {
