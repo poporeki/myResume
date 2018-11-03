@@ -41,7 +41,7 @@ router.use('/reg', require('./registerAccount'));
 router.use('/verify', require('./verify'));
 router.use('/backend', require('./back'));
 router.use('/blog', require('./blog'));
-router.post('/logout', (req, res) => {
+router.get('/logout', (req, res) => {
   req.session.destroy();
   res.json({
     status: true
