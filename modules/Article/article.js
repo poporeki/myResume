@@ -6,7 +6,7 @@ var articleList = require("../../db/schema/article/ArticleList");
 
 module.exports = {
   /* 添加文章 */
-  addArticle: function (req, cb) {
+  addArticle: function(req, cb) {
     var pars = {
       title: req.body.arc_title,
       attribute: {
@@ -25,19 +25,13 @@ module.exports = {
     articles.addArticle(pars, cb);
   },
   /* 阅读数+1 */
-  incReadNum: function (artid) {
-    articles.incReadNum(artid, function (err) {
+  incReadNum: function(artid) {
+    articles.incReadNum(artid, function(err) {
       if (err) return;
     });
   },
   /*查找文章列表*/
-  showArticleList: function ({
-    limit,
-    page,
-    sort,
-    by,
-    isRoot
-  }, cb) {
+  showArticleList: function({ limit, page, sort, by, isRoot }, cb) {
     by = by || {};
     !by["is_delete"] ? (by["is_delete"] = false) : "";
     if (isRoot) {
@@ -73,7 +67,7 @@ module.exports = {
     /* 获取文章列表 */
     let getArcList = () => {
       return new Promise((resolve, reject) => {
-        articles.findArticle(pars, function (err, result) {
+        articles.findArticle(pars, function(err, result) {
           if (err) return reject(err);
           resolve(result);
         });
@@ -124,9 +118,10 @@ module.exports = {
       .catch(err => cb(err, null));
   },
   /* 获取所有文章分类 */
-  findArticleTypeInfo: function (cb) {
+  findArticleTypeInfo: function(cb) {
     articles
-      .aggregate([{
+      .aggregate([
+        {
           $group: {
             _id: "$type_id",
             count: {
@@ -153,9 +148,10 @@ module.exports = {
       .exec(cb);
   },
   /* 获取所有tag标签信息 */
-  findArticleTagsInfo: function (cb) {
+  findArticleTagsInfo: function(cb) {
     articles
-      .aggregate([{
+      .aggregate([
+        {
           $unwind: "$tags_id"
         },
         {
@@ -177,7 +173,8 @@ module.exports = {
         {
           $replaceRoot: {
             newRoot: {
-              $mergeObjects: [{
+              $mergeObjects: [
+                {
                   $arrayElemAt: ["$tags_info", 0]
                 },
                 "$$ROOT"
@@ -201,15 +198,15 @@ module.exports = {
       .exec(cb);
   },
   /* 根据id查找文章 */
-  showOneArticle: function (artid, cb) {
+  showOneArticle: function(artid, cb) {
     return articles.findOneArticle(artid || {}, cb);
   },
   /* 文章阅读数量数+1 */
-  addReadNum: function (artid, cb) {
+  addReadNum: function(artid, cb) {
     return commentSchema.incReadNum(artid, cb);
   },
   /* 修改文章 */
-  updateArticle: function (req, cb) {
+  updateArticle: function(req, cb) {
     var artid = req.params.artid; /* id */
     var pars = {
       title: req.body.arc_title,
@@ -230,8 +227,9 @@ module.exports = {
     return articles.updateOneArticle(artid, pars, cb);
   },
   /* 删除文章 */
-  removeArticle: function (artid, cb) {
-    return articles.remove({
+  removeArticle: function(artid, cb) {
+    return articles.remove(
+      {
         _id: {
           $in: artid
         }
@@ -240,10 +238,12 @@ module.exports = {
     );
   },
   /* 删除文章到回收站 */
-  moveToTrash: function (artid, cb) {
-    return articles.update({
+  moveToTrash: function(artid, cb) {
+    return articles.update(
+      {
         _id: artid
-      }, {
+      },
+      {
         $set: {
           is_delete: true
         }
@@ -252,10 +252,12 @@ module.exports = {
     );
   },
   /* 恢复回收站的文章 */
-  recoveryArticle: function (arcid, cb) {
-    return articles.update({
+  recoveryArticle: function(arcid, cb) {
+    return articles.update(
+      {
         _id: arcid
-      }, {
+      },
+      {
         $set: {
           is_delete: false
         }
@@ -264,7 +266,7 @@ module.exports = {
     );
   },
   /* 获得文章总数 */
-  getCount: function (req, cb) {
+  getCount: function(req, cb) {
     var by = req.body.by || req.query.by || {};
     return articles.getCount(by, cb);
   },
@@ -273,24 +275,29 @@ module.exports = {
    * @param{String} 查询的文字
    * @param{Object} 回调
    */
-  searchArticlesByKeywords: function (keyword, cb) {
+  searchArticlesByKeywords: function(keyword, cb) {
     var keywords = keyword;
     var reg = new RegExp(keywords, "i");
     return articles
-      .find({
-        is_delete: false,
-        $or: [{
-          title: {
-            $regex: reg
-          }
-        }]
-      }, {
-        title: 1
-      })
+      .find(
+        {
+          is_delete: false,
+          $or: [
+            {
+              title: {
+                $regex: reg
+              }
+            }
+          ]
+        },
+        {
+          title: 1
+        }
+      )
       .exec(cb);
   },
   /* 获取文章列表-按阅读数排序 */
-  getArtsByRead: function (cb) {
+  getArtsByRead: function(cb) {
     articles
       .find({
         is_delete: false
@@ -299,7 +306,7 @@ module.exports = {
       .sort({
         read: -1
       })
-      .exec(function (err, result) {
+      .exec(function(err, result) {
         if (err) {
           return cb(err, null);
         }
@@ -332,14 +339,17 @@ module.exports = {
         return cb(null, artList);
       });
   },
-  getArticleTitle: function (limit, cb) {
+  getArticleTitle: function(limit, cb) {
     articles
-      .find({
-        is_delete: false
-      }, {
-        _id: 1,
-        title: 1
-      })
+      .find(
+        {
+          is_delete: false
+        },
+        {
+          _id: 1,
+          title: 1
+        }
+      )
       .limit(limit)
       .sort({
         create_time: -1
@@ -356,15 +366,19 @@ module.exports = {
   incTheArticleLike: (arcid, userid, cb) => {
     return new Promise((resolve, reject) => {
       articles
-        .findOneAndUpdate({
-          _id: arcid
-        }, {
-          $addToSet: {
-            like_this: userid
+        .findOneAndUpdate(
+          {
+            _id: arcid
+          },
+          {
+            $addToSet: {
+              like_this: userid
+            }
+          },
+          {
+            new: true
           }
-        }, {
-          new: true
-        })
+        )
         .then(result => resolve([result.like_this.length, true]))
         .catch(err => reject(err));
     });
@@ -372,39 +386,44 @@ module.exports = {
   reduceTheArticleLike: (arcid, userid) => {
     return new Promise((resolve, reject) => {
       articles
-        .findOneAndUpdate({
-          _id: arcid
-        }, {
-          $pull: {
-            like_this: userid
+        .findOneAndUpdate(
+          {
+            _id: arcid
+          },
+          {
+            $pull: {
+              like_this: userid
+            }
+          },
+          {
+            new: true
           }
-        }, {
-          new: true
-        })
+        )
         .then(result => resolve([result.like_this.length, false]))
         .catch(err => reject(err));
     });
   },
   /* 切换点赞状态 */
-  toggleArticleLike: function (arcid, userid) {
+  toggleArticleLike: function(arcid, userid) {
     return new Promise((resolve, reject) => {
       let fn = async () => {
-        let isLiked = await this.toggleArticleLike(arcid, userid);
-        let result = '';
+        let isLiked = await this.theArticleLikeOperation(arcid, userid);
+        let result = "";
         if (isLiked) {
           result = await this.reduceTheArticleLike(arcid, userid);
         } else {
           result = await this.incTheArticleLike(arcid, userid);
         }
         resolve(result);
-      }
+      };
       fn().catch(err => reject(err));
     });
   },
   /* 点赞状态 */
-  theArticleLikeOperation: function (arcid, userid) {
+  theArticleLikeOperation: function(arcid, userid) {
     return new Promise(resolve => {
-      articles.findOne({
+      articles.findOne(
+        {
           _id: arcid,
           like_this: userid
         },
