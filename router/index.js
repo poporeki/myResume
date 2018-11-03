@@ -34,7 +34,7 @@ router.post('/auth', (req, res) => {
     auth
   });
 })
-
+router.use('/api', require('./api'));
 router.use('/login', require('./login'));
 router.use('/iresume', require('./iresume'));
 router.use('/reg', require('./registerAccount'));

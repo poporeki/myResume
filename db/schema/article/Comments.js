@@ -24,8 +24,8 @@ var commentSchema = new mongoose.Schema({
     submit_address: String
 }, {
     timestamps: {
-        createAt: 'create_time',
-        updateAt: 'update_time'
+        createdAt: 'create_time',
+        updatedAt: 'update_time'
     }
 });
 
@@ -49,7 +49,7 @@ commentSchema.statics.findThisArticleComments = function (artid, limit, skip, cb
     return this.find({
         "article_id": artid
     }).limit(limit).skip(skip).sort({
-        'createdAt': -1
+        'create_time': -1
     }).populate([{
         path: "author_id",
         populate: {
@@ -61,7 +61,7 @@ commentSchema.statics.findThisArticleComments = function (artid, limit, skip, cb
             sort: {
                 'create_time': -1
             },
-            limit: 5,
+            limit: 10,
             skip: 0
         },
         populate: [{

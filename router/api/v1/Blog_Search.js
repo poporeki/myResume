@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var arcMod = require('../../modules/Article/article');
+var arcMod = require('../../../modules/Article/article');
 router.get('/:id', function (req, res, next) {
 
 });

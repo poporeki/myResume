@@ -19,7 +19,7 @@ gulp.task('sass', function () {
 })
 gulp.task('brow-sync', ['sass'], function () {
     browSync.init({
-        proxy: 'https://localhost:' + PORT,
+        proxy: 'http://localhost:' + PORT,
         notify: false,
         port: 2002
     })

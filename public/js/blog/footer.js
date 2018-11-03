@@ -68,7 +68,7 @@ function listeningSearch() {
     /* 发起ajax请求获取数据 */
     requestAjax({
       el: $iptWrap,
-      url: '/blog/search/like',
+      url: '/api/v1/article/search/like',
       aniEle: 'loading-ani-searchlike',
       data: {
         wd: keyword

@@ -14,8 +14,12 @@ var articleSchema = new schema({
   source: String,
   support: Number,
   is_delete: Boolean,
+  like_this: [{
+    type: schema.Types.ObjectId,
+    ref: 'myweb_user'
+  }],
   author_id: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: schema.Types.ObjectId,
     ref: 'myweb_user'
   },
   type_id: {
@@ -36,7 +40,7 @@ var articleSchema = new schema({
 /**
  * 
  * @param {object} by 
- * @param {*function} cb 
+ * @param {function} cb 
  */
 articleSchema.statics.getCount = function (by, cb) {
   return this.find(by).count().exec(cb);

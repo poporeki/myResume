@@ -56,6 +56,12 @@
           <a href="/blog/articlelist?by[tags_id]=<%=tags[i]._id%>" class="tag-lk"><%=tags[i].tag_name%></a>
         <%}%>
         </div>
+        <div class="like-box">
+          <a href="javascript:void(0);" class="btn-article-like <%=userIsLiked?'liked':'' %>">
+            <span class='like-number'><%=art.likes%></span>
+            <span class="btn-text">点赞</span>
+          </a>
+        </div>
       </article>
       <div class="line"></div>
       <section class="comment-block" id="comment">
@@ -76,7 +82,7 @@
                 <div>
                   <div class="head-pic">
                     <a href="javascript:void(0);">
-                      <img src=<%=artComms[i].user.avatar %> alt="avatar">
+                      <img src="<%=artComms[i].user.avatar %>" alt="avatar">
                     </a>
                   </div>
                   <div class="content">
@@ -149,7 +155,7 @@
                             </p>
                           <%} else{ %>
                             <p>
-                              <%='回复 #'+reps[j].to.floor+" "+reps[j].to.author_id.user_name+':'+reps[j].repContent %>
+                              <%='回复 #'+reps[j].to.floor+" "+reps[j].to.user.name+':'+reps[j].repContent %>
                             </p>
                           <%}%>
                           <div class="tools">

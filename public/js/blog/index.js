@@ -8,8 +8,9 @@ function hotArcFn() {
   var $hotList = $('.hot-list');
   requestAjax({
     el: $hotList,
-    url: '/blog/article/getTop',
-    timeout: 'hotArcFn'
+    url: '/api/v1/article/gettop',
+    timeout: 'hotArcFn',
+    type: 'get'
   }, function (result) {
     if (!result && !result.status) {
       return console.log('错误');
@@ -177,7 +178,7 @@ function weatherFn() {
   function updateWeather(geolo) {
     requestAjax({
       el: $('body'),
-      url: '/blog/weather',
+      url: '/api/v1/weather/gettheday',
       type: 'get',
       data: {
         geolocation: geolo

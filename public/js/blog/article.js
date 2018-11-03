@@ -5,7 +5,7 @@ $(function () {
     var $this = $(this),
       $comTextarea = $this.siblings('.comm-textarea'),
       artid = $('.article-box').attr('data-artid'),
-      submitUrl = '/blog/article/postComment',
+      submitUrl = '/api/v1/article/comment/submitcomment',
       data = {
         art_id: artid,
         comm_content: $comTextarea.val()
@@ -25,7 +25,7 @@ $(function () {
       var $li = $this.parents('.comment-item').eq(0),
         $replyList = $li.find('.reply-list'),
         commid = $li.attr('data-commid');
-      submitUrl = '/blog/article/submitReply';
+      submitUrl = '/api/v1/article/comment/submitReply';
       data['commid'] = commid;
       requestAjax({
         el: $this,
@@ -73,7 +73,7 @@ $(function () {
       var $ul = $this.parents('.reply-list').eq(0),
         commid = $ul.parents('.comment-item').eq(0).attr('data-commid'),
         replyTo = $this.attr('data-repid');
-      submitUrl = '/blog/article/submitReply';
+      submitUrl = '/api/v1/article/comment/submitReply';
 
       data['commid'] = commid;
       data['reply_id'] = replyTo;
@@ -133,9 +133,13 @@ $(function () {
           }, 2000);
         })
         return false;
-      } else {
-        return true;
       }
+      if (result.status === -9) {
+        window.location.href = '/login';
+        return false;
+      }
+      return true;
+
     }
     /* 提交评论 */
     function submitComment() {
@@ -224,37 +228,43 @@ $(function () {
   var HasMore = true;
   $('.comment-block').on('click', '.more-comms-lk', function () {
     if (!HasMore) return;
+    var $this = $(this);
     var $par = $(this).parent();
     var commLen = $('.comment-block .list').children('.comment-item').length;
     if ($(this).find('.loading-ani').length > 0) return;
     var artid = $('.article-box').attr('data-artid');
     requestAjax({
       el: $(this),
-      url: '/blog/getComments',
+      url: '/api/v1/article/comment/getComments',
+      type: 'get',
       data: {
         'skip': commLen,
         'artid': artid
       }
     }, function (result) {
-      if (!result.status) {
 
-        return;
-      }
       var artComms = result.data;
-      if (artComms.length === 0) {
-        $par.text('--THE END--');
-        HasMore = false;
+
+      if (result.status !== 1) {
+
+        if ((result.status && result.status === 0) || (artComms && artComms.length === 0)) {
+          $par.text('--THE END--');
+          HasMore = false;
+          return;
+        }
+        $this.text(result.msg);
         return;
       }
       for (var i = 0; i < artComms.length; i++) {
         var comms = artComms[i],
           repsList = getreplyList(artComms[i].commReps);
+        var avatar = comms.user.avatar !== '' ? comms.user.avatar : '/images/my-head.png';
         var context =
           '<li class="comment-item" data-commid=' + comms.id + '>' +
           '<div >' +
           '<div class="head-pic" >' +
           '<a href = "##" >' +
-          '<img src = "' + comms.user.avatar + '" alt = "" >' +
+          '<img src = "' + avatar + '" alt = "" >' +
           '</a>' +
           '</div>' +
           '<div class="content">' +
@@ -284,10 +294,35 @@ $(function () {
       }
     })
   })
+
+  $('.btn-article-like').on('click', function () {
+    $this = $(this);
+    var arcid = $('.article-box').attr('data-artid');
+    requestAjax({
+      el: $(this),
+      url: '/api/v1/article/like',
+      requestAnimate: false,
+      data: {
+        arcid: arcid
+      }
+    }, function (result) {
+      if (result.status === -9) {
+        window.location.href = '/login';
+        return;
+      }
+      if (result.data && result.data.isLiked) {
+        $this.addClass('liked');
+      } else {
+        $this.removeClass('liked');
+      }
+      typeof result.msg === 'number' ? $this.find('.like-number').text(result.msg || 0) : '';
+      console.log(result);
+    })
+  })
 });
 /* 得到回复列表 */
 function getreplyList(reps) {
-  if (typeof reps == 'undefined' || reps.length == 0) {
+  if (typeof reps === undefined || reps === null || reps.length === 0) {
     return '<ul class="reply-list"></ul>';
   }
   var repCon = '';
@@ -295,8 +330,8 @@ function getreplyList(reps) {
     var rep = reps[j],
       floor = rep.floor,
       username = rep.user.name,
-      avatar = rep.user.avatar,
-      subAddress = rep.subAddress,
+      avatar = rep.user.avatar !== '' ? rep.user.avatar : '/images/my-head.png',
+      subAddress = rep.submitAddress,
       timeCreate = rep.createTime,
       to = rep.to,
       repContent = rep.repContent;

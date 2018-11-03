@@ -4,7 +4,7 @@
 const express = require('express'),
   router = express.Router();
 
-const articleTypeMod = require('../../modules/Article/articleType');
+const articleTypeMod = require('../../../modules/Article/articleType');
 /* 获取文章分类 */
 router.get('/', (req, res, next) => {
   let getArcType = () => {

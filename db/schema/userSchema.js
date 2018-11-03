@@ -1,33 +1,37 @@
 var mongoose = require('mongoose');
 var userSchema = new mongoose.Schema({
-  'serial_num': Number,
-  'user_name': String,
-  'password': String,
-  'tel_num': Number,
-  'reg_time': Date,
-  'avatar_path': {
+  serial_num: Number,
+  user_name: String,
+  password: String,
+  tel_num: Number,
+  reg_time: Date,
+  avatar_path: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'upload_file'
   },
-  'permissions': String,
-  'reg_ip': String,
-  'reg_country': String,
-  'reg_country_id': String,
-  'reg_city': String,
-  'reg_isp': String,
-  'reg_region': String,
-  'reg_user_agent': String,
-  'reg_adcode': String,
-  'reg_rectangle': String,
-  'login_time': [],
-  'author_id': {
+  permissions: String,
+  reg_ip: String,
+  reg_country: String,
+  reg_country_id: String,
+  reg_city: String,
+  reg_isp: String,
+  reg_region: String,
+  reg_user_agent: String,
+  reg_adcode: String,
+  reg_rectangle: String,
+  is_canceled: {
+    type: Boolean,
+    default: false
+  },
+  login_time: [],
+  author_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'myweb_user'
   }
 }, {
   timestamps: {
     createdAt: 'create_time',
-    updateAt: 'update_time'
+    updatedAt: 'update_time'
   }
 });
 

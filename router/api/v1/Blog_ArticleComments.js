@@ -1,10 +1,10 @@
-const express = require("express"),
+const express = require('express'),
   router = express.Router();
 
 const moment = require("moment");
 
-const commentMod = require("../../modules/Article/articleComments");
-const getIPInfoMod = require("../../modules/getClientIP");
+const commentMod = require('../../../modules/Article/articleComments')
+const getIPInfoMod = require("../../../modules/getClientIP");
 
 /* 获取客户端ip */
 let getIP = req => {
@@ -23,7 +23,24 @@ let getIP = req => {
     });
   });
 };
-router.post("/submitComment", (req, res) => {
+
+
+/* 文章评论排行 */
+router.get('/getTop', (req, res, next) => {
+  let getCommTop = () => {
+    return new Promise((resolve, reject) => {
+      commentMod.findCommentTop((err, resCommList) => {
+        if (err) return reject(err);
+        resolve(resCommList);
+      })
+    })
+  }
+  getCommTop().then(commlist => {
+    return res.json(commlist);
+  })
+})
+
+router.post('*', (req, res, next) => {
   if (!req.session.user) {
     return res.json({
       status: -9,
@@ -36,6 +53,9 @@ router.post("/submitComment", (req, res) => {
       msg: "评论间隔时间太短，请休息一下哦"
     });
   }
+  next();
+})
+router.post("/submitComment", (req, res) => {
   let commText = req.body.comm_content.trim();
   if (commText === "") {
     return res.json({
@@ -44,8 +64,14 @@ router.post("/submitComment", (req, res) => {
     });
   }
   let authorId = req.session.user._id;
-  let arcid = req.body.arc_id;
+  let arcid = req.body.art_id;
   let userAgent = req.useragent.source;
+  if (!arcid) {
+    return res.json({
+      status: -2,
+      msg: '参数错误，提交失败'
+    })
+  }
   let insertComment = ({
     ip,
     address
@@ -86,28 +112,18 @@ router.post("/submitComment", (req, res) => {
   };
   fn().catch(err =>
     res.json({
-      status: false,
+      status: 0,
+      errcode: 4004,
       msg: "获取错误"
     })
   );
 });
 router.post("/submitReply", (req, res, next) => {
-  if (!req.session.user) {
-    return res.json({
-      status: -9,
-      msg: "登陆失效"
-    });
-  }
-  if (!statusComment(req)) {
-    return res.json({
-      status: -1,
-      msg: "评论间隔时间太短，请休息一下哦"
-    });
-  }
   var commText = req.body.comm_content;
   if (commText.trim() === "") {
     return res.json({
-      status: -1,
+      status: 0,
+      errcode: 1001,
       msg: "内容不能为空"
     });
   }
@@ -195,16 +211,16 @@ router.post("/submitReply", (req, res, next) => {
     });
   });
 });
-router.post("/getComments", (req, res) => {
-  let limit = parseInt(req.body.number || 10); /* 返回数量 默认10*/
-  let skip = parseInt(req.body.skip || 0); /* 跳过数量 */
-  if (!req.body.artid) {
+router.get("/getComments", (req, res) => {
+  let limit = parseInt(req.query.number) || 10; /* 返回数量 默认10*/
+  let skip = parseInt(req.query.skip) || 0; /* 跳过数量 */
+  if (!req.query.artid) {
     return res.json({
-      status: false,
+      status: -2,
       msg: "文章id错误,数据获取失败"
     });
   }
-  var artid = req.body.artid; /* 文章id */
+  var artid = req.query.artid; /* 文章id */
   /* 获取文章评论 */
   let getThisArcComments = () => {
     return new Promise((resolve, reject) => {
@@ -215,7 +231,7 @@ router.post("/getComments", (req, res) => {
         (err, commsDatas) => {
           if (err) return reject(err);
           if (commsDatas === undefined || commsDatas.length === 0)
-            return reject(0);
+            return reject(-1);
           let commlist = commsDatas.map(comm => {
             let commUser = comm.author_id;
             let commReps = traverseTheReply(comm.reply);
@@ -282,25 +298,24 @@ router.post("/getComments", (req, res) => {
     if (err === 0) {
       return res.json({
         status: 0,
-        msg: "没有相关数据"
+        msg: "请求数据错误"
       });
     } else {
       return res.json({
         status: -1,
-        msg: "请求数据错误"
+        msg: "没有相关数据"
       });
     }
   };
   let fn = async () => {
     let commsList = await getThisArcComments();
     return res.json({
-      status: true,
+      status: 1,
       data: commsList
     });
   };
   fn().catch(err => errProcess(err));
 });
-module.exports = router;
 
 /* 评论时间比较 */
 function statusComment(req) {
@@ -316,3 +331,4 @@ function statusComment(req) {
     return true;
   }
 }
+module.exports = router;

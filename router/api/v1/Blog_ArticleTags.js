@@ -4,7 +4,7 @@
 const express = require('express'),
   router = express.Router();
 
-const articleMod = require("../../modules/Article/article");
+const articleMod = require("../../../modules/Article/article");
 /* 获取文章分类 */
 router.get('/', (req, res, next) => {
   let getArcTags = () => {

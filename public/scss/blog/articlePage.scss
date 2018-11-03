@@ -250,6 +250,47 @@ section.article-wrapper {
     }
   }
 
+  /* 点赞 */
+  .like-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10vh 0 0 0;
+
+    .btn-article-like {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      width: 20vw;
+      height: 20vw;
+      max-height: 100px;
+      max-width: 100px;
+      border-radius: 50%;
+      background-color: #4cc37e;
+      box-shadow: 0 0 20px #38915a;
+      transition: transform .3s ease, background-color .3s ease;
+
+      .like-number {
+        font-size: 2em;
+      }
+
+      .loading-ani {
+        border-radius: 50%;
+      }
+
+      &:hover {
+        background-color: #59e995;
+      }
+    }
+
+    .liked {
+      background-color: #cc8851;
+    }
+  }
+
   .comment-block {
     h3 {
       padding: 10px 0;
@@ -547,6 +588,8 @@ section.article-wrapper {
 }
 
 .article-tags-list {
+  margin-top: 5vh;
+
   .tag-lk {
     position: relative;
     display: inline-block;

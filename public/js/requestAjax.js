@@ -11,6 +11,7 @@ function requestAjax(options, func, callback) {
     this.el = this.options.el;
     this.func = func;
     this.timeout = this.options.timeout;
+    this.requestAnimate = this.options.requestAnimate !== undefined ? this.options.requestAnimate : true;
     this.timeoutFunc = this.options.timeoutFunc;
     this.aniEle = this.options.aniEle || "loading-ani";
     this.callback = callback;
@@ -43,14 +44,16 @@ function requestAjax(options, func, callback) {
         return tempt_result[1];
       return "loading-ani";
     },
-    start: function (_this) {
-      this.remove(_this);
-      var addCon = this.addHtml(_this.aniEle);
-      _this.el.append(addCon);
+    start: function (that) {
+      if (!that.requestAnimate) return;
+      this.remove(that);
+      var addCon = this.addHtml(that.aniEle);
+      that.el.append(addCon);
     },
-    remove: function (_this) {
-      var className = this.getClassName(_this.aniEle);
-      var $target = _this.el.find("." + className);
+    remove: function (that) {
+      if (!that.requestAnimate) return;
+      var className = this.getClassName(that.aniEle);
+      var $target = that.el.find("." + className);
       if ($target.length === 0) return;
       $target.remove();
     }
@@ -60,7 +63,7 @@ function requestAjax(options, func, callback) {
     _this.currentAjax = $.ajax({
       type: this.options.type || "post",
       url: this.options.url,
-      timeout: this.options.timeout || 10000,
+      timeout: this.options.timeout || 60000,
       data: this.options.data,
       async: this.options.async || true,
       contentType: this.options.contentType,
@@ -71,16 +74,13 @@ function requestAjax(options, func, callback) {
       complete: function (XMLHttpRequest, status) {
         if (status == "timeout") {
           _this.currentAjax.abort(); // 超时后中断请求
+          if (!_this.requestAnimate) return;
           _this.ajaxLoadingAnimate.remove(_this);
           var func = _this.timeoutFunc;
           if (func) {
             _this.el
               .empty()
-              .append(
-                '<a onclick="' +
-                func +
-                '();this.remove();" href="javascript:void(0);" style="text-align:center;">链接超时</a>'
-              );
+              .append('<a onclick="' + func + '();this.remove();" href="javascript:void(0);" style="text-align:center;">链接超时</a>');
             return;
           }
           _this.el

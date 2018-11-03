@@ -3,25 +3,9 @@ var router = express.Router();
 
 var moment = require('moment');
 
-var articleMod = require('../../modules/Article/article'); /* 文章Module */
-var artCommMod = require('../../modules/Article/articleComments'); /* 文章评论Module */
+var articleMod = require('../../../modules/Article/article'); /* 文章Module */
+var artCommMod = require('../../../modules/Article/articleComments'); /* 文章评论Module */
 
-/* 获取用户是否点赞该文章 */
-let getUserLike = (
-  arcid,
-  userid
-) => {
-  if (!userid) return false;
-  return new Promise(async (resolve, reject) => {
-    let isLiked = false;
-    try {
-      isLiked = await articleMod.theArticleLikeOperation(arcid, userid);
-    } catch (error) {
-
-    }
-    resolve(isLiked)
-  })
-}
 /**
  * 遍历文章数组
  * @param {array} reply 返回的该文章评论回复 
@@ -103,7 +87,6 @@ let getArcInfo = arcid => {
         },
         from: thisArc.from,
         tags: thisArc.tags_id,
-        likes: thisArc.like_this ? thisArc.like_this.length : 0,
         // 文章创建时间
         createTime: moment(thisArc.create_time).fromNow(),
         // 文章内容
@@ -122,6 +105,7 @@ let getArcInfo = arcid => {
 /* 获取文章评论 */
 let getArcComm = (limit, skip, arcid) => {
   return new Promise((resolve, reject) => {
+
     artCommMod.showThisArticleComments(limit, skip, arcid, (err, result) => {
       if (err) return reject(err);
       let artComms = result.map((value, index) => {
@@ -141,15 +125,15 @@ let getArcComm = (limit, skip, arcid) => {
           floor: comms.floor
         }
       })
-      resolve([
-        artComms,
-        result.total
-      ]);
+      resolve({
+        collection: artComms,
+        total: result.total
+      });
     })
   })
 }
-/* 文章页面 */
-router.get('/:id', (req, res, next) => {
+/* 根据id获取文章 */
+router.get('/get/:id', (req, res, next) => {
   // 返回数量 默认10
   let limit = parseInt(req.query.number || 10);
   // 跳过数量
@@ -159,27 +143,72 @@ router.get('/:id', (req, res, next) => {
   let fn = async () => {
     let arcInfo = await getArcInfo(arcid);
     articleMod.incReadNum(arcid);
-    let [
-      [arcComments, commsTotal], isLiked
-    ] = await Promise.all([
-      getArcComm(limit, skip, arcid),
-      getUserLike(arcid, req.session.user)
-    ]);
-    res.render('./blog/article', {
-      art: arcInfo,
-      artComms: arcComments,
-      userIsLiked: isLiked,
-      artTotal: commsTotal
-    });
+    let arcComments = await getArcComm(limit, skip, arcid);
+    let arcObj = {
+      arcInfo,
+      arcComments
+    }
+    return res.json({
+      status: 1,
+      data: arcObj
+    })
   }
   fn().catch(err => {
-    next(404);
+    return res.json({
+      status: 0,
+      msg: '获取失败'
+    })
   })
-
-
 })
 
+/* 按阅读数量排序 获取排行 */
+router.get('/getTop', function (req, res, next) {
+  articleMod.getArtsByRead(function (err, result) {
+    if (err) {
+      res.json({
+        status: 0,
+        msg: '数据获取失败'
+      })
+      return next(err);
+    }
+    return res.json({
+      status: 1,
+      msg: '',
+      data: result
+    })
+  })
+})
 
-router.use('/', require('./comments'));
-
+/* 点赞 */
+router.post('/like', async (req, res, next) => {
+  if (!statusArcLike(req)) {
+    return res.json({
+      status: -1,
+      msg: '速度太快了'
+    })
+  }
+  if (!req.session.user) {
+    return res.json({
+      status: -9,
+      msg: '未登录账户'
+    })
+  }
+  let arcid = req.body.arcid;
+  try {
+    let [likeTotal, isLiked] = await articleMod.toggleArticleLike(arcid, req.session.user._id);
+    req.session.arclikeTime = new Date();
+    return res.json({
+      status: 1,
+      msg: likeTotal,
+      data: {
+        isLiked
+      }
+    })
+  } catch (err) {
+    return res.json({
+      status: 0,
+      msg: '未知错误'
+    })
+  }
+})
 module.exports = router;
