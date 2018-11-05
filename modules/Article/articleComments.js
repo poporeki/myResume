@@ -2,7 +2,7 @@
  * @Author: yansk 
  * @Date: 2018-10-30 19:03:35 
  * @Last Modified by: yansk
- * @Last Modified time: 2018-11-02 13:07:38
+ * @Last Modified time: 2018-11-05 23:23:57
  */
 
 const commentSchema = require("../../db/schema/article/Comments");
@@ -25,9 +25,7 @@ module.exports = {
    */
   getCommentCountById: function (artid, cb) {
     commentSchema
-      .find({
-        article_id: artid
-      })
+      .find({ article_id: artid })
       .count()
       .exec((err, commCount) => {
         if (err) return cb(err, null);
@@ -41,13 +39,13 @@ module.exports = {
    * @param {function} cb 回调函数
    */
   insertOneComment: function ({
-      authorId,
-      commText,
-      arcid,
-      userAgent,
-      ip,
-      address
-    },
+    authorId,
+    commText,
+    arcid,
+    userAgent,
+    ip,
+    address
+  },
     cb
   ) {
     /* 获取当前文章评论总数量 */
@@ -69,7 +67,7 @@ module.exports = {
     /* 写入数据库 */
     let insertComment = obj => {
       return new Promise((resolve, reject) => {
-        commentSchema.insertOneComment(obj, (err, result) => {
+         commentSchema.insertOneComment(obj, (err, result) => {
           if (err) return reject(err);
           resolve(result);
         });
@@ -147,15 +145,15 @@ module.exports = {
    * @param {function} 回调函数
    */
   insertOneReplyInComment: ({
-      articleId,
-      authorId,
-      commentId,
-      commentContent,
-      to,
-      userAgent,
-      ip,
-      address
-    },
+    articleId,
+    authorId,
+    commentId,
+    commentContent,
+    to,
+    userAgent,
+    ip,
+    address
+  },
     cb
   ) => {
     let obj = {
@@ -172,9 +170,7 @@ module.exports = {
     let getReplyTotal = () => {
       return new Promise((resolve, reject) => {
         commentReplySchema
-          .find({
-            comment_id: obj.comment_id
-          })
+          .find({ comment_id: obj.comment_id })
           .count()
           .exec(function (err, replyCount) {
             if (err) return reject(err);
@@ -199,10 +195,10 @@ module.exports = {
           .update({
             _id: commid
           }, {
-            $push: {
-              reply: savedRepid
-            }
-          })
+              $push: {
+                reply: savedRepid
+              }
+            })
           .exec((err, result) => {
             if (err) return reject(err);
             resolve(result);
@@ -226,9 +222,7 @@ module.exports = {
    */
   findCommentReplyById: (repid, cb) => {
     return commentReplySchema
-      .find({
-        _id: repid
-      })
+      .find({ _id: repid })
       .populate([{
         path: "author_id"
       }])
@@ -243,32 +237,30 @@ module.exports = {
       }
     };
     return commentSchema
-      .find({
-        _id: pars.commid
-      })
+      .find({ _id: pars.commid })
       .populate([{
+        path: "author_id"
+      },
+      {
+        path: "reply",
+        options: {
+          sort: {
+            create_time: -1
+          },
+          limit: pars.reply.limit,
+          skip: pars.reply.skip
+        },
+        populate: [{
           path: "author_id"
         },
         {
-          path: "reply",
-          options: {
-            sort: {
-              create_time: -1
-            },
-            limit: pars.reply.limit,
-            skip: pars.reply.skip
-          },
-          populate: [{
-              path: "author_id"
-            },
-            {
-              path: "to",
-              populate: {
-                path: "author_id"
-              }
-            }
-          ]
+          path: "to",
+          populate: {
+            path: "author_id"
+          }
         }
+        ]
+      }
       ])
       .exec(cb);
   },
@@ -281,48 +273,48 @@ module.exports = {
   findCommentTop: cb => {
     commentSchema
       .aggregate([{
-          $sort: {
-            createdAt: -1
-          }
-        },
-        {
-          $limit: 5
-        },
-        {
-          $lookup: {
-            from: "myweb_users",
-            localField: "author_id",
-            foreignField: "_id",
-            as: "author"
-          }
-        },
-        {
-          $lookup: {
-            from: "articles",
-            localField: "article_id",
-            foreignField: "_id",
-            as: "article"
-          }
-        },
-        {
-          $lookup: {
-            from: "upload_files",
-            localField: "author.avatar_path",
-            foreignField: "_id",
-            as: "avatar"
-          }
-        },
-        {
-          $project: {
-            _id: 0,
-            comment_text: 1,
-            "author.user_name": 1,
-            "avatar.new_name": 1,
-            "avatar.save_path": 1,
-            "article._id": 1,
-            "article.title": 1
-          }
+        $sort: {
+          createdAt: -1
         }
+      },
+      {
+        $limit: 5
+      },
+      {
+        $lookup: {
+          from: "myweb_users",
+          localField: "author_id",
+          foreignField: "_id",
+          as: "author"
+        }
+      },
+      {
+        $lookup: {
+          from: "articles",
+          localField: "article_id",
+          foreignField: "_id",
+          as: "article"
+        }
+      },
+      {
+        $lookup: {
+          from: "upload_files",
+          localField: "author.avatar_path",
+          foreignField: "_id",
+          as: "avatar"
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          comment_text: 1,
+          "author.user_name": 1,
+          "avatar.new_name": 1,
+          "avatar.save_path": 1,
+          "article._id": 1,
+          "article.title": 1
+        }
+      }
       ])
       .exec(cb);
   }

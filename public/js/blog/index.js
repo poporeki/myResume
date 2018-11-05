@@ -2,6 +2,7 @@ $(function () {
   hotArcFn();
   newArcFn();
   weatherFn();
+
 });
 /* 获取阅读数最多的文章列表 */
 function hotArcFn() {
@@ -141,6 +142,16 @@ function newArcFn() {
 }
 /* 获取天气 */
 function weatherFn() {
+  $('.weather').on('click', function () {
+    if ($(this).hasClass('show-more')) {
+      $(this).removeClass('show-more')
+      $('body').css('overflow', 'auto')
+    } else {
+      $('body').css('overflow', 'hidden')
+      $(this).addClass('show-more')
+    }
+
+  })
   /* 取得类名 */
   function getWeatherClassName(weather) {
     var wObj = {

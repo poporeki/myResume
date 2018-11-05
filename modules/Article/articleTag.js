@@ -5,8 +5,6 @@ module.exports = {
         articleTag.find(pars || {}, cb);
     },
     addArticleTag: (pars, cb) => {
-        articleTag.create({
-            tag_name: pars.t_name
-        }, cb);
+        articleTag.create({ tag_name: pars.t_name }, cb);
     }
 }

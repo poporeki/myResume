@@ -4,10 +4,10 @@ var userMod = require('../../modules/User');
 
 /* 检查用户名 */
 router.post('/', function (req, res, next) {
-    var getUname = req.body.username;
+    let getUname = req.body.username;
     userMod.findUser(getUname, function (err, result) {
         if (err) return next(err);
-        if (result.length == 0) {
+        if (result.length === 0) {
             res.json(true);
         } else {
             res.json(false);
