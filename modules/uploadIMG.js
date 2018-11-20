@@ -223,6 +223,7 @@ exports.baseUpload = function (userid, dataBase, uPath, cb) {
         .resize(100)
         .write(thumbnail, function (err) {
           if (err) {
+            console.log(`缩略图错误:${err}`);
             resolve(false);
           } else {
             console.log("thumbnail saved");
