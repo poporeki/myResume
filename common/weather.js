@@ -21,7 +21,7 @@ exports.getWeather = (location, cb) => {
         request.get(url, (err, result, resData) => {
           if (err) return reject(err);
           var toJSON = JSON.parse(result.body);
-          resolve(toJSON.regeocode.addressComponent.adcode);
+          resolve(toJSON.regeocode.addressComponent ? toJSON.regeocode.addressComponent.adcode : null);
         })
       }
 
