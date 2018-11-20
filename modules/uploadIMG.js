@@ -219,6 +219,7 @@ exports.baseUpload = function (userid, dataBase, uPath, cb) {
   function saveThumbnail(newName) {
     return new Promise((resolve, reject) => {
       let thumbnail = path.join(uploadDir + "thumbnail_" + newName);
+      console.log(`缩略图路径：${uploadDir + newName}`);
       gm(uploadDir + newName)
         .resize(100)
         .write(thumbnail, function (err) {
