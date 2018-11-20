@@ -1,5 +1,10 @@
 $(function () {
   var cropper;
+  var REGS = {
+    name: /^[\D]{1}([\u4e00-\u9fa5\-\w]){3,11}$/, //用户名规则
+    pwd: /^\S{6,20}$/, //密码规则
+    tel: /^1[3-9]\d{9}$/ //手机号码规则
+  };
   /* tab选项卡 */
   (function () {
     var $el = $('.tab'),
@@ -33,13 +38,16 @@ $(function () {
     })
 
     $mCloseBtn.on('click', function () {
-
+      $image.cropper('destroy');
+      $image.attr('src', '');
+      $input.val('');
       $('.modal-box').removeClass('show');
     })
     $input.on('change', function () {
       var $this = $(this);
       var objUrl = getObjectURL(this.files[0])
       if (objUrl) {
+        $image.cropper('destroy');
         $image.attr('src', objUrl);
         $image.cropper({
           aspectRatio: 1 / 1,
@@ -70,8 +78,6 @@ $(function () {
         }
         $mCloseBtn.trigger('click');
         $headBtn.find('img').attr('src', result.data.src);
-        $input.val('');
-        cropper.clear();
       });
     });
   })();
@@ -101,6 +107,46 @@ $(function () {
       })
     })
   })();
+
+  (function () {
+    $('.btn-update-username').on('click', function () {
+      var $li = $(this).parent().parent();
+      if ($li.hasClass('show')) {
+        $li.removeClass('show')
+      } else {
+        $li.addClass('show')
+      }
+    });
+    $('.input-text-username').on('keyup blur', function () {
+      var unameText = $(this).val();
+      var $tipsBox = $(this).next();
+      $tipsBox.html('');
+      if (!REGS.name.test(unameText)) {
+        $tipsBox.html('格式错误');
+        return;
+      }
+    })
+
+    $('.update-info-btn').on('click', function () {
+      var $inputUsername = $('#text_username');
+      var $inputTel = $('#text_telnumber');
+      var $inputEmail = $('#text_email');
+      var requestUrl = '/api/v1/user/updateAccountInfo'
+      requestAjax({
+        el: $(this),
+        url: requestUrl,
+        type: 'post',
+        data: {
+          username: $inputUsername.val() !== '' ? $inputUsername.val() : undefined,
+          telnumber: $inputTel.val() !== '' ? $inputTel.val() : undefined,
+          email: $inputEmail.val() !== '' ? $inputEmail.val() : undefined
+        }
+      }, function (result) {
+        console.log(result);
+      })
+    })
+
+  })()
 });
 
 function getObjectURL(file) {

@@ -4,8 +4,8 @@ var router = express.Router();
 var userMod = require('../../modules/User');
 var arcMod = require('../../modules/Article/article');
 var Tourists = require('../../modules/Tourists');
-var osMod = require('../../modules/os');
-var childProcess = require('../../modules/child_process');
+var osMod = require('../../common/os');
+var childProcess = require('../../common/child_process');
 /* 权限判断 */
 router.use('/', (req, res, next) => {
   if (!req.session.user) {

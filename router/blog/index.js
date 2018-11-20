@@ -4,10 +4,7 @@ const express = require("express"),
 
 var articleMod = require("../../modules/Article/article"),
   commentMod = require("../../modules/Article/articleComments"),
-  articleTypeMod = require("../../modules/Article/articleType"),
-  arcticleTagMod = require("../../modules/Article/articleTag"),
-  weatherMod = require("../../modules/weather"),
-  getIP = require("../../modules/getIP");
+  articleTypeMod = require("../../modules/Article/articleType");
 
 router.get("/", (req, res, next) => {
   let resObj = {};

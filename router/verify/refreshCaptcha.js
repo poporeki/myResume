@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var drawCap = require('../../modules/drawCap');
+var drawCap = require('../../common/drawCap');
 
 router.post('/', function (req, res) {
     var result = drawCap(5);

@@ -8,41 +8,15 @@ const {
 const uploadIMGMod = require('../../modules/uploadIMG'),
   userMod = require('../../modules/User');
 
-router.use('/', (req, res, next) => {
-  if (!req.session.user) {
-    return res.redirect('/login');
-  }
-  next();
-})
+const user = require('../../controllers/user.js');
 
-router.get('/', (req, res) => {
-
-  userMod.findUserById(req.session.user._id, (err, userInfo) => {
-    if (err) return next(err);
-    let repAvatar = userInfo.avatar_path ? userInfo.avatar_path.save_path + 'thumbnail_' + userInfo.avatar_path.new_name : "/images/my-head.png";
-    let path = repAvatar;
-    res.render('./blog/user', {
-      username: userInfo.user_name,
-      avatar: path
-    });
-  })
-
-});
-router.post('/uploadAvatar', (req, res, next) => {
-  uploadIMGMod.baseUpload(req, '/images/upload/userAvatar/', (err, result) => {
-    if (err) return next(err);
-    res.json({
-      status: true,
-      data: {
-        src: result
-      }
-    });
-  })
-});
+router.use('/', user.isLogin);
+router.get('/', user.showUserHome);
+router.post('/uploadAvatar', user.updateAvatar);
 router.post('/changeUserPassword', [
-    check('new_password').isString()
+  check('new_password').isString()
     .matches(/^\S{6,20}$/).withMessage('密码格式错误，请重新输入')
-  ],
+],
   function (req, res, next) {
     const errorFormatter = ({
       location,

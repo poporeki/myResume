@@ -3,7 +3,7 @@ var options = {
     auto_reconnect: true,
     poolSize: 10
 };
-mongoose.connect('mongodb://test:123456@198.148.106.33:27069/test', options,
+mongoose.connect('mongodb://yanskWeb1:yansk4990@148.70.57.170:27069/myBlog', options,
     function (err) {
         if (err) {
             console.log(err);

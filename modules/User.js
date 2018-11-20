@@ -2,19 +2,19 @@ const crypto = require("crypto"),
   moment = require("moment"),
   mongoose = require('mongoose');
 
-const dbUser = require("../db/schema/userSchema"),
-  getClientIP = require("./getClientIP"),
+const userSchema = require("../db/schema/userSchema"),
+  getClientIP = require("../common/IPModule"),
   dbLoginRecord = require("../db/schema/userLoginRecord"),
   uploadFile = require('../db/schema/uploadFile');
 
 module.exports = {
   /* 根据id查找用户 */
   findUserById: (id, cb) => {
-    dbUser.findUserById(id, cb);
+    userSchema.findUserById(id, cb);
   },
   /* 根据名字查找用户 */
   findUser: (name, cb) => {
-    dbUser.findByName(name, cb);
+    userSchema.findByName(name, cb);
   },
   /* 获取用户列表 */
   getUserList: (pars, cb) => {
@@ -27,14 +27,14 @@ module.exports = {
           reg_time: 1
         }
     };
-    dbUser.getUserList(obj, cb);
+    userSchema.getUserList(obj, cb);
   },
   /* 比对密码 */
   checkUserPwd: (pars, cb) => {
     /* 比对数据库 */
     let comparisonPwd = () => {
       return new Promise((resolve, reject) => {
-        dbUser.findByNP(pars, (err, result) => {
+        userSchema.findByNP(pars, (err, result) => {
           if (err) return cb(err, null);
           if (result.length === 0) return cb(null, false);
           let avatarId = result[0].avatar_path; /* 头像路径 */
@@ -89,113 +89,95 @@ module.exports = {
       .createHash("md5")
       .update(newPassword)
       .digest("hex");
-    dbUser.updateUserPassword({
-        name: username,
-        pwd: password,
-        newPwd: newPassword
-      },
+    userSchema.updateUserPassword({
+      name: username,
+      pwd: password,
+      newPwd: newPassword
+    },
       cb
     );
   },
-  /* 创建用户 */
-  createUser: (req, pars, cb) => {
-    /* 解析客户端ip */
-    let getIP = () => {
-      return new Promise((resolve, reject) => {
-        getClientIP(req, result => {
-          if (!result) reject(result);
-          resolve(result);
-        });
+  /**
+   * 检查用户名是否存在
+   */
+  userIsExists: (username) => {
+    return new Promise((resolve, reject) => {
+      userSchema.findByName(username, (err, result) => {
+        if (err || result.length === 0) return resolve(false);
+        return resolve(true);
       });
-    };
-    /* 比对用户名是否存在 */
-    let comparisonDBtoName = ip => {
-      return new Promise((resolve, reject) => {
-        let name = pars.reg_name,
-          pwd = pars.reg_pwd,
-          tel = pars.reg_tel || 0,
-          permissions = pars.reg_permissions || "normal",
-          nowDate = moment().format(),
-          userAgent = pars.userAent || "not",
-          hash = crypto.createHash("md5"),
-          ip_info = ip;
-        pwd = crypto
-          .createHash("md5")
-          .update(pwd)
-          .digest("hex");
-
-        let parms = {
-          serial: moment().format("YYMMDD") + 1,
-          username: name,
-          password: pwd,
-          tel_num: tel,
-          permissions: permissions,
-          now_date: nowDate,
-          ip_info: ip_info,
-          author: req.session.user ? req.session.user._id : undefined
-        };
-        dbUser.findByName(name, (err, result) => {
-          if (err || result.length != 0) return cb(1, null);
-          var pars = {
-            serial_num: parms.serial,
-            user_name: parms.username,
-            password: parms.password,
-            tel_num: parms.telnumber,
-            permissions: parms.permissions,
-            reg_time: parms.now_date,
-            reg_ip: parms.ip_info.ip,
-            reg_country: parms.ip_info.country,
-            reg_country_id: parms.ip_info.country_id,
-            reg_city: parms.ip_info.city,
-            reg_isp: parms.ip_info.isp,
-            reg_region: parms.ip_info.region,
-            reg_user_agent: parms.userAgent,
-            author_id: parms.author
-          };
-          resolve(pars);
-        });
-      });
-    };
+    })
+  },
+  /**
+   * 创建用户
+   * @param {object} param0 参数
+   * @param {function} cb 回调函数
+   */
+  createUser: function ({ uname, upwd, utel, upermissions, udate, userAgent, ipInfo, userId }, cb) {
     /* 创建用户 */
     let createUser = pars => {
       return new Promise((resolve, reject) => {
-        dbUser.create(pars, (err, result) => {
+        userSchema.create(pars, (err, result) => {
           if (err) return reject(err);
           return resolve(result);
         });
       });
     };
-    getIP()
-      .then(comparisonDBtoName)
-      .then(createUser)
-      .then(result => cb(null, result))
-      .catch(err => cb(err, null));
-  },
-  /* 记录登陆时间 */
-  pushLoginTime: function (req, userid, cb) {
-    getClientIP(req, function (resIPinfo) {
-      var ua = req.useragent;
+    let fn = async () => {
+      let userIsExists = await this.userIsExists(uname);
+      if (!userIsExists) return cb(null, 1, '用户名已存在');
+      let pwd = crypto.createHash("md5").update(upwd).digest("hex");
       var pars = {
-        user_id: userid,
-        login_OS: {
-          name: ua.platform,
-          version: ua.os
-        },
-        login_browser: {
-          name: ua.browser,
-          version: ua.version
-        },
-        login_geolocation: {
-          ip: resIPinfo.ip,
-          country: resIPinfo.country,
-          city: resIPinfo.city,
-          isp: resIPinfo.isp,
-          region: resIPinfo.region
-        },
-        login_userAgent: ua.source
+        serial_num: 1,
+        user_name: uname,
+        password: pwd,
+        tel_num: utel,
+        permissions: upermissions,
+        reg_time: udate,
+        reg_ip: ipInfo.ip,
+        reg_country: ipInfo.country,
+        reg_country_id: ipInfo.country_id,
+        reg_city: ipInfo.city,
+        reg_isp: ipInfo.isp,
+        reg_region: ipInfo.region,
+        reg_user_agent: userAgent,
+        author_id: userId
       };
-      dbLoginRecord.create(pars, cb);
-    });
+      let resultCreate = await createUser(pars);
+      return cb(null, resultCreate);
+    }
+    fn().catch(err => cb(err, null));
+  },
+
+  /**
+   * 记录登录时间
+   * @param {'ObjectId'} userid 用户id
+   * @param {object} userAgent 
+   * @param {object} geoloInfo 用户地理信息
+   * @param {function} cb 回调函数
+   */
+  pushLoginTime: function (userid, userAgent, geoloInfo, cb) {
+    var ua = userAgent;
+    var pars = {
+      user_id: userid,
+      login_OS: {
+        name: ua.platform,
+        version: ua.os
+      },
+      login_browser: {
+        name: ua.browser,
+        version: ua.version
+      },
+      login_geolocation: {
+        ip: geoloInfo.ip,
+        country: geoloInfo.country,
+        city: geoloInfo.city,
+        isp: geoloInfo.isp,
+        region: geoloInfo.region
+      },
+      login_userAgent: ua.source
+    };
+    dbLoginRecord.create(pars, cb);
   },
   /* 查询登陆时间 */
   getLastLoginInfo: function (userid, cb) {
@@ -247,7 +229,7 @@ module.exports = {
     /* 获取用户id */
     let getUserID = () => {
       return new Promise((resolve, reject) => {
-        dbUser.findByName(username, function (err, result) {
+        userSchema.findByName(username, function (err, result) {
           if (err) return reject(err);
           let userID = result[0]._id;
           return resolve(userID);
@@ -258,8 +240,8 @@ module.exports = {
     let getUserInfo = () => {
       return new Promise((resolve, reject) => {
         dbLoginRecord.find({
-            user_id: userID
-          },
+          user_id: userID
+        },
           (err, result) => {
             if (err) return reject(err);
             return resolve(result);
@@ -312,5 +294,20 @@ module.exports = {
       })
       .catch((err) => cb(err, null));
   },
+  updateAccountInfo: (userid, { username, telnumber, email }) => {
+    return new Promise((resolve, reject) => {
+      let updateSet = {};
+      username && username !== '' ? updateSet['user_name'] = username : '';
+      telnumber && telnumber !== '' ? updateSet['tel_number'] = telnumber : '';
+      email && email !== '' ? updateSet['email'] = email : '';
 
+      userSchema.update({ _id: userid },
+        {
+          $set: updateSet
+        }, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
+        })
+    })
+  }
 };

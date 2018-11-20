@@ -2,8 +2,8 @@ const express = require('express'),
   router = express.Router(),
   socket_io = require('socket.io');
 
-const osMod = require('../../modules/os'),
-  childProcess = require('../../modules/child_process');
+const osMod = require('../../common/os'),
+  childProcess = require('../../common/child_process');
 
 /* websocket */
 exports.prepareSocketIO = function (server) {

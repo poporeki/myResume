@@ -4,6 +4,8 @@ var uploadFileSchema = new mongoose.Schema({
   ext_name: String,
   new_name: String,
   save_path: String,
+  data_base64: String,
+  has_thumbnail: Boolean,
   type: String,
   size: Number,
   hash: String,
@@ -14,11 +16,11 @@ var uploadFileSchema = new mongoose.Schema({
   }]
 
 }, {
-  timestamps: {
-    createdAt: 'create_time',
-    updatedAt: 'update_time'
-  }
-});
+    timestamps: {
+      createdAt: 'create_time',
+      updatedAt: 'update_time'
+    }
+  });
 
 
 var User = mongoose.model('upload_file', uploadFileSchema);

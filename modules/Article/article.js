@@ -255,8 +255,8 @@ module.exports = {
    * @param{Object} 回调
    */
   searchArticlesByKeywords: function (keyword, cb) {
-    var keywords = keyword;
-    var reg = new RegExp(keywords, "i");
+    let keywords = keyword;
+    let reg = new RegExp(keywords, "i");
     return articles
       .find({
         is_delete: false,
@@ -281,33 +281,7 @@ module.exports = {
         if (err) {
           return cb(err, null);
         }
-
-        var imgReg = /<img.*?(?:>|\/>)/gi;
-        var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-        var artList = [];
-        for (var i = 0; i < result.length; i++) {
-          var imgSrc = "";
-          var str = result[i].content;
-          var arr = str.match(imgReg);
-          if (arr != null) {
-            var src = arr[0].match(srcReg);
-            if (src == null) {
-              imgSrc = null;
-            } else {
-              imgSrc = src[1];
-            }
-          } else {
-            imgSrc = null;
-          }
-          artList.push({
-            artid: result[i]._id,
-            title: result[i].title,
-            read: result[i].read,
-            previewImage: imgSrc,
-            timeCreate: moment(result[i].create_time).fromNow()
-          });
-        }
-        return cb(null, artList);
+        return cb(null, result);
       });
   },
   getArticleTitle: function (limit, cb) {

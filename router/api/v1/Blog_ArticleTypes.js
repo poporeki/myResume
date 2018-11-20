@@ -1,22 +1,9 @@
-/**
- * 分类
- */
 const express = require('express'),
   router = express.Router();
 
-const articleTypeMod = require('../../../modules/Article/articleType');
+const Article = require('../../../controllers/article');
+
 /* 获取文章分类 */
-router.get('/', (req, res, next) => {
-  let getArcType = () => {
-    return new Promise((resolve, reject) => {
-      articleTypeMod.findArticleType('', (err, resTypeList) => {
-        if (err) return reject(err);
-        resolve(resTypeList);
-      });
-    })
-  }
-  getArcType().then(typelist => {
-    return res.json(typelist)
-  })
-})
+router.get('/', Article.getArticleTypes);
+
 module.exports = router;

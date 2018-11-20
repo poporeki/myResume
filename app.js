@@ -14,12 +14,12 @@ moment.locale("zh-cn");
 const socket = require("./router/back/socket");
 /* https配置证书 */
 let options;
-if (os.platform() === "win32") {
+/* if (os.platform() === "win32") {
   options = {
     key: fs.readFileSync("d:/2_www.yansk.cn.key"),
     cert: fs.readFileSync("d:/1_www.yansk.cn_bundle.crt")
   };
-}
+} */
 
 if (os.platform() !== "win32") {
   options = {
@@ -79,7 +79,23 @@ app.use(
 app.use("/", require("./router"));
 /* 错误处理 */
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  if (err === -9) {
+    if (req.xhr === true) {
+      res.json({
+        status: -9,
+        msg: '未登录'
+      })
+    }
+    res.rediect('/login');
+  }
+  if (err === -1) {
+    if (req.xhr === true) {
+      res.json({
+        status: -1,
+        msg: '服务器错误'
+      })
+    }
+  }
   res.status(500).render("error");
 });
 /* 启动https服务 */

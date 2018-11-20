@@ -8,7 +8,7 @@
 const commentSchema = require("../../db/schema/article/Comments");
 const commentReplySchema = require("../../db/schema/article/CommentsReplys.js");
 
-const getIPInfoMod = require("../../modules/getClientIP");
+const getIPInfoMod = require("../../common/IPModule");
 
 module.exports = {
   /**
@@ -67,7 +67,7 @@ module.exports = {
     /* 写入数据库 */
     let insertComment = obj => {
       return new Promise((resolve, reject) => {
-         commentSchema.insertOneComment(obj, (err, result) => {
+        commentSchema.insertOneComment(obj, (err, result) => {
           if (err) return reject(err);
           resolve(result);
         });

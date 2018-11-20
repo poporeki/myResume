@@ -10,22 +10,22 @@ const {
 
 const UserSchema = require('../../db/schema/userSchema'),
   userMod = require('../../modules/User'),
-  getClientIP = require('../../modules/getClientIP');
+  getClientIP = require('../../common/IPModule');
 
 
 router.post('/', [
   check('reg_name')
-  .isString().withMessage('账号必须为字符串')
-  .isLength({
-    min: 4,
-    max: 12
-  }).withMessage('账号长度错误')
-  .matches(/^[\D]{1}([\u4e00-\u9fa5\-\w]){3,11}$/).withMessage('账号格式错误'),
+    .isString().withMessage('账号必须为字符串')
+    .isLength({
+      min: 4,
+      max: 12
+    }).withMessage('账号长度错误')
+    .matches(/^[\D]{1}([\u4e00-\u9fa5\-\w]){3,11}$/).withMessage('账号格式错误'),
   check('reg_pwd').isLength({
     min: 6,
     max: 20
   }).withMessage('密码长度错误')
-  .matches(/^\S{6,20}$/).withMessage('密码格式错误')
+    .matches(/^\S{6,20}$/).withMessage('密码格式错误')
 ], (req, res, next) => {
   const errorFormatter = ({
     location,

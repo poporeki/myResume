@@ -10,11 +10,11 @@ const formidable = require("formidable"),
 const upLoadSchema = require("../db/schema/uploadFile"),
   userSchema = require("../db/schema/userSchema");
 
-let uploadPath, pathArr;
+/* let uploadPath, pathArr;
 let nowDate, _year, _month, _day;
-let pathUrl, uploadDir;
+let pathUrl, uploadDir; */
 
-exports.upLoadIMG = function(req, uPath, cb) {
+exports.upLoadIMG = function (req, uPath, cb) {
   let form = new formidable.IncomingForm();
   uploadPath = uPath;
   pathArr = [];
@@ -49,7 +49,7 @@ exports.upLoadIMG = function(req, uPath, cb) {
         for (file in files) {
         }
         let hash = files[file].hash;
-        checkDb(hash, function(err, result) {
+        checkDb(hash, function (err, result) {
           if (err) reject(err);
           if (!result || result === null)
             return resolve({
@@ -120,7 +120,7 @@ exports.upLoadIMG = function(req, uPath, cb) {
             last_modified_date: ofileInfo.last_modified_date,
             author_id: req.session.user._id
           },
-          function(err, result) {
+          function (err, result) {
             if (err) reject(err);
             resolve(new_name);
           }
@@ -136,176 +136,166 @@ exports.upLoadIMG = function(req, uPath, cb) {
   }
 };
 
-function mk() {
+function mk(folderArr, uploadPath) {
   /* 判断目标文件夹是否存在不存在即创建 */
-  (function(idx, pathArr) {
+  let pathUrl = '';
+  (function (idx, folderArr) {
     pathUrl = path.join(process.cwd(), "/public/" + uploadPath);
-    mkdirs(idx, pathArr, pathUrl);
-  })(-1, pathArr);
-
-  function mkdirs(idx, pathArr, Dir) {
+    mkdirs(idx, folderArr, pathUrl);
+    return pathUrl;
+  })(-1, folderArr);
+  return pathUrl;
+  function mkdirs(idx, arr, Dir) {
     idx++;
-    if (idx > pathArr.length - 1) return pathUrl;
-    pathUrl = path.join(Dir + pathArr[idx] + "/");
+    if (idx > arr.length - 1) return pathUrl;
+    pathUrl = path.join(Dir + arr[idx] + "/");
     try {
       fs.mkdirSync(pathUrl);
-      mkdirs(idx, pathArr, pathUrl);
+      mkdirs(idx, arr, pathUrl);
     } catch (err) {
       if (err.code === "EEXIST") {
-        mkdirs(idx, pathArr, pathUrl);
+        mkdirs(idx, arr, pathUrl);
       }
     }
   }
 }
 /* 对比数据库已保存的图片md5 */
 function checkDb(hash, cb) {
-  upLoadSchema.find(
-    {
-      hash: hash
-    },
-    (err, result) => {
-      if (err) return;
-      if (result.length != 0) {
-        return cb(null, result[0].save_path + result[0].new_name);
-      }
-      return cb(null, null);
+  upLoadSchema.find({ hash }, (err, result) => {
+    if (err) return;
+    if (result.length != 0) {
+      return cb(null, result[0].save_path + result[0].new_name);
     }
+    return cb(null, null);
+  }
   );
 }
-exports.baseUpload = function(req, uPath, cb) {
-  uploadPath = uPath;
-  pathArr = [];
+exports.baseUpload = function (userid, dataBase, uPath, cb) {
+  let uploadPath = uPath;
+  let destinationFolder = [];
 
-  nowDate = new Date();
-  _year = nowDate.getFullYear();
-  _month = nowDate.getMonth() + 1;
-  _day = nowDate.getDate();
+  let nowDate = new Date();
+  let _year = nowDate.getFullYear();
+  let _month = nowDate.getMonth() + 1;
+  let _day = nowDate.getDate();
 
-  pathArr.push(_year, _month, _day);
-  /* 判断目标文件夹是否存在不存在即创建 */
-  mk();
-  uploadDir = pathUrl;
-  let imgBase = req.body.imgBase;
-  let base64 = imgBase.replace(/^data:image\/\w+;base64,/, ""); //去前缀 data:image/png;base64
-  let dataBuffer = new Buffer(base64, "base64"); //base64码转成buffer对象，
-  console.log("dataBuffer是否是Buffer对象：" + Buffer.isBuffer(dataBuffer));
-  let md5 = crypto.createHash("md5");
-  md5.update(dataBuffer);
-  let hash = md5.digest("hex");
-  let timestamp, new_name, dir, resPath;
-  /* 比对数据库 该文件是否存在 */
-  function comparisonDBisExist() {
+  destinationFolder.push(_year, _month, _day);
+  // 判断目标文件夹是否存在不存在即创建
+  let uploadDir = mk(destinationFolder, uploadPath);
+  let imgBase = dataBase;
+  //去前缀 data:image/png;base64
+  let base64 = imgBase.replace(/^data:image\/\w+;base64,/, "");
+  //base64码转成buffer对象
+  let dataBuffer = new Buffer(base64, "base64");
+  if (!Buffer.isBuffer(dataBuffer)) return cb('data is not buffer', null);
+  // 比对数据库 该文件是否存在
+  function isExistsToDB(buffer) {
     return new Promise((resolve, reject) => {
-      checkDb(hash, function(err, result) {
-        if (err) reject(err);
-        if (!result) {
-          resolve();
-        }
-        if (result) {
-          return cb(null, result);
-        }
+      let md5 = crypto.createHash("md5");
+      md5.update(buffer);
+      let hash = md5.digest("hex");
+      checkDb(hash, function (err, result) {
+        if (err || !result) return resolve([false, hash]);
+        resolve([true, result]);
       });
     });
   }
-  /* 保存图片为文件 */
+  // 保存图片为文件
   function saveIMGFile() {
     return new Promise((resolve, reject) => {
-      timestamp =
+      let timestamp =
         moment().format("YYYYMMDDhhmmssms") +
         Math.floor(Math.random() * 90000 + 9999); /* 时间戳 */
-      new_name = timestamp + ".jpg"; /* 重命名 */
-      dir = path.join(uploadDir, new_name);
+      let newName = timestamp + ".jpg"; /* 重命名 */
+      let savePath = path.join(uploadDir, newName);
       resPath = uploadDir.split(path.sep + "public")[1];
-      fs.writeFile(dir, dataBuffer, err => {
+      fs.writeFile(savePath, dataBuffer, err => {
         if (err) return reject(err);
-        resolve();
+        resolve({ newName, timestamp });
       });
     });
   }
-  /* 保存缩略图为文件 */
-  function saveThumbnail() {
+  // 保存缩略图为文件
+  function saveThumbnail(newName) {
     return new Promise((resolve, reject) => {
-      let thumbnail = path.join(uploadDir + "thumbnail_" + timestamp + ".jpg");
-      gm(dir)
+      let thumbnail = path.join(uploadDir + "thumbnail_" + newName);
+      gm(uploadDir + newName)
         .resize(100)
-        .write(thumbnail, function(err) {
+        .write(thumbnail, function (err) {
           if (err) {
-            reject(err);
+            resolve(false);
+          } else {
+            console.log("thumbnail saved");
+            resolve(true);
           }
-          console.log("thumbnail saved");
-          resolve();
+
         });
     });
   }
-  /* 保存文件信息到数据库 */
-  function saveIMGInfo() {
+  // 保存文件信息到数据库
+  function saveIMGInfo(newName, isThumb, hash) {
     return new Promise((resolve, reject) => {
-      var ofileInfo = {
-        position: dir,
-        file: new_name,
-        source_name: imgBase,
-        save_path: resPath,
+      let savedPath = uploadDir.split(path.sep + "public")[1];
+      let params = {
+        data_base64: imgBase,
         ext_name: ".jpg",
-        new_name: new_name,
-        hash: hash
+        new_name: newName,
+        has_thumbnail: isThumb,
+        save_path: savedPath,
+        hash: hash,
+        author_id: userid
       };
-      upLoadSchema.create(
-        {
-          source_name: ofileInfo.source_name,
-          ext_name: ofileInfo.ext_name,
-          new_name: ofileInfo.new_name,
-          save_path: ofileInfo.save_path,
-          hash: ofileInfo.hash,
-          author_id: req.session.user._id
-        },
-        function(err, result) {
-          if (err) return reject(err);
-          resolve(result._id);
-        }
+      upLoadSchema.create(params, function (err, result) {
+        if (err) return reject(err);
+        resolve([result._id, savedPath]);
+      }
       );
     });
   }
-  /* 更新用户信息-头像路径 */
+  // 更新用户信息-头像路径
   function updateUserAvatarPath(avatarID) {
     return new Promise((resolve, reject) => {
-      userSchema.update(
-        {
-          _id: req.session.user._id
-        },
+      userSchema.update({ _id: userid },
         {
           $set: {
             avatar_path: avatarID
           }
         },
         (err, result) => {
-          if (err) {
-            reject(err);
-          }
+          if (err) return reject(err);
           resolve();
         }
       );
     });
   }
-  comparisonDBisExist()
-    .then(saveIMGFile)
-    .then(saveThumbnail)
-    .then(saveIMGInfo)
-    .then(updateUserAvatarPath)
-    .then(() => {
-      return cb(null, resPath + "thumbnail_" + new_name);
-    })
-    .catch(err => {
-      return cb(err, null);
-    });
+  let fn = async () => {
+    let [isExists, result] = await isExistsToDB(dataBuffer);
+    if (isExists) {
+      return cb(null, result);
+    }
+    let { newName, timestamp } = await saveIMGFile();
+    let thumbIsSaved = await saveThumbnail(newName);
+    let [savedFileId, savedPath] = await saveIMGInfo(newName, thumbIsSaved, result);
+    await updateUserAvatarPath(savedFileId);
+    if (thumbIsSaved) {
+      return cb(null, savedPath + "thumbnail_" + newName);
+    } else {
+      return cb(null, savedPath + newName);
+    }
+
+  }
+  fn().catch(err => {
+    return cb(err, null);
+  });
 };
 // 创建所有目录
 function mkdirs(dirpath, callback) {
-  fs.stat(dirpath, function(serr) {
+  fs.stat(dirpath, function (serr) {
     if (serr) {
       callback(dirpath);
     } else {
       //尝试创建父目录，然后再创建当前目录
-      mkdirs(path.dirname(dirpath), function() {
+      mkdirs(path.dirname(dirpath), function () {
         fs.mkdir(dirpath, callback);
       });
     }

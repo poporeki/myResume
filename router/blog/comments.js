@@ -4,7 +4,7 @@ const express = require("express"),
 const moment = require("moment");
 
 const commentMod = require("../../modules/Article/articleComments");
-const getIPInfoMod = require("../../modules/getClientIP");
+const getIPInfoMod = require("../../common/IPModule");
 
 /* 获取客户端ip */
 let getIP = req => {

@@ -165,6 +165,7 @@ header.top-box {
       margin: 20px;
       padding-bottom: 50px;
       background-color: #fff;
+      color: #000;
       border-radius: 4px;
       box-shadow: 2px 2px 5px #cecece;
       overflow-y: auto;
@@ -206,6 +207,8 @@ header.top-box {
       .content-box .tab .tab-body-item.hide {
         animation: fadeOut_RL 1s forwards; }
     .content-box .tab .info-item {
+      position: relative;
+      font-size: 1rem;
       margin-bottom: 20px; }
       .content-box .tab .info-item .tit {
         color: #838383;
@@ -214,6 +217,19 @@ header.top-box {
       .content-box .tab .info-item input {
         height: 30px;
         width: 200px; }
+    .content-box .tab .info-item.username > input {
+      display: none; }
+    .content-box .tab .info-item.username .text-box > span {
+      font-size: 1.2em; }
+    .content-box .tab .info-item.username.show .text-box {
+      display: none !important; }
+    .content-box .tab .info-item.username.show input {
+      display: block !important; }
+    .content-box .tab .btn-update-username {
+      color: #8d8d8d;
+      font-size: .8em; }
+      .content-box .tab .btn-update-username:hover, .content-box .tab .btn-update-username:active {
+        color: #b6b6b6; }
     .content-box .tab .update-info-btn {
       display: inline-block;
       margin-top: 20px;

@@ -3,8 +3,10 @@ var userSchema = new mongoose.Schema({
   serial_num: Number,
   user_name: String,
   password: String,
-  tel_num: Number,
+  tel_number: Number,
+  email: String,
   reg_time: Date,
+
   avatar_path: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'upload_file'
@@ -29,11 +31,11 @@ var userSchema = new mongoose.Schema({
     ref: 'myweb_user'
   }
 }, {
-  timestamps: {
-    createdAt: 'create_time',
-    updatedAt: 'update_time'
-  }
-});
+    timestamps: {
+      createdAt: 'create_time',
+      updatedAt: 'update_time'
+    }
+  });
 
 userSchema.statics.findUserById = function (id, cb) {
   return this.findById(id).populate([{
@@ -71,19 +73,19 @@ userSchema.statics.updateUserPassword = function (pars, cb) {
     user_name: pars.name,
     password: pars.pwd
   }, {
-    $set: {
-      password: pars.newPwd
-    }
-  }, cb);
+      $set: {
+        password: pars.newPwd
+      }
+    }, cb);
 }
 userSchema.statics.pushLoginTime = function (pars, cb) {
   return this.update({
     user_name: pars.name
   }, {
-    $push: {
-      login_time: pars.time
-    }
-  }, cb);
+      $push: {
+        login_time: pars.time
+      }
+    }, cb);
 }
 
 var User = mongoose.model('myweb_user', userSchema);

@@ -167,6 +167,7 @@ header.top-box {
       margin: 20px;
       padding-bottom: 50px;
       background-color: #fff;
+      color: #000;
       border-radius: 4px;
       box-shadow: 2px 2px 5px rgb(206, 206, 206);
       overflow-y: auto;
@@ -219,6 +220,8 @@ header.top-box {
       }
     }
     .info-item {
+      position: relative;
+      font-size: 1rem;
       margin-bottom: 20px;
       .tit {
         color: rgb(131, 131, 131);
@@ -228,6 +231,33 @@ header.top-box {
       input {
         height: 30px;
         width: 200px;
+      }
+    }
+    .info-item.username{
+      
+      >input{
+        display: none;
+      }
+      .text-box{
+        >span{
+          font-size: 1.2em;
+        }
+      }
+      &.show{
+        .text-box{
+          display: none !important;
+        }
+        input{
+          display: block !important;
+        }
+      }
+    }
+    
+    .btn-update-username{
+      color: #8d8d8d;
+      font-size: .8em;
+      &:hover,&:active{
+        color: #b6b6b6;
       }
     }
     .update-info-btn {

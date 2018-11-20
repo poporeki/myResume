@@ -4,22 +4,8 @@
 const express = require('express'),
   router = express.Router();
 
-const getIP = require('../../../modules/getIP');
-const weatherMod = require('../../../modules/weather');
+const weather = require('../../../controllers/weather.js')
 
-router.get('/gettheday', (req, res, next) => {
-  let geolo = {};
-  if (req.query.geolocation && req.query.geolocation !== '' && req.query.geolocation !== 'false') {
-    var g = "" + req.query.geolocation;
-    geolo.geolocation = g;
-  } else {
-    let ip = getIP(req);
-    geolo.ip = ip;
-  }
-
-  weatherMod.getWeather(geolo, (err, result) => {
-    return res.json(result);
-  })
-})
+router.get('/gettheday', weather.getTheDay);
 
 module.exports = router;

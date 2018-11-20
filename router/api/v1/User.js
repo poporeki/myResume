@@ -8,28 +8,17 @@ const {
 const uploadIMGMod = require('../../../modules/uploadIMG'),
   userMod = require('../../../modules/User');
 
-router.use('/', (req, res, next) => {
-  if (!req.session.user) {
-    return res.redirect('/login');
-  }
-  next();
-})
+const User = require('../../../controllers/user.js');
 
-router.post('/uploadAvatar', (req, res, next) => {
-  uploadIMGMod.baseUpload(req, '/images/upload/userAvatar/', (err, result) => {
-    if (err) return next(err);
-    res.json({
-      status: true,
-      data: {
-        src: result
-      }
-    });
-  })
-});
+const Article = require('../../../controllers/user');
+
+router.use('/', Article.isLogin);
+
+router.post('/uploadAvatar', Article.updateAvatar);
 router.post('/changeUserPassword', [
-    check('new_password').isString()
+  check('new_password').isString()
     .matches(/^\S{6,20}$/).withMessage('密码格式错误，请重新输入')
-  ],
+],
   (req, res, next) => {
     const errorFormatter = ({
       msg
@@ -59,4 +48,6 @@ router.post('/changeUserPassword', [
       })
     })
   })
+
+router.post('/updateAccountInfo', User.updateInfo);
 module.exports = router;

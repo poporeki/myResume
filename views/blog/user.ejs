@@ -28,17 +28,26 @@
         <ul>
           <li class="tab-body-item">
             <ul class="info-list">
-              <li class="info-item">
+              <li class="info-item username">
                 <p class="tit">账号</p>
-                <input type="text" disabled="disabled">
-              </li>
+                <div class="text-box">
+                  
+                  <span><%=username%></span>
+                  <a href="javascript:void(0);" class="btn-update-username">
+                    <i class="iconfont icon-info"></i>
+                    修改
+                  </a>
+                </div>
+                <input type="text" placeholder="<%=username%>" class="input-text-username" id="text_username">
+                <div class="box-tips"></div>
+                </li>
               <li class="info-item">
-                <p class="tit">昵称</p>
-                <input type="text">
+                <p class="tit">Email</p>
+                <input type="text" id="text_email" placeholder="<%=email%>">
               </li>
               <li class="info-item">
                 <p class="tit">手机号</p>
-                <input type="text">
+                <input type="text" id="text_telnumber" placeholder="<%=telnumber%>">
               </li>
               
             </ul>
