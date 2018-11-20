@@ -86,7 +86,8 @@ app.use((err, req, res, next) => {
         msg: '未登录'
       })
     }
-    res.rediect('/login');
+    res.redirect('/login');
+    res.re
   }
   if (err === -1) {
     if (req.xhr === true) {
