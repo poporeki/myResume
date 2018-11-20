@@ -87,17 +87,17 @@ app.use((err, req, res, next) => {
       })
     }
     res.redirect('/login');
-    res.re
-  }
-  if (err === -1) {
-    if (req.xhr === true) {
-      res.json({
-        status: -1,
-        msg: '服务器错误'
-      })
+  } else
+    if (err === -1) {
+      if (req.xhr === true) {
+        res.json({
+          status: -1,
+          msg: '服务器错误'
+        })
+      }
+    } else {
+      res.status(500).render("error");
     }
-  }
-  res.status(500).render("error");
 });
 /* 启动https服务 */
 // var server = https.createServer(options, app).listen(PORT, () => {
