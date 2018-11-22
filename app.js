@@ -81,7 +81,7 @@ app.use("/", require("./router"));
 app.use((err, req, res, next) => {
   if (err === -9) {
     if (req.xhr === true) {
-      res.json({
+      return res.json({
         status: -9,
         msg: '未登录'
       })
@@ -90,7 +90,7 @@ app.use((err, req, res, next) => {
   } else
     if (err === -1) {
       if (req.xhr === true) {
-        res.json({
+        return res.json({
           status: -1,
           msg: '服务器错误'
         })
