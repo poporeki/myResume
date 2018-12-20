@@ -97,6 +97,13 @@ aside.l-aside {
         aside.l-aside .navbar li a:hover:after {
           height: 4px; }
 
+@media (max-width: 768px) {
+  aside.l-aside .navbar {
+    margin-top: 0; }
+  aside.l-aside .sidebar-btn {
+    top: auto;
+    bottom: 10%; } }
+
 aside.r-aside {
   display: block;
   position: fixed;

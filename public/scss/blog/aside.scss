@@ -1,3 +1,4 @@
+
 aside.l-aside {
   position: fixed;
   height: 100%;
@@ -114,6 +115,18 @@ aside.l-aside {
           }
         }
       }
+    }
+  }
+}
+
+@media (max-width:768px){
+  aside.l-aside{
+    .navbar{
+      margin-top: 0;
+    }
+    .sidebar-btn{
+      top: auto;
+      bottom: 10%;
     }
   }
 }

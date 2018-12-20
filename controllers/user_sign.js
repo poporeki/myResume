@@ -109,13 +109,13 @@ exports.signIn = (req, res, next) => {
     if (err === 0) {
       return res.json({
         status: 0,
-        msg: '服务器错误'
+        msg: '账号或密码错误'
       })
     }
     if (err === -1) {
       return res.json({
         status: -1,
-        msg: '账号或密码错误'
+        msg: '服务器错误'
       })
     }
     return res.json({
@@ -151,7 +151,7 @@ exports.signUp = (req, res, next) => {
       upermissions: 'normal',
       udate: moment().format(),
       userAgent: req.headers['user-agent'],
-      ipinfo: clientIp
+      ipInfo: clientIp
     }
     await createUser(pars);
     return res.json({

@@ -20,7 +20,7 @@ $(function () {
     page += 1;
     cs['page'] = page;
     cs['num'] = 10;
-    var jsonCS = JSON.stringify(cs);
+    var jsonCS = cs;
     requestAjax({
       el: $artList,
       url: '/api/v1/articlelist/getlist',
@@ -30,9 +30,9 @@ $(function () {
       aniEle: 'loading-ani-articlelist'
     }, function (result) {
       SEND = false;
-      if (result.status) {
+      if (result.status === 1) {
         var html = '';
-        var con = result.data;
+        var con = result.data.arclist;
         for (var i = 0; i < con.length; i++) {
           var conn = con[i],
             title = conn.title,

@@ -42,6 +42,7 @@ router.use('/verify', require('./verify'));
 router.use('/backend', require('./back'));
 router.use('/blog', require('./blog'));
 router.get('/logout', (req, res) => {
+  if (!req.session.user) return res.redirect('/');
   req.session.destroy();
   res.json({
     status: true

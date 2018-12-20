@@ -305,7 +305,8 @@ section.classify {
   .sec-wrapper {
     flex-direction: column; }
   .weather {
-    align-self: center; } }
+    align-self: center;
+    width: 100% !important; } }
 
 .sec-wrapper {
   display: flex;
@@ -563,7 +564,7 @@ section.classify {
       padding: 10px 20px;
       transition: transform .2s ease-out;
       transform: scale(1);
-      color: transparent; }
+      color: rgba(0, 0, 0, 0); }
       .right-item .articletag-list .tag-lk .lk-inner {
         position: absolute;
         left: 0;

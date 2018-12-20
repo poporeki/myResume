@@ -125,7 +125,7 @@ module.exports = {
     };
     let fn = async () => {
       let userIsExists = await this.userIsExists(uname);
-      if (!userIsExists) return cb(null, 1, '用户名已存在');
+      if (userIsExists) return cb(null, 1, '用户名已存在');
       let pwd = crypto.createHash("md5").update(upwd).digest("hex");
       var pars = {
         serial_num: 1,

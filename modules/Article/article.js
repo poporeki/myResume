@@ -30,7 +30,11 @@ module.exports = {
       if (err) return;
     });
   },
-  /*查找文章列表*/
+  /**
+   *查找文章列表
+   * @param {Object} param0 单页数量，页数，排序，by，是否Root
+   * @param {function} cb 回调
+   */
   showArticleList: function ({ limit, page, sort, by, isRoot }, cb) {
     by = by || {};
     !by["is_delete"] ? (by["is_delete"] = false) : "";
@@ -43,16 +47,17 @@ module.exports = {
     sort = sort || {
       create_time: 1
     };
-    let skip = page ? (page - 1) * limit : 0; /* 跳过数量*/
+    // 跳过数量
+    let skip = page ? (page - 1) * limit : 0;
     let typeName = "";
 
-    var pars = {
+    let pars = {
       by,
       limit,
       skip,
       sort
     };
-    /* 获取分类名 */
+    // 获取分类名
     let getTypeName = () => {
       return new Promise((resolve, reject) => {
         articleType.findById(by.type_id, (err, result) => {
@@ -64,7 +69,7 @@ module.exports = {
         });
       });
     };
-    /* 获取文章列表 */
+    // 获取文章列表
     let getArcList = () => {
       return new Promise((resolve, reject) => {
         articles.findArticle(pars, function (err, result) {
@@ -73,7 +78,7 @@ module.exports = {
         });
       });
     };
-    /* 格式化 */
+    // 格式化
     let formatList = list => {
       return new Promise(resolve => {
         let arcArr = [];
@@ -117,7 +122,10 @@ module.exports = {
       })
       .catch(err => cb(err, null));
   },
-  /* 获取所有文章分类 */
+  /**
+   * 获取所有文章分类
+   * @param {function} cb 回调
+   */
   findArticleTypeInfo: function (cb) {
     articles
       .aggregate([
@@ -145,7 +153,10 @@ module.exports = {
       ])
       .exec(cb);
   },
-  /* 获取所有tag标签信息 */
+  /**
+   * 获取所有tag标签信息
+   * @param {function} cb 回调函数
+   */
   findArticleTagsInfo: function (cb) {
     articles
       .aggregate([
@@ -195,11 +206,19 @@ module.exports = {
       ])
       .exec(cb);
   },
-  /* 根据id查找文章 */
+  /**
+   * 查找文章信息
+   * @param {ObjectId} artid 文章id 
+   * @param {funciton} cb 回调函数
+   */
   showOneArticle: function (artid, cb) {
     return articles.findOneArticle(artid || {}, cb);
   },
-  /* 文章阅读数量数+1 */
+  /**
+   * 文章阅读数量增加
+   * @param {ObjectId} artid 文章id
+   * @param {function} cb 回调函数
+   */
   addReadNum: function (artid, cb) {
     return commentSchema.incReadNum(artid, cb);
   },
@@ -232,14 +251,22 @@ module.exports = {
       }
     }, cb);
   },
-  /* 删除文章到回收站 */
-  moveToTrash: function (artid, cb) {
+  /**
+   * 删除文章到回收站
+   * @param {ObjectId} artid 文章id
+   * @param {Function} cb 回调函数
+   */
+  moveToTrash: (artid, cb) => {
     return articles.update({ _id: artid }, {
       $set: { is_delete: true }
     }, cb);
   },
-  /* 恢复回收站的文章 */
-  recoveryArticle: function (arcid, cb) {
+  /**
+   * 恢复回收站的文章
+   * @param {ObjectId} arcid 文章id
+   * @param {Function} cb 回调函数
+   */
+  recoveryArticle: (arcid, cb) => {
     return articles.update({ _id: arcid }, {
       $set: { is_delete: false }
     }, cb);

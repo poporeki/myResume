@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,26 +11,31 @@
   <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
   <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <script>
-      (adsbygoogle = window.adsbygoogle || []).push({
-            google_ad_client: "ca-pub-1406478853190180",
-            enable_page_level_ads: true
-      });
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-1406478853190180",
+      enable_page_level_ads: true
+    });
   </script>
   <title>YANSK'S BLOG</title>
 </head>
+
 <body>
   <header>
     <div class="top-box">
-      <%if(typeof USER==undefined||USER==null){%>
-      <div class="box top-box"><a href="/login">登录</a>
+      <div class="box-inner">
+        <%if(typeof USER==undefined||USER==null){%>
+        <div class="box top-box"><a href="/login">登录</a>
+        </div>
+        <div class="box top-box"><a href="/reg">注册</a>
+        </div>
+        <%}else{%>
+        <div class="box bottom-box">
+          <a href="/logout">
+            <p>退出登录</p>
+          </a>
+        </div>
+        <%}%>
       </div>
-      <div class="box top-box"><a href="/reg">注册</a>
-      </div>
-      <%}else{%>
-      <div class="box bottom-box">
-      <a href="/logout"><p>退出登录</p></a>
-      </div>
-      <%}%>
     </div>
     <nav>
       <ul class="navbar">

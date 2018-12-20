@@ -57,7 +57,7 @@ app.use(express.static(path.join(__dirname, "./public")));
 app.use("v", express.static(path.join(__dirname, "./dist")));
 //设置跨域访问
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://192.168.199.209:8080");
+  res.header("Access-Control-Allow-Origin", "http://192.168.199.147:8081");
   res.header("Access-Control-Allow-Headers", "Content-Type");
   res.header("Access-Control-Allow-Credentials", "true"); //和客户端对应，必须设置以后，才能接收cookie.
 
@@ -104,7 +104,7 @@ app.use((err, req, res, next) => {
 //   console.log('HTTPS server is running!');
 // });
 var server = app.listen(PORT, () => {
-  console.log("HTTP server is running!");
+  console.log(`HTTP server is running! PORT:${PORT}`);
 });
 /* 启动websocket服务 */
 socket.prepareSocketIO(server);

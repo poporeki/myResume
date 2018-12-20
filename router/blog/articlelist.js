@@ -4,6 +4,8 @@ var moment = require('moment');
 
 var articleMod = require('../../modules/Article/article'); /* 文章model */
 
+const Article = require('../../controllers/article');
+
 /* 获取文章列表 */
 let getArticleList = (request) => {
   return new Promise((resolve, reject) => {
@@ -35,22 +37,7 @@ let getArticleList = (request) => {
 }
 
 
-router.get('/', function (req, res) {
-  req.query.by ? req.query.by['is_delete'] = false : req.query['by'] = {
-    'is_delete': false
-  }
-  getArticleList(req).then(({
-    arclist,
-    typename
-  }) => {
-    res.render('blog/articlelist', {
-      artList: arclist,
-      typename: typename
-    })
-  }).catch(err => {
-    next(err);
-  })
-})
+router.get('/', Article.getArticleListSSR);
 
 /* post请求 文章列表 */
 router.post('/', function (req, res) {

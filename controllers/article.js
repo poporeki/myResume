@@ -252,6 +252,35 @@ exports.getArticleList = (req, res) => {
     'create_time': -1
   };
   let params = { by, limit, page, sort };
+  /* 获取文章列表 */
+  let getArticleList = (request) => {
+    return new Promise((resolve, reject) => {
+      articleMod.showArticleList(request, (err, result) => {
+        if (err) return reject(err);
+        if (result === undefined) return reject(-1);
+        let arclist = result.arcList;
+        if (arclist.length == 0) return reject(0);
+        let resListArr = arclist.map(arc => {
+          return {
+            /* 文章id */
+            artid: arc.id,
+            /* 文章标题 */
+            title: arc.title,
+            /* 文章html */
+            source: arc.source,
+            /* 文章创建时间 */
+            create_time: arc.time_create
+          }
+        })
+        resolve({
+          /*分类 */
+          typename: result.typename,
+          /* 文章列表 */
+          arclist: resListArr
+        });
+      })
+    })
+  }
   let fn = async () => {
     let arclist = await getArticleList(params);
     res.json({
@@ -273,6 +302,65 @@ exports.getArticleList = (req, res) => {
       obj['msg'] = '服务器错误'
     }
     return res.json(obj);
+  })
+}
+/* 获取文章列表 */
+exports.getArticleListSSR = (req, res, next) => {
+  let by = req.query.by || {};
+  if (typeof by === 'string') {
+    typeof by === 'string' && by ? by = JSON.parse(by) : by = {};
+  }
+  // 查找数量默认10
+  let limit = parseInt(req.query.num) || 10;
+  // 当前页数
+  let page = parseInt(req.query.page);
+  // 排序 -默认创建时间倒叙
+  let sort = req.query.sort || {
+    'create_time': -1
+  };
+  let params = { by, limit, page, sort };
+  /* 获取文章列表 */
+  let getArticleList = (request) => {
+    return new Promise((resolve, reject) => {
+      articleMod.showArticleList(request, (err, result) => {
+        if (err) return reject(err);
+        if (result === undefined) return reject(-1);
+        let arclist = result.arcList;
+        if (arclist.length == 0) return reject(0);
+        let resListArr = arclist.map(arc => {
+          return {
+            /* 文章id */
+            artid: arc.id,
+            /* 文章标题 */
+            title: arc.title,
+            /* 文章html */
+            source: arc.source,
+            /* 文章创建时间 */
+            create_time: arc.time_create
+          }
+        })
+        resolve({
+          /*分类 */
+          typename: result.typename,
+          /* 文章列表 */
+          arclist: resListArr
+        });
+      })
+    })
+  }
+  let fn = async () => {
+    let { arclist, typename } = await getArticleList(params);
+    res.render('blog/articlelist', {
+      artList: arclist,
+      typename: typename
+    })
+  }
+  fn().catch(err => {
+    if (err === 0) {
+      next(404);
+    } else if (err === -1) {
+      next(err);
+    }
   })
 }
 /* 获取文章标签列表 */

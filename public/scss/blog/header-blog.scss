@@ -67,15 +67,14 @@ li {
 
 @media(max-width:768px) {
   header {
-    height: 100px;
+    
 
     nav {
-      padding: 50px 0 20px !important;
+      margin: 50px 0 20px !important;
       flex-direction: column-reverse !important;
 
       .rt {
         align-self: flex-end !important;
-        margin-bottom: 50px;
         width: 100% !important;
 
         .s-wrap {
@@ -108,24 +107,26 @@ header {
 }
 
 header {
+  display: flex;
+  flex-direction: column;
   position: relative;
   max-height: 300px;
 
   .top-box {
-    position: absolute;
-    right: 5px;
-    top: 5px;
+    position: relative;
     display: flex;
+    padding: 5px;
     flex-direction: row;
-
+    justify-content: flex-end;
+    .box-inner{
+      display: flex;
+      flex-direction: row;
+    }
     .box {
       position: relative;
       width: 50px;
       height: 20px;
-      right: 5px;
-      margin-bottom: 5px;
-      margin-left: 5px; // background-color: rgba(0, 0, 0, 0.712);
-
+      box-sizing: border-box;
       &:nth-child(even) {
         >a {
           border-left: 1px solid rgb(139, 139, 139);
@@ -157,16 +158,17 @@ header {
   nav {
     display: flex;
     flex-direction: row;
-    padding: 100px 0;
+    margin: 100px 0;
     justify-content: space-between;
-
+    
     ul.navbar {
       display: flex;
       flex-direction: row;
       align-items: center;
       align-content: center;
-
+border-radius: 2px;
       li {
+        perspective: 1900px;
         a {
           position: relative;
           display: flex;
@@ -177,7 +179,7 @@ header {
           padding: 15px 20px;
           margin: 0 10px;
           box-sizing: border-box;
-          transition: color .3s ease;
+          transition: color .3s ease,all .5s ease;
           overflow: hidden;
           color: #fff;
 
@@ -212,7 +214,7 @@ header {
         &:hover {
           >a {
             color: $color-bg;
-
+            transform: scale(1.1) rotateY(15deg);
             &:after,
             &:before {
               transform: translate(0);

@@ -142,7 +142,12 @@ $(function () {
           email: $inputEmail.val() !== '' ? $inputEmail.val() : undefined
         }
       }, function (result) {
-        console.log(result);
+        if (result.status === 1) {
+          window.location.href = window.location.href;
+        }
+        else {
+          alert('修改失败')
+        }
       })
     })
 
