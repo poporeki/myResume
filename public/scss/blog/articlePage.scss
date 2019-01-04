@@ -56,6 +56,9 @@ pre {
 }
 
 .article-body {
+  blockquote{
+    margin: 0;
+  }
   p {
     img {
       max-width: 100%;

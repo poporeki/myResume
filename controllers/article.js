@@ -313,7 +313,7 @@ exports.getArticleListSSR = (req, res, next) => {
   // 查找数量默认10
   let limit = parseInt(req.query.num) || 10;
   // 当前页数
-  let page = parseInt(req.query.page);
+  let page = parseInt(req.query.page) || 1;
   // 排序 -默认创建时间倒叙
   let sort = req.query.sort || {
     'create_time': -1
@@ -469,3 +469,5 @@ exports.getArticleListOfKeywords = (req, res, next) => {
   })
 
 }
+
+exports.backend = require('./backend/article');

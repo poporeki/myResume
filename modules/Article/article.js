@@ -100,7 +100,8 @@ module.exports = {
             },
             likes: arc.like_this ? arc.like_this.length : 0,
             tags: arc.tags_id,
-            time_create: moment(arc.create_time).fromNow()
+            time_create: moment(arc.create_time).fromNow(),
+            time_update: moment(arc.update_time).fromNow()
           };
           //TODO 最后记录时间
           /* if (isAdmin) {

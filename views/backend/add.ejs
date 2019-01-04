@@ -1,4 +1,11 @@
-<% include common %>
+<% layout('./backend/common') -%>
+
+<% block('css').append(`
+<link rel="stylesheet" href="https://cdn.bootcss.com/select2/4.0.0/css/select2.min.css">
+`) %>
+<% block('js').append(`
+<script src="/lib/parsleyjs/parsley.js"></script>
+`) %>
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5 mg-t-10 mg-sm-t-0">添加<%=pageTitle%></h4>
     <p class="mg-b-0">填写内容不能为空.</p>
@@ -18,5 +25,3 @@
       </form>
     </div>
   </div>
-<% include footer %>
-<script src="/lib/parsleyjs/parsley.js"></script>

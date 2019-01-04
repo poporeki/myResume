@@ -9,7 +9,7 @@ function rand(min, max) {
 function makeCapcha(num) {
     var result = {};
     var img = new BMP24(100, 40);
-    img.fillRect(0, 0, 100, 40, 0xc3c3c3);
+    img.fillRect(0, 0, 100, 40, 0x555555);
     img.drawCircle(rand(0, 100), rand(0, 40), rand(10, 40), rand(0, 0xffffff));
     //边框
     img.drawPoint(rand(0, 100), rand(0, 40), rand(0, 0xffffff));

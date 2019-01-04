@@ -16,18 +16,8 @@
     <link href="/lib/jquery-switchbutton/jquery.switchButton.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/chartist/0.11.0/chartist.min.css" rel="stylesheet">
     <link href="/css/back/index.css" rel="stylesheet"></link>
-    <%if(typeof importStyle!=='undefined'){%>
-      <%for(var i in importStyle){%>
-      <%var lk=importStyle[i];%>
-      <%if(lk instanceof Array){%>
-        <%for(var j=0;j<lk.length;j++){%>
-          <link href="https://cdn.bootcss.com/<%=lk[j]%>" rel="stylesheet">
-        <%}%>
-      <%}else{%>
-        <link href="<%=lk%>" rel="stylesheet">
-      <%}%>
-      <%}%>
-    <%}%>
+    <%- block('css').toString() %>
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="/css/back/bracket.css">
   </head>
+  <body>

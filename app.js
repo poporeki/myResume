@@ -50,6 +50,7 @@ app.use(useragent.express());
 var PORT = 3000;
 /* 模板引擎 ejs */
 app.set("view engine", "ejs");
+app.engine('ejs', require('ejs-mate'));
 /* views 路径配置 */
 app.set("views", path.join(__dirname, "./views"));
 /* 静态文件路径配置 */
@@ -79,6 +80,10 @@ app.use(
 app.use("/", require("./router"));
 /* 错误处理 */
 app.use((err, req, res, next) => {
+  console.log(err);
+  if (res.headersSent) {
+    return next(err);
+  }
   if (err === -9) {
     if (req.xhr === true) {
       return res.json({
@@ -96,7 +101,11 @@ app.use((err, req, res, next) => {
         })
       }
     } else {
-      res.status(500).render("error");
+      if (res.headersSent) {
+        return next(err);
+      }
+      res.status(500);
+      res.render('error', { error: err });
     }
 });
 /* 启动https服务 */

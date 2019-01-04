@@ -1,8 +1,8 @@
-<%- include('header_blog') -%>
-
-  <link rel="stylesheet" href="/css/blog/index.css">
+<% layout('./blog/LAYER') -%>
+  <% block('css').append(`<link rel="stylesheet" href="/css/blog/index.css">
   <link rel="stylesheet" href="/css/blog/iconfont_blog_index.css">
-  <link rel="stylesheet" href="/weather/css/style.css">
+  <link rel="stylesheet" href="/weather/css/style.css">`) %>
+  
   <div class="wrapper">
     <div class="hot-box">
       <div class="lt">
@@ -150,8 +150,5 @@
         
       </div>
     </section>
-<%- include('footer_blog') -%>
-<script src="/js/blog/index.js"></script>
-<script>
-
-</script>
+  </div>
+  <% block('js').append(`<script src="/js/blog/index.js"></script>`) %>

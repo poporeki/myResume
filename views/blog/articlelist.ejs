@@ -1,39 +1,30 @@
-<%-include('header_blog')-%>
-  <link rel="stylesheet" href="/css/blog/articlelist.css">
-  <div class="wrapper">
+<% layout('./blog/LAYER') -%>
+  <% block('css').append(`<link rel="stylesheet" href="/css/blog/articlelist.css">`) %>
+  
+<div class="wrapper">
   <div class="title">
-
-  <h2 class="list-tit">
-    <%=typename%>
-    <small>文章列表<small>
-  </h2>
+    <h2 class="list-tit">
+      <%=typename%>
+      <small>文章列表<small>
+    </h2>
   </div>
-    <ul class="article-list">
-    <%if(artList.length===0){%>
-      <li>没有相关内容</li>
-    <%}else{%>
-      <%for(var i=0;i<artList.length;i++){%>
-        <li class="article-list-item">
-          <a href= <%="/blog/article/" + artList[i].artid %>>
-            <div class="lt">
-              <div class="top">
-                <div class="title">
-                  <h4>
-                    <%=artList[i].title %>
-                  </h4>
-                </div>
-                <div class="time">
-                  <%=artList[i].create_time%>
-                </div>
-              </div>
-              <div class="thumbnail">
-                <%=artList[i].source%>
-              </div>
+  <ul class="article-list">
+  <%if(artList.length===0){%>
+    <li>没有相关内容</li>
+  <%}else{%>
+    <%for(var i=0;i<artList.length;i++){%>
+      <li class="article-list-item">
+        <a href= "/blog/article/<%=artList[i].artid %>">
+          <div class="lt">
+            <div class="top">
+              <div class="title"> <h4><%=artList[i].title %></h4></div>
+              <div class="time"><%=artList[i].create_time %></div>
             </div>
-          </a>
-        </li>
-      <%}}%>
-    </ul>
-  </div>
-<%-include('footer_blog')-%>
-<script src="/js/blog/articlelist.js"></script>
+            <div class="thumbnail"><%=artList[i].source %></div>
+          </div>
+        </a>
+      </li>
+    <%}}%>
+  </ul>
+</div>
+  <% block('js').append(`<script src="/js/blog/articlelist.js"></script>`) %>

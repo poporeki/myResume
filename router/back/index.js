@@ -8,19 +8,25 @@ var osMod = require('../../common/os');
 var childProcess = require('../../common/child_process');
 /* 权限判断 */
 router.use('/', (req, res, next) => {
-  if (!req.session.user) {
-    res.redirect('/login');
-    return;
+  if (!req.session.user) return next(-9);
+  if (req.session.user && req.session.user.permissions === 'admin' || req.session.user.permissions === 'root') {
+    next();
+
+  } else {
+    if (!req.xhr) {
+      res.redirect('/blog');
+    } else {
+      res.send({
+        status: -5,
+        redirection: '/blog'
+      })
+    }
   }
-  if ((req.session.user.permissions != 'admin') || !req.session.user.username) {
-    res.redirect('/blog');
-  }
-  next();
 })
 
 
 /* 后台主页 */
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
   let nowUser = req.session.user ? req.session.user.username : 'test';
   let importStyle = {
     cdn: [
@@ -35,67 +41,63 @@ router.get('/', (req, res) => {
     '/js/back/ResizeSensor.js',
     '/js/back/dashboard.js'
   ];
-  const renderObj = {
-    pageTitle: '首页',
-    userName: req.session.user.username,
-    importStyle,
-    importScript
-  }
+
   /* 获取最后一次登陆信息 */
-  function getLastLoginInfo() {
-    return new Promise(function (resolve, reject) {
-      userMod.getLastLoginInfo(req.session.user._id, function (err, result) {
-        if (err) {
-          return next(err);
-          reject(err);
-        }
-        renderObj['lastLoginInfo'] = result;
+  function getLastLoginInfo(userId) {
+    return new Promise((resolve, reject) => {
+      userMod.getLastLoginInfo(userId, (err, result) => {
+        if (err) return reject(err);
         resolve(result);
       })
     })
   }
   /* 获取当日访问人数 */
   function getVistorTotal() {
-    return new Promise(function (resolve, reject) {
-      Tourists.getVistorTotal('day', function (err, result) {
-        if (err) {
-          return next(err);
-          reject(err);
-        }
-        renderObj['vistorNum'] = result;
+    return new Promise((resolve, reject) => {
+      Tourists.getVistorTotal('day', (err, result) => {
+        if (err) return reject(err);
         resolve(result);
       });
     });
   }
   /* 获取磁盘使用率 */
   function getDiskUsage() {
-    return new Promise(function (resolve, reject) {
-      childProcess.diskUsage(function (result) {
-        renderObj['diskUsage'] = result;
+    return new Promise((resolve, reject) => {
+      childProcess.diskUsage((result) => {
         resolve(result);
       });
     })
   }
   /* 获取最后3篇文章信息 */
   function getArticleTitle() {
-    return new Promise(function (resolve, reject) {
-      arcMod.getArticleTitle(3, function (err, result) {
-        if (err) {
-          next(err);
-          reject(err);
-        }
-        renderObj['arclist'] = result;
+    return new Promise((resolve, reject) => {
+      arcMod.getArticleTitle(3, (err, result) => {
+        if (err) return reject(err);
         resolve(result);
       });
     })
   }
-  getLastLoginInfo()
-    .then(getVistorTotal)
-    .then(getDiskUsage)
-    .then(getArticleTitle)
-    .then(function () {
-      res.render('./backend/index', renderObj);
-    });
+
+  let fn = async () => {
+    const renderObj = {
+      pageTitle: '首页',
+      userName: req.session.user.username
+    }
+    let userId = req.session.user._id;
+    let lastLogInfo = await getLastLoginInfo(userId)
+    let vistorTotal = await getVistorTotal();
+    let diskUsage = await getDiskUsage();
+    let arcTitle = await getArticleTitle();
+    renderObj['lastLoginInfo'] = lastLogInfo;
+    renderObj['vistorNum'] = vistorTotal;
+    renderObj['diskUsage'] = diskUsage;
+    renderObj['arclist'] = arcTitle;
+    res.render('./backend/index', renderObj);
+  }
+  fn().catch(err => {
+    next(err);
+  })
+
 
 })
 /*get  获取浏览人数 */

@@ -1,5 +1,16 @@
-<%- include('common') -%>
-<link rel="stylesheet" href="/css/back/articlelist.css">
+<% layout('./backend/common') -%>
+<% block('css').append(`
+<link rel="<link rel="stylesheet" href="/css/back/articlelist.css">
+`) %>
+<%if(isTrash){%>
+  <% block('js').append(`
+  <script src="/js/back/articleTrash.js"></script>
+  `) %>
+<%}else{%>
+  <% block('js').append(`
+  <script src="/js/back/articlelist.js"></script>
+  `) %>
+<%}%>
 <div class="br-pageheader pd-y-15 pd-l-20">
   <nav class="breadcrumb pd-0 mg-0 tx-12">
     <a class="breadcrumb-item" href="/backend">首页</a>
@@ -54,4 +65,3 @@
   </div>
   <!-- /.modal -->
 </div>
-  <%- include('footer') -%>

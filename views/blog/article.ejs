@@ -1,6 +1,7 @@
-<%- include('header_blog') -%>
-  <link rel="stylesheet" href="/css/blog/articlePage.css">
-  <link href="https://cdn.bootcss.com/highlight.js/9.13.1/styles/atom-one-dark.min.css" rel="stylesheet">
+<% layout('./blog/LAYER') -%>
+  <% block('css').append(`<link rel="stylesheet" href="/css/blog/articlePage.css">
+  <link href="https://cdn.bootcss.com/highlight.js/9.13.1/styles/atom-one-dark.min.css" rel="stylesheet">`) %>
+  
     <section class="article-wrapper">
       <div class="bread">
         <ol class="breadcrumb">
@@ -194,8 +195,7 @@
     </section>
 
     <section class="right-block"></section>
-
-    <%- include('footer_blog') -%>
-    <script src="https://cdn.bootcss.com/highlight.js/9.13.1/highlight.min.js"></script>
+  <% block('js').append(`<script src="https://cdn.bootcss.com/highlight.js/9.13.1/highlight.min.js"></script>
       <script src="/js/blog/article.js"></script>
-      <script>hljs.initHighlightingOnLoad();</script>
+      <script>hljs.initHighlightingOnLoad();</script>`) %>
+    

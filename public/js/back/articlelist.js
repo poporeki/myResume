@@ -15,7 +15,7 @@ $(function () {
 					typename = info.type.name,
 					read = info.read,
 					time_create = info.time_create,
-					time_lastchange = info.time_lastchange;
+					time_lastchange = info.time_update;
 
 				artCon +=
 					'<tr>' +

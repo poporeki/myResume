@@ -81,6 +81,9 @@ pre {
   box-sizing: border-box;
   overflow-x: auto; }
 
+.article-body blockquote {
+  margin: 0; }
+
 .article-body p {
   word-break: break-all; }
   .article-body p img {

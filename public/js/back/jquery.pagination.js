@@ -27,20 +27,33 @@
     init: function () {
       this.page = 1; /* 当前页数 */
       this.limit = this.options.limit; /* 显示数量 */
-      this.pageReg = /(page-)+(\d+)/; /* 验证页数 */ ;
+      this.pageReg = /(page-)+(\d+)/; /* 验证页数 */;
       this.btnNum = this.options.btnNum; /* 按钮数量 */
+      this.delDataURL = this.options.delDataURL;
       this.data = {}; /* 请求数据 */
       this.readHistory();
       this.getNewDatas(); /* 更新数据 */
-      this.delDataURL === null || this.delDataURL === '' ? '' : this.addEvent();
+      this.delDataURL === null || this.delDataURL === '' ? '' : this.delDataFn();
+      this.addEvent();
     },
     /* 获取浏览历史 通过sessionStorage*/
     readHistory: function () {
       if (!window.sessionStorage || !sessionStorage['pageInfo']) return;
       var pageInfo = JSON.parse(sessionStorage['pageInfo']);
-      if (pageInfo.pathname !== window.location.pathname) return;
+      if (pageInfo.href !== window.location.href) return;
       typeof pageInfo.page === 'number' ? this.page = pageInfo.page : '';
       typeof pageInfo.limit === 'number' ? this.limit = pageInfo.limit : '';
+    },
+    byIsChanged: function () {
+      var oGetVars = {};
+
+      if (window.location.search.length > 1) {
+        for (var aItKey, nKeyId = 0, aCouples = window.location.search.substr(1).split("&"); nKeyId < aCouples.length; nKeyId++) {
+          aItKey = aCouples[nKeyId].split("=");
+          oGetVars[decodeURIComponent(aItKey[0])] = aItKey.length > 1 ? decodeURIComponent(aItKey[1]) : "";
+        }
+      }
+      return !JSON.stringify(oGetVars) == "{}"
     },
     addEvent: function () {
       var $self = this;
@@ -101,7 +114,7 @@
       this.data.limit = this.limit; /* 单页数量 */
       var hostname = window.location;
       var pageInfo = {
-        pathname: window.location.pathname,
+        href: window.location.href,
         page: this.page,
         limit: this.limit
       }
@@ -142,7 +155,7 @@
         };
         /* 发起ajax请求 删除数据 */
         $.ajax({
-          url: this.options.delDataURL,
+          url: $self.delDataURL,
           data: data,
           type: 'post',
           success: function (result) { /* 响应并刷新 */
@@ -215,12 +228,12 @@
       if ($self.page === totalPages && totalPages >= $self.btnNum) {
         nCon += $self.refresh.equal($self, totalPages);
       } else
-      if (totalPages > $self.btnNum) {
-        nCon += $self.refresh.gt($self, totalPages);
-      } else
-      if (totalPages <= $self.btnNum) {
-        nCon += $self.refresh.lte($self, totalPages);
-      }
+        if (totalPages > $self.btnNum) {
+          nCon += $self.refresh.gt($self, totalPages);
+        } else
+          if (totalPages <= $self.btnNum) {
+            nCon += $self.refresh.lte($self, totalPages);
+          }
 
       nCon += '<li class="page-item">' +
         '<a href="javascript:void(0);" data-page="next" class="btn-next page-link" aria-label="下一页">' +

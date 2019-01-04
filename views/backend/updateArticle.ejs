@@ -1,4 +1,12 @@
-<%- include('common') -%>
+<% layout('./backend/common') -%>
+
+<% block('js').append(`
+<script src="/lib/select2/js/select2.min.js"></script>
+  <script src="https://cdn.bootcss.com/wangEditor/3.1.1/wangEditor.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js"></script>
+  <script src="/js/back/addarticle.js"></script>
+`) %>
+
   <div class="side-body">
     <div class="row">
       <div class="col-xs-12">
@@ -82,7 +90,3 @@
       </div>
     </div>
   </div>
-
-  <%- include('footer') -%>
-    <script src="https://cdn.bootcss.com/wangEditor/3.1.1/wangEditor.min.js"></script>
-    <script src="/js/back/addarticle.js"></script>

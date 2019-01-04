@@ -51,7 +51,7 @@ router.get('/logout', (req, res) => {
 })
 router.get('*', (req, res) => {
   if (req.xhr === true) {
-    res.json({
+    return res.json({
       status: 404,
       msg: '访问内容不存在'
     })
@@ -61,7 +61,7 @@ router.get('*', (req, res) => {
 
 router.post('*', (req, res) => {
   if (req.xhr === true) {
-    res.json({
+    return res.json({
       status: 500,
       msg: '服务器错误'
     })

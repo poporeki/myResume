@@ -1,6 +1,19 @@
-<% include common %>
+<% layout('./backend/common') -%>
+
+<% block('css').append(`
+<link rel="stylesheet" href="https://cdn.bootcss.com/select2/4.0.0/css/select2.min.css">
+<link rel="stylesheet" href="https://cdn.bootcss.com/chartist/0.11.0/chartist.min.css">
+<link rel="stylesheet" href="https://cdn.bootcss.com/rickshaw/1.6.6/rickshaw.min.css">
 <link rel="stylesheet" href="/lib/SpinKit/spinkit.css">
 <link rel="stylesheet" href="/css/back/index.css">
+
+`) %>
+<% block('js').append(`
+<script src="https://cdn.bootcss.com/chartist/0.11.0/chartist.min.js"></script>
+<script src="https://cdn.bootcss.com/socket.io/2.1.1/socket.io.js"></script>
+<script src="/js/back/ResizeSensor.js"></script>
+<script src="/js/back/dashboard.js"></script>
+`) %>
 
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"><%=pageTitle%></font></font></h4>
@@ -186,4 +199,3 @@
           </div><!-- col-3 -->
         </div><!-- row -->
       </div><!-- br-pagebody -->
-  <% include footer %>

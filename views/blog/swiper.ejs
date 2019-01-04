@@ -1,4 +1,4 @@
- <style>
+ <% block('css').append(`<style>
   .banner {
     max-height: 400px;
     min-height:200px;
@@ -42,7 +42,8 @@
     background-color:#d36d28;
     border-radius:0;
   }
-</style>
+</style>`) %>
+ 
 <div class="swiper-container banner">
   <div class="swiper-wrapper">
     <%for(var i=0;i<carouList.length;i++){%>
@@ -66,7 +67,7 @@
   </div>
   <div class="swiper-pagination s-p-custom"></div>
 </div>
-<script src="https://cdn.bootcss.com/Swiper/4.0.2/js/swiper.min.js"></script>
+<% block('js').append(`<script src="https://cdn.bootcss.com/Swiper/4.0.2/js/swiper.min.js"></script>
 <script>
   var mySwiper = new Swiper('.swiper-container', {
     autoplay: true, //可选选项，自动滑动
@@ -76,4 +77,4 @@
       clickable :true
     }
   })
-</script>
+</script>`) %>
