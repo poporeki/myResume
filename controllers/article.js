@@ -2,6 +2,7 @@ const moment = require('moment');
 
 const articleMod = require('../modules/Article/article'); /* 文章Module */
 const artCommMod = require('../modules/Article/articleComments'); /* 文章评论Module */
+const arcTypeMod = require('../modules/Article/articleType');
 
 /**
  * 遍历文章数组
@@ -318,6 +319,7 @@ exports.getArticleListSSR = (req, res, next) => {
   let sort = req.query.sort || {
     'create_time': -1
   };
+  let typeName = '';
   let params = { by, limit, page, sort };
   /* 获取文章列表 */
   let getArticleList = (request) => {
@@ -339,6 +341,7 @@ exports.getArticleListSSR = (req, res, next) => {
             create_time: arc.time_create
           }
         })
+        typeName = result.typename;
         resolve({
           /*分类 */
           typename: result.typename,
@@ -357,7 +360,10 @@ exports.getArticleListSSR = (req, res, next) => {
   }
   fn().catch(err => {
     if (err === 0) {
-      next(404);
+      res.render('blog/articlelist', {
+        artList: [],
+        typename: typeName
+      })
     } else if (err === -1) {
       next(err);
     }
@@ -391,14 +397,24 @@ exports.getArticleTags = (req, res, next) => {
 exports.getArticleTypes = (req, res, next) => {
   let getArcType = () => {
     return new Promise((resolve, reject) => {
-      articleTypeMod.findArticleType('', (err, resTypeList) => {
+      arcTypeMod.findArticleType('', (err, resTypeList) => {
         if (err) return reject(err);
         resolve(resTypeList);
       });
     })
   }
   getArcType().then(typelist => {
-    return res.json(typelist)
+    let resJson = typelist.map(item => {
+      return {
+        typeID: item._id,
+        typeName: item.type_name,
+        typeIconName: item.iconfont_name
+      }
+    })
+
+    return res.json(resJson)
+  }).catch(err => {
+    next(err);
   })
 }
 /* 获取文章列表 -轮播 */

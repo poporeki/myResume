@@ -6,6 +6,7 @@ const articleTypeMod = require('../../../modules/Article/articleType');
 
 router.get('/add', (req, res) => {
   res.render('./backend/add', {
+    isType: true,
     pageTitle: '文章分类',
     formAction: '/type/add',
     userName: req.session.user.username
@@ -13,14 +14,16 @@ router.get('/add', (req, res) => {
 })
 
 router.post('/add', (req, res) => {
-  if (req.session.user.permission !== 'root') {
+  if (req.session.user.permissions !== 'root') {
     return res.send('该账号没有权限');
   }
-  articleTypeMod.addArticleType(req.body, (err, result) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
+  if (!req.body.t_name && req.body.t_iconname) {
+    res.send('提交失败');
+  }
+  let typeName = req.body.t_name;
+  let iconName = req.body.t_iconname;
+  articleTypeMod.addArticleType(typeName, iconName, (err, result) => {
+    if (err) return next(err);
     res.redirect('/backend');
   })
 });

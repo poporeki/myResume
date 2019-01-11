@@ -56,7 +56,7 @@
             <% if(src==null) {%>
               <img src="/images/dark_geometric2.png" alt="空白">
             <%}else{%>
-              <img src="<%=src[1] %>" alt="">
+              <img src="<%=src[1] %>" alt="" onerror="this.src='/images/exp.png'">
             <%}%>
           <% } else{%>
             <img src="/images/dark_geometric2.png" alt="空白">

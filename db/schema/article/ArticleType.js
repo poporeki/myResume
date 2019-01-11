@@ -5,13 +5,14 @@ var arcTypeSchema = new mongoose.Schema({
     author_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'myweb_user'
-    }
+    },
+    iconfont_name: String
 }, {
-    timestamps: {
-        createdAt: 'create_time',
-        updatedAt: 'update_time'
-    }
-});
+        timestamps: {
+            createdAt: 'create_time',
+            updatedAt: 'update_time'
+        }
+    });
 
 var arc_type = mongoose.model('arc_type', arcTypeSchema);
 

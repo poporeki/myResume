@@ -100,13 +100,22 @@ app.use((err, req, res, next) => {
           msg: '服务器错误'
         })
       }
-    } else {
-      if (res.headersSent) {
-        return next(err);
-      }
-      res.status(500);
-      res.render('error', { error: err });
     }
+  if (err === 404) {
+    if (req.xhr === true) {
+      return res.json({
+        status: 404,
+        msg: '访问内容不存在'
+      })
+    }
+    res.render('404');
+  } else {
+    if (res.headersSent) {
+      return next(err);
+    }
+    res.status(500);
+    res.render('error', { error: err });
+  }
 });
 /* 启动https服务 */
 // var server = https.createServer(options, app).listen(PORT, () => {

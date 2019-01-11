@@ -21,15 +21,13 @@
       <li>
         <a href="/blog">首页</a>
       </li>
-      <li>
-        <a href="/blog/articlelist?by[type_id]=5b16cd78bbe59122b43bf2c1">Web前端</a>
-      </li>
-      <li>
-        <a href="/blog/articlelist?by[type_id]=5b198d59be1c73036d50c176">服务端</a>
-      </li>
-      <li>
-        <a href="/blog/articlelist?by[type_id]=5b16ce950100982448b19d55">数据库</a>
-      </li>
+      <%if(typeof NAV!='undefined'){%>
+        <%for(var i=0;i<NAV.length;i++){%>
+          <li>
+            <a href="/blog/articlelist?by[type_id]=<%=NAV[i]._id%>"><%=NAV[i].type_name%></a>
+          </li>
+        <%}%>
+      <%}%>
       <li>
         <a href="/iresume">个人简历</a>
       </li>

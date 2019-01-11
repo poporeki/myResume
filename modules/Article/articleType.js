@@ -4,9 +4,10 @@ module.exports = {
     findArticleType: (pars, cb) => {
         articleType.find(pars || {}, cb);
     },
-    addArticleType: (pars, cb) => {
+    addArticleType: (typeName, iconName, cb) => {
         articleType.create({
-            type_name: pars.t_name
+            type_name: typeName,
+            iconfont_name: iconName
         }, cb);
     },
     removeArticleType: (typeid, cb) => {

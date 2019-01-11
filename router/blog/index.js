@@ -6,6 +6,15 @@ var articleMod = require("../../modules/Article/article"),
   commentMod = require("../../modules/Article/articleComments"),
   articleTypeMod = require("../../modules/Article/articleType");
 
+router.use('*', (req, res, next) => {
+  if (res.locals.NAV) next();
+  articleTypeMod.findArticleType("", (err, typeList) => {
+    if (err) return next(err);
+    res.locals.NAV = typeList;
+    next();
+  });
+})
+
 router.get("/", (req, res, next) => {
   let resObj = {};
   /* 获取文章分类 */

@@ -1,6 +1,5 @@
 <% layout('./blog/LAYER') -%>
   <% block('css').append(`<link rel="stylesheet" href="/css/blog/index.css">
-  <link rel="stylesheet" href="/css/blog/iconfont_blog_index.css">
   <link rel="stylesheet" href="/weather/css/style.css">`) %>
   
   <div class="wrapper">
@@ -27,8 +26,8 @@
         <%for(var i=0;i<typeList.length;i++){%>
         <div class="classify-item">
           <a class="type-lk" href="/blog/articlelist?by[type_id]=<%=typeList[i]._id%>">
-            <i class='<%= "iconfont icon-"+(typeList[i].type_name).toLowerCase()  %>' ></i>
-            <i class='<%= "iconfont bottom icon-"+(typeList[i].type_name).toLowerCase()  %>' ></i>
+            <i class='<%= "iconfont icon-"+typeList[i].iconfont_name  %>' ></i>
+            <i class='<%= "iconfont bottom icon-"+typeList[i].iconfont_name  %>' ></i>
             <p><%=typeList[i].type_name %></p>
           </a>
         </div>
@@ -142,7 +141,7 @@
               <a class='comm-lk' href= "/blog/article/<%=commList[i].article[0]._id %>#comment">
               <h6 class="arc-tit"><%=commList[i].article[0].title %></h6>
               <%var avatarSrc=commList[i].avatar[0]!=null?commList[i].avatar[0].save_path+'thumbnail_'+commList[i].avatar[0].new_name:'/images/user/avatars/default/1.png';%>
-              <div class="arc-comm"><img class="head-pic" src="<%=avatarSrc%>" alt="头像"><%=commList[i].author[0].user_name %> : <span><%=commList[i].comment_text %></span></div> 
+              <div class="arc-comm"><img class="head-pic" src="<%=avatarSrc%>" onerror="this.src='/images/default_writer_avatar.png'" alt="头像"><%=commList[i].author[0].user_name %> : <span><%=commList[i].comment_text %></span></div> 
               </a>
             <% }} %>
           </div>

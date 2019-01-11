@@ -20,6 +20,14 @@
             <input type="text" name="t_name" class="form-control wd-250" placeholder="输入<%=pageTitle%>" required>
           </div><!-- form-group -->
         </div><!-- d-flex -->
+        <%if(typeof isType!=='undefined'&&isType===true){%>
+        <div class="d-flex mg-b-30">
+          <div class="form-group mg-b-0">
+            <label>输入iconfont类名: <span class="tx-danger">*</span></label>
+            <input type="text" name="t_iconname" class="form-control wd-250" placeholder="输入iconfont类名" required>
+          </div><!-- form-group -->
+        </div>
+        <%}%>
         <button type="submit" class="btn btn-info">提交</button>
         </div>
       </form>

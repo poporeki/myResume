@@ -28,12 +28,12 @@ function hotArcFn() {
       con += '<div class="swiper-slide hot-list-item">' +
         '<a href="/blog/article/' + theData.artid + '" class="hot-lk">' +
         '<span class="lt">' +
-        '<img src="' + imgsrc + '" alt="images">' +
+        '<img src="' + imgsrc + '" alt="images" onerror="this.src=\'/images/exp.png\'">' +
         '</span>' +
         '<span class="rt p10">' +
         '<div class="art-tit">' + theData.title + '</div>' +
         '<div class="art-info">' +
-        '<div class="read"><i class="iconfont bottom icon-read"></i>' + theData.read + '</div>' +
+        '<div class="read"><i class="iconfont bottom icon-eye"></i>' + theData.read + '</div>' +
         '<div class="time">' + theData.timeCreate + '</div>' +
         '</div>' +
         '</span>' +
@@ -102,10 +102,10 @@ function newArcFn() {
         '</div>' +
         '<div class="info-box">' +
         '<div class="item read-num">' +
-        '<i class="iconfont bottom icon-read"></i>' +
+        '<i class="iconfont bottom icon-eye"></i>' +
         artRead +
         '</div>' +
-        '<div class="item author"><i class="iconfont bottom icon-iresume"> </i>' +
+        '<div class="item author"><i class="iconfont bottom icon-icon_writer"> </i>' +
         artAuthor_name +
         '</div>' +
         '<div class="item author"><i class="iconfont bottom icon-time"> </i>' +
@@ -130,11 +130,12 @@ function newArcFn() {
     var imgReg = /<img.*?(?:>|\/>)/gi;
     var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
     var arr = str.match(imgReg);
+    var errorImg = '/images/logo.png';
     if (arr != null) {
       var src = arr[0].match(srcReg);
       return src === null ?
         '<img src="/images/login_pic.png" alt="空白">' :
-        '<img src=' + src[1] + ' alt="">';
+        '<img src=' + src[1] + ' alt="" onerror="this.src=\'' + errorImg + '\'">';
     } else {
       return '<img src="/images/login_pic.png" alt="空白">';
     }
