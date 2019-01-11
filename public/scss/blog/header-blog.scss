@@ -39,14 +39,11 @@ li {
 
 @media(width:360px) {
   header {
-    height: 80px;
-
     nav {
       flex-direction: column-reverse !important;
 
       .rt {
         align-self: flex-end !important;
-        margin-bottom: 50px;
         width: 100% !important;
 
         .s-wrap {
@@ -112,15 +109,13 @@ header {
   position: relative;
   max-height: 300px;
 
-  .top-box {
+  .top-box-wrapper {
     position: relative;
-    display: flex;
-    padding: 5px;
-    flex-direction: row;
-    justify-content: flex-end;
+    padding: 5px 0;
     .box-inner{
       display: flex;
       flex-direction: row;
+      justify-content: flex-end;
     }
     .box {
       position: relative;

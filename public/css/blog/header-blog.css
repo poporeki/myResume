@@ -28,20 +28,17 @@ li {
   list-style: none; }
 
 @media (width: 360px) {
-  header {
-    height: 80px; }
-    header nav {
-      flex-direction: column-reverse !important; }
-      header nav .rt {
-        align-self: flex-end !important;
-        margin-bottom: 50px;
+  header nav {
+    flex-direction: column-reverse !important; }
+    header nav .rt {
+      align-self: flex-end !important;
+      width: 100% !important; }
+      header nav .rt .s-wrap {
         width: 100% !important; }
-        header nav .rt .s-wrap {
-          width: 100% !important; }
-      header nav .navbar {
-        display: none !important; }
-        header nav .navbar a {
-          padding: 5px 15px !important; } }
+    header nav .navbar {
+      display: none !important; }
+      header nav .navbar a {
+        padding: 5px 15px !important; } }
 
 @media (max-width: 768px) {
   header nav {
@@ -73,23 +70,21 @@ header {
   flex-direction: column;
   position: relative;
   max-height: 300px; }
-  header .top-box {
+  header .top-box-wrapper {
     position: relative;
-    display: flex;
-    padding: 5px;
-    flex-direction: row;
-    justify-content: flex-end; }
-    header .top-box .box-inner {
+    padding: 5px 0; }
+    header .top-box-wrapper .box-inner {
       display: flex;
-      flex-direction: row; }
-    header .top-box .box {
+      flex-direction: row;
+      justify-content: flex-end; }
+    header .top-box-wrapper .box {
       position: relative;
       width: 50px;
       height: 20px;
       box-sizing: border-box; }
-      header .top-box .box:nth-child(even) > a {
+      header .top-box-wrapper .box:nth-child(even) > a {
         border-left: 1px solid #8b8b8b; }
-      header .top-box .box > a {
+      header .top-box-wrapper .box > a {
         position: absolute;
         display: block;
         height: 100%;
@@ -99,7 +94,7 @@ header {
         line-height: 20px;
         font-size: 12px;
         text-align: center; }
-        header .top-box .box > a > p {
+        header .top-box-wrapper .box > a > p {
           position: absolute;
           margin: 0;
           padding: 0;

@@ -169,10 +169,29 @@ exports.showUpdateArticleById = (req, res, next) => {
 }
 /* 提交更改 */
 exports.submitUpdate = (req, res) => {
-  articleMod.updateArticle(req, (err, result) => {
+  let arcid = req.params.artid; /* id */
+  let obj = {
+    title: req.body.arc_title,
+    /* 标题 */
+    attribute: {
+      carousel: req.body.arc_carousel === "on" ? true : false
+    },
+    from: req.body.arc_reproduction,
+    is_delete: false,
+    /*  */
+    type_id: req.body.arc_type,
+    tags_id: req.body.arc_tags,
+    /* 分类 */
+    content: req.body.arc_content,
+    /* Html内容 */
+    source: req.body.arc_conSource /* 纯文本 */
+  };
+  articleMod.updateArticle(arcid, obj, (err, result) => {
     if (err) {
-      console.log(err);
-      return;
+      return res.json({
+        status: false,
+        msg: '修改失败'
+      })
     }
     res.json({
       status: true,

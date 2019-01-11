@@ -224,25 +224,8 @@ module.exports = {
     return commentSchema.incReadNum(artid, cb);
   },
   /* 修改文章 */
-  updateArticle: function (req, cb) {
-    var artid = req.params.artid; /* id */
-    var pars = {
-      title: req.body.arc_title,
-      /* 标题 */
-      attribute: {
-        carousel: req.body.arc_carousel === "on" ? true : false
-      },
-      from: req.body.arc_reproduction,
-      is_delete: false,
-      /*  */
-      type_id: req.body.arc_type,
-      tags_id: req.body.arc_tags,
-      /* 分类 */
-      content: req.body.arc_content,
-      /* Html内容 */
-      source: req.body.arc_conSource /* 纯文本 */
-    };
-    return articles.updateOneArticle(artid, pars, cb);
+  updateArticle: function (arcid, updateObj, cb) {
+    return articles.updateOneArticle(arcid, updateObj, cb);
   },
   /* 删除文章 */
   removeArticle: function (artid, cb) {
