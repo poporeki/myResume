@@ -23,8 +23,8 @@ let options;
 
 if (os.platform() !== "win32") {
   options = {
-    key: fs.readFileSync("/etc/nginx/conf/2_www.yansk.cn.key"),
-    cert: fs.readFileSync("/etc/nginx/conf/1_www.yansk.cn_bundle.crt")
+    key: fs.readFileSync("/data/www/www/myBlog/config/ssl/2_www.yansk.cn.key"),
+    cert: fs.readFileSync("/data/www/www/myBlog/config/ssl/1_www.yansk.cn_bundle.crt")
   };
 }
 /* mongodb启用 */
