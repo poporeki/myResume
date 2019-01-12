@@ -486,4 +486,11 @@ exports.getArticleListOfKeywords = (req, res, next) => {
 
 }
 
+/* 获取该文章前后文章 */
+exports.getTheArticleBnAArticleSSR = async (req, res, next) => {
+  let arcid = req.params.arcid;
+  let prevArc = await articleMod.getPrevArticleById(arcid);
+  let nextArc = await articleMod.getNextArticleById(arcid);
+
+}
 exports.backend = require('./backend/article');

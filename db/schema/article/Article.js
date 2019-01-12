@@ -31,11 +31,11 @@ var articleSchema = new schema({
     ref: 'arc_tag'
   }]
 }, {
-  timestamps: {
-    createdAt: 'create_time',
-    updatedAt: 'update_time'
-  }
-});
+    timestamps: {
+      createdAt: 'create_time',
+      updatedAt: 'update_time'
+    }
+  });
 
 /**
  * 
@@ -89,17 +89,35 @@ articleSchema.statics.incReadNum = function (artid, cb) {
   return this.update({
     '_id': artid
   }, {
-    $inc: {
-      read: 1
-    }
-  }).exec(cb);
+      $inc: {
+        read: 1
+      }
+    }).exec(cb);
 }
 articleSchema.statics.updateOneArticle = function (artid, pars, cb) {
   return this.update({
     "_id": artid
   }, {
-    $set: pars
-  }, cb);
+      $set: pars
+    }, cb);
+}
+articleSchema.statics.findOneNextArticleById = function (artid, cb) {
+  return this.find({
+    '_id': { '$gt': artid }
+  }).sort({
+    _id: 1
+  })
+    .limit(1)
+    .exec(cb);
+}
+articleSchema.statics.findOnePrevArticleById = function (artid, cb) {
+  return this.find({
+    '_id': { '$lt': artid }
+  }).sort({
+    _id: -1
+  })
+    .limit(1)
+    .exec(cb);
 }
 var article = mongoose.model('Article', articleSchema);
 

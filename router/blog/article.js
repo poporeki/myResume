@@ -148,6 +148,36 @@ let getArcComm = (limit, skip, arcid) => {
     })
   })
 }
+/* 获得前后文章 */
+let getTheArticleBnAArticle = (arcid) => {
+  return new Promise((resolve, reject) => {
+    let getPrevArc = (arcid) => {
+      return new Promise((resolve, reject) => {
+        articleMod.getPrevArticleById(arcid, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
+        });
+      })
+    }
+    let getNextArc = (arcid) => {
+      return new Promise((resolve, reject) => {
+        articleMod.getNextArticleById(arcid, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
+        });
+      })
+    }
+    let fn = async () => {
+      let prevArc = await getPrevArc(arcid);
+      let nextArc = await getNextArc(arcid);
+      resolve({ prevArc, nextArc });
+    }
+    fn().catch(err => {
+      return reject(err);
+    })
+  })
+
+}
 /* 文章页面 */
 router.get('/:id', (req, res, next) => {
   // 返回数量 默认10
@@ -165,11 +195,14 @@ router.get('/:id', (req, res, next) => {
       getArcComm(limit, skip, arcid),
       getUserLike(arcid, req.session.user)
     ]);
+    let { prevArc, nextArc } = await getTheArticleBnAArticle(arcid);
     res.render('./blog/article', {
       art: arcInfo,
       artComms: arcComments,
       userIsLiked: isLiked,
-      artTotal: commsTotal
+      artTotal: commsTotal,
+      arcPrev: prevArc[0],
+      arcNext: nextArc[0]
     });
   }
   fn().catch(err => {

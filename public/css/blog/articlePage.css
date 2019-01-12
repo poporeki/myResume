@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@import url(http://fonts.font.im/css?family=Architects+Daughter);
 @keyframes fadeIn {
   0% {
     opacity: 0; }
@@ -238,15 +239,28 @@ section.article-wrapper {
       border-radius: 50%;
       background-color: #4cc37e;
       box-shadow: 0 0 20px #38915a;
-      transition: transform .3s ease, background-color .3s ease; }
+      transition: transform .3s ease, background-color .3s ease, box-shadow 1s ease;
+      font-family: 'Architects Daughter', cursive; }
       section.article-wrapper .like-box .btn-article-like .like-number {
         font-size: 2em; }
       section.article-wrapper .like-box .btn-article-like .loading-ani {
         border-radius: 50%; }
       section.article-wrapper .like-box .btn-article-like:hover {
-        background-color: #59e995; }
+        background-color: #59e995;
+        box-shadow: 0 0 40px #000; }
     section.article-wrapper .like-box .liked {
-      background-color: #cc8851; }
+      background-color: #cc8851;
+      box-shadow: 0 0 20px #cc8851; }
+      section.article-wrapper .like-box .liked:hover {
+        background-color: #cc8851; }
+      section.article-wrapper .like-box .liked .iconfont {
+        color: #ff5100; }
+    section.article-wrapper .like-box .iconfont {
+      display: inline-block;
+      color: #646464;
+      transition: transform 1s ease, color .3s ease; }
+    section.article-wrapper .like-box:hover .iconfont {
+      transform: scale(4) rotateY(180deg); }
   section.article-wrapper .comment-block h3 {
     padding: 10px 0;
     border-bottom: 1px solid #303030; }
@@ -454,7 +468,8 @@ section.article-wrapper {
     padding: 5px 10px;
     margin: 5px 0;
     margin-right: 20px;
-    background-color: #085e2c; }
+    background-color: #085e2c;
+    transition: background-color .3s ease; }
     .article-tags-list .tag-lk:hover {
       background-color: #064922; }
     .article-tags-list .tag-lk:after, .article-tags-list .tag-lk:before {
@@ -469,6 +484,21 @@ section.article-wrapper {
       z-index: -1; }
     .article-tags-list .tag-lk:before {
       transform: skewX(-30deg) !important; }
+
+.o-arc-lkbox {
+  margin-top: 50px; }
+  .o-arc-lkbox .arc-link-wrap {
+    color: #085e2c;
+    padding: 5px 0; }
+    .o-arc-lkbox .arc-link-wrap .iconfont {
+      display: inline-block;
+      transition: transform .3s ease; }
+    .o-arc-lkbox .arc-link-wrap:hover a {
+      text-decoration: underline; }
+    .o-arc-lkbox .arc-link-wrap:hover.prev .iconfont {
+      transform: translateX(-5px); }
+    .o-arc-lkbox .arc-link-wrap:hover.next .iconfont {
+      transform: translateX(-5px); }
 
 section.right-block {
   width: 30%; }

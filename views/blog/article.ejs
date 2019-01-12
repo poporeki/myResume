@@ -1,210 +1,233 @@
 <% layout('./blog/LAYER') -%>
-  <% block('css').append(`<link rel="stylesheet" href="/css/blog/articlePage.css">
+<% block('css').append(`<link rel="stylesheet" href="/css/blog/articlePage.css">
   <link href="https://cdn.bootcss.com/highlight.js/9.13.1/styles/atom-one-dark.min.css" rel="stylesheet">`) %>
-  
-    <section class="article-wrapper">
-      <div class="bread">
-        <ol class="breadcrumb">
-          <li><a href="/">Home</a></li>
-          <li><a href="/blog/articlelist?by[type_id]=<%=art.type.id %>"><%=art.type.name%></a></li>
-          <li><%=art.title %></li>
-          </ol>
-      </div>
-      <article class="article-box" data-artID= <%=art.id %>>
-        <div class="article-header">
-          <div class="art-title">
-            <h2>
-              <%=art.title %>
-            </h2>
-          </div>
-          <div class="pt-info">
-            <span class="pubtime">发表时间：
-              <%=art.createTime %>
-            </span>
-            <span class="source">分类：
-              <a class="type-lk" href='<%="/blog/articlelist?by[type_id]="+art.type.id %>' > <%=art.type.name%> </a>
-            </span>
-            <span class="author">发布:
-              <%=art.author %>
-            </span>
-            <span class="count">阅读数:
-              <%=art.readNum %>
-            </span>
-          </div>
-        </div>
-        <div class="article-body">
-          <%-art.content %>
-          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-          <ins class="adsbygoogle"
-              style="display:block; text-align:center;"
-              data-ad-layout="in-article"
-              data-ad-format="fluid"
-              data-ad-client="ca-pub-1406478853190180"
-              data-ad-slot="2031599026"></ins>
-          <script>
-              (adsbygoogle = window.adsbygoogle || []).push({});
-          </script>
-          <%if(typeof art.from!==undefined||art.from!==null){%>
-          原帖地址：<a href="<%=art.from%>"><%=art.from%></a><br>
-          <%}%>
-          
-        </div>
-        <div class="share-box-wrapper">
-          <h4 class="tit">分享</h4>
-          <div class="share-box-body">
-            <a href="javascript:window.open('http://twitter.com/home?status='+'My Item  '+encodeURIComponent(document.location.href)+' '+encodeURIComponent(document.title),'_blank','toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=600, height=450,top=100,left=350');void(0)">
-              <span class="iconfont icon-twitter" style="font-size:40px;"></span>
-            </a>
-          </div>
-      </div>
 
-        <div class="article-tags-list">
-        <div class="tit">
-          TAG标签
-        </div>
-        <%var tags=art.tags;%>
-        <%for(var i=0;i<tags.length;i++){%>
-          <a href="/blog/articlelist?by[tags_id]=<%=tags[i]._id%>" class="tag-lk"><%=tags[i].tag_name%></a>
-        <%}%>
-        </div>
-        <div class="like-box">
-          <a href="javascript:void(0);" class="btn-article-like <%=userIsLiked?'liked':'' %>">
-            <span class='like-number'><%=art.likes%></span>
-            <span class="btn-text">点赞</span>
-          </a>
-        </div>
-      </article>
-      <div class="line"></div>
-      <section class="comment-block" id="comment">
-        <h3>发表评论</h3>
-        <div class="add-comm clearfix">
-          <textarea name="comm_textarea" class="comm-textarea" id="comm_textarea"></textarea>
-          <a href="javascript:void(0);" class="comm-submit-btn" data-attr="">提交</a>
-        </div>
-        <div class="comm-list">
-          <h3>评论列表(<%=artTotal%>)</h3>
-          <!-- 评论列表 -->
-          <ul class="list">
-            <%if(artComms.length===0){%>
-              <li>目前并没有评论哦</li>
-            <%}else{%>
-            <% for(var i=0;i<artComms.length;i++){ %>
-              <li class="comment-item" data-commid= <%=artComms[i].id %> >
+<section class="article-wrapper">
+  <div class="bread">
+    <ol class="breadcrumb">
+      <li><a href="/">Home</a></li>
+      <li><a href="/blog/articlelist?by[type_id]=<%=art.type.id %>">
+          <%=art.type.name%></a></li>
+      <li>
+        <%=art.title %>
+      </li>
+    </ol>
+  </div>
+  <article class="article-box" data-artID=<%=art.id %>>
+    <div class="article-header">
+      <div class="art-title">
+        <h2>
+          <%=art.title %>
+        </h2>
+      </div>
+      <div class="pt-info">
+        <span class="pubtime">发表时间：
+          <%=art.createTime %>
+        </span>
+        <span class="source">分类：
+          <a class="type-lk" href='<%="/blog/articlelist?by[type_id]="+art.type.id %>'>
+            <%=art.type.name%> </a>
+        </span>
+        <span class="author">发布:
+          <%=art.author %>
+        </span>
+        <span class="count">阅读数:
+          <%=art.readNum %>
+        </span>
+      </div>
+    </div>
+    <div class="article-body">
+      <%-art.content %>
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <ins class="adsbygoogle" style="display:block; text-align:center;" data-ad-layout="in-article" data-ad-format="fluid"
+        data-ad-client="ca-pub-1406478853190180" data-ad-slot="2031599026"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+      <%if(typeof art.from!==undefined||art.from!==null){%>
+      原帖地址：<a href="<%=art.from%>">
+        <%=art.from%></a><br>
+      <%}%>
+
+    </div>
+    <div class="share-box-wrapper">
+      <h4 class="tit">分享</h4>
+      <div class="share-box-body">
+        <a href="javascript:window.open('http://twitter.com/home?status='+'My Item  '+encodeURIComponent(document.location.href)+' '+encodeURIComponent(document.title),'_blank','toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=600, height=450,top=100,left=350');void(0)">
+          <span class="iconfont icon-twitter" style="font-size:40px;"></span>
+        </a>
+      </div>
+    </div>
+
+    <div class="article-tags-list">
+      <div class="tit">
+        TAG标签
+      </div>
+      <%var tags=art.tags;%>
+      <%for(var i=0;i<tags.length;i++){%>
+      <a href="/blog/articlelist?by[tags_id]=<%=tags[i]._id%>" class="tag-lk">
+        <%=tags[i].tag_name%></a>
+      <%}%>
+    </div>
+    <div class="o-arc-lkbox">
+      <%if(typeof arcPrev!='undefined'){%>
+      <div class="arc-link-wrap prev">
+        <span class="iconfont icon-leftarrows"></span>
+        <a href="/blog/article/<%=arcPrev._id%>">
+          上一篇:&nbsp;
+          <%=arcPrev.title%></a>
+      </div>
+      <%}%>
+      <%if(typeof arcNext!='undefined'){%>
+      <div class="arc-link-wrap next">
+        <span class="iconfont icon-rightarrows"></span>
+        <a href="/blog/article/<%=arcNext._id%>">
+          下一篇:&nbsp;
+          <%=arcNext.title%></a>
+      </div>
+      <%}%>
+    </div>
+    <div class="like-box">
+      <a href="javascript:void(0);" class="btn-article-like <%=userIsLiked?'liked':'' %>">
+        <span class='like-number'>
+          <%=art.likes%></span>
+        <span class="iconfont icon-like"></span>
+      </a>
+    </div>
+  </article>
+  <div class="line"></div>
+  <section class="comment-block" id="comment">
+    <h3>发表评论</h3>
+    <div class="add-comm clearfix">
+      <textarea name="comm_textarea" class="comm-textarea" id="comm_textarea"></textarea>
+      <a href="javascript:void(0);" class="comm-submit-btn" data-attr="">提交</a>
+    </div>
+    <div class="comm-list">
+      <h3>评论列表(
+        <%=artTotal%>)</h3>
+      <!-- 评论列表 -->
+      <ul class="list">
+        <%if(artComms.length===0){%>
+        <li>目前并没有评论哦</li>
+        <%}else{%>
+        <% for(var i=0;i<artComms.length;i++){ %>
+        <li class="comment-item" data-commid=<%=artComms[i].id %> >
+          <div>
+            <div class="head-pic">
+              <a href="javascript:void(0);">
+                <img src="<%=artComms[i].user.avatar %>" alt="avatar">
+              </a>
+            </div>
+            <div class="content">
+              <div class="info">
+                <div class="lt">
+                  <div class="username">
+                    <%=artComms[i].user.name %>
+                  </div>
+                  <div class="address">
+                    <%=artComms[i].submitAddress %>
+                  </div>
+                  <div class="p-date">
+                    <%=artComms[i].createTime %>
+                  </div>
+                </div>
+                <div class="floor-blk">
+                  <%=artComms[i].floor+'楼' %>
+                </div>
+              </div>
+              <p>
+                <%=artComms[i].text %>
+              </p>
+              <div class="tools">
+                <a href="javascript:void(0);" class="comm-reply-btn">回复</a>
+              </div>
+            </div>
+
+          </div>
+          <div class="reply-block">
+            <div class="add-comm clearfix">
+              <textarea name="comm_textarea" class="comm-textarea" id="comm_textarea" cols="30" rows="10"></textarea>
+              <a href="javascript:void(0);" class="comm-submit-btn">提交</a>
+            </div>
+            <div class="close-btn"></div>
+          </div>
+          <!-- 评论中的回复列表 -->
+          <%  if(typeof artComms[i].commReps!='undefined'&&artComms[i].commReps.length!=0){ %>
+          <ul class='reply-list show'>
+            <%  }else{  %>
+            <ul class='reply-list'>
+              <%  } %>
+              <% if(typeof(artComms[i].commReps)!='undefined'&&artComms[i].commReps.length!=0){ %>
+              <% var reps=artComms[i].commReps; %>
+              <% for(var j=0;j<reps.length;j++){ %>
+              <li class="comment-item">
                 <div>
+                  <span>
+                    <%='#'+reps[j].floor %></span>
                   <div class="head-pic">
                     <a href="javascript:void(0);">
-                      <img src="<%=artComms[i].user.avatar %>" alt="avatar">
+                      <img src=<%=reps[j].user.avatar %> alt="avatar">
                     </a>
                   </div>
                   <div class="content">
                     <div class="info">
                       <div class="lt">
                         <div class="username">
-                          <%=artComms[i].user.name %>
+                          <%=reps[j].user.name %>
                         </div>
                         <div class="address">
-                          <%=artComms[i].submitAddress %>
+                          <%=reps[j].submitAddress %>
                         </div>
                         <div class="p-date">
-                          <%=artComms[i].createTime %>
+                          <%=reps[j].createTime %>
                         </div>
                       </div>
-                      <div class="floor-blk">
-                        <%=artComms[i].floor+'楼' %>
-                      </div>
                     </div>
+                    <% if(reps[j].to==''){ %>
                     <p>
-                      <%=artComms[i].text %>
+                      <%=reps[j].repContent %>
                     </p>
+                    <%} else{ %>
+                    <p>
+                      <%='回复 #'+reps[j].to.floor+" "+reps[j].to.user.name+':'+reps[j].repContent %>
+                    </p>
+                    <%}%>
                     <div class="tools">
                       <a href="javascript:void(0);" class="comm-reply-btn">回复</a>
                     </div>
                   </div>
-
                 </div>
                 <div class="reply-block">
                   <div class="add-comm clearfix">
                     <textarea name="comm_textarea" class="comm-textarea" id="comm_textarea" cols="30" rows="10"></textarea>
-                    <a href="javascript:void(0);" class="comm-submit-btn">提交</a>
+                    <a href="javascript:void(0);" class="comm-submit-btn reply-child" data-repid=<%=reps[j].id %> >提交</a>
                   </div>
                   <div class="close-btn"></div>
                 </div>
-                <!-- 评论中的回复列表 -->
-                <%  if(typeof artComms[i].commReps!='undefined'&&artComms[i].commReps.length!=0){ %>
-                  <ul class='reply-list show'>
-                <%  }else{  %>
-                  <ul class='reply-list'>
-                <%  } %>
-                <% if(typeof(artComms[i].commReps)!='undefined'&&artComms[i].commReps.length!=0){ %>
-                  <% var reps=artComms[i].commReps; %>
-                  <% for(var j=0;j<reps.length;j++){ %>
-                    <li class="comment-item">
-                      <div>
-                        <span><%='#'+reps[j].floor %></span>
-                        <div class="head-pic">
-                          <a href="javascript:void(0);">
-                            <img src=<%=reps[j].user.avatar %> alt="avatar">
-                          </a>
-                        </div>
-                        <div class="content">
-                          <div class="info">
-                            <div class="lt">
-                              <div class="username">
-                                <%=reps[j].user.name %>
-                              </div>
-                              <div class="address">
-                                <%=reps[j].submitAddress %>
-                              </div>
-                              <div class="p-date">
-                                <%=reps[j].createTime %>
-                              </div>
-                            </div>
-                          </div>
-                          <% if(reps[j].to==''){ %>
-                            <p>
-                              <%=reps[j].repContent %>
-                            </p>
-                          <%} else{ %>
-                            <p>
-                              <%='回复 #'+reps[j].to.floor+" "+reps[j].to.user.name+':'+reps[j].repContent %>
-                            </p>
-                          <%}%>
-                          <div class="tools">
-                            <a href="javascript:void(0);" class="comm-reply-btn">回复</a>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="reply-block">
-                        <div class="add-comm clearfix">
-                          <textarea name="comm_textarea" class="comm-textarea" id="comm_textarea" cols="30" rows="10"></textarea>
-                          <a href="javascript:void(0);" class="comm-submit-btn reply-child" data-repid=<%=reps[j].id %> >提交</a>
-                        </div>
-                        <div class="close-btn"></div>
-                      </div>
-                    </li>
-                  <%}%>
-                  <% if(reps.count>5) { %>
-                    <li class="comment-item">
-                      还有<%=reps.count-5%>条回复，<a href="javascript:void(0);">点击查看<></a>
-                    </li>
-                  <% } %>
-                <%}%>
-                  </ul>
-                  
-                </li>
-            <% } %>
-            <%if(artTotal>artComms.length){%>
-              <li class="comment-more">
-                <a href="javascript:void(0);" class="more-comms-lk">查看更多评论</a>
               </li>
-            <%}}%>
-          </ul>
-        </div>
-      </section>
-    </section>
+              <%}%>
+              <% if(reps.count>5) { %>
+              <li class="comment-item">
+                还有
+                <%=reps.count-5%>条回复，<a href="javascript:void(0);">点击查看<></a>
+              </li>
+              <% } %>
+              <%}%>
+            </ul>
 
-    <section class="right-block"></section>
-  <% block('js').append(`<script src="https://cdn.bootcss.com/highlight.js/9.13.1/highlight.min.js"></script>
+        </li>
+        <% } %>
+        <%if(artTotal>artComms.length){%>
+        <li class="comment-more">
+          <a href="javascript:void(0);" class="more-comms-lk">查看更多评论</a>
+        </li>
+        <%}}%>
+      </ul>
+    </div>
+  </section>
+</section>
+
+<section class="right-block"></section>
+<% block('js').append(`<script src="https://cdn.bootcss.com/highlight.js/9.13.1/highlight.min.js"></script>
       <script src="/js/blog/article.js"></script>
       <script>hljs.initHighlightingOnLoad();</script>`) %>
-    

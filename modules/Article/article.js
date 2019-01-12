@@ -389,5 +389,13 @@ module.exports = {
         }
       );
     });
+  },
+  /* 得到下一篇文章 */
+  getNextArticleById: (arcid, cb) => {
+    articles.findOneNextArticleById(arcid, cb);
+  },
+  /* 得到上一篇文章 */
+  getPrevArticleById: (arcid, cb) => {
+    articles.findOnePrevArticleById(arcid, cb);
   }
 };
