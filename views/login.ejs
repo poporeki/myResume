@@ -24,35 +24,38 @@
 
   <div class="wrapper">
     <div class="login-box">
-    <div class="dog">
-      <img src="/images/login_pic.png" alt="">
-    </div>
-    <div class="inner">
-      <form action="/login" method="post" class="login-form">
-        <h2>登录</h2>
-        <div class="control">
-          <input type="text" class="form-control" autocomplete="off" maxlength="14" name="uname" id="username">
-          <div class='input-tips'>
-            <i class="iconfont icon-head"></i>
-            <span>输入用户名</span>
-          </div> 
-        </div>
-        <div class="control">
-          <input type="password" class="form-control" maxlength="16" name="upwd" id="upassword">
-          <div class="input-tips">
-            <i class="iconfont icon-password"></i>
-            <span>输入密码</span>
+      <div class="dog">
+        <img src="/images/login_pic.png" alt="">
+      </div>
+      <div class="inner">
+        <form action="/login" method="post" class="login-form">
+          <h2>登录</h2>
+          <div class="control">
+            <input type="text" class="form-control" autocomplete="off" maxlength="14" name="uname" id="username">
+            <div class='input-tips'>
+              <i class="iconfont icon-head"></i>
+              <span>输入用户名</span>
+            </div>
           </div>
+          <div class="control">
+            <input type="password" class="form-control" maxlength="16" name="upwd" id="upassword">
+            <div class="input-tips">
+              <i class="iconfont icon-password"></i>
+              <span>输入密码</span>
+            </div>
+          </div>
+          <div class="login-btn-box">
+            <input type="button" id="login_btn" class="login-btn" value="登录">
+            <span class="status-block"></span>
+          </div>
+        </form>
+        <!-- <div class="copyright">By Yansk</div> -->
+        <div class="link-box">
+          <a href="/" class="btn back-btn">RETURN</a>
+          <a href="/reg" class="btn reg-btn">注册</a>
         </div>
-        <div class="login-btn-box">
-          <input type="button" id="login_btn" class="login-btn" value="登录">
-          <span class="status-block"></span>
-        </div>
-      </form>
-      <div class="copyright">By Yansk</div>
-      <a href="/" class="back-btn">返回主页</a>
+      </div>
     </div>
-  </div>
   </div>
 
   <script src='https://cdn.bootcss.com/jquery/1.9.1/jquery.min.js'></script>

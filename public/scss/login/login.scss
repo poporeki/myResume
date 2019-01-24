@@ -42,6 +42,7 @@ body {
   top: 0;
   left: 0;
   background-color: rgba(48, 48, 48, 0.582);
+
   &:after {
     content: '';
     position: absolute;
@@ -55,15 +56,18 @@ body {
     margin-top: -10px;
     animation: subLoadAni 2s 200ms infinite;
   }
+
   @keyframes subLoadAni {
     0% {
       transform: scale(0);
       opacity: 0;
     }
+
     50% {
       transform: scale(1);
       opacity: 1;
     }
+
     100% {
       transform: scale(2);
       opacity: 0;
@@ -80,6 +84,7 @@ body {
   animation: loginbox_in 1s forwards;
   backface-visibility: hidden;
   box-sizing: border-box;
+
   .dog {
     position: absolute;
     transform: scale(0);
@@ -88,10 +93,12 @@ body {
     height: 30%;
     animation: dog_in 1s 1s forwards;
     z-index: 10;
+
     >img {
       height: 100%;
     }
   }
+
   .copyright {
     position: absolute;
     right: 20px;
@@ -100,30 +107,37 @@ body {
     color: #444444;
     text-shadow: 0 0 5px rgb(66, 66, 66);
   }
+
   @keyframes dog_in {
     0% {
       transform: scale(0);
     }
+
     20% {
       transform: scale(1.1);
     }
+
     70% {
       transform: scale(1.2);
     }
+
     100% {
       transform: scale(1);
     }
   }
+
   @keyframes loginbox_in {
     0% {
       transform: translate(-50%, -50%) rotateY(180deg);
       opacity: 0;
     }
+
     100% {
       opacity: 1;
       transform: translate(-50%, -50%) rotateY(0);
     }
   }
+
   .inner {
     position: relative;
     transition: all 1s ease-out;
@@ -131,26 +145,32 @@ body {
     border-top: 4px solid rgba(243, 130, 0, 0.993);
     background-size: contain;
     background-position: right top;
-    box-shadow: 0 0 10px rgb(77, 77, 77);
     box-sizing: border-box;
+    box-shadow: 2px 2px 5px #111;
     z-index: 1;
     border-radius: 20px;
     overflow: hidden;
-    .back-btn {
-      position: absolute;
-      width: 100%;
-      height: 5vh;
-      line-height: 5vh;
-      top: 0;
-      left: 0;
-      color: #b8b8b8;
-      letter-spacing: 4px;
-      z-index: -1;
-      text-align: center;
+
+    a {
       text-decoration: none;
-      white-space: 24px;
+    }
+
+    .link-box {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 20px;
+
+      .btn {
+        color: #444444;
+        transition: color .3s ease;
+
+        &:hover {
+          color: #eee;
+        }
+      }
     }
   }
+
   &.success {
     .inner {
       animation-fill-mode: forwards;
@@ -158,65 +178,78 @@ body {
       animation-duration: 1s;
       animation-name: loginBox_out;
     }
+
     .dog {
       animation: dog_out .5s forwards;
     }
   }
+
   @keyframes dog_out {
     0% {
       opacity: 1;
       transform: scale(1);
     }
+
     100% {
       opacity: 0;
       transform: scale(0);
     }
   }
+
   @keyframes loginBox_out {
     0% {
       transform: scale(1) rotateY(0);
       opacity: 1;
     }
+
     100% {
       transform: scale(2) rotateY(-180deg);
       opacity: 0;
     }
   }
+
   &:hover .clock-block {
     top: -10%;
   }
 }
 
 form.login-form {
-  background-color: rgb(65, 66, 65);
+  background-color: #111;
   padding: 20px 100px;
   box-sizing: border-box;
   transition: transform 1s ease;
+
   h2 {
     font-size: 26px;
     color: rgb(190, 190, 190);
   }
+
   .control {
     position: relative;
     margin-bottom: 5px;
     border-bottom: 1px solid rgba(73, 73, 73, 0.902);
     width: 200px;
     transition: border .3s ease;
+
     &.active {
       border-bottom: 1px solid rgba(146, 146, 146, 0.902);
+
       .input-tips {
         transform: translateY(-20px);
         font-size: 12px;
+
         .iconfont {
           transform: rotate(-45deg);
           font-size: 12px;
         }
       }
     }
+
     &,
     .input-tips {
       padding: 20px 10px 10px;
     }
+
     .input-tips {
       position: absolute;
       left: 0;
@@ -225,11 +258,13 @@ form.login-form {
       color: rgb(189, 189, 189);
       pointer-events: none;
       transition: transform .3s ease, font-size .3s ease;
+
       >.iconfont {
         display: inline-block;
         transition: transform .5s ease, font-size .3s ease;
       }
     }
+
     .form-control {
       display: block;
       position: relative;
@@ -242,6 +277,7 @@ form.login-form {
       color: rgb(121, 121, 121);
       transition: border .3s ease;
       box-sizing: border-box;
+
       &:focus,
       &:hover,
       &:active {
@@ -249,17 +285,21 @@ form.login-form {
       }
     }
   }
+
   .login-btn-box {
     position: relative;
     width: 100%;
     margin: 40px 0 40px 2px;
     overflow: hidden;
+
     &:hover {
+
       &:after,
       &:before {
         transform: translateX(0%);
       }
     }
+
     &:before {
       position: absolute;
       content: '';
@@ -272,6 +312,7 @@ form.login-form {
       transition: transform .2s ease;
       z-index: 0;
     }
+
     &:after {
       position: absolute;
       content: '';
@@ -284,6 +325,7 @@ form.login-form {
       transition: transform .2s ease .2s;
       z-index: 1;
     }
+
     input.login-btn {
       position: relative;
       border-radius: 2px;
@@ -296,20 +338,24 @@ form.login-form {
       color: rgba(22, 124, 219, 0.712);
       outline: none;
     }
+
     input.login-btn.error {
       background-color: rgb(187, 77, 3);
       color: rgb(247, 226, 170);
       border-color: rgb(179, 96, 41);
     }
+
     input.login-btn.success {
       background-color: #1ABC9C;
       color: rgb(247, 226, 170);
     }
+
     .login-btn:hover {
       background-color: transparent;
       border-color: transparent;
       color: rgba(255, 255, 255, 0.712);
     }
+
     .status-block {
       content: '';
       display: block;
@@ -322,32 +368,40 @@ form.login-form {
       line-height: 30px;
       transition: background-color .5s ease;
       transform: translateY(-100%);
+
       &.logining {
         background-color: orange;
         animation: statusBlock_in .5s forwards;
       }
+
       &.success {
         background-color: #1ABC9C; // animation: statusBlock_out .5s 1s forwards;
       }
+
       &.error {
         background-color: rgb(189, 69, 60);
       }
+
       &.hide {
         animation: statusBlock_out 1s forwards;
       }
     }
+
     @keyframes statusBlock_in {
       0% {
         transform: translateY(-100%);
       }
+
       100% {
         transform: translateY(0);
       }
     }
+
     @keyframes statusBlock_out {
       0% {
         transform: translateY(0);
       }
+
       100% {
         transform: translateY(-100%);
       }

@@ -14,6 +14,8 @@
     </ol>
   </div>
   <article class="article-box" data-artID=<%=art.id %>>
+
+    <%#start 文章相关信息%>
     <div class="article-header">
       <div class="art-title">
         <h2>
@@ -31,11 +33,14 @@
         <span class="author">发布:
           <%=art.author %>
         </span>
-        <span class="count">阅读数:
+        <span class="count">浏览次数:
           <%=art.readNum %>
         </span>
       </div>
     </div>
+    <%#end 文章相关信息%>
+
+    <%#start 文章内容主体%>
     <div class="article-body">
       <%-art.content %>
       <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -48,8 +53,10 @@
       原帖地址：<a href="<%=art.from%>">
         <%=art.from%></a><br>
       <%}%>
-
     </div>
+    <%#end 文章内容主体%>
+
+    <%#start 分享%>
     <div class="share-box-wrapper">
       <h4 class="tit">分享</h4>
       <div class="share-box-body">
@@ -58,7 +65,9 @@
         </a>
       </div>
     </div>
+    <%#end 分享%>
 
+    <%#start 该文章标签列表%>
     <div class="article-tags-list">
       <div class="tit">
         TAG标签
@@ -69,6 +78,9 @@
         <%=tags[i].tag_name%></a>
       <%}%>
     </div>
+    <%#end 该文章标签列表%>
+
+    <%# start 上下文章链接 %>
     <div class="o-arc-lkbox">
       <%if(typeof arcPrev!='undefined'){%>
       <div class="arc-link-wrap prev">
@@ -87,6 +99,7 @@
       </div>
       <%}%>
     </div>
+    <%# end 上下文章链接 %>
     <div class="like-box">
       <a href="javascript:void(0);" class="btn-article-like <%=userIsLiked?'liked':'' %>">
         <span class='like-number'>
@@ -99,7 +112,13 @@
   <section class="comment-block" id="comment">
     <h3>发表评论</h3>
     <div class="add-comm clearfix">
-      <textarea name="comm_textarea" class="comm-textarea" id="comm_textarea"></textarea>
+      <%if(USER){%>
+      <textarea name="comm_textarea" class="comm-textarea" id="comm_textarea" placeholder="输入文字"></textarea>
+      <%}else{%>
+      <textarea name="comm_textarea" class="comm-textarea" id="comm_textarea" placeholder="需要登陆账号才能够发表评论，点击此处登陆"
+        disabled></textarea>
+      <a href="/login" class="textarea-mask"></a>
+      <%}%>
       <a href="javascript:void(0);" class="comm-submit-btn" data-attr="">提交</a>
     </div>
     <div class="comm-list">

@@ -186,7 +186,6 @@ pre {
 
         &:hover {
           transform: rotate(-5deg);
-          background-color: #000000;
         }
 
         &:active {
@@ -314,13 +313,6 @@ section.article-wrapper {
       transition: transform 1s ease, color .3s ease;
     }
 
-    &:hover {
-
-
-      .iconfont {
-        transform: scale(4) rotateY(180deg);
-      }
-    }
   }
 
   .comment-block {
@@ -357,6 +349,16 @@ section.article-wrapper {
         resize: none;
         z-index: 100;
         overflow: auto;
+      }
+
+      .textarea-mask {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        z-index: 101;
       }
 
       .comm-submit-btn.show {

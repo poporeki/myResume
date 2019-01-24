@@ -113,24 +113,22 @@ body {
     border-top: 4px solid rgba(243, 130, 0, 0.993);
     background-size: contain;
     background-position: right top;
-    box-shadow: 0 0 10px #4d4d4d;
     box-sizing: border-box;
+    box-shadow: 2px 2px 5px #111;
     z-index: 1;
     border-radius: 20px;
     overflow: hidden; }
-    .login-box .inner .back-btn {
-      position: absolute;
-      width: 100%;
-      height: 5vh;
-      line-height: 5vh;
-      top: 0;
-      left: 0;
-      color: #b8b8b8;
-      letter-spacing: 4px;
-      z-index: -1;
-      text-align: center;
-      text-decoration: none;
-      white-space: 24px; }
+    .login-box .inner a {
+      text-decoration: none; }
+    .login-box .inner .link-box {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 20px; }
+      .login-box .inner .link-box .btn {
+        color: #444444;
+        transition: color .3s ease; }
+        .login-box .inner .link-box .btn:hover {
+          color: #eee; }
   .login-box.success .inner {
     animation-fill-mode: forwards;
     animation-delay: .5s;
@@ -158,7 +156,7 @@ body {
     top: -10%; }
 
 form.login-form {
-  background-color: #414241;
+  background-color: #111;
   padding: 20px 100px;
   box-sizing: border-box;
   transition: transform 1s ease; }
