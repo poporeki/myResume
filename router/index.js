@@ -1,8 +1,9 @@
 const express = require('express'),
   router = express.Router();
 
-const saveTourists = require('../modules/saveTourists'),
-  addTourists = require('../db/schema/addTourists');
+const saveTourists = require('../modules/saveTourists');
+
+const userCtl = require('../controllers/user');
 
 router.use('/', (req, res, next) => {
   res.locals['USER'] = req.session.user ? req.session.user : null;
@@ -20,43 +21,28 @@ router.get('/bzonflash', (req, res) => {
   res.render('bz');
 });
 
-router.post('/auth', (req, res) => {
-  var auth = {
-    status: false
-  };
-  if (req.session.user) {
-    auth.status = true;
-    auth.info = {
-      user: req.session.user
-    }
-  }
-  res.json({
-    auth
-  });
-})
+/* 权限 */
+router.post('/auth', userCtl.auth);
+/* 接口 */
 router.use('/api', require('./api'));
+/* 登陆 */
 router.use('/login', require('./login'));
+/* 简历 */
 router.use('/iresume', require('./iresume'));
+/* 注册 */
 router.use('/reg', require('./registerAccount'));
+/* 验证码操作 */
 router.use('/verify', require('./verify'));
+/* 后台管理 */
 router.use('/backend', require('./back'));
+/* 博客 */
 router.use('/blog', require('./blog'));
-router.get('/logout', (req, res) => {
-  if (!req.session.user) return res.redirect('/');
-  req.session.destroy();
-  res.json({
-    status: true
-  })
+/* 退出登陆 */
+router.get('/logout', userCtl.logout);
 
-})
-router.get('*', (req, res) => {
-  if (req.xhr === true) {
-    return res.json({
-      status: 404,
-      msg: '访问内容不存在'
-    })
-  }
-  res.render('404');
+
+router.get('*', (req, res, next) => {
+  next(404);
 })
 
 router.post('*', (req, res) => {

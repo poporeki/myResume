@@ -73,12 +73,12 @@ exports.showUserHome = (req, res, next) => {
 }
 exports.updateInfoCheck = [
   check('uname')
-    .isString().withMessage('必须为字符串')
-    .isLength({
-      min: 4,
-      max: 12
-    }).withMessage('账号长度错误')
-    .matches(/^[\D]{1}([\u4e00-\u9fa5\-\w]){3,11}$/).withMessage('账号格式错误')
+  .isString().withMessage('必须为字符串')
+  .isLength({
+    min: 4,
+    max: 12
+  }).withMessage('账号长度错误')
+  .matches(/^[\D]{1}([\u4e00-\u9fa5\-\w]){3,11}$/).withMessage('账号格式错误')
 ];
 exports.updateInfo = (req, res, next) => {
   let username = req.body.username;
@@ -122,7 +122,11 @@ exports.updateInfo = (req, res, next) => {
       }
     }
     try {
-      await userMod.updateAccountInfo(userid, { username, telnumber, email });
+      await userMod.updateAccountInfo(userid, {
+        username,
+        telnumber,
+        email
+      });
       return res.json({
         status: 1,
         msg: "修改成功"
@@ -164,3 +168,28 @@ exports.updateUserPassword = (req, res, next) => {
   })
 }
 exports.sign = sign;
+
+exports.logout = (req, res) => {
+  req.session.destroy();
+  if (req.xhr) {
+    res.json({
+      status: true
+    })
+  }
+  res.redirect('/');
+}
+
+exports.auth = (req, res) => {
+  var auth = {
+    status: false
+  };
+  if (req.session.user) {
+    auth.status = true;
+    auth.info = {
+      user: req.session.user
+    }
+  }
+  res.json({
+    auth
+  });
+}

@@ -1,37 +1,23 @@
 const express = require("express"),
   app = express(),
-  https = require("https"),
-  fs = require("fs"),
   path = require("path"),
   bodyParser = require("body-parser"),
   useragent = require("express-useragent"),
   session = require("express-session"),
   compression = require("compression"),
-  os = require("os"),
+  /* gzip */
   moment = require("moment");
 
-moment.locale("zh-cn");
 const socket = require("./router/back/socket");
-/* https配置证书 */
-let options;
-/* if (os.platform() === "win32") {
-  options = {
-    key: fs.readFileSync("d:/2_www.yansk.cn.key"),
-    cert: fs.readFileSync("d:/1_www.yansk.cn_bundle.crt")
-  };
-} */
+const ERROR = require('./controllers/error');
+/* 端口号 */
+const PORT = 3000;
 
-if (os.platform() !== "win32") {
-  options = {
-    key: fs.readFileSync("/data/www/www/myBlog/config/ssl/2_www.yansk.cn.key"),
-    cert: fs.readFileSync("/data/www/www/myBlog/config/ssl/1_www.yansk.cn_bundle.crt")
-  };
-}
+moment.locale("zh-cn");
 /* mongodb启用 */
-const db = require("./db/config");
-
+require("./db/config");
 /* gzip */
-app.use(compression());
+/* app.use(compression()); */
 /* body-parse */
 app.use(
   bodyParser.urlencoded({
@@ -44,10 +30,9 @@ app.use(
     limit: "50mb"
   })
 );
-/* useragent */
+/* userAgent */
 app.use(useragent.express());
-/* 端口号 */
-var PORT = 3000;
+
 /* 模板引擎 ejs */
 app.set("view engine", "ejs");
 app.engine('ejs', require('ejs-mate'));
@@ -61,7 +46,6 @@ app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://192.168.199.147:8081");
   res.header("Access-Control-Allow-Headers", "Content-Type");
   res.header("Access-Control-Allow-Credentials", "true"); //和客户端对应，必须设置以后，才能接收cookie.
-
   next();
 });
 
@@ -79,52 +63,14 @@ app.use(
 /* 路由 */
 app.use("/", require("./router"));
 /* 错误处理 */
-app.use((err, req, res, next) => {
-  console.log(err);
-  if (res.headersSent) {
-    return next(err);
-  }
-  if (err === -9) {
-    if (req.xhr === true) {
-      return res.json({
-        status: -9,
-        msg: '未登录'
-      })
-    }
-    res.redirect('/login');
-  } else
-    if (err === -1) {
-      if (req.xhr === true) {
-        return res.json({
-          status: -1,
-          msg: '服务器错误'
-        })
-      }
-    }
-  if (err === 404) {
-    if (req.xhr === true) {
-      return res.json({
-        status: 404,
-        msg: '访问内容不存在'
-      })
-    }
-    res.render('404');
-  } else {
-    if (res.headersSent) {
-      return next(err);
-    }
-    res.status(500);
-    res.render('error', { error: err });
-  }
-});
+app.use(ERROR);
 /* 启动https服务 */
 // var server = https.createServer(options, app).listen(PORT, () => {
 //   console.log('HTTPS server is running!');
 // });
-var server = app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`HTTP server is running! PORT:${PORT}`);
 });
 /* 启动websocket服务 */
 socket.prepareSocketIO(server);
-
 module.exports = PORT;
