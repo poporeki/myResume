@@ -1,8 +1,11 @@
 {
-  "name": "mainnode",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "name": "MainNode",
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "server": "webpack-dev-server --config webpack.config.js",
+    "start:dev": "webpack-dev-server"
+  },
+  "private": true,
   "dependencies": {
     "body-parser": "^1.18.3",
     "cheerio": "^1.0.0-rc.2",
@@ -18,25 +21,31 @@
     "formidable": "^1.2.1",
     "gd-bmp": "^1.2.4",
     "gm": "^1.23.1",
-    "moment": "^2.24.0",
-    "mongoose": "^5.4.8",
+    "moment": "^2.23.0",
+    "mongoose": "^5.4.1",
     "request": "^2.88.0",
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
     "browser-sync": "^2.26.3",
-    "gulp": "^4.0.0",
-    "gulp-nodemon": "^2.4.2",
+    "browser-sync-webpack-plugin": "^2.2.2",
+    "css-loader": "^2.1.0",
+    "ejs-lint": "^0.3.0",
+    "gulp": "^3.9.1",
     "gulp-sass": "^4.0.2",
-    "node-sass": "^4.11.0"
+    "gulp-useref": "^3.1.6",
+    "minimatch": "^3.0.4",
+    "node-sass": "^4.11.0",
+    "style-loader": "^0.23.1"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "description": "",
+  "version": "1.0.0",
+  "main": "app.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/poporeki/myResume.git"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
