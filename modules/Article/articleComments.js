@@ -26,7 +26,7 @@ module.exports = {
   getCommentCountById: function (artid, cb) {
     commentSchema
       .find({ article_id: artid })
-      .count()
+      .countDocuments()
       .exec((err, commCount) => {
         if (err) return cb(err, null);
         return cb(null, commCount);
@@ -55,7 +55,7 @@ module.exports = {
           .find({
             article_id: arcid
           })
-          .count()
+          .countDocuments()
           .exec((err, commCount) => {
             if (err) return reject(err);
             let floor = commCount + 1;
@@ -106,7 +106,7 @@ module.exports = {
           .find({
             article_id: artid
           })
-          .count()
+          .countDocuments()
           .exec((err, commCount) => {
             if (err) return reject(err);
             resolve(commCount);
@@ -171,7 +171,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         commentReplySchema
           .find({ comment_id: obj.comment_id })
-          .count()
+          .countDocuments()
           .exec(function (err, replyCount) {
             if (err) return reject(err);
             obj["floor"] = replyCount + 1;

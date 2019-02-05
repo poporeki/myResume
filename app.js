@@ -48,7 +48,6 @@ app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Credentials", "true"); //和客户端对应，必须设置以后，才能接收cookie.
   next();
 });
-
 /* session 配置 */
 app.use(
   session({
@@ -69,7 +68,7 @@ app.use(ERROR);
 //   console.log('HTTPS server is running!');
 // });
 const server = app.listen(PORT, () => {
-  console.log(`HTTP server is running! PORT:${PORT}`);
+  console.log(`HTTP服务器正在运行中! 端口:${PORT}`);
 });
 /* 启动websocket服务 */
 socket.prepareSocketIO(server);

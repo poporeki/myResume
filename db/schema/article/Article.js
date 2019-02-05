@@ -43,7 +43,7 @@ var articleSchema = new schema({
  * @param {function} cb 
  */
 articleSchema.statics.getCount = function (by, cb) {
-  return this.find(by).count().exec(cb);
+  return this.find(by).countDocuments().exec(cb);
 }
 
 articleSchema.statics.addArticle = function (pars, cb) {
@@ -86,7 +86,7 @@ articleSchema.statics.findOneArticle = function (artid, cb) {
     .exec(cb);
 }
 articleSchema.statics.incReadNum = function (artid, cb) {
-  return this.update({
+  return this.updateOne({
     '_id': artid
   }, {
       $inc: {
@@ -95,7 +95,7 @@ articleSchema.statics.incReadNum = function (artid, cb) {
     }).exec(cb);
 }
 articleSchema.statics.updateOneArticle = function (artid, pars, cb) {
-  return this.update({
+  return this.updateOne({
     "_id": artid
   }, {
       $set: pars

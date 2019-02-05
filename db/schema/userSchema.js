@@ -79,7 +79,7 @@ userSchema.statics.updateUserPassword = function (pars, cb) {
     }, cb);
 }
 userSchema.statics.pushLoginTime = function (pars, cb) {
-  return this.update({
+  return this.updateOne({
     user_name: pars.name
   }, {
       $push: {

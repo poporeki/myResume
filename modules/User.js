@@ -212,7 +212,7 @@ module.exports = {
           .find({
             user_id: userid
           })
-          .count()
+          .countDocuments()
           .exec(function (err, total) {
             if (err) return reject(err);
             lastLogin["loginTotal"] = total;
@@ -259,7 +259,7 @@ module.exports = {
 
     let getCount = () => {
       return new Promise((resolve, reject) => {
-        dbLoginRecord.find({}).count().exec((err, result) => {
+        dbLoginRecord.find({}).countDocuments().exec((err, result) => {
           if (err) return reject(err);
           return resolve(result);
         })

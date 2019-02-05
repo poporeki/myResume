@@ -35,7 +35,7 @@ commentSchema.statics.updateLikeNum = function (commid, cb) {
             return;
         }
         var likeNum = result[0].like_num;
-        return this.update({
+        return this.updateOne({
             '_id': id
         }, {
             $set: {

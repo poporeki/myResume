@@ -32,12 +32,12 @@ userSchema.statics.visitorTotalOfTheDay = function (reg, cb) {
             "$gte": new Date(reg + ' 00:00:00').toISOString(),
             "$lt": new Date(reg + ' 24:00:00').toISOString()
         }
-    }).count().exec(cb);
+    }).countDocuments().exec(cb);
 }
 userSchema.statics.visitorTotalOfTheWeek = function (reg, cb) {
     return this.find({
         coming_time: reg
-    }).count().exec(cb);
+    }).countDocuments().exec(cb);
 }
 userSchema.statics.visitorOfTheDay = function (reg, cb) {
     return this.find({
