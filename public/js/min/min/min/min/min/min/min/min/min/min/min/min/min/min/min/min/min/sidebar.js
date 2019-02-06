@@ -1,1 +1,0 @@
-$(function(){var s=$(".menu-sidebar");$(".control-menu,.menu-sidebar .s-mask,.menu-sidebar a").on("click",function(){s.hasClass("show")?s.removeClass("show"):s.addClass("show")})});

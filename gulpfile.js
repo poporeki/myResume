@@ -19,6 +19,10 @@ var path = {
         path:'./dist',
         css:'./public/css/min',
         js:'./public/js/min'
+    },
+    ignore:{
+        css:'!./public/css/min/**/*.css',
+        js:'!./public/js/min/**/*.js'
     }
 }
 
@@ -60,13 +64,13 @@ function sassTask(){
 
 let miniCssTask=series(sassTask,cssoTask);
 function cssoTask(){
-    return src(`${path.output.css}/**/*.css`)
+    return src([`${path.output.css}/**/*.css`,path.ignore.css])
     .pipe(csso())
     .pipe(dest(path.output.css))
     .pipe(browsync.stream())
 }
 function miniJs(){
-    return src(path.js)
+    return src([path.js,path.ignore.js])
     .pipe(uglify())
     .pipe(dest(path.output.js))
     .pipe(browsync.stream())
