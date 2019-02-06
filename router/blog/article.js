@@ -6,6 +6,7 @@ var moment = require('moment');
 var articleMod = require('../../modules/Article/article'); /* 文章Module */
 var artCommMod = require('../../modules/Article/articleComments'); /* 文章评论Module */
 
+const articleCtl=require('../../controllers/article');
 /* 获取用户是否点赞该文章 */
 let getUserLike = (
   arcid,
@@ -45,7 +46,7 @@ function traversalReply(reply) {
         id: t._id,
         repContent: t.comment_text,
         likeNum: t.like_num,
-        createTime: moment(t.createdAt).fromNow(),
+        createTime: moment(t.create_time).fromNow(),
         submitAddress: t.submit_address,
         floor: t.floor
       }
@@ -60,7 +61,7 @@ function traversalReply(reply) {
       id: reply[idx]._id,
       repContent: reply[idx].comment_text,
       likeNum: reply[idx].like_num,
-      createTime: moment(reply[idx].createdAt).fromNow(),
+      createTime: moment(reply[idx].create_time).fromNow(),
       submitAddress: reply[idx].submit_address,
       to,
       floor: reply[idx].floor
@@ -179,38 +180,7 @@ let getTheArticleBnAArticle = (arcid) => {
 
 }
 /* 文章页面 */
-router.get('/:id', (req, res, next) => {
-  // 返回数量 默认10
-  let limit = parseInt(req.query.number || 10);
-  // 跳过数量
-  let skip = parseInt(((req.query.skip || 1) - 1) * 10);
-  // 文章id
-  let arcid = req.params.id;
-  let fn = async () => {
-    let arcInfo = await getArcInfo(arcid);
-    articleMod.incReadNum(arcid);
-    let [
-      [arcComments, commsTotal], isLiked
-    ] = await Promise.all([
-      getArcComm(limit, skip, arcid),
-      getUserLike(arcid, req.session.user)
-    ]);
-    let { prevArc, nextArc } = await getTheArticleBnAArticle(arcid);
-    res.render('./blog/article', {
-      art: arcInfo,
-      artComms: arcComments,
-      userIsLiked: isLiked,
-      artTotal: commsTotal,
-      arcPrev: prevArc[0],
-      arcNext: nextArc[0]
-    });
-  }
-  fn().catch(err => {
-    next(404);
-  })
-
-
-})
+router.get('/:id',articleCtl.showArticleById);
 
 
 router.use('/', require('./comments'));

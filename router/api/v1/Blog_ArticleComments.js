@@ -9,5 +9,5 @@ router.get('/getTop', Comment.getTop)
 router.post('*', Comment.isLogin)
 router.post("/submitComment", Comment.insertComment);
 router.post("/submitReply", Comment.insertReplyToComment);
-
+router.get('/getcomments',Comment.getCommentsByArcId);
 module.exports = router;

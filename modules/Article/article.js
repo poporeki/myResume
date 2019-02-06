@@ -49,7 +49,6 @@ module.exports = {
     };
     // 跳过数量
     let skip = page ? (page - 1) * limit : 0;
-    let typeName = "";
 
     let pars = {
       by,
@@ -63,9 +62,10 @@ module.exports = {
         articleType.findById(by.type_id, (err, result) => {
           if (err) return reject(err);
           if (result && result.type_name) {
-            typeName = result.type_name;
+            let typeName = result.type_name||'';
+            resolve(typeName);
           }
-          resolve();
+          resolve('');
         });
       });
     };
@@ -112,16 +112,20 @@ module.exports = {
         resolve(arcArr);
       });
     };
-    getTypeName()
-      .then(getArcList)
-      .then(formatList)
-      .then(arcList => {
-        return cb(null, {
-          typename: typeName,
-          arcList
-        });
+    let fn=async()=>{
+      let [typeName,arcList]=await Promise.all([
+        getTypeName(),
+        getArcList()
+      ]);
+      arcList =await formatList(arcList);
+      return cb(null,{
+        typename:typeName,
+        arcList
       })
-      .catch(err => cb(err, null));
+    }
+    fn().catch(err=>{
+      return cb(err,null);
+    })
   },
   /**
    * 获取所有文章分类
@@ -289,9 +293,7 @@ module.exports = {
         read: -1
       })
       .exec(function (err, result) {
-        if (err) {
-          return cb(err, null);
-        }
+        if (err) return cb(err, null);
         return cb(null, result);
       });
   },

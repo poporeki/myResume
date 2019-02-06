@@ -263,7 +263,7 @@ exports.getCommentsByArcId = (req, res) => {
               // 评论地址
               submitAddress: comm.submit_address,
               // 創建時間
-              createTime: moment(comm.createdAt).fromNow(),
+              createTime: moment(comm.create_time).fromNow(),
               // 点赞数
               likeNum: comm.like_num,
               // 评论内容
@@ -298,7 +298,7 @@ exports.getCommentsByArcId = (req, res) => {
         id: reply._id,
         repContent: reply.comment_text,
         likeNum: reply.like_num,
-        createTime: moment(reply.createdAt).fromNow(),
+        createTime: moment(reply.create_time).fromNow(),
         submitAddress: reply.submit_address,
         to: reply.to ? reply.to : "",
         floor: reply.floor

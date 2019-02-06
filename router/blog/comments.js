@@ -80,7 +80,7 @@ router.post("/submitComment", (req, res) => {
         user: req.session.user._id,
         submitAddress: resultInserted.submit_address,
         floor: resultInserted.floor,
-        create_time: moment(resultInserted.createdAt).fromNow()
+        create_time: moment(resultInserted.create_time).fromNow()
       }
     });
   };
@@ -184,7 +184,7 @@ router.post("/submitReply", (req, res, next) => {
         to: resultReplyList[0].author_id ?
           resultReplyList[0].author_id.user_name : "not",
         floor: resultInsert.floor,
-        create_time: moment(resultInsert.createdAt).fromNow()
+        create_time: moment(resultInsert.create_time).fromNow()
       }
     });
   };

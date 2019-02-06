@@ -4,6 +4,22 @@ const articleMod = require('../modules/Article/article'); /* 文章Module */
 const artCommMod = require('../modules/Article/articleComments'); /* 文章评论Module */
 const arcTypeMod = require('../modules/Article/articleType');
 
+/* 获取用户是否点赞该文章 */
+let getUserLike = (
+  arcid,
+  userid
+) => {
+  return new Promise(async (resolve, reject) => {
+    if (!userid) return resolve(false);
+    let isLiked = false;
+    try {
+      isLiked = await articleMod.theArticleLikeOperation(arcid, userid);
+    } catch (error) {
+      console.log(`liked error`)
+    }
+    resolve(isLiked)
+  })
+}
 /**
  * 遍历文章数组
  * @param {array} reply 返回的该文章评论回复 
@@ -27,7 +43,7 @@ function traversalReply(reply) {
         id: t._id,
         repContent: t.comment_text,
         likeNum: t.like_num,
-        createTime: moment(t.createdAt).fromNow(),
+        createTime: moment(t.create_time).fromNow(),
         submitAddress: t.submit_address,
         floor: t.floor
       }
@@ -42,7 +58,7 @@ function traversalReply(reply) {
       id: reply[idx]._id,
       repContent: reply[idx].comment_text,
       likeNum: reply[idx].like_num,
-      createTime: moment(reply[idx].createdAt).fromNow(),
+      createTime: moment(reply[idx].create_time).fromNow(),
       submitAddress: reply[idx].submit_address,
       to,
       floor: reply[idx].floor
@@ -113,7 +129,8 @@ let getArcInfo = arcid => {
         // 文章作者
         author: thisArc.author_id ? thisArc.author_id.user_name : '不知道是谁',
         //阅读数量
-        readNum: thisArc.read
+        readNum: thisArc.read,
+        likes:thisArc.like_this.length
       }
       resolve(arcInfo);
     })
@@ -135,19 +152,49 @@ let getArcComm = (limit, skip, arcid) => {
             avatar: comms.author_id.avatar_path ? comms.author_id.avatar_path.save_path + 'thumbnail_' + comms.author_id.avatar_path.new_name : "/images/my-head.png"
           },
           submitAddress: comms.submit_address,
-          createTime: moment(comms.createdAt).fromNow(),
+          createTime: moment(comms.create_time).fromNow(),
           likeNum: comms.like_num,
           text: comms.comment_text,
           commReps: commReps,
           floor: comms.floor
         }
       })
-      resolve({
-        collection: artComms,
-        total: result.total
-      });
+      resolve([
+         artComms,
+        result.total
+      ]);
     })
   })
+}
+/* 获得前后文章 */
+let getTheArticleBnAArticle = (arcid) => {
+  return new Promise((resolve, reject) => {
+    let getPrevArc = (arcid) => {
+      return new Promise((resolve, reject) => {
+        articleMod.getPrevArticleById(arcid, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
+        });
+      })
+    }
+    let getNextArc = (arcid) => {
+      return new Promise((resolve, reject) => {
+        articleMod.getNextArticleById(arcid, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
+        });
+      })
+    }
+    let fn = async () => {
+      let prevArc = await getPrevArc(arcid);
+      let nextArc = await getNextArc(arcid);
+      resolve({ prevArc, nextArc });
+    }
+    fn().catch(err => {
+      return reject(err);
+    })
+  })
+
 }
 /* 通过文章id得到文章相关信息 */
 exports.getArticleInfoById = (req, res, next) => {
@@ -175,6 +222,38 @@ exports.getArticleInfoById = (req, res, next) => {
       status: 0,
       msg: '获取失败'
     })
+  })
+}
+exports.showArticleById=  (req, res, next) => {
+  // 返回数量 默认10
+  let limit = parseInt(req.query.number || 10);
+  // 跳过数量
+  let skip = parseInt(((req.query.skip || 1) - 1) * 10);
+  // 文章id
+  let arcid = req.params.id;
+  let fn = async () => {
+    articleMod.incReadNum(arcid);
+    let [
+      arcInfo,
+      [arcComments, commsTotal],
+      isLiked
+    ] = await Promise.all([
+      getArcInfo(arcid),
+      getArcComm(limit, skip, arcid),
+      getUserLike(arcid, req.session.user)
+    ]);
+    let { prevArc, nextArc } = await getTheArticleBnAArticle(arcid);
+    res.render('./blog/article', {
+      art: arcInfo,
+      artComms: arcComments,
+      userIsLiked: isLiked,
+      artTotal: commsTotal,
+      arcPrev: prevArc[0],
+      arcNext: nextArc[0]
+    });
+  }
+  fn().catch(err => {
+    next(404);
   })
 }
 /* 按阅读数量得到文章列表 */

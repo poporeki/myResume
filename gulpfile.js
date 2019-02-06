@@ -21,7 +21,7 @@ var path = {
         js:'./public/js/min'
     },
     ignore:{
-        css:'!./public/css/min/**/*.css',
+        css:'!./public/css/min/**/*.cssadd',
         js:'!./public/js/min/**/*.js'
     }
 }
