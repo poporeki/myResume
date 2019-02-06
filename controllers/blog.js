@@ -12,14 +12,12 @@ exports.getHomeNavbar = (req, res, next) => {
 }
 
 exports.showHome = (req, res, next) => {
-  let resObj = {};
   /* 获取文章分类 */
   function getArcType() {
     return new Promise((resolve, reject) => {
       articleTypeMod.findArticleType("", (err, resTypeList) => {
         if (err) return reject(err);
-        resObj["typeList"] = resTypeList;
-        resolve();
+        resolve(resTypeList);
       });
     });
   }
@@ -28,8 +26,7 @@ exports.showHome = (req, res, next) => {
     return new Promise((resolve, reject) => {
       articleMod.findArticleTagsInfo((err, resTagsList) => {
         if (err) return reject(err);
-        resObj["tagList"] = resTagsList;
-        resolve();
+        resolve(resTagsList);
       });
     });
   }
@@ -38,8 +35,7 @@ exports.showHome = (req, res, next) => {
     return new Promise((resolve, reject) => {
       commentMod.findCommentTop((err, resCommList) => {
         if (err) return reject(err);
-        resObj["commList"] = resCommList;
-        resolve();
+        resolve(resCommList);
       });
     });
   }
@@ -60,21 +56,28 @@ exports.showHome = (req, res, next) => {
       };
       articleMod.showArticleList(pars, (err, result) => {
         if (err) return reject(err);
-        resObj["carouList"] = result.arcList;
-        resolve();
+        resolve(result.arcList);
       });
     });
   }
-  getArcType()
-    .then(getArcTags)
-    .then(getCommTop)
-    .then(getArcList)
-    .then(() => {
-      res.render("./blog/index", resObj);
-    })
-    .catch(err => {
-      return next(err);
-    });
+  let fn=async()=>{
+    let result=await Promise.all([
+      getArcType(),
+      getArcTags(),
+      getCommTop(),
+      getArcList()
+    ])
+    let resObj={
+      typeList:result[0],
+      tagList:result[1],
+      commList:result[2],
+      carouList:result[3]
+    }
+    res.render('./blog/index',resObj);
+  }
+  fn().catch(err=>{
+    return next(err);
+  })
 }
 
 exports.getArticleList = (req, res, next) => {
@@ -87,9 +90,7 @@ exports.getArticleList = (req, res, next) => {
     }
   };
   articleMod.showArticleList(pars, (err, resListSortTime) => {
-    if (err) {
-      next(err);
-    }
+    if (err) return  next(err);
     res.json({
       status: true,
       msg: "",
