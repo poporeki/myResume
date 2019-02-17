@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,16 +10,16 @@
     <link rel="stylesheet" href="/css/min/blog/header-blog.css">
     <link rel="stylesheet" href="/css/min/blog/footer-blog.css">
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
-    <%- block('css').toString() %>
+    {{{block("head")}}}
     <title>YANSK'S BLOG</title>
 </head>
 <body>
-<%- include('header_blog') -%>
-<%- body -%>
-<%- include('sidebar') -%>
+{{{include('./header_blog')}}}
+{{{block ("body")}}}
+{{{include('./sidebar')}}}
 <div class="parallax-window lazyload" data-original="/images/blog_bg.jpg"></div>
 <div class="back-to-top" id="back_to_top"></div>
-<%- include('footer_blog') -%>
+{{{include('./footer_blog')}}}
 </body>
 <script src="https://cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery_lazyload/1.9.7/jquery.lazyload.min.js"></script>
@@ -30,5 +29,5 @@
 <script>
     $(".lazyload").lazyload();
 </script>
-<%- block('js').toString() %>
+{{{block("scripts")}}}
 </html>

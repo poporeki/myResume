@@ -1,0 +1,157 @@
+{{extend ('./LAYER')}}
+
+{{#block ('head')}}
+<link rel="stylesheet" href="/css/min/blog/index.css">
+<link rel="stylesheet" href="/weather/css/style.css">
+{{/block}}
+
+{{#block ('body')}}
+<div class="wrapper">
+  {{!热门}}
+  <div class="hot-box">
+    <div class="lt">{{{include('./swiper')}}}</div>
+    <div class="rt">
+      <div class="tit"><h2>热门</h2></div>
+      <div class="swiper-container hot-list">
+        <div class="swiper-wrapper"></div>
+        <div class="swiper-scrollbar"></div>
+      </div>
+    </div>
+  </div>
+  <section class="classify">
+    <div class="lt"><h2 class="title">分类</h2></div>
+    <div class="rt">
+      {{#each (typeList)}}
+      <div class="classify-item">
+        <a class="type-lk" href="/blog/articlelist?by[type_id]={{this._id}}">
+          <i class="iconfont icon-{{this.iconfont_name}}"></i>
+          <i class="iconfont bottom icon-{{this.iconfont_name}}"></i>
+          <p>{{this.type_name}}</p>
+        </a>
+      </div>
+      {{/each}}
+    </div>
+  </section>
+
+  <div class="sec-wrapper">
+    <div class="line"></div>
+    <!--天气css动画 start-->
+    <section class="weather">
+      <div class="inner">
+        <div class="w-icon">
+          <!--太阳雨-->
+          <div class="icon sun-shower">
+            <div class="cloud"></div>
+            <div class="sun">
+              <div class="rays"></div>
+            </div>
+            <div class="rain"></div>
+          </div>
+          <!--雷雨-->
+          <div class="icon thunder-storm">
+            <div class="cloud"></div>
+            <div class="lightning">
+              <div class="bolt"></div>
+              <div class="bolt"></div>
+            </div>
+          </div>
+          <!--多云-->
+          <div class="icon cloudy">
+            <div class="cloud"></div>
+            <div class="cloud"></div>
+          </div>
+          <!--小雪-->
+          <div class="icon flurries">
+            <div class="cloud"></div>
+            <div class="snow">
+              <div class="flake"></div>
+              <div class="flake"></div>
+            </div>
+          </div>
+          <!--晴-->
+          <div class="icon sunny">
+            <div class="sun">
+              <div class="rays"></div>
+            </div>
+          </div>
+          <!--雨-->
+          <div class="icon rainy">
+            <div class="cloud"></div>
+            <div class="rain"></div>
+          </div>
+        </div>
+        <div class="w-info">
+          <span class="w-city">获</span>
+          <span class="w-up-time">正</span>
+          <span class="w-temp">在</span>
+          <span class="w-province">取</span>
+        </div>
+      </div>
+      <div class="w-fullpage">
+        <p>建设中</p>
+      </div>
+    </section>
+    <!--天气css动画 end-->
+  </div>
+  <section class="article">
+    <div class="article-list">
+      <h2 class='title'>最新文章<a href="blog/articlelist">MORE</a></h2>
+      <ul></ul>
+    </div>
+    <div class="right-item">
+      <div class="arc-tag-box">
+        <h2>Tag标签</h2>
+        <div class="articletag-list">
+          {{#if(tagList.length===0)}}
+          内容为空
+          {{else}}
+          {{#each(tagList)}}
+          <a class='tag-lk' href="/blog/articlelist?by[tags_id]={{this._id}}">
+            {{this.tag_name}}
+            <div class="lk-inner">
+              <div class="front"><span>{{this.tag_name}}</span></div>
+              <div class="back"><span>{{this.count}}</span></div>
+            </div>
+          </a>
+          {{/each}}
+          {{/if}}
+        </div>
+      </div>
+      <div class="add-box">
+      </div>
+      <div class="arc-comm-box">
+        <h2>最新评论</h2>
+        <div class="artcomm-list">
+          {{#if(commList.length===0)}}
+          内容为空
+          {{else}}
+          {{#each(commList)}}
+          <a class='comm-lk' href="/blog/article/{{this.article[0]._id}}#comment">
+            <h6 class="arc-tit">{{this.article[0].title}}</h6>
+            {{!头像}}
+            {{set(avatar=this.avatar[0],
+            author=this.author[0])
+            }}
+            {{!头像src}}
+            {{#if(avatar!==null)}}
+            {{set(avatarSrc=avatar.save_path+'thumbnail_'+avatar.new_name)}}
+            {{else}}
+            {{set(avatarSrc='/images/user/avatars/default/1.png')}}
+            {{/if}}
+            <div class="arc-comm">
+              <img class="head-pic" src="{{avatarSrc}}" onerror="this.src='/images/default_writer_avatar.png'" alt="头像">
+              {{author.user_name}}: <span>{{this.comment_text}}</span>
+            </div>
+          </a>
+          {{/each}}
+          {{/if}}
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+{{/block}}
+{{#block ('scripts')}}
+<script src="/js/min/blog/index.js"></script>
+{{/block}}

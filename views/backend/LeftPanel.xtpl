@@ -1,0 +1,127 @@
+    <!-- ########## START: LEFT PANEL ########## -->
+    <div class="br-logo"><a href=""><span>[</span>后台管理<span>]</span></a></div>
+    <div class="br-sideleft overflow-y-auto">
+      <label class="sidebar-label pd-x-15 mg-t-20">Navigation</label>
+      <div class="br-sideleft-menu">
+        <a href="/backend" class="br-menu-link">
+          <div class="br-menu-item">
+            <i class="menu-item-icon icon ion-ios-home-outline tx-22"></i>
+            <span class="menu-item-label">首页</span>
+          </div><!-- menu-item -->
+        </a><!-- br-menu-link -->
+
+        <a href="#" class="br-menu-link">
+          <div class="br-menu-item">
+            <i class="menu-item-icon icon ion-ios-filing-outline tx-24"></i>
+            <span class="menu-item-label">账号管理</span>
+            <i class="menu-item-arrow fa fa-angle-down"></i>
+          </div><!-- menu-item -->
+        </a><!-- br-menu-link -->
+        <ul class="br-menu-sub nav flex-column">
+          <li class="nav-item"><a href="/backend/regg" class="nav-link">注册账户</a></li>
+          <li class="nav-item"><a href="/backend/user/userlist" class="nav-link">账户列表</a></li>
+          <li class="nav-item"><a href="/backend/loginrecord" class="nav-link">登陆记录</a></li>
+        </ul>
+        <a href="#" class="br-menu-link">
+          <div class="br-menu-item">
+            <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
+            <span class="menu-item-label">文章管理</span>
+            <i class="menu-item-arrow fa fa-angle-down"></i>
+          </div><!-- menu-item -->
+        </a><!-- br-menu-link -->
+        <ul class="br-menu-sub nav flex-column">
+          <li class="nav-item"><a href="/backend/art/addArticle" class="nav-link">添加文章</a></li>
+          <li class="nav-item"><a href="/backend/art/articlelist" class="nav-link">文章列表</a></li>
+          <li class="nav-item"><a href="/backend/art/type/add" class="nav-link">添加分类</a></li>
+          <li class="nav-item"><a href="/backend/art/type/list" class="nav-link">查看分类</a></li>
+          <li class="nav-item"><a href="/backend/art/tag/add" class="nav-link">添加Tag标签</a></li>
+          <li class="nav-item"><a href="/backend/art/tag/list" class="nav-link">查看Tag标签</a></li>
+        </ul>
+        <a href="/backend/art/articleTrash" class="br-menu-link">
+          <div class="br-menu-item">
+            <i class="menu-item-icon icon ion-ios-list-outline tx-22"></i>
+            <span class="menu-item-label">回收站</span>
+          </div><!-- menu-item -->
+        </a><!-- br-menu-link -->
+      </div><!-- br-sideleft-menu -->
+      <br>
+    </div><!-- br-sideleft -->
+    <!-- ########## END: LEFT PANEL ########## -->
+    <!-- ########## START: HEAD PANEL ########## -->
+    <div class="br-header">
+      <div class="br-header-left">
+        <div class="navicon-left hidden-md-down"><a id="btnLeftMenu" href=""><i class="icon ion-navicon-round"></i></a></div>
+        <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><i class="icon ion-navicon-round"></i></a></div>
+      </div><!-- br-header-left -->
+      <div class="br-header-right">
+        <nav class="nav">
+          <div class="dropdown">
+            <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
+              <span class="logged-name hidden-md-down">{{USER.username}}</span>
+              <img src="{{USER.avatarPath}}" class="wd-32 rounded-circle" alt="">
+              <span class="square-10 bg-success"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-header wd-200">
+              <ul class="list-unstyled user-profile-nav">
+                <li><a href=""><i class="icon ion-ios-person"></i> Edit Profile</a></li>
+                <li><a href="/backend/logout"><i class="icon ion-power"></i> Sign Out</a></li>
+              </ul>
+            </div><!-- dropdown-menu -->
+          </div><!-- dropdown -->
+        </nav>
+        <div class="navicon-right">
+          <a id="btnRightMenu" href="" class="pos-relative">
+            <i class="icon ion-ios-chatboxes-outline"></i>
+            <!-- start: if statement -->
+            <span class="square-8 bg-danger pos-absolute t-10 r--5 rounded-circle"></span>
+            <!-- end: if statement -->
+          </a>
+        </div><!-- navicon-right -->
+      </div><!-- br-header-right -->
+    </div><!-- br-header -->
+    <!-- ########## END: HEAD PANEL ########## -->
+
+    <!-- ########## START: RIGHT PANEL ########## -->
+    <div class="br-sideright">
+      <ul class="nav nav-tabs sidebar-tabs" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active show" data-toggle="tab" role="tab" href="#calendar"><i class="icon ion-ios-calendar-outline tx-24"></i></a>
+        </li>
+      </ul><!-- sidebar-tabs -->
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div class="tab-pane active show pos-absolute a-0 mg-t-60 overflow-y-auto" id="calendar" role="tabpanel">
+          <label class="sidebar-label pd-x-25 mg-t-25">Time &amp; Date</label>
+          <div class="pd-x-25">
+            <h2 id="brTime" class="tx-white tx-lato mg-b-5"></h2>
+            <h6 id="brDate" class="tx-white tx-light op-3"></h6>
+          </div>
+          <label class="sidebar-label pd-x-25 mg-t-25">Events Calendar</label>
+          <div class="datepicker sidebar-datepicker"></div>
+          <label class="sidebar-label pd-x-25 mg-t-25">Event Today</label>
+          <div class="pd-x-25">
+            <div class="list-group sidebar-event-list mg-b-20">
+              <div class="list-group-item">
+                <div>
+                  <h6 class="tx-white tx-13 mg-b-5 tx-normal">Roven's 32th Birthday</h6>
+                  <p class="mg-b-0 tx-white tx-12 op-2">2:30PM</p>
+                </div>
+                <a href="" class="more"><i class="icon ion-android-more-vertical tx-18"></i></a>
+              </div><!-- list-group-item -->
+              <div class="list-group-item">
+                <div>
+                  <h6 class="tx-white tx-13 mg-b-5 tx-normal">Regular Workout Schedule</h6>
+                  <p class="mg-b-0 tx-white tx-12 op-2">7:30PM</p>
+                </div>
+                <a href="" class="more"><i class="icon ion-android-more-vertical tx-18"></i></a>
+              </div><!-- list-group-item -->
+            </div><!-- list-group -->
+            <a href="" class="btn btn-block btn-outline-secondary tx-uppercase tx-11 tx-spacing-2">+ Add Event</a>
+            <br>
+          </div>
+        </div>
+      </div><!-- tab-content -->
+    </div><!-- br-sideright -->
+    <!-- ########## END: RIGHT PANEL ########## -->
+      

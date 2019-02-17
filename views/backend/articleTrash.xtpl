@@ -1,0 +1,61 @@
+{{extend ('Layer')}}
+{{#block ('head')}}
+<link rel="<link rel="stylesheet" href="/css/back/articlelist.css">
+{{/block}}
+{{#block ('scripts')}}
+  <script src="/js/back/articleTrash.js"></script>
+{{/block}}
+<div class="br-pageheader pd-y-15 pd-l-20">
+  <nav class="breadcrumb pd-0 mg-0 tx-12">
+    <a class="breadcrumb-item" href="/backend">首页</a>
+    <a class="breadcrumb-item" href="/backend/art">文章管理</a>
+    <span class="breadcrumb-item active">{{pageTitle}}</span>
+  </nav>
+</div>
+<div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+  <h4 class="tx-gray-800 mg-b-5">{{pageTitle}}</h4>
+  <p class="mg-b-0">.</p>
+</div>
+<div class="br-pagebody">
+  <div class="br-section-wrapper">
+    <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10"></h6>
+    <p class="mg-b-25 mg-lg-b-50">默认一页10篇文章.</p>
+
+    <div class="bd bd-gray-300 rounded table-responsive">
+      <table class="table table-hover mg-b-0">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>分类</th>
+            <th>阅读数</th>
+            <th>发布时间</th>
+            <th>最后修改时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+      <nav aria-label="Page navigation" class="navigation"></nav>
+    </div><!-- bd -->
+  </div>
+</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="delArcModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">删除此文章</h4>
+      </div>
+      <div class="modal-body">{{modalTips===undefined?'此文章将移动到回收站，是否继续？！':modalTips}}</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">否</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="delArc_btn">是</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal -->
+</div>

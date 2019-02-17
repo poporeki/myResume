@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Meta -->
+    <meta name="description" content="Premium Quality and Responsive UI for Dashboard.">
+    <meta name="author" content="ThemePixels">
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>{{pageTitle?pageTitle:'首页'}}</title>
+    <!-- vendor css -->
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/jquery.perfect-scrollbar/0.8.1/css/perfect-scrollbar.min.css" rel="stylesheet">
+    <link href="/lib/jquery-switchbutton/jquery.switchButton.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/chartist/0.11.0/chartist.min.css" rel="stylesheet">
+    <link href="/css/back/index.css" rel="stylesheet">
+
+    {{block ('head')}}
+
+    <!-- Bracket CSS -->
+    <link rel="stylesheet" href="/css/back/bracket.css">
+  </head>
+  <body>
+
+  {{include ('./bodyLayer')}}
+
+  <script src="https://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="https://cdn.bootcss.com/jquery.perfect-scrollbar/0.8.1/js/perfect-scrollbar.jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/moment.js/2.22.1/moment.min.js"></script>
+  <script src="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script src="/lib/jquery-switchbutton/jquery.switchButton.js"></script>
+  <script src="https://cdn.bootcss.com/jquery-sparklines/2.1.2/jquery.sparkline.min.js"></script>
+  <script src="https://cdn.bootcss.com/d3/3.5.17/d3.min.js"></script>
+  <script src="https://cdn.bootcss.com/rickshaw/1.6.2/rickshaw.min.js"></script>
+  <script src="/js/requestAjax.js"></script>
+  {{! <script src="/lib/select2/js/select2.min.js"></script> }}
+  <script src='/js/back/jquery.pagination.js'></script>
+  <script src="/js/back/bracket.js"></script>
+  <script src="/js/back/common.js"></script>
+  {{block ('scripts')}}
+  <script>
+    $(function(){
+      'use strict'
+
+      // FOR DEMO ONLY
+      // menu collapsed by default during first page load or refresh with screen
+      // having a size between 992px and 1299px. This is intended on this page only
+      // for better viewing of widgets demo.
+      $(window).resize(function(){
+        minimizeMenu();
+      });
+
+      minimizeMenu();
+
+      function minimizeMenu() {
+        if(window.matchMedia('(min-width: 992px)').matches && window.matchMedia('(max-width: 1299px)').matches) {
+          // show only the icons and hide left menu label by default
+          $('.menu-item-label,.menu-item-arrow').addClass('op-lg-0-force d-lg-none');
+          $('body').addClass('collapsed-menu');
+          $('.show-sub + .br-menu-sub').slideUp();
+        } else if(window.matchMedia('(min-width: 1300px)').matches && !$('body').hasClass('collapsed-menu')) {
+          $('.menu-item-label,.menu-item-arrow').removeClass('op-lg-0-force d-lg-none');
+          $('body').removeClass('collapsed-menu');
+          $('.show-sub + .br-menu-sub').slideDown();
+        }
+      }
+    });
+  </script>
+  </body>
+</html>

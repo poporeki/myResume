@@ -5,6 +5,7 @@ var userMod = require('../../modules/User');
 var arcMod = require('../../modules/Article/article');
 var Tourists = require('../../modules/Tourists');
 var osMod = require('../../common/os');
+var commentMod = require('../../modules/Article/articleComments')
 var childProcess = require('../../common/child_process');
 /* 权限判断 */
 router.use('/', (req, res, next) => {
@@ -102,28 +103,41 @@ router.get('/', (req, res, next) => {
 })
 /*get  获取浏览人数 */
 router.get('/getVistorTotal', function (req, res, next) {
-  let kind = req.query.kind || 'day';
-  let resObj = {};
   /* 获取访问人数 */
-  function getVistorTotal() {
+  let getVistorTotal=(kind)=> {
     return new Promise(function (resolve, reject) {
       Tourists.getVistorTotal(kind, function (err, result) {
-        if (err) {
-          reject(err);
-        }
+        if (err) return reject(err);
         resolve(result);
       })
     })
   }
-  getVistorTotal().then(function (result) {
+  //获取单位时间评论数量
+  let getCommentCountOfDays = (kind) => {
+    return new Promise((resolve, reject) => {
+      commentMod.getTotalOfDays(kind, function (err, result) {
+        if (err) return reject(err);
+        resolve(result);
+      })
+    })
+  }
+  let fn = async () => {
+    let kind = req.query.kind || 'day';
+    let [vistorTotalArr,
+      commentTotal]=await Promise.all([
+      getVistorTotal(kind),
+      getCommentCountOfDays(kind)]);
     return res.json({
       status: true,
-      data: result
+      data: {
+        vistorTotalArr,
+        commentTotal
+      }
     })
-  }).catch(function (err) {
-    return next(err);
+  }
+  fn().catch(err => {
+    next(err);
   })
-
 
 });
 /* 登出 */

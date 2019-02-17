@@ -146,6 +146,38 @@ exports.showUpdateArticleById = (req, res, next) => {
     let arcInfo = await getArcInfo(arcid);
     let arcTagsInfo = await getArcTags();
     let arcTypeInfo = await getArcType();
+    let selectTagsId=arcInfo.tags_id;
+    //选中的tag标签
+    let selectedTags=[];
+    //未选中的tag标签
+    let isntSelectTags=[];
+    let selectedType=[];
+    let isntSelectTypes=[];
+    //筛选tag标签
+    for(var i=0;i<arcTagsInfo.length;i++){
+      let tag=arcInfo.tags_id;
+      for(var j=0;j<tag.length;j++){
+        if(arcTagsInfo[i].id===tag[j].id){
+          selectedTags.push(arcTagsInfo[i]);
+          break;
+        }
+        if(j===tag.length-1){
+          isntSelectTags.push(arcTagsInfo[i]);
+        }
+      }
+    }
+
+    //筛选文章分类
+    for(var i=0;i<arcTypeInfo.length;i++){
+      console.log(arcTypeInfo[i]);
+      let type=arcInfo.type_id;
+        if(arcTypeInfo[i].id===type.id){
+          selectedType.push(arcTypeInfo[i]);
+        }else{
+          isntSelectTypes.push(arcTypeInfo[i]);
+        }
+        
+    }
     let renObj = {
       pageTitle: "修改文章",
       submitURL: "/backend/art/updatearticle/" + req.params.artid,
@@ -154,8 +186,14 @@ exports.showUpdateArticleById = (req, res, next) => {
       tagName: arcTagsInfo,
       artInfo: {
         name: arcInfo.title,
-        type: arcInfo.type_id,
-        tags: arcInfo.tags_id,
+        types: {
+          selected:selectedType,
+          isntselect:isntSelectTypes
+        },
+        tags: {
+          selected:selectedTags,
+          isntselect:isntSelectTags
+        },
         from: arcInfo.from,
         content: arcInfo.content,
         attribute: arcInfo.attribute

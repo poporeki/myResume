@@ -12,6 +12,9 @@ $(function () {
 
   var $v_s_blk = $('.views-switch-block');
   var $viewsTotal = $('.views-total');
+  var $likesTotal=$('.likes-total');
+  var $commTotal=$('.comment-total');
+  var $shareTotal=$('.share-total');
   var views = {};
   var weekData, monthData;
   var chartdata = {
@@ -71,10 +74,8 @@ $(function () {
   }); */
   /*访问状况 */
   var ch2 = new Chartist.Line('#rickshaw2', {
-    labels: [1, 2, 3, 4, 5, 6, 7],
-    series: []
+    labels: [1, 2, 3, 4, 5, 6, 7]
   }, {
-    high: 100,
     low: 0,
     showArea: true,
     showLine: false,
@@ -119,20 +120,24 @@ $(function () {
       el: $('.widget-2>.card'),
       aniEle: aniCon
     }, function (result) {
+      if(!result.data) return;
+      var data=result.data;
       var total = 0;
-      var datas = result.data;
-      for (var i = 0; i < datas.length; i++) {
-        total += datas[i];
+      var vistorArr = data.vistorTotalArr;
+      var commentTotal=data.commentTotal;
+      for (var i = 0; i < vistorArr.length; i++) {
+        total += vistorArr[i];
       }
       views[days] = {
         total: total,
         chartData: {
           series: [
-            result
+            vistorArr
           ]
         }
       }
       $viewsTotal.text(views[days].total);
+      $commTotal.text(commentTotal);
       ch2.update(views[days].chartData);
     })
 

@@ -2,6 +2,26 @@ var articleMod = require("../modules/Article/article"),
   commentMod = require("../modules/Article/articleComments"),
   articleTypeMod = require("../modules/Article/articleType");
 
+let getArticleImgUrl = (str) => {
+  if (!str) return null;
+  let imgReg = /<img.*?(?:>|\/>)/gi;
+  let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+  let imgSrc = null;
+  let arr = str.match(imgReg);
+  if (arr != null) {
+    let src = arr[0].match(srcReg);
+    if (src == null) {
+      imgSrc = null;
+    } else {
+      imgSrc = src[1];
+    }
+  } else {
+    imgSrc = null;
+  }
+  return imgSrc;
+
+}
+
 exports.getHomeNavbar = (req, res, next) => {
   if (res.locals.NAV) next();
   articleTypeMod.findArticleType("", (err, typeList) => {
@@ -60,22 +80,33 @@ exports.showHome = (req, res, next) => {
       });
     });
   }
-  let fn=async()=>{
-    let result=await Promise.all([
+  let fn = async () => {
+    let [
+      typeList,
+      tagList,
+      commList,
+      carouList
+    ] = await Promise.all([
       getArcType(),
       getArcTags(),
       getCommTop(),
       getArcList()
     ])
-    let resObj={
-      typeList:result[0],
-      tagList:result[1],
-      commList:result[2],
-      carouList:result[3]
+    carouList.map((val, idx) => {
+      let src=getArticleImgUrl(val.content);
+      if(src!==null||src!==''){
+        val.carouImg=src;
+      }
+    })
+    let resObj = {
+      typeList,
+      tagList,
+      commList,
+      carouList
     }
-    res.render('./blog/index',resObj);
+    res.render('./blog/index', resObj);
   }
-  fn().catch(err=>{
+  fn().catch(err => {
     return next(err);
   })
 }
@@ -90,7 +121,7 @@ exports.getArticleList = (req, res, next) => {
     }
   };
   articleMod.showArticleList(pars, (err, resListSortTime) => {
-    if (err) return  next(err);
+    if (err) return next(err);
     res.json({
       status: true,
       msg: "",

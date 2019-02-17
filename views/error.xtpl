@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>SERVER ERROR</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      position: relative;
+      /* background: linear-gradient(to bottom, rgba(0, 0, 0, .8), #446072); */
+      background-color: #446072;
+      text-align: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .wrap {
+      position: absolute;
+      height: 400px;
+      width: 400px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .wrap:after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      border-radius: 50%;
+      background-color: rgb(234, 83, 0);
+      z-index: -1;
+    }
+
+    .wrap:before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      border-radius: 50%;
+      background-color: rgb(255, 255, 255);
+      animation: ani 1s forwards;
+      z-index: 1;
+    }
+
+    @keyframes ani {
+      0% {
+        transform: scale(5);
+      }
+      100% {
+        transform: scale(0);
+      }
+    }
+
+    .title,
+    .back-btn {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50px);
+      text-shadow: 0 0 5px rgb(59, 59, 59);
+    }
+
+    .back-btn {
+      display: block;
+      color: rgb(236, 236, 236);
+      font-size: 20px;
+      text-decoration: none;
+      transition: all .5s ease;
+      margin-top: 5vh;
+    }
+
+    .back-btn:hover {
+      color: rgb(214, 214, 214);
+    }
+
+    .box {
+      position: absolute;
+      height: 40%;
+      width: 50%;
+      top: 50%;
+      left: 50%;
+      border: 5px solid #374d5b;
+      background-color: #566f7f;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.747) inset;
+      border-radius: 10px;
+      transform: translate(-50%, -50%);
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+
+    .wid-box {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      left: 0;
+      top: 0;
+      box-sizing: border-box;
+      perspective: 1200px;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .wid-box .lt,
+    .wid-box .rt {
+      position: relative;
+      width: 50%;
+      height: 100%;
+
+      box-sizing: border-box;
+      border-radius: 5px;
+      border: 2px solid rgb(53, 73, 85);
+      background-color: #374d5b;
+      transition: transform 1s ease;
+
+    }
+
+    .wid-box .lt:after,
+    .wid-box .rt:after {
+      content: '';
+      position: absolute;
+      height: 15%;
+      width: 10%;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: #314552;
+      border-radius: 50%;
+    }
+
+    .wid-box .lt:after {
+      right: 10px;
+    }
+
+    .wid-box .rt:after {
+      left: 10px;
+    }
+
+    .wid-box .lt {
+      transform-origin: left center;
+      animation: ltAni 1s 1s forwards;
+    }
+
+    .wid-box .rt {
+      transform-origin: right center;
+      animation: rtAni 1s 1s forwards;
+    }
+
+    /* .box:hover .lt {
+      transform: rotateY(-100deg);
+    }
+
+    .box:hover .rt {
+      transform: rotateY(100deg);
+    } */
+
+    @keyframes ltAni {
+      0% {
+        transform: rotateY(0);
+      }
+      100% {
+        transform: rotateY(-100deg);
+      }
+    }
+
+    @keyframes rtAni {
+      0% {
+        transform: rotateY(0);
+      }
+      100% {
+        transform: rotateY(100deg);
+      }
+    }
+
+    .con-box {
+      width: 100%;
+      height: 100%;
+      color: #fff;
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box">
+    <div class="wid-box">
+      <div class="lt"></div>
+      <div class="rt"></div>
+    </div>
+    <div class="con-box">
+      <h1 class="title">WTF!!! -Server Error</h1>
+      <a class="back-btn" href="/">RETURN</a>
+    </div>
+  </div>
+</body>
+
+</html>

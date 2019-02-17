@@ -1,0 +1,24 @@
+<link rel="stylesheet" href="/css/min/blog/aside.css">
+<!--侧边栏 start-->
+<aside class='l-aside'>
+  <a href="javascript:void(0);" class="sidebar-btn ">
+    <p>YANSK</p>
+  </a>
+  <img src="/images/logo.png" class="img-logo" alt="logo">
+  <ul class="navbar">
+     <li class="aaa ani1">
+      <a href="/blog"><span>首页</span></a>
+    </li>
+    {{#if(NAV!=='undefined')}}
+      {{#each(NAV)}}
+        <li>
+          <a href="/blog/articlelist?by[type_id]={{this._id}}">
+            <span>{{this.type_name}}</span>
+          </a>
+        </li>
+      {{/each}}
+    {{/if}}
+    <li><a href="/iresume"><span>个人简历</span></a></li>
+  </ul>
+</aside>
+<!--侧边栏 end-->

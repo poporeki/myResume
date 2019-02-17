@@ -21,7 +21,9 @@
     "moment": "^2.24.0",
     "mongoose": "^5.4.8",
     "request": "^2.88.0",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.2.0",
+    "xtemplate": "^4.6.1",
+    "xtpl": "^3.4.0"
   },
   "devDependencies": {
     "browser-sync": "^2.26.3",

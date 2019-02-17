@@ -1,0 +1,224 @@
+{{extend ('./LAYER')}}
+
+{{#block ('head')}}
+  <link rel="stylesheet" href="/css/min/blog/articlePage.css">
+  <link href="https://cdn.bootcss.com/highlight.js/9.13.1/styles/atom-one-dark.min.css" rel="stylesheet">
+{{/block}}
+
+{{#block ('body')}}
+  <section class="article-wrapper">
+  <div class="bread">
+    <ol class="breadcrumb">
+      <li><a href="/">Home</a></li>
+      <li><a href="/blog/articlelist?by[type_id]={{art.type.id}}">
+          {{art.type.name}}</a>
+      </li>
+      <li>{{art.title}}</li>
+    </ol>
+  </div>
+  <article class="article-box" data-artID="{{art.id}}">
+  {{!start 文章相关信息}}
+    <div class="article-header">
+      <div class="art-title">
+        <h2>{{art.title}}</h2>
+      </div>
+      <div class="pt-info">
+        <span class="pubtime">
+        发表时间：{{art.createTime}}
+        </span>
+        <span class="source">
+        分类：<a class="type-lk" href="/blog/articlelist?by[type_id]={{art.type.id}}">
+          {{art.type.name}}</a>
+        </span>
+        <span class="author">
+        发布:{{art.author}}
+        </span>
+        <span class="count">
+        浏览次数:{{art.readNum}}
+        </span>
+      </div>
+    </div>
+    {{!end 文章相关信息}}
+    {{!start 文章内容主体}}
+    <div class="article-body">
+      {{{art.content}}}
+      {{#if(art.from!==undefined||art.from!==null)}}
+        原帖地址：<a href="{{art.from}}">{{art.from}}</a><br>
+      {{/if}}
+    </div>
+    {{!end 文章内容主体}}
+    {{!start 分享}}
+    <div class="share-box-wrapper">
+      <h4 class="tit">分享</h4>
+      <div class="share-box-body">
+        <a href="javascript:window.open('http://twitter.com/home?status='+'My Item  '+encodeURIComponent(document.location.href)+' '+encodeURIComponent(document.title),'_blank','toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=600, height=450,top=100,left=350');void(0)">
+          <span class="iconfont icon-twitter" style="font-size:40px;"></span>
+        </a>
+      </div>
+    </div>
+    {{!end 分享}}
+    {{!start 该文章标签列表}}
+    <div class="article-tags-list">
+      <div class="tit">TAG标签</div>
+      {{#each(art.tags)}}
+        <a href="/blog/articlelist?by[tags_id]={{this._id}}" class="tag-lk">
+        {{this.tag_name}}</a>
+      {{/each}}
+    </div>
+    {{!end 该文章标签列表}}
+    {{!广告}}
+    <br>
+    <iframe src="https://rcm-cn.amazon-adsystem.com/e/cm?o=28&p=282&l=ur1&category=diy&banner=1F6891SJX0TEE2YDMK82&f=ifr&linkID=4a48ecbb9c0fa33cd9e842aa57e634d4&t=yanskblog-23&tracking_id=yanskblog-23" width="470" height="200" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>
+    {{!start 上下文章链接}}
+    <div class="o-arc-lkbox">
+      {{#if(arcPrev!==undefined)}}
+      <div class="arc-link-wrap prev">
+        <span class="iconfont icon-leftarrows"></span>
+        <a href="/blog/article/{{arcPrev._id}}">
+          上一篇:&nbsp;{{arcPrev.title}}
+        </a>
+      </div>
+      {{/if}}
+      {{#if(arcNext!==undefined)}}
+      <div class="arc-link-wrap next">
+        <span class="iconfont icon-rightarrows"></span>
+        <a href="/blog/article/{{arcNext._id}}">
+          下一篇:&nbsp;{{arcNext.title}}</a>
+      </div>
+      {{/if}}
+    </div>
+    {{!end 上下文章链接}}
+    <div class="like-box">
+      <a href="javascript:void(0);" class="btn-article-like {{userIsLiked?'liked':''}}">
+        <span class='like-number'>{{art.likes}}</span>
+        <span class="iconfont icon-like"></span>
+      </a>
+    </div>
+  </article>
+  <div class="line"></div>
+  <section class="comment-block" id="comment">
+    <h3>发表评论</h3>
+    <div class="add-comm clearfix">
+    {{#if(USER)}}
+      <textarea name="comm_textarea" class="comm-textarea" id="comm_textarea" placeholder="输入文字"></textarea>
+    {{else}}
+      <textarea name="comm_textarea" class="comm-textarea" id="comm_textarea" placeholder="需要登陆账号才能够发表评论，点击此处登陆"
+        disabled></textarea>
+      <a href="/login" class="textarea-mask"></a>
+    {{/if}}
+      <a href="javascript:void(0);" class="comm-submit-btn" data-attr="">提交</a>
+    </div>
+    <div class="comm-list">
+      <h3>评论列表({{artTotal}})</h3>
+      <!-- 评论列表 start-->
+      <ul class="list">
+      {{#if(artComms.length===0)}}
+        <li>目前并没有评论哦</li>
+      {{else}}
+        {{!遍历评论列表}}
+        {{#each(artComms)}}
+        <li class="comment-item" data-commid="{{this.id}}" >
+          <div>
+            <div class="head-pic">
+              <a href="javascript:void(0);">
+                <img src="{{this.user.avatar}}" alt="avatar">
+              </a>
+            </div>
+            <div class="content">
+              <div class="info">
+                <div class="lt">
+                  <div class="username">{{this.user.name}}</div>
+                  <div class="address">{{this.submitAddress}}</div>
+                  <div class="p-date">{{this.createTime}}</div>
+                </div>
+                <div class="floor-blk">{{this.floor+'楼'}}</div>
+              </div>
+              <p>{{this.text}}</p>
+              <div class="tools">
+                <a href="javascript:void(0);" class="comm-reply-btn">回复</a>
+              </div>
+            </div>
+          </div>
+          <div class="reply-block">
+            <div class="add-comm clearfix">
+              <textarea name="comm_textarea" class="comm-textarea" id="comm_textarea" cols="30" rows="10"></textarea>
+              <a href="javascript:void(0);" class="comm-submit-btn">提交</a>
+            </div>
+            <div class="close-btn"></div>
+          </div>
+          <!-- 评论中的回复列表 start-->
+          {{set(commReps=this.commReps)}}
+          {{#if(commReps!==undefined&&commReps.length!==0)}}
+            <ul class='reply-list show'>
+          {{else}}
+            <ul class='reply-list'>
+          {{/if}}
+          {{#if(commReps!==undefined&&commReps.length!==0)}}
+            {{!遍历评论的回复}}
+            {{#each(commReps)}}
+              <li class="comment-item">
+                <div>
+                  <span>{{'#'+this.floor}}</span>
+                  <div class="head-pic">
+                    <a href="javascript:void(0);">
+                      <img src="this.user.avatar" alt="avatar">
+                    </a>
+                  </div>
+                  <div class="content">
+                    <div class="info">
+                      <div class="lt">
+                        <div class="username">{{this.user.name}}</div>
+                        <div class="address">{{this.submitAddress}}</div>
+                        <div class="p-date">{{this.createTime}}</div>
+                      </div>
+                    </div>
+                    {{#if(this.to==='')}}
+                      <p>{{this.repContent}}</p>
+                    {{else}}
+                    <p>{{'回复 #'+this.to.floor+" "+this.to.user.name+':'+this.repContent}}</p>
+                    {{/if}}
+                    <div class="tools">
+                      <a href="javascript:void(0);" class="comm-reply-btn">回复</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="reply-block">
+                  <div class="add-comm clearfix">
+                    <textarea name="comm_textarea" class="comm-textarea" id="comm_textarea" cols="30" rows="10"></textarea>
+                    <a href="javascript:void(0);" class="comm-submit-btn reply-child" data-repid=<%=reps[j].id %> >提交</a>
+                  </div>
+                  <div class="close-btn"></div>
+                </div>
+              </li>
+            {{/each}}
+            {{!剩余评论数}}
+            {{#if(commReps.count>5)}}
+              <li class="comment-item">
+                还有{{commReps.count-5}}条回复，<a href="javascript:void(0);">点击查看<></a>
+              </li>
+            {{/if}}
+          {{/if}}
+          </ul>
+          <!-- 评论中的回复列表 end-->
+        </li>
+        {{/each}}
+        {{#if(artTotal>artComms.length)}}
+          <li class="comment-more">
+            <a href="javascript:void(0);" class="more-comms-lk">查看更多评论</a>
+          </li>
+        {{/if}}
+      {{/if}}
+      </ul>
+      <!-- 评论列表 end-->
+    </div>
+  </section>
+</section>
+
+<section class="right-block"></section>
+{{/block}}
+
+{{#block ('scripts')}}
+<script src="https://cdn.bootcss.com/highlight.js/9.13.1/highlight.min.js"></script>
+<script src="/js/min/blog/article.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+{{/block}}

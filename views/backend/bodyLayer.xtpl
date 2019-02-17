@@ -1,0 +1,19 @@
+  {{include ('./LeftPanel')}}
+ <!-- ########## START: MAIN PANEL ########## -->
+  <div class="br-mainpanel">
+
+    {{block ('main_body')}}
+
+    <footer class="br-footer">
+      <div class="footer-left">
+        <div class="mg-b-2">Copyright &copy; 2018</div>
+        <div>by Yansk.</div>
+      </div>
+      <div class="footer-right d-flex align-items-center">
+        <a target="_blank" class="pd-x-5" href="https://www.github.com/poporeki"><i class="fa fa-github tx-20"></i></a>
+        <a target="_blank" class="pd-x-5" href="javascript:void(0);"><i class="fa fa-wechat tx-20"></i></a>
+      </div>
+    </footer>
+  </div><!-- br-mainpanel -->
+  <!-- ########## END: MAIN PANEL ########## -->
+  

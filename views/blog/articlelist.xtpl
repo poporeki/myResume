@@ -1,0 +1,38 @@
+{{extend ('./LAYER')}}
+
+{{#block ('head')}}
+<link rel="stylesheet" href="/css/min/blog/articlelist.css">
+{{/block}}
+
+{{#block ('body')}}
+  <div class="wrapper">
+  <div class="title">
+    <h2 class="list-tit">
+      {{typename}}<small>文章列表</small>
+    </h2>
+  </div>
+  <ul class="article-list">
+  {{#if(artList.length===0)}}
+    <li>没有相关内容</li>
+  {{else}}
+    {{#each(artList)}}
+      <li class="article-list-item">
+      <a href="/blog/article/{{this.artid}} %>">
+        <div class="lt">
+          <div class="top">
+            <div class="title"><h4>{{this.title}}</h4></div>
+            <div class="time">{{this.create_time}}</div>
+          </div>
+          <div class="thumbnail">{{this.source}}</div>
+        </div>
+      </a>
+      </li>
+    {{/each}}
+  {{/if}}
+  </ul>
+</div>
+{{/block}}
+
+{{#block ('scripts')}}
+<script src="/js/min/blog/articlelist.js"></script>
+{{/block}}

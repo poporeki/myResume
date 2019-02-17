@@ -1,0 +1,210 @@
+{{extend ('./Layer')}}
+{{#block ('head')}}
+<link href="https://cdn.bootcss.com/bootstrap-switch/3.3.4/css/bootstrap2/bootstrap-switch.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.bootcss.com/select2/4.0.0/css/select2.min.css">
+<link rel="stylesheet" href="/css/back/addarticle.css">
+<style>
+  .w-e-toolbar{
+    flex-wrap: wrap;
+  }
+</style>
+{{/block}}
+{{#block ('scripts')}}
+<script src="/lib/select2/js/select2.min.js"></script>
+<script src="https://cdn.bootcss.com/wangEditor/3.1.1/wangEditor.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js"></script>
+<script src="/js/back/addarticle.js"></script>
+{{/block}}
+
+{{#block ('main_body')}}
+<div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+  <h4 class="tx-gray-800 mg-b-5">
+    <font style="vertical-align: inherit;">
+      <font style="vertical-align: inherit;">
+        {{pageTitle}}
+      </font>
+    </font>
+  </h4>
+  <p class="mg-b-0">
+    <font style="vertical-align: inherit;">
+      <font style="vertical-align: inherit;">进行文章添加的操作</font>
+    </font>
+  </p>
+</div>
+<div class="br-pagebody">
+  <div class="br-section-wrapper">
+    <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">
+      <font style="vertical-align: inherit;">
+        <font style="vertical-align: inherit;">输入文章基本信息</font>
+      </font>
+    </h6>
+    <p class="mg-b-30 tx-gray-600">
+      <font style="vertical-align: inherit;">
+        <font style="vertical-align: inherit;">*为必填项</font>
+      </font>
+    </p>
+    <form action="/backend/art/addarticle" method="post" data-parsley-validate>
+      <div class="form-layout form-layout-2">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="form-control-label">
+                <font style="vertical-align: inherit;">
+                  <font style="vertical-align: inherit;">文章名：</font>
+                </font><span class="tx-danger">
+                  <font style="vertical-align: inherit;">
+                    <font style="vertical-align: inherit;">*</font>
+                  </font>
+                </span>
+              </label>
+              {{#if (artInfo===undefined||artInfo.name===undefined)}}
+              <input class="form-control" type="text" name="arc_title" placeholder="输入文章标题" required>              
+              {{else}}
+              <input class="form-control" type="text" name="arc_title" value="{{artInfo.name}}" placeholder="输入文章标题" required>
+              {{/if}}
+            </div>
+          </div><!-- col-4 -->
+          <div class="col-md-4 mg-t--1 mg-md-t-0">
+            <div class="form-group mg-md-l--1">
+              <label class="form-control-label">
+                <font style="vertical-align: inherit;">
+                  <font style="vertical-align: inherit;">Author：</font>
+                </font>
+              </label>
+              <input class="form-control" type="text" value="{{USER.username}}" placeholder="author" disabled>
+            </div>
+          </div><!-- col-4 -->
+          <div class="col-md-4 mg-t--1 mg-md-t-0">
+            <div class="form-group mg-md-l--1">
+              <label class="form-control-label">
+                <font style="vertical-align: inherit;">
+                  <font style="vertical-align: inherit;">转载地址：</font>
+                </font>
+              </label>
+              {{#if(artInfo!==undefined&&artInfo.from!==undefined)}}
+              {{set (arc_from=artInfo.from)}}
+              {{else}}
+              {{set (arc_from='')}}
+              {{/if}}
+              <input class="form-control" type="text" name="arc_reproduction" placeholder="无" value="{{arc_from}}">
+            </div>
+          </div><!-- col-4 -->
+          <div class="col-md-8">
+            <div class="form-group bd-t-0-force">
+              <label class="form-control-label">
+                <font style="vertical-align: inherit;">Tag标签：</font>
+                <span class="tx-danger">
+                  <font style="vertical-align: inherit;">*</font>
+                </span>
+                <a class="btn btn-dark btn-icon" href="/backend/art/tag/add">&nbsp;+&nbsp; </a>
+              </label>
+              <label class="form-control-label" for="select2-b">
+                最多添加4个
+                <select id="select2-b" style="width:100%;" name="arc_tags" class="select2 select2-hidden-accessible form-control"
+                  multiple="multiple" required>
+                  {{! 遍历tag标签名 }}
+                {{! 判断tag标签是否存在 }}
+                {{#if(artInfo!==undefined&&artInfo.tags!==undefined)}}
+                  {{set (tags=artInfo.tags)}}
+                  {{#each(tags.selected)}}
+                  <option value="{{this._id}}" selected="selected">
+                    <font style="vertical-align: inherit;">
+                      <font style="vertical-align: inherit;">
+                        {{this.tag_name}}
+                      </font>
+                    </font>
+                  </option>
+                  {{/each}}
+                  {{#each (tags.isntselect)}}
+                  <option value="{{this._id}}">
+                    <font style="vertical-align: inherit;">
+                      <font style="vertical-align: inherit;">
+                        {{this.tag_name}}
+                      </font>
+                    </font>
+                  </option>
+                  {{/each}}
+                {{else}}
+                  {{#each(tagName)}}
+                  <option value="{{this._id}}">
+                    <font style="vertical-align: inherit;">
+                      <font style="vertical-align: inherit;">
+                        {{this.tag_name}}
+                      </font>
+                    </font>
+                  </option>
+                  {{/each}}
+                {{/if}}
+          </select>
+          </label>
+        </div>
+      </div><!-- col-8 -->
+      <div class="col-md-4">
+        <div class="form-group mg-md-l--1 bd-t-0-force">
+          <label class="form-control-label mg-b-0-force">
+            <font style="vertical-align: inherit;">
+              <font style="vertical-align: inherit;">分类：</font>
+            </font><span class="tx-danger">
+              <font style="vertical-align: inherit;">
+                <font style="vertical-align: inherit;">*</font>
+              </font>
+            </span>
+          </label>
+          <select id="select2-a" name="arc_type" style="width:100%;" class="form-control select2-hidden-accessible"
+            tabindex="-1" aria-hidden="true" required>
+            <!-- 遍历文章分类 -->
+            {{#if(artInfo!==undefined&&artInfo.types!==undefined)}}
+              {{set (types=artInfo.types)}}
+              {{#each(type.selected)}}
+                <option value="{{this._id}}" selected="">
+                  <font style="vertical-align: inherit;">
+                    <font style="vertical-align: inherit;">
+                      {{this.type_name}}
+                    </font>
+                  </font>
+                </option>
+              {{/each}}
+              {{#each (types.isntselect)}}
+              <option value="{{this._id}}">
+                <font style="vertical-align: inherit;">
+                  <font style="vertical-align: inherit;">
+                    {{this.type_name}}
+                  </font>
+                </font>
+              </option>
+              {{/each}}
+            {{/if}}
+          </select>
+        </div>
+      </div><!-- col-4 -->
+  </div><!-- row -->
+</div><!-- form-layout -->
+<div class="form-layout">
+  <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-t-80 mg-b-10">文章内容</h6>
+  <div id="editor">
+  {{#if(artInfo!==undefined&&artInfo.content!==undefined)}}
+  {{{artInfo.content?artInfo.content:''}}}
+  {{/if}}
+  </div>
+</div>
+<div class="form-layout form-layout-2">
+  <div class="form-group arc-submit-block">
+    <button class="btn btn-info submit-btn">
+      <font style="vertical-align: inherit;">
+        <font style="vertical-align: inherit;">提交</font>
+      </font>
+    </button>
+    <div class="checkbox-wrap">
+      <p>加入轮播:</p>
+      {{#if(artInfo!==undefined&&artInfo.attribute!==undefined&&artInfo.attribute.carousel===true)}}
+      <input type="checkbox" class="switch-button" name="arc_carousel" checked>
+      {{else}}
+      <input type="checkbox" class="switch-button" name="arc_carousel"> 
+      {{/if}}
+    </div>
+  </div>
+</div>
+</form>
+</div><!-- br-section-wrapper -->
+</div>
+{{/block}}

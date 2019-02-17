@@ -6,7 +6,10 @@ const express = require("express"),
   session = require("express-session"),
   compression = require("compression"),
   /* gzip */
-  moment = require("moment");
+  moment = require("moment"),
+  xtpl=require('xtpl');
+
+  xtpl.__express=xtpl.renderFile;
 
 const socket = require("./router/back/socket");
 const ERROR = require('./controllers/error');
@@ -18,6 +21,7 @@ moment.locale("zh-cn");
 require("./db/config");
 /* gzip */
 /* app.use(compression()); */
+app.locals.pretty = true;
 /* body-parse */
 app.use(
   bodyParser.urlencoded({
@@ -34,8 +38,11 @@ app.use(
 app.use(useragent.express());
 
 /* 模板引擎 ejs */
-app.set("view engine", "ejs");
-app.engine('ejs', require('ejs-mate'));
+/* app.set("view engine", "ejs");
+app.engine('ejs', require('ejs-mate')); */
+
+/* 模板引擎 xtemplate */
+app.set('view engine', 'xtpl');
 /* views 路径配置 */
 app.set("views", path.join(__dirname, "./views"));
 /* 静态文件路径配置 */
