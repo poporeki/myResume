@@ -283,7 +283,7 @@ module.exports = {
     commentSchema
       .aggregate([{
           $sort: {
-            createdAt: -1
+            create_time: -1
           }
         },
         {
