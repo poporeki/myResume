@@ -1,4 +1,9 @@
 .log-list{
-  border-left: 1px solid rgb(88, 88, 88);
+  position: relative;
+  border-left: 2px solid;
+  border-image: linear-gradient( #30d4fd, #3558f3)1 5 5;
   padding-left: 25px;
+}
+.log-content{
+  color: #dddddd;
 }

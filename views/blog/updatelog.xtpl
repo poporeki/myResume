@@ -8,11 +8,12 @@
 <div class="wrapper">
 <h2>更新日志：</h2>
 <ul class="log-list">
+<li class='log-list-mark'></li>
 {{#each (logList)}}
   <li class="log-list-item">
-  {{this.create_time}}<br>
-
-  {{this.log_content}}
+    <p class="log-time">{{this.create_time}}</p>
+  <p class="log-content">{{this.log_content}}</p>
+  
   <br><br><br>
   </li>
 {{/each}}
