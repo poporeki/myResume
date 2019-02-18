@@ -1,4 +1,4 @@
-{{extend ('./Layer')}}
+{{extend ('./LAYER')}}
 
 {{#block ('title')}}
 -关于YANSK'S BLOG

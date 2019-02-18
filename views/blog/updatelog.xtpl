@@ -1,4 +1,4 @@
-{{extend ('./Layer')}}
+{{extend ('./LAYER')}}
 
 {{#block ('head')}}
 <link rel="stylesheet" href="/css/min/blog/updatelog.css">

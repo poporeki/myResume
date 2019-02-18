@@ -6,7 +6,7 @@ const blogCtl = require('../../controllers/blog');
 router.use('*', blogCtl.getHomeNavbar);
 router.get("/", blogCtl.showHome);
 router.get("/getArtList", blogCtl.getArticleList);
-router.get('/aboutThis',(req,res,next)=>{
+router.get('/about',(req,res,next)=>{
   res.render('./blog/about');
 })
 
