@@ -1,0 +1,21 @@
+{{extend ('./Layer')}}
+
+{{#block ('head')}}
+<link rel="stylesheet" href="/css/min/blog/updatelog.css">
+{{/block}}
+
+{{#block ('body')}}
+<div class="wrapper">
+<h2>更新日志：</h2>
+<ul class="log-list">
+{{#each (logList)}}
+  <li class="log-list-item">
+  {{this.create_time}}<br>
+
+  {{this.log_content}}
+  <br><br><br>
+  </li>
+{{/each}}
+</ul>
+</div>
+{{/block}}

@@ -107,11 +107,19 @@ function listeningSearch() {
     $sBox.removeClass('show');
   });
   if (!isMobile()) {
+    var iia=0;
+    var isScroll=true;
     $(window).scroll(function () {
+      if(isScroll==false) return;
+      isScroll=false;
       var top = $(this).scrollTop();
+      //需要设置视差的元素
       $(".parallax-window").css({
-        transform: "translate3d(0px," + -(top / 3) + "px,0px)"
-      }) //需要设置视差的元素
+        transform: "translate3d(0px," + -(top / 4) + "px,0px)"
+      }) 
+      setTimeout(function(){
+        isScroll=true;
+      },50)
     });
   }
 

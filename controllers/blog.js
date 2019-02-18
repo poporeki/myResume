@@ -1,6 +1,9 @@
-var articleMod = require("../modules/Article/article"),
+const moment=require('moment')
+
+const articleMod = require("../modules/Article/article"),
   commentMod = require("../modules/Article/articleComments"),
-  articleTypeMod = require("../modules/Article/articleType");
+  articleTypeMod = require("../modules/Article/articleType"),
+  updateLogMod=require('../modules/UpdateLog');
 
 let getArticleImgUrl = (str) => {
   if (!str) return null;
@@ -85,24 +88,34 @@ exports.showHome = (req, res, next) => {
       typeList,
       tagList,
       commList,
-      carouList
+      carouList,
+      logList
     ] = await Promise.all([
       getArcType(),
       getArcTags(),
       getCommTop(),
-      getArcList()
+      getArcList(),
+      updateLogMod.getAllUpdateLogList({limit:2})
     ])
     carouList.map((val, idx) => {
-      let src=getArticleImgUrl(val.content);
-      if(src!==null||src!==''){
-        val.carouImg=src;
+      let src = getArticleImgUrl(val.content);
+      if (src !== null || src !== '') {
+        val.carouImg = src;
+      }
+    })
+    logList=logList.map(val=>{
+      return{
+        create_time:val.create_time=moment(val.create_time).format('YYYY-MM-DD'),
+        log_content:val.log_content,
+        log_id:val._id
       }
     })
     let resObj = {
       typeList,
       tagList,
       commList,
-      carouList
+      carouList,
+      logList
     }
     res.render('./blog/index', resObj);
   }
@@ -129,3 +142,4 @@ exports.getArticleList = (req, res, next) => {
     });
   });
 }
+

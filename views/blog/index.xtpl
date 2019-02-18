@@ -147,9 +147,22 @@
           {{/if}}
         </div>
       </div>
-
+      <div class="update-log-box">
+        <h2 class='title'>更新日志 <small><a href="/blog/log">More</a></small> </h2>
+        <ul class='log-list'>
+          {{#each(logList)}}
+          <li class='log-list-item'>
+            <div class="u-time"><i class="iconfont bottom icon-time"> </i>: <span>{{this.create_time}}</span>  </div>
+            <div class="u-cnt">更新内容: <span>{{this.log_content}}</span>    </div>
+          </li>
+          {{/each}}
+          <li class='log-end'>...</li>
+        </ul>
+      </div>
     </div>
+    
   </section>
+  
 </div>
 {{/block}}
 {{#block ('scripts')}}

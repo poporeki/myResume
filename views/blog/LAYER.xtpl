@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="Keywords" Content="博客,blog,晏思凯,web前端,nodejs,javascript,css3,html5,adobe,微软,mongodb,yansk">
+    <meta name="Description" Content="本博客是自己通过代码构建的。是一个分享在学习中总结的全栈技术经验、提供前后端工程师常用软件、插件素材以及展示博主在生活创作和社会时事方面原创文章的网站">
     <link rel="stylesheet" href="/css/normalize.css">
     <link href="https://cdn.bootcss.com/Swiper/4.0.2/css/swiper.min.css" rel="stylesheet">
     <link href="/css/blog/font_pa48kbut3v/iconfont.css" rel="stylesheet">
@@ -11,7 +13,7 @@
     <link rel="stylesheet" href="/css/min/blog/footer-blog.css">
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
     {{{block("head")}}}
-    <title>YANSK'S BLOG</title>
+    <title>晏思凯的个人博客-YANSK'S BLOG-专注WEB前端开发{{block('title')}}</title>
 </head>
 <body>
 {{{include('./header_blog')}}}

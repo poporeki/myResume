@@ -1,0 +1,19 @@
+.about-content{
+  position: relative;
+  margin: 0 20px;
+  padding:10px 40px 20px 40px;
+  border-top: 2px solid rgb(97, 164, 241);
+  z-index: 2;
+  text-shadow: 2px 2px 5px #000;
+  font-size: 1.1em;
+}
+// .blur-mark{
+//   position: absolute;
+//   height: 100%;
+//   width: 100%;
+//   left: 0;
+//   top: 0;
+//   filter: blur(3px);
+//   background-color: rgba(255, 255, 255, 0.281);
+//   z-index: -1;
+// }

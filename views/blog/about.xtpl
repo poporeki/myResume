@@ -1,0 +1,18 @@
+{{extend ('./Layer')}}
+
+{{#block ('title')}}
+-关于YANSK'S BLOG
+{{/block}}
+{{#block ('head')}}
+<link rel="stylesheet" href="/css/min/blog/about.css">
+{{/block}}
+
+{{#block ('body')}}
+ <div class="wrapper">
+ <div class="about-content">
+  <p>本人是学的web前端，此网站作为学习的目的而建立，采用express4+mongodb搭建,大部分的功能自己编写，可能有部分的bug，欢迎提出功能建议或Bug反馈。</p>
+<p>近期计划是将express替换为koa</p>
+  <div class="blur-mark"></div>
+ </div>
+ </div>
+{{/block}}

@@ -50,7 +50,7 @@ function nodemonTask(){
     })
 }
 function browserSync(){
-       return browsync.init({
+       browsync.init({
             proxy: 'http://localhost:3000',
             port:3001
         });

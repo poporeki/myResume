@@ -7,6 +7,8 @@ var Tourists = require('../../modules/Tourists');
 var osMod = require('../../common/os');
 var commentMod = require('../../modules/Article/articleComments')
 var childProcess = require('../../common/child_process');
+
+const blogCtl=require('../../controllers/blog');
 /* 权限判断 */
 router.use('/', (req, res, next) => {
   if (!req.session.user) return next(-9);
@@ -161,6 +163,9 @@ router.get('/test', (req, res, next) => {
     res.send(result);
   })
 })
+
+
+router.use('/updatelog',require('./updatelog'));
 router.use('/art', require('./article/article'));
 router.use('/regg', require('./register'));
 router.use('/user', require('./user'));

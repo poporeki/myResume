@@ -1,0 +1,35 @@
+{{extend ('./Layer')}}
+
+{{#block ('main_body')}}
+<div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+  <h4 class="tx-gray-800 mg-b-5 mg-t-10 mg-sm-t-0">访问记录</h4>
+  <p class="mg-b-0">当日所有记录列表.</p>
+</div>
+<div class="br-pagebody">
+  <div class="br-section-wrapper">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>用户</th>
+          <th>更新内容</th>
+          <th>添加时间</th>
+        </tr>
+      </thead>
+      <tbody>
+      {{#if(logList.length===0)}}
+      <tr>更新日志为空</tr>
+      {{/if}}
+      {{#each(logList)}}
+      <tr>
+        <th scope="row">{{xindex+1}}</th>
+        <td>{{this.inc_log_account}}</td>
+        <td>{{this.log_content}}</td>
+        <td>{{this.create_time}}</td>
+      </tr>
+      {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div> 
+{{/block}} 
