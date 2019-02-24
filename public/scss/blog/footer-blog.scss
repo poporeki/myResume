@@ -5,12 +5,12 @@
   min-height: 100%;
   width: 100%;
   left: 0;
-  top: 0;
-  z-index: -1;
-  transition: transform .001s ease;
+  top: 2px;
+  transition: transform 1s ease;
   background: url(/images/placeholder/blog_bg.jpg) no-repeat;
   background-size: cover;
   background-position: center top;
+  z-index: -1;
 
   >img {
     width: 100%;
