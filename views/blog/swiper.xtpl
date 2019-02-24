@@ -1,8 +1,8 @@
+<!--#####START banner-left#####-->
 <style>
   .banner {
-    max-height: 400px;
     min-height:200px;
-    height:40vw;
+    height:100%;
   }
 
   .swiper-slide {
@@ -73,3 +73,4 @@
     }
   })
 </script>
+<!--#####END banner-left#####-->

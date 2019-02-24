@@ -7,6 +7,7 @@
 
 {{#block ('body')}}
   <section class="article-wrapper">
+  <!--######START BreadCrumb######-->
   <div class="bread">
     <ol class="breadcrumb">
       <li><a href="/">Home</a></li>
@@ -16,6 +17,8 @@
       <li>{{art.title}}</li>
     </ol>
   </div>
+  <!--######END BreadCrumb######-->
+  <!--######START 文章######-->  
   <article class="article-box" data-artID="{{art.id}}">
   {{!start 文章相关信息}}
     <div class="article-header">
@@ -42,7 +45,7 @@
     {{!start 文章内容主体}}
     <div class="article-body">
       {{{art.content}}}
-      {{#if(art.from!==undefined||art.from!==null)}}
+      {{#if(art.from!==undefined&&art.from!==null&&art.from!=='')}}
         原帖地址：<a href="{{art.from}}">{{art.from}}</a><br>
       {{/if}}
     </div>
@@ -95,7 +98,9 @@
       </a>
     </div>
   </article>
+  <!--######END 文章######-->
   <div class="line"></div>
+  <!--######START 评论######-->
   <section class="comment-block" id="comment">
     <h3>发表评论</h3>
     <div class="add-comm clearfix">
@@ -212,6 +217,7 @@
       <!-- 评论列表 end-->
     </div>
   </section>
+  <!--######END 评论######-->
 </section>
 
 <section class="right-block"></section>

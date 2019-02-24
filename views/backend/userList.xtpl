@@ -6,7 +6,7 @@
   <p class="mg-b-0">所有记录列表.</p>
 </div>
 <div class="br-pagebody">
-  <div class="br-section-wrapper">
+  <div class="br-section-wrapper rounded table-responsive">
     <div class="row">
     <div class="col-md-12">
     <table class="table table-hover mg-b-0">

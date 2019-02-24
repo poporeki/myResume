@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/css/min/blog/aside.css">
-<!--侧边栏 start-->
+<!--#####侧边栏 start#####-->
 <aside class='l-aside'>
   <a href="javascript:void(0);" class="sidebar-btn ">
     <p>YANSK</p>
@@ -21,4 +21,4 @@
     <li><a href="/iresume"><span>个人简历</span></a></li>
   </ul>
 </aside>
-<!--侧边栏 end-->
+<!--#####侧边栏 end#####-->

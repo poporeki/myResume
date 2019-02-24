@@ -155,16 +155,26 @@
             <!-- 遍历文章分类 -->
             {{#if(artInfo!==undefined&&artInfo.types!==undefined)}}
               {{set (types=artInfo.types)}}
-              {{#each(type.selected)}}
-                <option value="{{this._id}}" selected="">
+              {{#each(types.selected)}}
+              <option value="{{this._id}}" selected="">
+                <font style="vertical-align: inherit;">
                   <font style="vertical-align: inherit;">
-                    <font style="vertical-align: inherit;">
-                      {{this.type_name}}
-                    </font>
+                    {{this.type_name}}
                   </font>
-                </option>
+                </font>
+              </option>
               {{/each}}
               {{#each (types.isntselect)}}
+              <option value="{{this._id}}">
+                <font style="vertical-align: inherit;">
+                  <font style="vertical-align: inherit;">
+                    {{this.type_name}}
+                  </font>
+                </font>
+              </option>
+              {{/each}}
+            {{else}}
+              {{#each(typeName)}}
               <option value="{{this._id}}">
                 <font style="vertical-align: inherit;">
                   <font style="vertical-align: inherit;">
