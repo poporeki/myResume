@@ -17,7 +17,7 @@
   {{else}}
     {{#each(artList)}}
       <li class="article-list-item">
-      <a href="/blog/article/{{this.artid}} %>">
+      <a href="/blog/article/{{this.artid}}">
         <div class="lt">
           <div class="top">
             <div class="title"><h4>{{this.title}}</h4></div>

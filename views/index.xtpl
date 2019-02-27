@@ -1,4 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Page-Enter" content="revealTrans(Duration=1.0,Transition=23)">
+  <title>{{pageTitle}}</title>
+  <!--<link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">-->
+  <link rel="stylesheet" href="/css/normalize.css">
+
+  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <!--<link rel="stylesheet" href="./node_modules/fullpage.js/dist/jquery.fullpage.min.css">-->
+  <link rel="stylesheet" href="https://cdn.bootcss.com/fullPage.js/2.9.4/jquery.fullpage.min.css">
+  <link rel="stylesheet" href="/css/iconfont.css">
+  <link rel="stylesheet" href="/css/min/index.css">
+  <link rel="stylesheet" href="/css/min/animation.css">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css">
+
+  <!-- <link rel="stylesheet" href="./css/styles.css"> -->
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 8]>
+		<script> alert('您的浏览器版本太低，推荐升级为高版本浏览器！');window.location.href='https://www.baidu.com/s?wd=%E6%B5%8F%E8%A7%88%E5%99%A8'; </script>
+	<![endif]-->
+
+  <!--[if lt IE 9]>
+		
+      <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
+
+</head>
+
+<body>
+  <!--载入等待动画-->
+  <div id='loading_animate' class="loading-animate">
+    <div class="preloader">
+      <span>Y</span>
+      <span>A</span>
+      <span>N</span>
+      <span>S</span>
+      <span>K</span>
+    </div>
+    <span class='loading-num'>0</span>
+  </div>
+  <!--背景图片-->
+  <div class="body-bg">
+    <div class="page-up-bg"></div>
+  </div>
+  <!--顶部导航 开始-->
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#index-header-navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">
+          <img alt="Brand" src="/images/logo.png" style="height:20px;">
+        </a>
+        <a href="javascript:void(0);" class="navbar-brand">我的简历</a>
+      </div>
+      <div class="collapse navbar-collapse" id="index-header-navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a class="navbar-link" href="#p_home">HOME</a>
+          </li>
+          <li>
+            <a class="navbar-link" href="#p_aboutme">关于我</a>
+          </li>
+
+          <li>
+            <a class="navbar-link" href="#p_skills">职业技能</a>
+          </li>
+          <li>
+            <a class="navbar-link" href="#p_show">作品展示</a>
+          </li>
+          <li>
+            <a class="navbar-link" href="#p_contactme">联系我</a>
+          </li>
+          <li>
+            <a class="navbar-link" href="#p_footer">FOOTER</a>
+          </li>
+          <li>
+            <a href="javascript:void(0);" id="control_menu" class="control-menu">功能
+              <span class="glyphicon glyphicon glyphicon-list"></span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!--顶部导航 结束-->
   <div id="fullpage">
     <div class="page-item home-page " data-page=1 id='home-page'>
       <div class="container">
@@ -101,10 +197,6 @@
             <div class="panel panel-default under-panel">
               <div class="panel-body">
                 <div class="echars-ele" id='echars_html'></div>
-                {{!<div class="circle-wrapper" data-anim="base wrapper">
-                  <div class="circle" data-anim="base left"></div>
-                  <div class="circle" data-anim="base right"></div>
-                </div>}}
                 <div class="panel-mask">
                   <h2>HTML</h2>
                   <div class="col-md-2">
@@ -481,3 +573,62 @@
       </div>
     </div>
   </div>
+  <!--右侧sidebar -->
+  <div class="main-item-color"></div>
+  <div class="menu-sidebar" id="menu_sidebar">
+    <div class="s-mask" id="s_mask"></div>
+    <ul class="nav nav-default s-content-block pull-right text-center">
+      <li>
+      </li>
+      <li>
+        <a href="/login">登录</a>
+      </li>
+      <li>
+        <a href="/blog">博客</a>
+      </li>
+      <li>
+        <a href="javascript:void(0);">未完成</a>
+      </li>
+      <li>
+        <a href="javascript:void(0);">未完成</a>
+      </li>
+    </ul>
+  </div>
+  <!--回到顶部-->
+
+  <a href="javascript:void(0);" class="btn btn-default back-to-top" id="back_to_top">
+    <span class="glyphicon glyphicon-chevron-up"></span>TOP</a>
+</body>
+<script src='https://cdn.bootcss.com/jquery/1.9.1/jquery.min.js'></script>
+<script src="/js/min/jquery.animateExt.js"></script>
+<script src="/js/jquery.mousewhell.min.js"></script>
+
+<script src='https://cdn.bootcss.com/move.js/0.5.0/move.min.js'></script>
+
+<script src='https://cdn.bootcss.com/iScroll/5.2.0/iscroll.min.js'></script>
+
+<script src='https://cdn.bootcss.com/fullPage.js/2.9.4/jquery.fullpage.min.js'></script>
+
+<script src='https://cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
+
+<script src='https://cdn.bootcss.com/masonry/4.2.0/masonry.pkgd.min.js'></script>
+
+<script src="https://cdn.bootcss.com/jquery.imagesloaded/4.1.2/imagesloaded.pkgd.min.js"></script>
+<script src="https://cdn.bootcss.com/echarts/4.0.4/echarts.min.js"></script>
+<script src="/js/min/changeBg.js"></script>
+<script src="/js/min/sidebar.js"></script>
+<script src="/js/min/index.js"></script>
+<script>
+  $(function () {
+    var $masonry = $('.masonry');
+    $masonry.imagesLoaded(function () {
+      $masonry.masonry({
+        columnWidth: '.masonry-item',
+        itemSelector: '.masonry-item',
+        percentPosition: true
+      });
+    });
+  });
+</script>
+
+</html>

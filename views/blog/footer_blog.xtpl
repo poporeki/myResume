@@ -1,4 +1,4 @@
-<!---#####START 底部#####-->
+<!---#####START body底部#####-->
 <footer>
   <div class="footer-inner">
     <ul class="lk-list">
@@ -31,4 +31,4 @@
     </div>
   </div>
 </footer>
-<!--#####END 底部#####-->
+<!--#####END body底部#####-->
