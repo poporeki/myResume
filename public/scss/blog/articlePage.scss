@@ -57,15 +57,22 @@ pre {
 }
 
 .article-body {
+  
   blockquote {
     margin: 0;
   }
 
-  p {
+  p,li {
     img {
       max-width: 100%;
     }
-
+    code{
+      margin: 0 5px;
+      padding:0 5px;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      background-color: rgb(48, 48, 48);
+      color: #b727f0;
+    }
     word-break: break-all;
   }
 }

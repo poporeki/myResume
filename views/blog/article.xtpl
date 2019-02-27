@@ -226,5 +226,13 @@
 {{#block ('scripts')}}
 <script src="https://cdn.bootcss.com/highlight.js/9.13.1/highlight.min.js"></script>
 <script src="/js/min/blog/article.js"></script>
+{{! <script>
+
+window.onload=function(){
+  document.querySelectorAll('code').forEach((block) => {
+  hljs.highlightBlock(block);
+});
+}
+</script> }}
 <script>hljs.initHighlightingOnLoad();</script>
 {{/block}}
