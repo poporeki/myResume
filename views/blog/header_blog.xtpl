@@ -9,7 +9,14 @@
       <div class="box top-box"><a href="/reg">注册</a>
       </div>
       {{else}}
-      <div class="box bottom-box">
+      {{#if(USER.permissions!=='normal')}}
+      <div class="box top-box">
+        <a href="/backend">
+          <p>控制台</p>
+        </a>
+      </div>
+      {{/if}}
+      <div class="box top-box">
         <a href="/logout">
           <p>退出登录</p>
         </a>

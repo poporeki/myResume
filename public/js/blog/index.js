@@ -4,6 +4,12 @@ $(function () {
   weatherFn();
 
 });
+function isMobile() {
+  if ((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)))
+    return true;
+  else
+    return false;
+}
 /* 获取阅读数最多的文章列表 */
 function hotArcFn() {
   var $hotList = $('.hot-list');
@@ -201,9 +207,14 @@ function weatherFn() {
     })
   }
   /* 获取地理位置信息 */
-  getGeolocation(function (err, geolo) {
-    updateWeather(geolo);
-  });
+  if(!isMobile()){
+    updateWeather(null);
+  }else{
+    getGeolocation(function (err, geolo) {
+      updateWeather(geolo);
+    });
+  }
+  
 
 
 }
@@ -232,8 +243,4 @@ function getGeolocation(cb) {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(success, error, options);
   }
-
-
-
-
 }

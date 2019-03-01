@@ -28,13 +28,18 @@
   <div class="br-section-wrapper">
     <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10"></h6>
     <p class="mg-b-25 mg-lg-b-50">默认一页10篇文章.</p>
-
+<div class="configure-block">
+      <a href="javascript:history.back(-1);"  class="return"><i class="icon ion-arrow-return-left tx-22"></i></a>
+      <a href="javascript:location.reload();" class="return"><i class="icon ion-refresh tx-22"></i></a>
+    </div>
     <div class="bd bd-gray-300 rounded table-responsive">
+    
       <table class="table table-hover mg-b-0">
         <thead>
           <tr>
             <th>ID</th>
             <th>Name</th>
+            <th>标签</th>
             <th>分类</th>
             <th>阅读数</th>
             <th>发布时间</th>

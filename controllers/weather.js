@@ -4,7 +4,7 @@ const weatherMod = require('../common/weather');
 
 exports.getTheDay = (req, res, next) => {
   let geolo = {};
-  if (req.query.geolocation && req.query.geolocation !== '' && req.query.geolocation !== 'false') {
+  if (req.query.geolocation && req.query.geolocation !== '' && req.query.geolocation !== 'false'&&req.query.geolocation!==null) {
     var g = "" + req.query.geolocation;
     geolo.geolocation = g;
   } else {
