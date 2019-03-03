@@ -218,7 +218,7 @@ exports.getArticleInfoById = (req, res, next) => {
     let { prevArc, nextArc } = await getTheArticleBnAArticle(arcid);
     let arcObj = {
       arcInfo,
-      artComms: arcComments,
+      arcComms: arcComments,
       userIsLiked: isLiked,
       commsTotal,
       arcPrev: prevArc[0],
