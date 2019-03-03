@@ -205,12 +205,24 @@ exports.getArticleInfoById = (req, res, next) => {
   // 文章id
   let arcid = req.params.id;
   let fn = async () => {
-    let arcInfo = await getArcInfo(arcid);
     articleMod.incReadNum(arcid);
-    let arcComments = await getArcComm(limit, skip, arcid);
-    let arcObj = {
+    let [
       arcInfo,
-      arcComments
+      [arcComments, commsTotal],
+      isLiked
+    ] = await Promise.all([
+      getArcInfo(arcid),
+      getArcComm(limit, skip, arcid),
+      getUserLike(arcid, req.session.user)
+    ]);
+    let { prevArc, nextArc } = await getTheArticleBnAArticle(arcid);
+    let arcObj = {
+      art: arcInfo,
+      artComms: arcComments,
+      userIsLiked: isLiked,
+      commsTotal: commsTotal,
+      arcPrev: prevArc[0],
+      arcNext: nextArc[0]
     }
     return res.json({
       status: 1,
@@ -247,7 +259,7 @@ exports.showArticleById=  (req, res, next) => {
       art: arcInfo,
       artComms: arcComments,
       userIsLiked: isLiked,
-      artTotal: commsTotal,
+      commsTotal: commsTotal,
       arcPrev: prevArc[0],
       arcNext: nextArc[0]
     });
