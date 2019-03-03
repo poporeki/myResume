@@ -11,42 +11,42 @@
   <div class="bread">
     <ol class="breadcrumb">
       <li><a href="/">Home</a></li>
-      <li><a href="/blog/articlelist?by[type_id]={{art.type.id}}">
-          {{art.type.name}}</a>
+      <li><a href="/blog/articlelist?by[type_id]={{arcInfo.type.id}}">
+          {{arcInfo.type.name}}</a>
       </li>
-      <li>{{art.title}}</li>
+      <li>{{arcInfo.title}}</li>
     </ol>
   </div>
   <!--######END BreadCrumb######-->
   <!--######START 文章######-->  
-  <article class="article-box" data-artID="{{art.id}}">
+  <article class="article-box" data-artID="{{arcInfo.id}}">
   {{!start 文章相关信息}}
     <div class="article-header">
       <div class="art-title">
-        <h2>{{art.title}}</h2>
+        <h2>{{arcInfo.title}}</h2>
       </div>
       <div class="pt-info">
         <span class="pubtime">
-        发表时间：{{art.createTime}}
+        发表时间：{{arcInfo.createTime}}
         </span>
         <span class="source">
-        分类：<a class="type-lk" href="/blog/articlelist?by[type_id]={{art.type.id}}">
-          {{art.type.name}}</a>
+        分类：<a class="type-lk" href="/blog/articlelist?by[type_id]={{arcInfo.type.id}}">
+          {{arcInfo.type.name}}</a>
         </span>
         <span class="author">
-        发布:{{art.author}}
+        发布:{{arcInfo.author}}
         </span>
         <span class="count">
-        浏览次数:{{art.readNum}}
+        浏览次数:{{arcInfo.readNum}}
         </span>
       </div>
     </div>
     {{!end 文章相关信息}}
     {{!start 文章内容主体}}
     <div class="article-body">
-      {{{art.content}}}
-      {{#if(art.from!==undefined&&art.from!==null&&art.from!=='')}}
-        原帖地址：<a href="{{art.from}}">{{art.from}}</a><br>
+      {{{arcInfo.content}}}
+      {{#if(arcInfo.from!==undefined&&arcInfo.from!==null&&arcInfo.from!=='')}}
+        原帖地址：<a href="{{arcInfo.from}}">{{arcInfo.from}}</a><br>
       {{/if}}
     </div>
     {{!end 文章内容主体}}
@@ -63,7 +63,7 @@
     {{!start 该文章标签列表}}
     <div class="article-tags-list">
       <div class="tit">TAG标签</div>
-      {{#each(art.tags)}}
+      {{#each(arcInfo.tags)}}
         <a href="/blog/articlelist?by[tags_id]={{this._id}}" class="tag-lk">
         {{this.tag_name}}</a>
       {{/each}}
@@ -93,7 +93,7 @@
     {{!end 上下文章链接}}
     <div class="like-box">
       <a href="javascript:void(0);" class="btn-article-like {{userIsLiked?'liked':''}}">
-        <span class='like-number'>{{art.likes}}</span>
+        <span class='like-number'>{{arcInfo.likes}}</span>
         <span class="iconfont icon-like"></span>
       </a>
     </div>
@@ -114,14 +114,14 @@
       <a href="javascript:void(0);" class="comm-submit-btn" data-attr="">提交</a>
     </div>
     <div class="comm-list">
-      <h3>评论列表({{artTotal}})</h3>
+      <h3>评论列表({{commsTotal}})</h3>
       <!-- 评论列表 start-->
       <ul class="list">
-      {{#if(artComms.length===0)}}
+      {{#if(arcComms.length===0)}}
         <li>目前并没有评论哦</li>
       {{else}}
         {{!遍历评论列表}}
-        {{#each(artComms)}}
+        {{#each(arcComms)}}
         <li class="comment-item" data-commid="{{this.id}}" >
           <div>
             <div class="head-pic">
@@ -207,7 +207,7 @@
           <!-- 评论中的回复列表 end-->
         </li>
         {{/each}}
-        {{#if(artTotal>artComms.length)}}
+        {{#if(artTotal>arcComms.length)}}
           <li class="comment-more">
             <a href="javascript:void(0);" class="more-comms-lk">查看更多评论</a>
           </li>

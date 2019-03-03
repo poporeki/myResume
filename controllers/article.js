@@ -217,10 +217,10 @@ exports.getArticleInfoById = (req, res, next) => {
     ]);
     let { prevArc, nextArc } = await getTheArticleBnAArticle(arcid);
     let arcObj = {
-      art: arcInfo,
+      arcInfo,
       artComms: arcComments,
       userIsLiked: isLiked,
-      commsTotal: commsTotal,
+      commsTotal,
       arcPrev: prevArc[0],
       arcNext: nextArc[0]
     }
@@ -256,10 +256,10 @@ exports.showArticleById=  (req, res, next) => {
     ]);
     let { prevArc, nextArc } = await getTheArticleBnAArticle(arcid);
     res.render('./blog/article', {
-      art: arcInfo,
-      artComms: arcComments,
+      arcInfo,
+      arcComms: arcComments,
       userIsLiked: isLiked,
-      commsTotal: commsTotal,
+      commsTotal,
       arcPrev: prevArc[0],
       arcNext: nextArc[0]
     });
