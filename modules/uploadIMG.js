@@ -303,3 +303,54 @@ function mkdirs(dirpath, callback) {
     }
   });
 }
+
+exports.uploadFiles = function (dir) {
+  return function (req, res, next) {
+    var form = new formidable.IncomingForm();
+
+    // high level formidable API
+    form.uploadDir = dir; // set destination
+    form.hash = 'md5'; // use hash algorithm, we can get hash value by 'file.hash'
+    form.parse(req, function (err, fields, files) {
+      // console.log(fields);
+      // console.log(files);
+      files.file.lastModifiedDate = files.file.lastModifiedDate.toLocaleString();
+      var f = {
+        newName: fields.name.length == 0
+          ? files.file.name
+          : fields.name + path.extname(files.file.name),
+        file: files.file
+      };
+      if (fileUploaded.has(files.file.hash)) {
+        form.emit('aborted'); // doesn't work!?
+        console.log('aborted');
+      } else {
+        fileUploaded.set(files.file.hash, f); // add to map
+      }
+
+      fs.rename(files.file.path, path.join(form.uploadDir, files.file.name), function (err) {
+        if (err) {
+          console.log(err);
+        }
+        res.redirect('/upload');
+        console.log('Finished.');
+      });
+    });
+
+    var io = req.app.get('socketio'); // get reference to socket.io
+
+    // listening progress event and send data to client
+    form.on('progress', function (bytesReceived, bytesExpected) {
+      var percent = Math.floor(bytesReceived / bytesExpected * 100);
+      console.log(percent);
+
+      var progress = {
+        name: 'progress',
+        percent: percent
+      };
+
+      // emit event : progress
+      io.emit('progress', progress); //notify all client, no session here
+    });
+  }
+};

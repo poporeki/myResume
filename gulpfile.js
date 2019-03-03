@@ -42,6 +42,8 @@ function nodemonTask(){
         ignore:['node_modules/','public/'],
         ext:'js'
     }).on('start',function(){
+        console.log('启动')
+        // browserSync();
         if(!started){
             console.log('启动')
         browserSync();

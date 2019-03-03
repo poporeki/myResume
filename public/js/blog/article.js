@@ -1,4 +1,5 @@
 $(function () {
+  
   $('.comment-block').on('click', '.comm-submit-btn', function () {
     if (!isLogin()) return;
     if ($(this).children('.loading-ani').length > 0) return;

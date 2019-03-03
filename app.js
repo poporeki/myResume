@@ -50,9 +50,10 @@ app.use(express.static(path.join(__dirname, "./public")));
 app.use("v", express.static(path.join(__dirname, "./dist")));
 //设置跨域访问
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://192.168.199.147:8081");
+  res.header("Access-Control-Allow-Origin", req.headers.origin);
   res.header("Access-Control-Allow-Headers", "Content-Type");
-  res.header("Access-Control-Allow-Credentials", "true"); //和客户端对应，必须设置以后，才能接收cookie.
+  //和客户端对应，必须设置以后，才能接收cookie.允许凭证,解决session跨域丢失问题
+  res.header("Access-Control-Allow-Credentials", "true"); 
   next();
 });
 /* session 配置 */

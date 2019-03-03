@@ -57,15 +57,15 @@ pre {
 }
 
 .article-body {
-  
+  img {
+    max-width: 100%;
+  }
   blockquote {
     margin: 0;
   }
 
   p,li {
-    img {
-      max-width: 100%;
-    }
+    
     code{
       margin: 0 5px;
       padding:0 5px;
