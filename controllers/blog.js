@@ -33,12 +33,18 @@ exports.getHomeNavbarToLocals = (req, res, next) => {
     next();
   });
 }
-exports.getHomeNavbar = (req, res, next) => {
+exports.getHomeNavbar = async (req, res, next) => {
+  let getTypeList=()=>{
+    return new Promise((resolve,reject)=>{
+      articleTypeMod.findArticleType("", (err, typeList) => {
+        if (err) return reject(err);
+        res.locals.NAV = typeList;
+        resolve(res.locals.NAV);
+      });
+    })
+  }
   if (!res.locals.NAV){
-    articleTypeMod.findArticleType("", (err, typeList) => {
-      if (err) return next(err);
-      res.locals.NAV = typeList;
-    });
+    await getTypeList();
   }
   return res.json({
     status:true,
