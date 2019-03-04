@@ -9,6 +9,9 @@
 const express = require('express');
 const router = express.Router();
 
+const BlogCtl=require('../../../controllers/blog');
+
+router.get('/getHomeNavbar',BlogCtl.getHomeNavbar);
 router.use('/article', require('./Blog_Article'));
 router.use('/articlelist', require('./Blog_ArticleList'));
 router.use('/getArctags', require('./Blog_ArticleTags'));
