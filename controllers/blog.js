@@ -25,7 +25,7 @@ let getArticleImgUrl = (str) => {
 
 }
 
-exports.getHomeNavbar = (req, res, next) => {
+exports.getHomeNavbarToLocals = (req, res, next) => {
   if (res.locals.NAV) next();
   articleTypeMod.findArticleType("", (err, typeList) => {
     if (err) return next(err);
@@ -33,7 +33,18 @@ exports.getHomeNavbar = (req, res, next) => {
     next();
   });
 }
-
+exports.getHomeNavbar = (req, res, next) => {
+  if (!res.locals.NAV){
+    articleTypeMod.findArticleType("", (err, typeList) => {
+      if (err) return next(err);
+      res.locals.NAV = typeList;
+    });
+  }
+  return res.json({
+    status:true,
+    data:res.locals.NAV
+  })
+}
 exports.showHome = (req, res, next) => {
   /* 获取文章分类 */
   function getArcType() {

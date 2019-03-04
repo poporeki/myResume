@@ -244,3 +244,7 @@ function getGeolocation(cb) {
     navigator.geolocation.getCurrentPosition(success, error, options);
   }
 }
+
+function getCarouselData(){
+  
+}

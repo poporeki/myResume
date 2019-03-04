@@ -3,7 +3,7 @@ const express = require("express"),
 
 const blogCtl = require('../../controllers/blog');
 
-router.use('*', blogCtl.getHomeNavbar);
+router.use('*', blogCtl.getHomeNavbarToLocals);
 router.get("/", blogCtl.showHome);
 router.get("/getArtList", blogCtl.getArticleList);
 router.get('/about',(req,res,next)=>{
