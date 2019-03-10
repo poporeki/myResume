@@ -18,7 +18,12 @@ exports.showUpdateLog = async (req, res, next) => {
 }
 //获取更新日志列表
 exports.getUpdateLogList = async (req, res, next) => {
-  let logList = await updateLogMod.getAllUpdateLogList({});
+  let limit = parseInt(req.query.limit) || null;
+  let skip = parseInt(req.query.skip) || null;
+  let logList = await updateLogMod.getAllUpdateLogList({
+    limit,
+    skip
+  });
   let arr = logList.map(val => {
     return {
       create_time: val.create_time = moment(val.create_time).format('YYYY-MM-DD'),
