@@ -1,20 +1,37 @@
-const moment=require('moment');
+const moment = require('moment');
 
 const updateLogMod = require('../modules/UpdateLog');
 
 //显示日志页
-exports.showUpdateLog = async(req, res, next) => {
-  let logList=await updateLogMod.getAllUpdateLogList({});
-  let arr=logList.map(val=>{
+exports.showUpdateLog = async (req, res, next) => {
+  let logList = await updateLogMod.getAllUpdateLogList({});
+  let arr = logList.map(val => {
     return {
-      create_time:val.create_time=moment(val.create_time).format('YYYY-MM-DD'),
-      log_content:val.log_content,
-      log_id:val._id
+      create_time: val.create_time = moment(val.create_time).format('YYYY-MM-DD'),
+      log_content: val.log_content,
+      log_id: val._id
     };
   })
   res.render('./blog/updatelog', {
-    logList:arr
+    logList: arr
   });
+}
+//获取更新日志列表
+exports.getUpdateLogList = async (req, res, next) => {
+  let logList = await updateLogMod.getAllUpdateLogList({});
+  let arr = logList.map(val => {
+    return {
+      create_time: val.create_time = moment(val.create_time).format('YYYY-MM-DD'),
+      log_content: val.log_content,
+      log_id: val._id
+    };
+  })
+  return res.json({
+    status: 1,
+    data: {
+      logList: arr
+    }
+  })
 }
 //显示添加日志页
 exports.showIncUpdateLog = (req, res, next) => {
@@ -53,23 +70,23 @@ exports.postDelUpdateLog = async (req, res, next) => {
     status: false,
     msg: '数据错误'
   });
-  try{
+  try {
     await updateLogMod.delUpdateLogById(logId);
     res.json({
-      status:true
+      status: true
     })
-  }catch{
+  } catch {
     res.json({
-      status:false,
-      msg:'删除失败'
+      status: false,
+      msg: '删除失败'
     })
   }
 
 }
 // 显示更新日志列表页
-exports.showUpdateLogList=async (req,res,next)=>{
-  let logList=await updateLogMod.getAllUpdateLogList({});
-  res.render('backend/updateLogList',{
+exports.showUpdateLogList = async (req, res, next) => {
+  let logList = await updateLogMod.getAllUpdateLogList({});
+  res.render('backend/updateLogList', {
     logList
   })
 }
