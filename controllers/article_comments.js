@@ -24,8 +24,8 @@ let getIP = req => {
     let ip = ipInfo.ip;
     let address =
       ipInfo.city && ipInfo.region ?
-        ipInfo.region + " " + ipInfo.city :
-        "地球";
+      ipInfo.region + " " + ipInfo.city :
+      "地球";
     resolve({
       req,
       ip,
@@ -87,13 +87,13 @@ exports.insertComment = (req, res) => {
   }) => {
     return new Promise((resolve, reject) => {
       commentMod.insertOneComment({
-        authorId,
-        commText,
-        arcid,
-        userAgent,
-        ip,
-        address
-      },
+          authorId,
+          commText,
+          arcid,
+          userAgent,
+          ip,
+          address
+        },
         (err, result) => {
           if (err) return reject(err);
           resolve(result);
@@ -151,15 +151,15 @@ exports.insertReplyToComment = (req, res, next) => {
       let userAgent = req.useragent.source;
       let commentContent = req.body.comm_content.trim();
       commentMod.insertOneReplyInComment({
-        articleId,
-        authorId,
-        commentId,
-        commentContent,
-        to,
-        userAgent,
-        ip,
-        address
-      },
+          articleId,
+          authorId,
+          commentId,
+          commentContent,
+          to,
+          userAgent,
+          ip,
+          address
+        },
         (err, result) => {
           if (err) return reject(err);
           req.session.commTime = moment();
@@ -225,21 +225,22 @@ exports.insertReplyToComment = (req, res, next) => {
 exports.getCommentsByArcId = (req, res) => {
   let limit = parseInt(req.query.number) || 10; /* 返回数量 默认10*/
   let skip = parseInt(req.query.skip) || 0; /* 跳过数量 */
-  if (!req.query.artid) {
+  // 文章id
+  let arcid = req.query.arcid;
+  if (!arcid) {
     return res.json({
       status: -2,
       msg: "文章id错误,数据获取失败"
     });
   }
-  // 文章id
-  var artid = req.query.artid;
+
   // 获取文章评论
   let getThisArcComments = () => {
     return new Promise((resolve, reject) => {
       commentMod.showThisArticleComments(
         limit,
         skip,
-        artid,
+        arcid,
         (err, commsDatas) => {
           if (err) return reject(err);
           if (commsDatas === undefined || commsDatas.length === 0)
