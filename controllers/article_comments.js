@@ -247,7 +247,7 @@ exports.getCommentsByArcId = (req, res) => {
             return reject(-1);
           let commlist = commsDatas.map(comm => {
             let commUser = comm.author_id;
-            let commReps = traverseTheReply(comm.reply);
+            let commReps = traversalReply(comm.reply);
             let commAvatar = commUser.avatar_path ?
               commUser.avatar_path.save_path +
               "thumbnail_" +
@@ -280,32 +280,53 @@ exports.getCommentsByArcId = (req, res) => {
       );
     });
   };
-  // 遍历评论回复 返回null或Array
-  let traverseTheReply = replys => {
-    if (typeof replys === undefined || replys.length === 0) return null;
-    return replys.map(reply => {
-      let author = reply.author_id;
-      let repAvatar = author.avatar_path ?
-        author.avatar_path.save_path +
-        "thumbnail_" +
-        author.avatar_path.new_name :
-        "";
-      return {
+  /**
+   * 遍历文章数组
+   * @param {array} reply 返回的该文章评论回复 
+   */
+  function traversalReply(reply) {
+    if (reply.length === 0) return
+    let commReplyArr = [];
+    for (let idx = 0, replylen = reply.length; idx < replylen; idx++) {
+      let repUser = reply[idx].author_id;
+      let repAvatar = repUser.avatar_path ? repUser.avatar_path.save_path + 'thumbnail_' + repUser.avatar_path.new_name : "/images/my-head.png"
+      let to = '';
+      if (reply[idx].to) {
+        let t = reply[idx].to;
+        let toAvatar = t.avatar_path ? t.avatar_path.save_path + 'thumbnail_' + t.avatar_path.new_name : "/images/my-head.png"
+        to = {
+          user: {
+            id: t.author_id._id,
+            name: t.author_id.user_name,
+            avatar: toAvatar
+          },
+          id: t._id,
+          repContent: t.comment_text,
+          likeNum: t.like_num,
+          createTime: moment(t.create_time).fromNow(),
+          submitAddress: t.submit_address,
+          floor: t.floor
+        }
+      }
+
+      let obj = {
         user: {
-          name: author.user_name,
-          id: author._id,
+          name: repUser.user_name,
+          id: repUser._id,
           avatar: repAvatar
         },
-        id: reply._id,
-        repContent: reply.comment_text,
-        likeNum: reply.like_num,
-        createTime: moment(reply.create_time).fromNow(),
-        submitAddress: reply.submit_address,
-        to: reply.to ? reply.to : "",
-        floor: reply.floor
-      };
-    });
-  };
+        id: reply[idx]._id,
+        repContent: reply[idx].comment_text,
+        likeNum: reply[idx].like_num,
+        createTime: moment(reply[idx].create_time).fromNow(),
+        submitAddress: reply[idx].submit_address,
+        to,
+        floor: reply[idx].floor
+      }
+      commReplyArr.push(obj);
+    }
+    return commReplyArr;
+  }
   // 错误处理
   let errProcess = (err) => {
     if (err === 0) {
