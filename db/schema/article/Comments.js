@@ -45,7 +45,7 @@ commentSchema.statics.updateLikeNum = function (commid, cb) {
   })
 
 }
-commentSchema.statics.getTotalOfDays = function (startTime,endTime, cb) {
+commentSchema.statics.getTotalOfDays = function (startTime, endTime, cb) {
   return this.find({
     create_time: {
       "$gte": new Date(startTime + ' 00:00:00').toISOString(),
@@ -80,7 +80,10 @@ commentSchema.statics.findThisArticleComments = function (artid, limit, skip, cb
     }, {
       path: 'to',
       populate: {
-        path: 'author_id'
+        path: 'author_id',
+        populate: {
+          path: 'avatar_path'
+        }
       }
     }]
   }]).exec(cb);

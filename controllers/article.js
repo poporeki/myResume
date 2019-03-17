@@ -37,7 +37,7 @@ function traversalReply(reply) {
       to = {
         user: {
           id: t.author_id._id,
-          name: t.user_name,
+          name: t.author_id.user_name,
           avatar: toAvatar
         },
         id: t._id,
@@ -130,7 +130,7 @@ let getArcInfo = arcid => {
         author: thisArc.author_id ? thisArc.author_id.user_name : '不知道是谁',
         //阅读数量
         readNum: thisArc.read,
-        likes:thisArc.like_this.length
+        likes: thisArc.like_this.length
       }
       resolve(arcInfo);
     })
@@ -160,7 +160,7 @@ let getArcComm = (limit, skip, arcid) => {
         }
       })
       resolve([
-         artComms,
+        artComms,
         result.total
       ]);
     })
@@ -188,7 +188,10 @@ let getTheArticleBnAArticle = (arcid) => {
     let fn = async () => {
       let prevArc = await getPrevArc(arcid);
       let nextArc = await getNextArc(arcid);
-      resolve({ prevArc, nextArc });
+      resolve({
+        prevArc,
+        nextArc
+      });
     }
     fn().catch(err => {
       return reject(err);
@@ -215,7 +218,10 @@ exports.getArticleInfoById = (req, res, next) => {
       getArcComm(limit, skip, arcid),
       getUserLike(arcid, req.session.user)
     ]);
-    let { prevArc, nextArc } = await getTheArticleBnAArticle(arcid);
+    let {
+      prevArc,
+      nextArc
+    } = await getTheArticleBnAArticle(arcid);
     let arcObj = {
       arcInfo,
       arcComms: arcComments,
@@ -236,7 +242,7 @@ exports.getArticleInfoById = (req, res, next) => {
     })
   })
 }
-exports.showArticleById=  (req, res, next) => {
+exports.showArticleById = (req, res, next) => {
   // 返回数量 默认10
   let limit = parseInt(req.query.number || 10);
   // 跳过数量
@@ -254,7 +260,10 @@ exports.showArticleById=  (req, res, next) => {
       getArcComm(limit, skip, arcid),
       getUserLike(arcid, req.session.user)
     ]);
-    let { prevArc, nextArc } = await getTheArticleBnAArticle(arcid);
+    let {
+      prevArc,
+      nextArc
+    } = await getTheArticleBnAArticle(arcid);
     res.render('./blog/article', {
       arcInfo,
       arcComms: arcComments,
@@ -338,12 +347,17 @@ exports.getArticleList = (req, res) => {
   // 查找数量默认10
   let limit = parseInt(req.query.num) || 10;
   // 当前页数
-  let page = parseInt(req.query.page);
+  let page = parseInt(req.query.page) || 1;
   // 排序 -默认创建时间倒叙
   let sort = req.query.sort || {
     'create_time': -1
   };
-  let params = { by, limit, page, sort };
+  let params = {
+    by,
+    limit,
+    page,
+    sort
+  };
   /* 获取文章列表 */
   let getArticleList = (request) => {
     return new Promise((resolve, reject) => {
@@ -411,7 +425,12 @@ exports.getArticleListSSR = (req, res, next) => {
     'create_time': -1
   };
   let typeName = '';
-  let params = { by, limit, page, sort };
+  let params = {
+    by,
+    limit,
+    page,
+    sort
+  };
   /* 获取文章列表 */
   let getArticleList = (request) => {
     return new Promise((resolve, reject) => {
@@ -443,7 +462,10 @@ exports.getArticleListSSR = (req, res, next) => {
     })
   }
   let fn = async () => {
-    let { arclist, typename } = await getArticleList(params);
+    let {
+      arclist,
+      typename
+    } = await getArticleList(params);
     res.render('blog/articlelist', {
       artList: arclist,
       typename: typename
@@ -518,7 +540,9 @@ exports.getArticleListOfCarousel = (req, res, next) => {
           carousel: true
         }
       };
-      articleMod.showArticleList({ by }, (err, result) => {
+      articleMod.showArticleList({
+        by
+      }, (err, result) => {
         if (err) return reject(err);
         resolve(result.arcList);
       });
