@@ -1,8 +1,9 @@
-var moment = require("moment");
+const moment = require("moment");
 
-var articleType = require("../../db/schema/article/ArticleType");
-var articles = require("../../db/schema/article/Article");
-var articleList = require("../../db/schema/article/ArticleList");
+const articleType = require("../../db/schema/article/ArticleType"),
+  articleTag = require("../../db/schema/article/ArticleTag"),
+  articles = require("../../db/schema/article/Article"),
+  articleList = require("../../db/schema/article/ArticleList");
 
 module.exports = {
   /* 添加文章 */
@@ -35,7 +36,13 @@ module.exports = {
    * @param {Object} param0 单页数量，页数，排序，by，是否Root
    * @param {function} cb 回调
    */
-  showArticleList: function ({ limit, page, sort, by, isRoot }, cb) {
+  showArticleList: function ({
+    limit,
+    page,
+    sort,
+    by,
+    isRoot
+  }, cb) {
     by = by || {};
     !by["is_delete"] ? (by["is_delete"] = false) : "";
     if (isRoot) {
@@ -56,14 +63,36 @@ module.exports = {
       skip,
       sort
     };
+    let getSearchedName = async (by) => {
+
+      let result;
+      if (by.tags_id !== undefined) {
+        result = await getTagName(by.tags_id);
+      } else if (by.type_id !== undefined) {
+        result = await getTypeName(by.type_id);
+      }
+      return result;
+    }
     // 获取分类名
-    let getTypeName = () => {
+    let getTypeName = (typeid) => {
       return new Promise((resolve, reject) => {
-        articleType.findById(by.type_id, (err, result) => {
+        articleType.findById(typeid, (err, result) => {
           if (err) return reject(err);
           if (result && result.type_name) {
-            let typeName = result.type_name||'';
+            let typeName = result.type_name || '';
             resolve(typeName);
+          }
+          resolve('');
+        });
+      });
+    };
+    let getTagName = (tagid) => {
+      return new Promise((resolve, reject) => {
+        articleTag.findById(tagid, (err, result) => {
+          if (err) return reject(err);
+          if (result && result.tag_name) {
+            let tagName = result.tag_name || '';
+            resolve(tagName);
           }
           resolve('');
         });
@@ -112,19 +141,19 @@ module.exports = {
         resolve(arcArr);
       });
     };
-    let fn=async()=>{
-      let [typeName,arcList]=await Promise.all([
-        getTypeName(),
+    let fn = async () => {
+      let [sName, arcList] = await Promise.all([
+        getSearchedName(by),
         getArcList()
       ]);
-      arcList =await formatList(arcList);
-      return cb(null,{
-        typename:typeName,
+      arcList = await formatList(arcList);
+      return cb(null, {
+        searchedName: sName,
         arcList
       })
     }
-    fn().catch(err=>{
-      return cb(err,null);
+    fn().catch(err => {
+      return cb(err, null);
     })
   },
   /**
@@ -133,11 +162,12 @@ module.exports = {
    */
   findArticleTypeInfo: function (cb) {
     articles
-      .aggregate([
-        {
+      .aggregate([{
           $group: {
             _id: "$type_id",
-            count: { $sum: 1 }
+            count: {
+              $sum: 1
+            }
           }
         },
         {
@@ -164,8 +194,7 @@ module.exports = {
    */
   findArticleTagsInfo: function (cb) {
     articles
-      .aggregate([
-        {
+      .aggregate([{
           $unwind: "$tags_id"
         },
         {
@@ -187,8 +216,7 @@ module.exports = {
         {
           $replaceRoot: {
             newRoot: {
-              $mergeObjects: [
-                {
+              $mergeObjects: [{
                   $arrayElemAt: ["$tags_info", 0]
                 },
                 "$$ROOT"
@@ -245,8 +273,12 @@ module.exports = {
    * @param {Function} cb 回调函数
    */
   moveToTrash: (artid, cb) => {
-    return articles.update({ _id: artid }, {
-      $set: { is_delete: true }
+    return articles.update({
+      _id: artid
+    }, {
+      $set: {
+        is_delete: true
+      }
     }, cb);
   },
   /**
@@ -255,8 +287,12 @@ module.exports = {
    * @param {Function} cb 回调函数
    */
   recoveryArticle: (arcid, cb) => {
-    return articles.update({ _id: arcid }, {
-      $set: { is_delete: false }
+    return articles.update({
+      _id: arcid
+    }, {
+      $set: {
+        is_delete: false
+      }
     }, cb);
   },
   /* 获得文章总数 */
@@ -275,11 +311,14 @@ module.exports = {
     return articles
       .find({
         is_delete: false,
-        $or: [{ title: { $regex: reg } }]
+        $or: [{
+          title: {
+            $regex: reg
+          }
+        }]
       }, {
-          title: 1
-        }
-      )
+        title: 1
+      })
       .exec(cb);
   },
   /* 获取文章列表-按阅读数排序 */
@@ -299,15 +338,12 @@ module.exports = {
   },
   getArticleTitle: function (limit, cb) {
     articles
-      .find(
-        {
-          is_delete: false
-        },
-        {
-          _id: 1,
-          title: 1
-        }
-      )
+      .find({
+        is_delete: false
+      }, {
+        _id: 1,
+        title: 1
+      })
       .limit(limit)
       .sort({
         create_time: -1
@@ -324,19 +360,15 @@ module.exports = {
   incTheArticleLike: (arcid, userid, cb) => {
     return new Promise((resolve, reject) => {
       articles
-        .findOneAndUpdate(
-          {
-            _id: arcid
-          },
-          {
-            $addToSet: {
-              like_this: userid
-            }
-          },
-          {
-            new: true
+        .findOneAndUpdate({
+          _id: arcid
+        }, {
+          $addToSet: {
+            like_this: userid
           }
-        )
+        }, {
+          new: true
+        })
         .then(result => resolve([result.like_this.length, true]))
         .catch(err => reject(err));
     });
@@ -344,19 +376,15 @@ module.exports = {
   reduceTheArticleLike: (arcid, userid) => {
     return new Promise((resolve, reject) => {
       articles
-        .findOneAndUpdate(
-          {
-            _id: arcid
-          },
-          {
-            $pull: {
-              like_this: userid
-            }
-          },
-          {
-            new: true
+        .findOneAndUpdate({
+          _id: arcid
+        }, {
+          $pull: {
+            like_this: userid
           }
-        )
+        }, {
+          new: true
+        })
         .then(result => resolve([result.like_this.length, false]))
         .catch(err => reject(err));
     });
@@ -380,8 +408,7 @@ module.exports = {
   /* 点赞状态 */
   theArticleLikeOperation: function (arcid, userid) {
     return new Promise(resolve => {
-      articles.findOne(
-        {
+      articles.findOne({
           _id: arcid,
           like_this: userid
         },

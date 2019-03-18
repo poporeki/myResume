@@ -380,7 +380,7 @@ exports.getArticleList = (req, res) => {
         })
         resolve({
           /*分类 */
-          typename: result.typename,
+          searchedName: result.searchedName,
           /* 文章列表 */
           arclist: resListArr
         });
