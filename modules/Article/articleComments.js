@@ -8,7 +8,7 @@
 const commentSchema = require("../../db/schema/article/Comments");
 const commentReplySchema = require("../../db/schema/article/CommentsReplys.js");
 
-const moment=require('moment')
+const moment = require('moment')
 const getIPInfoMod = require("../../common/IPModule");
 
 module.exports = {
@@ -231,7 +231,10 @@ module.exports = {
         _id: repid
       })
       .populate([{
-        path: "author_id"
+        path: "author_id",
+        populate: [{
+          path: 'avatar_path'
+        }]
       }])
       .exec(cb);
   },
@@ -336,10 +339,10 @@ module.exports = {
       commentSchema.getTotalOfDays(nowDay, nowDay, cb);
     } else if (kind === 'week') {
       let startDay = moment().subtract(7, 'days').format('YYYY-MM-DD');
-      commentSchema.getTotalOfDays(startDay,nowDay, cb);
+      commentSchema.getTotalOfDays(startDay, nowDay, cb);
     } else if (kind === 'month') {
       let startDay = moment().subtract(30, 'days').format('YYYY-MM-DD');
-      commentSchema.getTotalOfDays(startDay,nowDay, cb);
+      commentSchema.getTotalOfDays(startDay, nowDay, cb);
     }
   }
 };

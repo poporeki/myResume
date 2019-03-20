@@ -41,10 +41,10 @@ function traversalReply(reply) {
           avatar: toAvatar
         },
         id: t._id,
-        repContent: t.comment_text,
+        arc_content: t.comment_text,
         likeNum: t.like_num,
-        createTime: moment(t.create_time).fromNow(),
-        submitAddress: t.submit_address,
+        create_time: moment(t.create_time).fromNow(),
+        submit_address: t.submit_address,
         floor: t.floor
       }
     }
@@ -56,10 +56,10 @@ function traversalReply(reply) {
         avatar: repAvatar
       },
       id: reply[idx]._id,
-      repContent: reply[idx].comment_text,
+      arc_content: reply[idx].comment_text,
       likeNum: reply[idx].like_num,
-      createTime: moment(reply[idx].create_time).fromNow(),
-      submitAddress: reply[idx].submit_address,
+      create_time: moment(reply[idx].create_time).fromNow(),
+      submit_address: reply[idx].submit_address,
       to,
       floor: reply[idx].floor
     }
@@ -151,8 +151,8 @@ let getArcComm = (limit, skip, arcid) => {
             name: comms.author_id.user_name,
             avatar: comms.author_id.avatar_path ? comms.author_id.avatar_path.save_path + 'thumbnail_' + comms.author_id.avatar_path.new_name : "/images/my-head.png"
           },
-          submitAddress: comms.submit_address,
-          createTime: moment(comms.create_time).fromNow(),
+          submit_address: comms.submit_address,
+          create_time: moment(comms.create_time).fromNow(),
           likeNum: comms.like_num,
           text: comms.comment_text,
           commReps: commReps,

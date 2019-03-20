@@ -27,7 +27,7 @@
       </div>
       <div class="pt-info">
         <span class="pubtime">
-        发表时间：{{arcInfo.createTime}}
+        发表时间：{{arcInfo.create_time}}
         </span>
         <span class="source">
         分类：<a class="type-lk" href="/blog/articlelist?by[type_id]={{arcInfo.type.id}}">
@@ -133,8 +133,8 @@
               <div class="info">
                 <div class="lt">
                   <div class="username">{{this.user.name}}</div>
-                  <div class="address">{{this.submitAddress}}</div>
-                  <div class="p-date">{{this.createTime}}</div>
+                  <div class="address">{{this.submit_address}}</div>
+                  <div class="p-date">{{this.create_time}}</div>
                 </div>
                 <div class="floor-blk">{{this.floor+'楼'}}</div>
               </div>
@@ -173,14 +173,14 @@
                     <div class="info">
                       <div class="lt">
                         <div class="username">{{this.user.name}}</div>
-                        <div class="address">{{this.submitAddress}}</div>
-                        <div class="p-date">{{this.createTime}}</div>
+                        <div class="address">{{this.submit_address}}</div>
+                        <div class="p-date">{{this.create_time}}</div>
                       </div>
                     </div>
                     {{#if(this.to==='')}}
-                      <p>{{this.repContent}}</p>
+                      <p>{{this.arc_content}}</p>
                     {{else}}
-                    <p>{{'回复 #'+this.to.floor+" "+this.to.user.name+':'+this.repContent}}</p>
+                    <p>{{'回复 #'+this.to.floor+" "+this.to.user.name+':'+this.arc_content}}</p>
                     {{/if}}
                     <div class="tools">
                       <a href="javascript:void(0);" class="comm-reply-btn">回复</a>
@@ -190,14 +190,14 @@
                 <div class="reply-block">
                   <div class="add-comm clearfix">
                     <textarea name="comm_textarea" class="comm-textarea" id="comm_textarea" cols="30" rows="10"></textarea>
-                    <a href="javascript:void(0);" class="comm-submit-btn reply-child" data-repid=<%=reps[j].id %> >提交</a>
+                    <a href="javascript:void(0);" class="comm-submit-btn reply-child" data-repid={{this.id}} >提交</a>
                   </div>
                   <div class="close-btn"></div>
                 </div>
               </li>
             {{/each}}
             {{!剩余评论数}}
-            {{#if(commReps.count>5)}}
+            {{#if(commReps.count>1)}}
               <li class="comment-item">
                 还有{{commReps.count-5}}条回复，<a href="javascript:void(0);">点击查看<></a>
               </li>
@@ -207,7 +207,7 @@
           <!-- 评论中的回复列表 end-->
         </li>
         {{/each}}
-        {{#if(artTotal>arcComms.length)}}
+        {{#if(commsTotal>arcComms.length)}}
           <li class="comment-more">
             <a href="javascript:void(0);" class="more-comms-lk">查看更多评论</a>
           </li>

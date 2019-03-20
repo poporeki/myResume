@@ -1,5 +1,5 @@
 $(function () {
-  
+
   $('.comment-block').on('click', '.comm-submit-btn', function () {
     if (!isLogin()) return;
     if ($(this).children('.loading-ani').length > 0) return;
@@ -8,7 +8,7 @@ $(function () {
       artid = $('.article-box').attr('data-artid'),
       submitUrl = '/api/v1/article/comment/submitcomment',
       data = {
-        art_id: artid,
+        arc_id: artid,
         comm_content: $comTextarea.val()
       },
       $replyBlock = $(this).parent().parent();
@@ -37,9 +37,9 @@ $(function () {
         var data = result.data,
           floor = data.floor,
           username = data.username,
-          submitAddress = data.submitAddress,
+          submitAddress = data.submit_address,
           timeCreate = data.create_time,
-          artContent = data.art_content;
+          artContent = data.arc_content;
         $replyList.addClass('show');
         var context =
           '<li class="comment-item">' +
@@ -87,10 +87,10 @@ $(function () {
         var data = result.data,
           floor = data.floor,
           username = data.username,
-          submitAddress = data.submitAddress,
+          submitAddress = data.submit_address,
           timeCreate = data.create_time,
           to = data.to,
-          artContent = data.art_content;
+          artContent = data.arc_content;
         var context =
           '<li class="comment-item">' +
           '<div>' +
@@ -153,10 +153,10 @@ $(function () {
           if (!resultFalse(result, $this)) return;
           var data = result.data,
             username = data.username,
-            submitAddress = data.submitAddress,
+            submitAddress = data.submit_address,
             timeCreate = data.create_time,
             floor = data.floor,
-            artContent = data.art_content;
+            artContent = data.arc_content;
           var context =
             '<li class="comment-item">' +
             '<div>' +
@@ -272,8 +272,8 @@ $(function () {
           '<div class ="info">' +
           '<div class = "lt">' +
           '<div class = "username">' + comms.user.name + '</div>' +
-          '<div class = "address">' + comms.submitAddress + '</div>' +
-          '<div class = "p-date" >' + comms.createTime + '</div>' +
+          '<div class = "address">' + comms.submit_address + '</div>' +
+          '<div class = "p-date" >' + comms.create_time + '</div>' +
           '</div>' +
           '<div class ="floor-blk">' + comms.floor + "楼" + '</div>' +
           '</div>' +
@@ -332,8 +332,8 @@ function getreplyList(reps) {
       floor = rep.floor,
       username = rep.user.name,
       avatar = rep.user.avatar !== '' ? rep.user.avatar : '/images/my-head.png',
-      subAddress = rep.submitAddress,
-      timeCreate = rep.createTime,
+      subAddress = rep.submit_address,
+      timeCreate = rep.create_time,
       to = rep.to,
       repContent = rep.repContent;
     repCon += '<li class="comment-item">' +

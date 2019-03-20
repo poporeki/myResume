@@ -67,7 +67,7 @@ exports.isLogin = (req, res, next) => {
 exports.insertComment = (req, res) => {
   let commText = req.body.comm_content.trim();
   let authorId = req.session.user._id;
-  let arcid = req.body.art_id;
+  let arcid = req.body.arc_id;
   let userAgent = req.useragent.source;
   if (commText === "") {
     return res.json({
@@ -109,13 +109,13 @@ exports.insertComment = (req, res) => {
       status: true,
       msg: null,
       data: {
-        art_content: resultInserted.comment_text,
+        arc_content: resultInserted.comment_text,
         like_num: resultInserted.like_num,
         username: req.session.user.username,
         user: req.session.user._id,
-        submitAddress: resultInserted.submit_address,
+        submit_address: resultInserted.submit_address,
         floor: resultInserted.floor,
-        create_time: moment(resultInserted.createdAt).fromNow()
+        create_time: moment(resultInserted.create_time).fromNow()
       }
     });
   };
@@ -144,7 +144,7 @@ exports.insertReplyToComment = (req, res, next) => {
     address
   }) => {
     return new Promise((resolve, reject) => {
-      let articleId = req.body.art_id;
+      let articleId = req.body.arc_id;
       let authorId = req.session.user._id;
       let commentId = req.body.commid;
       let to = req.body.reply_id;
@@ -185,11 +185,11 @@ exports.insertReplyToComment = (req, res, next) => {
         status: true,
         msg: null,
         data: {
-          art_content: resultInsert.comment_text,
+          arc_content: resultInsert.comment_text,
           like_num: resultInsert.like_num,
           username: req.session.user.username,
           user: req.session.user._id,
-          submitAddress: resultInsert.submit_address,
+          submit_address: resultInsert.submit_address,
           floor: resultInsert.floor,
           create_time: moment(resultInsert.createdAt).format(
             "YYYY-MM-DD hh:mm:ss"
@@ -198,17 +198,27 @@ exports.insertReplyToComment = (req, res, next) => {
       });
     }
     let resultReplyList = await getReplyList(resultInsert.to);
+    let rep = resultReplyList[0];
+    let toUserId = rep.author_id._id;
+    let toUserName = rep.author_id.user_name;
+    let avatar = rep.author_id.avatar_path;
+    let toAvatarPath = `${avatar.save_path}thumbnail_${avatar.new_name}`;
     res.json({
       status: true,
       msg: null,
       data: {
-        art_content: resultInsert.comment_text,
+        arc_content: resultInsert.comment_text,
         like_num: resultInsert.like_num,
         username: req.session.user.username,
         user: req.session.user._id,
-        submitAddress: resultInsert.submit_address,
-        to: resultReplyList[0].author_id ?
-          resultReplyList[0].author_id.user_name : "not",
+        submit_address: resultInsert.submit_address,
+        to: {
+          user: {
+            id: toUserId,
+            name: toUserName,
+            avatar: toAvatarPath
+          }
+        },
         floor: resultInsert.floor,
         create_time: moment(resultInsert.createdAt).fromNow()
       }
@@ -262,9 +272,9 @@ exports.getCommentsByArcId = (req, res) => {
                 avatar: commAvatar
               },
               // 评论地址
-              submitAddress: comm.submit_address,
+              submit_address: comm.submit_address,
               // 創建時間
-              createTime: moment(comm.create_time).fromNow(),
+              create_time: moment(comm.create_time).fromNow(),
               // 点赞数
               likeNum: comm.like_num,
               // 评论内容
@@ -301,10 +311,10 @@ exports.getCommentsByArcId = (req, res) => {
             avatar: toAvatar
           },
           id: t._id,
-          repContent: t.comment_text,
+          arc_content: t.comment_text,
           likeNum: t.like_num,
-          createTime: moment(t.create_time).fromNow(),
-          submitAddress: t.submit_address,
+          create_time: moment(t.create_time).fromNow(),
+          submit_address: t.submit_address,
           floor: t.floor
         }
       }
@@ -317,10 +327,10 @@ exports.getCommentsByArcId = (req, res) => {
           avatar: repAvatar
         },
         id: reply[idx]._id,
-        repContent: reply[idx].comment_text,
+        arc_content: reply[idx].comment_text,
         likeNum: reply[idx].like_num,
-        createTime: moment(reply[idx].create_time).fromNow(),
-        submitAddress: reply[idx].submit_address,
+        create_time: moment(reply[idx].create_time).fromNow(),
+        submit_address: reply[idx].submit_address,
         to,
         floor: reply[idx].floor
       }
