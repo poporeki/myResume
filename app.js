@@ -7,9 +7,9 @@ const express = require("express"),
   compression = require("compression"),
   /* gzip */
   moment = require("moment"),
-  xtpl=require('xtpl');
+  xtpl = require('xtpl');
 
-  xtpl.__express=xtpl.renderFile;
+xtpl.__express = xtpl.renderFile;
 
 const socket = require("./router/back/socket");
 const ERROR = require('./controllers/error');
@@ -26,7 +26,7 @@ app.locals.pretty = true;
 app.use(
   bodyParser.urlencoded({
     limit: "50mb",
-    extended: false
+    extended: true
   })
 );
 app.use(
@@ -53,7 +53,7 @@ app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", req.headers.origin);
   res.header("Access-Control-Allow-Headers", "Content-Type");
   //和客户端对应，必须设置以后，才能接收cookie.允许凭证,解决session跨域丢失问题
-  res.header("Access-Control-Allow-Credentials", "true"); 
+  res.header("Access-Control-Allow-Credentials", "true");
   next();
 });
 /* session 配置 */

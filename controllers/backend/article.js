@@ -23,21 +23,28 @@ exports.getArticleList = (req, res) => {
   if (referer.indexOf('articleTrash') > 0) {
     isDel = true;
   }
-  req.body.by ? req.body.by['is_delete'] = isDel : req.body.by = {
-    'is_delete': isDel
-  };
+  let by = req.query.by || req.body.by || {};
+  if (typeof by === 'string') {
+    typeof by === 'string' && by ? by = JSON.parse(by) : by = {};
+  }
+  by['is_delete'] = isDel;
+
   // 查找数量默认10
   let limit = parseInt(req.body.num) || 10;
   // 当前页数
-  let page = parseInt(req.body.page);
+  let page = parseInt(req.body.page) || 1;
   // 排序 -默认创建时间倒叙
   let sort = req.body.sort || {
     'create_time': -1
   };
-  req.body.by.tags_id ? req.body.by.tags_id = mongoose.Types.ObjectId(req.body.by.tags_id) : '';
-  req.body.by.type_id ? req.body.by.type_id = mongoose.Types.ObjectId(req.body.by.type_id) : '';
-  let by = req.body.by;
-  let params = { by, limit, page, sort };
+  // req.body.by.tags_id ? req.body.by.tags_id = mongoose.Types.ObjectId(req.body.by.tags_id) : '';
+  // req.body.by.type_id ? req.body.by.type_id = mongoose.Types.ObjectId(req.body.by.type_id) : '';
+  let params = {
+    by,
+    limit,
+    page,
+    sort
+  };
 
   /* 获取总数 */
   function getArcCount() {
@@ -53,13 +60,20 @@ exports.getArticleList = (req, res) => {
     return new Promise(function (resolve, reject) {
       articleMod.showArticleList(params, (err, result) => {
         if (err) return reject(err);
-        resolve(result);
+        if (result === undefined) return reject(-1);
+        let arclist = result.arcList;
+        if (arclist.length == 0) return reject(0);
+        resolve({
+          /*分类 */
+          searchedName: result.searchedName,
+          /* 文章列表 */
+          arclist: arclist
+        });
       });
     })
   }
   let fn = async () => {
-    let arcCount = await getArcCount();
-    let arcList = await getArcList(params);
+    let [arcCount, arcList] = await Promise.all([getArcCount(), getArcList(params)])
     let resDatas = {};
     resDatas['artCount'] = arcCount;
     resDatas['artInfo'] = arcList;
@@ -70,10 +84,18 @@ exports.getArticleList = (req, res) => {
     });
   }
   fn().catch(err => {
-    return res.json({
-      status: 0,
-      msg: '获取数据失败'
-    })
+    let obj = {
+      status: false,
+      msg: ''
+    }
+    if (err === 0) {
+      obj['msg'] = '数据不存在'
+    } else if (err === -1) {
+      obj['msg'] = '数据获取失败'
+    } else {
+      obj['msg'] = '服务器错误'
+    }
+    return res.json(obj);
   })
 
 }
@@ -146,37 +168,37 @@ exports.showUpdateArticleById = (req, res, next) => {
     let arcInfo = await getArcInfo(arcid);
     let arcTagsInfo = await getArcTags();
     let arcTypeInfo = await getArcType();
-    let selectTagsId=arcInfo.tags_id;
+    let selectTagsId = arcInfo.tags_id;
     //选中的tag标签
-    let selectedTags=[];
+    let selectedTags = [];
     //未选中的tag标签
-    let isntSelectTags=[];
-    let selectedType=[];
-    let isntSelectTypes=[];
+    let isntSelectTags = [];
+    let selectedType = [];
+    let isntSelectTypes = [];
     //筛选tag标签
-    for(var i=0;i<arcTagsInfo.length;i++){
-      let tag=arcInfo.tags_id;
-      for(var j=0;j<tag.length;j++){
-        if(arcTagsInfo[i].id===tag[j].id){
+    for (var i = 0; i < arcTagsInfo.length; i++) {
+      let tag = arcInfo.tags_id;
+      for (var j = 0; j < tag.length; j++) {
+        if (arcTagsInfo[i].id === tag[j].id) {
           selectedTags.push(arcTagsInfo[i]);
           break;
         }
-        if(j===tag.length-1){
+        if (j === tag.length - 1) {
           isntSelectTags.push(arcTagsInfo[i]);
         }
       }
     }
 
     //筛选文章分类
-    for(var i=0;i<arcTypeInfo.length;i++){
+    for (var i = 0; i < arcTypeInfo.length; i++) {
       console.log(arcTypeInfo[i]);
-      let type=arcInfo.type_id;
-        if(arcTypeInfo[i].id===type.id){
-          selectedType.push(arcTypeInfo[i]);
-        }else{
-          isntSelectTypes.push(arcTypeInfo[i]);
-        }
-        
+      let type = arcInfo.type_id;
+      if (arcTypeInfo[i].id === type.id) {
+        selectedType.push(arcTypeInfo[i]);
+      } else {
+        isntSelectTypes.push(arcTypeInfo[i]);
+      }
+
     }
     let renObj = {
       pageTitle: "修改文章",
@@ -187,12 +209,12 @@ exports.showUpdateArticleById = (req, res, next) => {
       artInfo: {
         name: arcInfo.title,
         types: {
-          selected:selectedType,
-          isntselect:isntSelectTypes
+          selected: selectedType,
+          isntselect: isntSelectTypes
         },
         tags: {
-          selected:selectedTags,
-          isntselect:isntSelectTags
+          selected: selectedTags,
+          isntselect: isntSelectTags
         },
         from: arcInfo.from,
         content: arcInfo.content,
