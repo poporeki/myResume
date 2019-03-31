@@ -9,9 +9,9 @@
 const express = require('express');
 const router = express.Router();
 
-const BlogCtl=require('../../../controllers/blog');
+const BlogCtl = require('../../../controllers/blog');
 
-router.get('/getHomeNavbar',BlogCtl.getHomeNavbar);
+router.get('/getHomeNavbar', BlogCtl.getHomeNavbar);
 router.use('/article', require('./Blog_Article'));
 router.use('/articlelist', require('./Blog_ArticleList'));
 router.use('/getArctags', require('./Blog_ArticleTags'));
@@ -20,5 +20,7 @@ router.use('/getCarousel', require('./Blog_Carousel'));
 router.use('/article/comment', require('./Blog_ArticleComments'));
 router.use('/article/search', require('./Blog_Search'));
 router.use('/weather', require('./Weather'));
-router.use('/user', require('./User'))
+router.use('/user', require('./User'));
+router.use('/bing', require('./bing'));
+router.use('/tuchong', require('./tuchong'))
 module.exports = router;
