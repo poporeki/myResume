@@ -66,6 +66,12 @@ exports.showUserHome = (req, res, next) => {
     })
   }
   getUserInfo().then(result => {
+    if (req.xhr) {
+      return res.json({
+        status: true,
+        data: result
+      })
+    }
     res.render('./blog/user', result);
   }).catch((err) => {
     next(err);

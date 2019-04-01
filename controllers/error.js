@@ -1,10 +1,11 @@
 module.exports = (err, req, res, next) => {
+    if (req.method === 'OPTIONS') next();
     console.log(err);
     if (res.headersSent) {
         return next(err);
     }
     if (err === -9) {
-        if (req.xhr === true) {
+        if (req.xhr === true || req.method === 'OPTIONS') {
             return res.json({
                 status: -9,
                 msg: '未登录'

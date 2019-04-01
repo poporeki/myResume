@@ -51,9 +51,15 @@ app.use("v", express.static(path.join(__dirname, "./dist")));
 //设置跨域访问
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", req.headers.origin);
-  res.header("Access-Control-Allow-Headers", "Content-Type");
+  res.header("Access-Control-Allow-Headers", "Authorization,Origin, X-Requested-With, Content-Type, Accept");
+  // res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+  res.header("X-Powered-By", ' 3.2.1')
+  res.header("Content-Type", "application/json;charset=utf-8");
   //和客户端对应，必须设置以后，才能接收cookie.允许凭证,解决session跨域丢失问题
   res.header("Access-Control-Allow-Credentials", "true");
+  if (req.method === 'OPTIONS') return res.json('');
+
   next();
 });
 /* session 配置 */
