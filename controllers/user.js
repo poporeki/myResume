@@ -66,7 +66,7 @@ exports.showUserHome = (req, res, next) => {
     })
   }
   getUserInfo().then(result => {
-    if (req.xhr) {
+    if (req.baseUrl.indexOf('api') !== -1) {
       return res.json({
         status: true,
         data: result
