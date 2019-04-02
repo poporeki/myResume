@@ -178,7 +178,7 @@ exports.sign = sign;
 exports.logout = (req, res) => {
   req.session.destroy();
   if (req.xhr) {
-    res.json({
+    return res.json({
       status: true
     })
   }

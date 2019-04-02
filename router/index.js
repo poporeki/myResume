@@ -38,7 +38,7 @@ router.use('/backend', require('./back'));
 /* 博客 */
 router.use('/blog', require('./blog'));
 /* 退出登陆 */
-router.get('/logout', userCtl.logout);
+router.post('/logout', userCtl.logout);
 
 
 router.get('*', (req, res, next) => {

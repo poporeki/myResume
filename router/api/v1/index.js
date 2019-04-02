@@ -23,4 +23,5 @@ router.use('/weather', require('./Weather'));
 router.use('/user', require('./User'));
 router.use('/bing', require('./bing'));
 router.use('/tuchong', require('./tuchong'))
+router.use('/tools', require('./tools'))
 module.exports = router;
