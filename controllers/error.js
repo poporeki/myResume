@@ -5,7 +5,7 @@ module.exports = (err, req, res, next) => {
         return next(err);
     }
     if (err === -9) {
-        if (req.xhr === true || req.baseUrl.indexOf('api') !== '-1') {
+        if (req.xhr === true || req.baseUrl.indexOf('api') !== -1) {
             return res.json({
                 status: -9,
                 msg: '未登录'

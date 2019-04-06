@@ -8,22 +8,12 @@ var osMod = require('../../common/os');
 var commentMod = require('../../modules/Article/articleComments')
 var childProcess = require('../../common/child_process');
 
-const blogCtl=require('../../controllers/blog');
+const blogCtl = require('../../controllers/blog');
 /* 权限判断 */
 router.use('/', (req, res, next) => {
   if (!req.session.user) return next(-9);
   if (req.session.user && req.session.user.permissions === 'admin' || req.session.user.permissions === 'root') {
     next();
-
-  } else {
-    if (!req.xhr) {
-      res.redirect('/blog');
-    } else {
-      res.send({
-        status: -5,
-        redirection: '/blog'
-      })
-    }
   }
 })
 
@@ -106,7 +96,7 @@ router.get('/', (req, res, next) => {
 /*get  获取浏览人数 */
 router.get('/getVistorTotal', function (req, res, next) {
   /* 获取访问人数 */
-  let getVistorTotal=(kind)=> {
+  let getVistorTotal = (kind) => {
     return new Promise(function (resolve, reject) {
       Tourists.getVistorTotal(kind, function (err, result) {
         if (err) return reject(err);
@@ -126,9 +116,11 @@ router.get('/getVistorTotal', function (req, res, next) {
   let fn = async () => {
     let kind = req.query.kind || 'day';
     let [vistorTotalArr,
-      commentTotal]=await Promise.all([
+      commentTotal
+    ] = await Promise.all([
       getVistorTotal(kind),
-      getCommentCountOfDays(kind)]);
+      getCommentCountOfDays(kind)
+    ]);
     return res.json({
       status: true,
       data: {
@@ -165,7 +157,7 @@ router.get('/test', (req, res, next) => {
 })
 
 
-router.use('/updatelog',require('./updatelog'));
+router.use('/updatelog', require('./updatelog'));
 router.use('/art', require('./article/article'));
 router.use('/regg', require('./register'));
 router.use('/user', require('./user'));

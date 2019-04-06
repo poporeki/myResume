@@ -1,10 +1,15 @@
-const moment=require('moment')
+const moment = require('moment')
 
 const articleMod = require("../modules/Article/article"),
   commentMod = require("../modules/Article/articleComments"),
   articleTypeMod = require("../modules/Article/articleType"),
-  updateLogMod=require('../modules/UpdateLog');
+  updateLogMod = require('../modules/UpdateLog');
 
+
+/**
+ * 筛选出文本中img标签的src
+ * @param {String} str 需要筛选的文本
+ */
 let getArticleImgUrl = (str) => {
   if (!str) return null;
   let imgReg = /<img.*?(?:>|\/>)/gi;
@@ -33,9 +38,12 @@ exports.getHomeNavbarToLocals = (req, res, next) => {
     next();
   });
 }
+/**
+ * 获取导航列表-文章分类
+ */
 exports.getHomeNavbar = async (req, res, next) => {
-  let getTypeList=()=>{
-    return new Promise((resolve,reject)=>{
+  let getTypeList = () => {
+    return new Promise((resolve, reject) => {
       articleTypeMod.findArticleType("", (err, typeList) => {
         if (err) return reject(err);
         res.locals.NAV = typeList;
@@ -43,12 +51,12 @@ exports.getHomeNavbar = async (req, res, next) => {
       });
     })
   }
-  if (!res.locals.NAV){
+  if (!res.locals.NAV) {
     await getTypeList();
   }
   return res.json({
-    status:true,
-    data:res.locals.NAV
+    status: true,
+    data: res.locals.NAV
   })
 }
 exports.showHome = (req, res, next) => {
@@ -112,7 +120,9 @@ exports.showHome = (req, res, next) => {
       getArcTags(),
       getCommTop(),
       getArcList(),
-      updateLogMod.getAllUpdateLogList({limit:2})
+      updateLogMod.getAllUpdateLogList({
+        limit: 2
+      })
     ])
     carouList.map((val, idx) => {
       let src = getArticleImgUrl(val.content);
@@ -120,11 +130,11 @@ exports.showHome = (req, res, next) => {
         val.carouImg = src;
       }
     })
-    logList=logList.map(val=>{
-      return{
-        create_time:val.create_time=moment(val.create_time).format('YYYY-MM-DD'),
-        log_content:val.log_content,
-        log_id:val._id
+    logList = logList.map(val => {
+      return {
+        create_time: val.create_time = moment(val.create_time).format('YYYY-MM-DD'),
+        log_content: val.log_content,
+        log_id: val._id
       }
     })
     let resObj = {
@@ -159,4 +169,3 @@ exports.getArticleList = (req, res, next) => {
     });
   });
 }
-

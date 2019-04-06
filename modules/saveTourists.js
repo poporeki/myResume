@@ -2,13 +2,16 @@ var TouristsMod = require("../modules/Tourists");
 var IPMod = require("../common/IPModule");
 var moment = require("moment");
 
+/**
+ * 对访问ip进行保存 
+ */
 function saves(req) {
   /* 存入数据库 */
-  let saveToDB = ipInfo => {
+  let saveToDB = params => {
     return new Promise((resolve, reject) => {
-      TouristsMod.saveVistor(ipInfo, function (err) {
+      TouristsMod.saveVistor(params, function (err) {
         if (err) reject(err);
-        console.log("--------数据已记录-----------" + "is TOURIISTS!");
+        console.log(`vistor|-- ${params.reg_ip} --| is saved `);
         resolve();
       });
     });

@@ -4,7 +4,9 @@ const articleMod = require('../modules/Article/article'); /* 文章Module */
 const artCommMod = require('../modules/Article/articleComments'); /* 文章评论Module */
 const arcTypeMod = require('../modules/Article/articleType');
 
-/* 获取用户是否点赞该文章 */
+/**
+ * 获取用户是否点赞该文章
+ */
 let getUserLike = (
   arcid,
   userid
@@ -136,7 +138,13 @@ let getArcInfo = arcid => {
     })
   })
 }
-/* 获取文章评论 */
+/**
+ * 获取文章评论
+ *
+ * @param {Number} limit 获取的数量
+ * @param {Number} skip 跳过的数量
+ * @param {Stirng} arcid 文章id 
+ */
 let getArcComm = (limit, skip, arcid) => {
   return new Promise((resolve, reject) => {
 
@@ -166,7 +174,10 @@ let getArcComm = (limit, skip, arcid) => {
     })
   })
 }
-/* 获得前后文章 */
+/**
+ * 获取该文章对应的前后文章
+ * @param {String} arcid 文章id
+ */
 let getTheArticleBnAArticle = (arcid) => {
   return new Promise((resolve, reject) => {
     let getPrevArc = (arcid) => {
@@ -199,7 +210,9 @@ let getTheArticleBnAArticle = (arcid) => {
   })
 
 }
-/* 通过文章id得到文章相关信息 */
+/**
+ * 通过文章id得到文章相关信息 
+ */
 exports.getArticleInfoById = (req, res, next) => {
   // 返回数量 默认10
   let limit = parseInt(req.query.number || 10);
@@ -209,6 +222,7 @@ exports.getArticleInfoById = (req, res, next) => {
   let arcid = req.params.id;
   let fn = async () => {
     articleMod.incReadNum(arcid);
+    //获得文章信息，[评论列表，总评论数]，判断访问用户是否点过赞
     let [
       arcInfo,
       [arcComments, commsTotal],
@@ -242,6 +256,8 @@ exports.getArticleInfoById = (req, res, next) => {
     })
   })
 }
+
+/**显示文章页面 */
 exports.showArticleById = (req, res, next) => {
   // 返回数量 默认10
   let limit = parseInt(req.query.number || 10);
@@ -277,7 +293,9 @@ exports.showArticleById = (req, res, next) => {
     next(404);
   })
 }
-/* 按阅读数量得到文章列表 */
+/**
+ * 按阅读数量排序得到文章列表
+ */
 exports.getArticleTop = (req, res) => {
   function formatResult(resArclist) {
     let arclist = resArclist.map(arc => {
@@ -306,7 +324,9 @@ exports.getArticleTop = (req, res) => {
     })
   })
 }
-/* 进行点赞操作 */
+/**
+ * 进行点赞操作
+ */
 exports.likeDoing = async (req, res, next) => {
   if (!statusArcLike(req)) {
     return res.json({
@@ -320,6 +340,7 @@ exports.likeDoing = async (req, res, next) => {
       msg: '未登录账户'
     })
   }
+  // 文章id
   let arcid = req.body.arcid;
   try {
     let [likeTotal, isLiked] = await articleMod.toggleArticleLike(arcid, req.session.user._id);
@@ -338,7 +359,9 @@ exports.likeDoing = async (req, res, next) => {
     })
   }
 }
-/* 获取文章列表 */
+/**
+ * 获取文章列表 
+ */
 exports.getArticleList = (req, res) => {
   let by = req.query.by || {};
   if (typeof by === 'string') {
@@ -358,7 +381,7 @@ exports.getArticleList = (req, res) => {
     page,
     sort
   };
-  /* 获取文章列表 */
+  /**获取文章列表 */
   let getArticleList = (request) => {
     return new Promise((resolve, reject) => {
       articleMod.showArticleList(request, (err, result) => {
@@ -410,7 +433,7 @@ exports.getArticleList = (req, res) => {
     return res.json(obj);
   })
 }
-/* 获取文章列表 */
+/**获取文章列表 */
 exports.getArticleListSSR = (req, res, next) => {
   let by = req.query.by || {};
   if (typeof by === 'string') {
@@ -482,8 +505,9 @@ exports.getArticleListSSR = (req, res, next) => {
     }
   })
 }
-/* 获取文章标签列表 */
+/**获取文章标签列表 */
 exports.getArticleTags = (req, res, next) => {
+  /**获取文章标签 */
   let getArcTags = () => {
     return new Promise((resolve, reject) => {
       articleMod.findArticleTagsInfo((err, resTagsList) => {
@@ -506,8 +530,9 @@ exports.getArticleTags = (req, res, next) => {
     })
   })
 }
-/* 获取文章分类列表 */
+/**获取文章分类列表 */
 exports.getArticleTypes = (req, res, next) => {
+  /**获取文章分类 */
   let getArcType = () => {
     return new Promise((resolve, reject) => {
       arcTypeMod.findArticleType('', (err, resTypeList) => {
@@ -530,7 +555,7 @@ exports.getArticleTypes = (req, res, next) => {
     next(err);
   })
 }
-/* 获取文章列表 -轮播 */
+/**获取文章列表 -轮播图 */
 exports.getArticleListOfCarousel = (req, res, next) => {
   /* 获取文章列表 */
   let getArcList = () => {
@@ -548,7 +573,7 @@ exports.getArticleListOfCarousel = (req, res, next) => {
       });
     })
   }
-  /* 格式化 */
+  /**格式化 */
   let entityDataSource = (arclist) => {
     let arr = [];
     for (let j = 0, len = arclist.length; j < len; j++) {
@@ -578,8 +603,9 @@ exports.getArticleListOfCarousel = (req, res, next) => {
     })
   })
 }
-/* 获取文章列表-通过键入的文字 */
+/**获取文章列表-通过输入的文字 */
 exports.getArticleListOfKeywords = (req, res, next) => {
+  //用户输入的文字
   var keywords = (req.body.wd).trim();
   if (!keywords) {
     return res.json({

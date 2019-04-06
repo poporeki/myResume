@@ -3,6 +3,7 @@ const express = require('express'),
 
 const tuchongCtl = require('../../../controllers/tuchong');
 
+/**图虫接口 */
 router.get('/', tuchongCtl.getPage);
 
 module.exports = router;

@@ -3,6 +3,7 @@ var express = require('express'),
   request = require('request');
 
 const KEY = 'gCBVGzr8e1TUhUB1VSU9dD274Rg7hgsG';
+/**根据ip查询地址  -高德API */
 router.get('/', (req, res) => {
   var ip = req.query.ip;
   let url = 'https://api.map.baidu.com/location/ip?ip=' + ip + '&ak=' + KEY;

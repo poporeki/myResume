@@ -1,5 +1,9 @@
 const request = require('request');
 
+
+/**
+ * 获取当天Bing壁纸URL
+ */
 exports.getTodayWallpaper = (req, res, next) => {
   let mainURL = 'https://cn.bing.com';
   let requestUrl = 'https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1';

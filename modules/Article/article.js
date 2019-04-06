@@ -25,7 +25,10 @@ module.exports = {
     };
     articles.addArticle(pars, cb);
   },
-  /* 阅读数+1 */
+  /**
+   * 阅读数量+1
+   * @param {String} artid 文章id 
+   */
   incReadNum: function (artid) {
     articles.incReadNum(artid, function (err) {
       if (err) return;
@@ -389,23 +392,29 @@ module.exports = {
         .catch(err => reject(err));
     });
   },
-  /* 切换点赞状态 */
+  /**
+   * 切换点赞状态 
+   * @param {String} arcid 文章id
+   * @param {String} userid 用户id
+   * */
   toggleArticleLike: function (arcid, userid) {
     return new Promise((resolve, reject) => {
       let fn = async () => {
+        //查询用户是否对该文章进行点赞
         let isLiked = await this.theArticleLikeOperation(arcid, userid);
         let result = "";
-        if (isLiked) {
-          result = await this.reduceTheArticleLike(arcid, userid);
-        } else {
-          result = await this.incTheArticleLike(arcid, userid);
-        }
+        //根据点赞的状态进行数据库操作
+        result = isLiked ? await this.reduceTheArticleLike(arcid, userid) : await this.incTheArticleLike(arcid, userid);
         resolve(result);
       };
       fn().catch(err => reject(err));
     });
   },
-  /* 点赞状态 */
+  /**
+   * 点赞状态 
+   * @param {String} arcid 文章id
+   * @param {String} userid 用户id
+   **/
   theArticleLikeOperation: function (arcid, userid) {
     return new Promise(resolve => {
       articles.findOne({
@@ -419,11 +428,19 @@ module.exports = {
       );
     });
   },
-  /* 得到下一篇文章 */
+  /**
+   * 得到下一篇文章
+   * @param {String} arcid 文章id
+   * @param {Function} cb 回调
+   */
   getNextArticleById: (arcid, cb) => {
     articles.findOneNextArticleById(arcid, cb);
   },
-  /* 得到上一篇文章 */
+  /**
+   * 得到上一篇文章
+   * @param {String} arcid 文章id
+   * @param {Function} cb 回调
+   */
   getPrevArticleById: (arcid, cb) => {
     articles.findOnePrevArticleById(arcid, cb);
   }

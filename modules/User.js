@@ -8,15 +8,22 @@ const userSchema = require("../db/schema/userSchema"),
   uploadFile = require('../db/schema/uploadFile');
 
 module.exports = {
-  /* 根据id查找用户 */
+  /**根据id查找用户 
+   * @param {String} id 用户id
+   */
   findUserById: (id, cb) => {
     userSchema.findUserById(id, cb);
   },
-  /* 根据名字查找用户 */
+  /**
+   * 根据名字查找用户 
+   * @param {String} name 用户名
+   */
   findUser: (name, cb) => {
     userSchema.findByName(name, cb);
   },
-  /* 获取用户列表 */
+  /**获取用户列表
+   * 
+   */
   getUserList: (pars, cb) => {
     let obj = {
       by: pars.by ? pars.by : {},
@@ -90,10 +97,10 @@ module.exports = {
       .update(newPassword)
       .digest("hex");
     userSchema.updateUserPassword({
-      name: username,
-      pwd: password,
-      newPwd: newPassword
-    },
+        name: username,
+        pwd: password,
+        newPwd: newPassword
+      },
       cb
     );
   },
@@ -113,7 +120,16 @@ module.exports = {
    * @param {object} param0 参数
    * @param {function} cb 回调函数
    */
-  createUser: function ({ uname, upwd, utel, upermissions, udate, userAgent, ipInfo, userId }, cb) {
+  createUser: function ({
+    uname,
+    upwd,
+    utel,
+    upermissions,
+    udate,
+    userAgent,
+    ipInfo,
+    userId
+  }, cb) {
     /* 创建用户 */
     let createUser = pars => {
       return new Promise((resolve, reject) => {
@@ -240,8 +256,8 @@ module.exports = {
     let getUserInfo = () => {
       return new Promise((resolve, reject) => {
         dbLoginRecord.find({
-          user_id: userID
-        },
+            user_id: userID
+          },
           (err, result) => {
             if (err) return reject(err);
             return resolve(result);
@@ -294,20 +310,30 @@ module.exports = {
       })
       .catch((err) => cb(err, null));
   },
-  updateAccountInfo: (userid, { username, telnumber, email }) => {
+  /**
+   * 更新用户信息
+   * @param {String} userid 用户id
+   * @param {Object} 更改的信息
+   */
+  updateAccountInfo: (userid, {
+    username,
+    telnumber,
+    email
+  }) => {
     return new Promise((resolve, reject) => {
       let updateSet = {};
       username && username !== '' ? updateSet['user_name'] = username : '';
       telnumber && telnumber !== '' ? updateSet['tel_number'] = telnumber : '';
       email && email !== '' ? updateSet['email'] = email : '';
 
-      userSchema.update({ _id: userid },
-        {
-          $set: updateSet
-        }, (err, result) => {
-          if (err) return reject(err);
-          resolve(result);
-        })
+      userSchema.update({
+        _id: userid
+      }, {
+        $set: updateSet
+      }, (err, result) => {
+        if (err) return reject(err);
+        resolve(result);
+      })
     })
   }
 };

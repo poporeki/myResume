@@ -13,7 +13,44 @@ const upLoadSchema = require("../db/schema/uploadFile"),
 /* let uploadPath, pathArr;
 let nowDate, _year, _month, _day;
 let pathUrl, uploadDir; */
+/**判断目标文件夹是否存在不存在即创建 */
+function mk(folderArr, uploadPath) {
+  let pathUrl = '';
+  (function (idx, folderArr) {
+    pathUrl = path.join(process.cwd(), "/public/" + uploadPath);
+    mkdirs(idx, folderArr, pathUrl);
+    return pathUrl;
+  })(-1, folderArr);
+  return pathUrl;
 
+  function mkdirs(idx, arr, Dir) {
+    idx++;
+    if (idx > arr.length - 1) return pathUrl;
+    pathUrl = path.join(Dir + arr[idx] + "/");
+    try {
+      fs.mkdirSync(pathUrl);
+      mkdirs(idx, arr, pathUrl);
+    } catch (err) {
+      if (err.code === "EEXIST") {
+        mkdirs(idx, arr, pathUrl);
+      }
+    }
+  }
+}
+/* 对比数据库已保存的图片md5 */
+function checkDb(hash, cb) {
+  upLoadSchema.find({
+    hash
+  }, (err, result) => {
+    if (err) return;
+    if (result.length != 0) {
+      return cb(null, result[0].save_path + result[0].new_name);
+    }
+    return cb(null, null);
+  });
+}
+
+/**上传图片 */
 exports.upLoadIMG = function (req, uPath, cb) {
   let form = new formidable.IncomingForm();
   uploadPath = uPath;
@@ -46,8 +83,7 @@ exports.upLoadIMG = function (req, uPath, cb) {
     let comparisonDBisExist = files => {
       return new Promise((resolve, reject) => {
         let file;
-        for (file in files) {
-        }
+        for (file in files) {}
         let hash = files[file].hash;
         checkDb(hash, function (err, result) {
           if (err) reject(err);
@@ -108,8 +144,7 @@ exports.upLoadIMG = function (req, uPath, cb) {
           hash: files[file].hash,
           last_modified_date: files[file].last_modified_date
         };
-        upLoadSchema.create(
-          {
+        upLoadSchema.create({
             source_name: ofileInfo.source_name,
             ext_name: ofileInfo.ext_name,
             new_name: ofileInfo.new_name,
@@ -136,42 +171,16 @@ exports.upLoadIMG = function (req, uPath, cb) {
   }
 };
 
-function mk(folderArr, uploadPath) {
-  /* 判断目标文件夹是否存在不存在即创建 */
-  let pathUrl = '';
-  (function (idx, folderArr) {
-    pathUrl = path.join(process.cwd(), "/public/" + uploadPath);
-    mkdirs(idx, folderArr, pathUrl);
-    return pathUrl;
-  })(-1, folderArr);
-  return pathUrl;
-  function mkdirs(idx, arr, Dir) {
-    idx++;
-    if (idx > arr.length - 1) return pathUrl;
-    pathUrl = path.join(Dir + arr[idx] + "/");
-    try {
-      fs.mkdirSync(pathUrl);
-      mkdirs(idx, arr, pathUrl);
-    } catch (err) {
-      if (err.code === "EEXIST") {
-        mkdirs(idx, arr, pathUrl);
-      }
-    }
-  }
-}
-/* 对比数据库已保存的图片md5 */
-function checkDb(hash, cb) {
-  upLoadSchema.find({ hash }, (err, result) => {
-    if (err) return;
-    if (result.length != 0) {
-      return cb(null, result[0].save_path + result[0].new_name);
-    }
-    return cb(null, null);
-  }
-  );
-}
-exports.baseUpload = function (userid, dataBase, uPath, cb) {
+
+/**上传图片 -Base64 
+ * @param {String} userid 用户id
+ * @param {String} base 图片数据
+ * @param {String} uPath 上传路径
+ */
+exports.baseUpload = function (userid, base, uPath, cb) {
+  //上传路径
   let uploadPath = uPath;
+  //保存的文件夹  -按上传日期保存  例：'17/2/3/img.jpg'
   let destinationFolder = [];
 
   let nowDate = new Date();
@@ -182,13 +191,15 @@ exports.baseUpload = function (userid, dataBase, uPath, cb) {
   destinationFolder.push(_year, _month, _day);
   // 判断目标文件夹是否存在不存在即创建
   let uploadDir = mk(destinationFolder, uploadPath);
-  let imgBase = dataBase;
+  let imgBase = base;
   //去前缀 data:image/png;base64
   let base64 = imgBase.replace(/^data:image\/\w+;base64,/, "");
   //base64码转成buffer对象
   let dataBuffer = new Buffer(base64, "base64");
   if (!Buffer.isBuffer(dataBuffer)) return cb('data is not buffer', null);
-  // 比对数据库 该文件是否存在
+  /**比对数据库 该文件是否存在
+   * @param {Buffer} 图片buffer
+   */
   function isExistsToDB(buffer) {
     return new Promise((resolve, reject) => {
       let md5 = crypto.createHash("md5");
@@ -200,7 +211,9 @@ exports.baseUpload = function (userid, dataBase, uPath, cb) {
       });
     });
   }
-  // 保存图片为文件
+  /**
+   * 保存图片为文件
+   */
   function saveIMGFile() {
     return new Promise((resolve, reject) => {
       let timestamp =
@@ -211,30 +224,39 @@ exports.baseUpload = function (userid, dataBase, uPath, cb) {
       resPath = uploadDir.split(path.sep + "public")[1];
       fs.writeFile(savePath, dataBuffer, err => {
         if (err) return reject(err);
-        resolve({ newName, timestamp });
+        resolve({
+          newName,
+          timestamp
+        });
       });
     });
   }
-  // 保存缩略图为文件
-  function saveThumbnail(newName) {
+  /**
+   * 保存缩略图为文件 
+   */
+  function saveThumbnail(newName, dataBuffer) {
     return new Promise((resolve, reject) => {
       let thumbnail = path.join(uploadDir + "thumbnail_" + newName);
-      console.log(`缩略图路径：${uploadDir + newName}`);
-      gm(uploadDir + newName)
+      gm(dataBuffer)
         .resize(100)
-        .write(thumbnail, function (err) {
+        .write(thumbnail, function (err, ds) {
           if (err) {
             console.log(`缩略图错误:${err}`);
             resolve(false);
           } else {
-            console.log("thumbnail saved");
+            console.log("thumb saved:" + thumbnail);
             resolve(true);
           }
 
         });
     });
   }
-  // 保存文件信息到数据库
+  /**
+   * 保存文件信息到数据库
+   * @param {String} newName 文件名
+   * @param {Boolean} isThumb 是否有缩略图
+   * @param {String} hash MD5值
+   */
   function saveIMGInfo(newName, isThumb, hash) {
     return new Promise((resolve, reject) => {
       let savedPath = uploadDir.split(path.sep + "public")[1];
@@ -250,15 +272,18 @@ exports.baseUpload = function (userid, dataBase, uPath, cb) {
       upLoadSchema.create(params, function (err, result) {
         if (err) return reject(err);
         resolve([result._id, savedPath]);
-      }
-      );
+      });
     });
   }
-  // 更新用户信息-头像路径
+  /**
+   * 更新用户信息 - 头像路径
+   * @param {String} avatarID 上传的头像id
+   */
   function updateUserAvatarPath(avatarID) {
     return new Promise((resolve, reject) => {
-      userSchema.update({ _id: userid },
-        {
+      userSchema.update({
+          _id: userid
+        }, {
           $set: {
             avatar_path: avatarID
           }
@@ -275,8 +300,11 @@ exports.baseUpload = function (userid, dataBase, uPath, cb) {
     if (isExists) {
       return cb(null, result);
     }
-    let { newName, timestamp } = await saveIMGFile();
-    let thumbIsSaved = await saveThumbnail(newName);
+    let {
+      newName,
+      timestamp
+    } = await saveIMGFile();
+    let thumbIsSaved = await saveThumbnail(newName, dataBuffer);
     let [savedFileId, savedPath] = await saveIMGInfo(newName, thumbIsSaved, result);
     await updateUserAvatarPath(savedFileId);
     if (thumbIsSaved) {
@@ -290,20 +318,12 @@ exports.baseUpload = function (userid, dataBase, uPath, cb) {
     return cb(err, null);
   });
 };
-// 创建所有目录
-function mkdirs(dirpath, callback) {
-  fs.stat(dirpath, function (serr) {
-    if (serr) {
-      callback(dirpath);
-    } else {
-      //尝试创建父目录，然后再创建当前目录
-      mkdirs(path.dirname(dirpath), function () {
-        fs.mkdir(dirpath, callback);
-      });
-    }
-  });
-}
 
+
+
+/**上传文件
+ * @param {String} dir 上传路径
+ */
 exports.uploadFiles = function (dir) {
   return function (req, res, next) {
     var form = new formidable.IncomingForm();
@@ -316,9 +336,8 @@ exports.uploadFiles = function (dir) {
       // console.log(files);
       files.file.lastModifiedDate = files.file.lastModifiedDate.toLocaleString();
       var f = {
-        newName: fields.name.length == 0
-          ? files.file.name
-          : fields.name + path.extname(files.file.name),
+        newName: fields.name.length == 0 ?
+          files.file.name : fields.name + path.extname(files.file.name),
         file: files.file
       };
       if (fileUploaded.has(files.file.hash)) {
@@ -354,3 +373,16 @@ exports.uploadFiles = function (dir) {
     });
   }
 };
+
+// function mkdirs(dirpath, callback) {
+//   fs.stat(dirpath, function (serr) {
+//     if (serr) {
+//       callback(dirpath);
+//     } else {
+//       //尝试创建父目录，然后再创建当前目录
+//       mkdirs(path.dirname(dirpath), function () {
+//         fs.mkdir(dirpath, callback);
+//       });
+//     }
+//   });
+// }

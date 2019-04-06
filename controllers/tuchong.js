@@ -1,5 +1,7 @@
 const request = require('request');
 const qs = require('qs');
+
+/**图虫接口 */
 exports.getPage = (req, res, next) => {
   let page = req.query.page || 1;
   let postId = req.query.post_id || null;

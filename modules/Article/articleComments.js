@@ -14,6 +14,9 @@ const getIPInfoMod = require("../../common/IPModule");
 module.exports = {
   /**
    * TODO点赞
+   * @method addLikeNum
+   * @param {String} id 文章id
+   * @param {Function} cb 回调
    */
   addLikeNum: (id, cb) => {
     commentSchema.updateLikeNum(id, cb);
@@ -21,8 +24,8 @@ module.exports = {
   /**
    * 根据文章id查询该文章评论总数
    * @method getCommentCountById
-   * @param {string} artid  文章id
-   * @param {function} cb   回调函数
+   * @param {String} artid  文章id
+   * @param {Function} cb   回调函数
    */
   getCommentCountById: function (artid, cb) {
     commentSchema
@@ -38,8 +41,8 @@ module.exports = {
   /**
    * 插入一条评论
    * @method insertOneComment
-   * @param {object} param0  {用户id,评论文本,文章id,userAgent,ip地址,评论地址}
-   * @param {function} cb 回调函数
+   * @param {Object} param0  {用户id,评论文本,文章id,userAgent,ip地址,评论地址}
+   * @param {Function} cb 回调函数
    */
   insertOneComment: function ({
       authorId,
@@ -96,10 +99,10 @@ module.exports = {
   },
   /**
    * 根据文章id查询文章评论
-   * @param {number} limit 查询数量
-   * @param {number} skip  跳过数量
-   * @param {string} artid 文章id
-   * @param {function} cb 回调函数
+   * @param {Number} limit 查询数量
+   * @param {Number} skip  跳过数量
+   * @param {String} artid 文章id
+   * @param {Function} cb 回调函数
    */
   showThisArticleComments: function (limit, skip, artid, cb) {
     /* 获取评论条数 */
@@ -144,8 +147,8 @@ module.exports = {
   /**
    * 插入一条评论回复
    * @method insertOneReplyInComment
-   * @param {object} {文章id，用户id，评论id，评论内容，被回复id，userAgent，ip地址，回复地址}
-   * @param {function} 回调函数
+   * @param {Object} {文章id，用户id，评论id，评论内容，被回复id，userAgent，ip地址，回复地址}
+   * @param {Function} 回调函数
    */
   insertOneReplyInComment: ({
       articleId,
@@ -222,8 +225,8 @@ module.exports = {
   /**
    * 通过回复id 获取评论的回复
    * @method findCommentReplyById
-   * @param {string} repid 回复id
-   * @param {function} cb 回调函数
+   * @param {String} repid 回复id
+   * @param {Function} cb 回调函数
    */
   findCommentReplyById: (repid, cb) => {
     return commentReplySchema
@@ -280,7 +283,7 @@ module.exports = {
   /**
    * 按插入时间查询评论前5条
    * @method findCommentTop
-   * @param {function} cb 回调函数
+   * @param {Function} cb 回调函数
    */
   findCommentTop: cb => {
     commentSchema
@@ -330,8 +333,9 @@ module.exports = {
       ])
       .exec(cb);
   },
-  /*
-
+  /**
+   * 获取一段时间内的评论数量
+   * @param {String} kind 时间 'day','week','month' 
    */
   getTotalOfDays: (kind, cb) => {
     let nowDay = moment().format('YYYY-MM-DD');

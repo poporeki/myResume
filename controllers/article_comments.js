@@ -3,21 +3,16 @@ const moment = require("moment");
 const commentMod = require('../modules/Article/articleComments')
 const IPMod = require('../common/IPModule.js')
 
-/* 评论时间比较 */
-function statusComment(req) {
-  if (req.session.commTime) {
-    var now = moment();
-    var diff = now.diff(req.session.commTime);
-    if (diff < 60000) {
-      return false;
-    } else {
-      return true;
-    }
-  } else {
-    return true;
-  }
+/**评论时间比较 */
+let statusComment = time => {
+  if (!time) return true;
+  let now = moment();
+  let diff = now.diff(time);
+  return diff < 60000 ? false : true;
 }
-/* 获取客户端ip */
+/**
+ * 获取客户端ip 
+ */
 let getIP = req => {
   return new Promise(async (resolve, reject) => {
     let ipInfo = await IPMod.getClientGeoloInfo(req);
@@ -33,7 +28,9 @@ let getIP = req => {
     });
   });
 };
-/* 获取评论排行 */
+/**
+ * 获取文章评论列表
+ */
 exports.getTop = (req, res, next) => {
   let getCommTop = () => {
     return new Promise((resolve, reject) => {
@@ -48,6 +45,9 @@ exports.getTop = (req, res, next) => {
   })
 }
 /* 用户是否已登录 */
+/**
+ * 获取用户登陆状态，并处理
+ */
 exports.isLogin = (req, res, next) => {
   if (!req.session.user) {
     return res.json({
@@ -55,7 +55,8 @@ exports.isLogin = (req, res, next) => {
       msg: "登陆失效"
     });
   }
-  if (!statusComment(req)) {
+  //对比上次评论时间
+  if (!statusComment(req.session.commTime)) {
     return res.json({
       status: -1,
       msg: "评论间隔时间太短，请休息一下哦"
@@ -63,11 +64,18 @@ exports.isLogin = (req, res, next) => {
   }
   next();
 }
-/* 插入一条评论 */
+
+/**
+ * 插入一条评论 
+ */
 exports.insertComment = (req, res) => {
+  //评论内容
   let commText = req.body.comm_content.trim();
+  //用户id
   let authorId = req.session.user._id;
+  // 文章id
   let arcid = req.body.arc_id;
+  // 设备标识
   let userAgent = req.useragent.source;
   if (commText === "") {
     return res.json({
@@ -81,6 +89,10 @@ exports.insertComment = (req, res) => {
       msg: '参数错误，提交失败'
     })
   }
+  /**
+   * 插入评论
+   * @param {Object} param0 {ip,address}
+   */
   let insertComment = ({
     ip,
     address
@@ -104,19 +116,21 @@ exports.insertComment = (req, res) => {
   let fn = async () => {
     let ips = await getIP(req);
     let resultInserted = await insertComment(ips);
+    //session中记录本地评论时间
     req.session.commTime = moment();
+    let data = {
+      arc_content: resultInserted.comment_text,
+      like_num: resultInserted.like_num,
+      username: req.session.user.username,
+      user: req.session.user._id,
+      submit_address: resultInserted.submit_address,
+      floor: resultInserted.floor,
+      create_time: moment(resultInserted.create_time).fromNow()
+    };
     return res.json({
       status: true,
       msg: null,
-      data: {
-        arc_content: resultInserted.comment_text,
-        like_num: resultInserted.like_num,
-        username: req.session.user.username,
-        user: req.session.user._id,
-        submit_address: resultInserted.submit_address,
-        floor: resultInserted.floor,
-        create_time: moment(resultInserted.create_time).fromNow()
-      }
+      data
     });
   };
   fn().catch(err =>
@@ -127,8 +141,11 @@ exports.insertComment = (req, res) => {
     })
   );
 }
-/* 插入一条评论回复 */
+/**
+ * 插入一条评论回复 
+ */
 exports.insertReplyToComment = (req, res, next) => {
+  //回复内容
   var commText = req.body.comm_content;
   if (commText.trim() === "") {
     return res.json({
@@ -137,7 +154,7 @@ exports.insertReplyToComment = (req, res, next) => {
       msg: "内容不能为空"
     });
   }
-  /* 插入回复 */
+  /**插入回复 */
   let insertReply = ({
     req,
     ip,
@@ -168,7 +185,7 @@ exports.insertReplyToComment = (req, res, next) => {
       );
     });
   };
-  /* 获取回复列表 */
+  /**获取回复列表 */
   let getReplyList = comm => {
     return new Promise((resolve, reject) => {
       commentMod.findCommentReplyById(comm, (err, result) => {
@@ -231,7 +248,9 @@ exports.insertReplyToComment = (req, res, next) => {
     });
   });
 }
-/* 通过文章id获取文章评论列表 */
+/**
+ * 通过文章id获取文章评论列表 
+ */
 exports.getCommentsByArcId = (req, res) => {
   let limit = parseInt(req.query.number) || 10; /* 返回数量 默认10*/
   let skip = parseInt(req.query.skip) || 0; /* 跳过数量 */
@@ -244,7 +263,7 @@ exports.getCommentsByArcId = (req, res) => {
     });
   }
 
-  // 获取文章评论
+  /**获取文章评论 */
   let getThisArcComments = () => {
     return new Promise((resolve, reject) => {
       commentMod.showThisArticleComments(

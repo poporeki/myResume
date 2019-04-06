@@ -11,8 +11,11 @@ const router = express.Router();
 
 const BlogCtl = require('../../../controllers/blog');
 
+/**获取导航列表 */
 router.get('/getHomeNavbar', BlogCtl.getHomeNavbar);
+/**文章相关 */
 router.use('/article', require('./Blog_Article'));
+/**文章列表相关 */
 router.use('/articlelist', require('./Blog_ArticleList'));
 router.use('/getArctags', require('./Blog_ArticleTags'));
 router.use('/getArctypes', require('./Blog_ArticleTypes'));

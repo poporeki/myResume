@@ -4,5 +4,6 @@ const express = require('express'),
 
 const Article = require('../../../controllers/article');
 
+/**查询 */
 router.post('/like', Article.getArticleListOfKeywords);
 module.exports = router;

@@ -7,7 +7,16 @@ const Comment = require('../../../controllers/article_comments');
 router.get('/getTop', Comment.getTop)
 
 router.post('*', Comment.isLogin)
+/**
+ * 提交评论
+ */
 router.post("/submitComment", Comment.insertComment);
+/**
+ * 提交回复
+ */
 router.post("/submitReply", Comment.insertReplyToComment);
-router.get('/getcomments',Comment.getCommentsByArcId);
+/**
+ * 获取评论
+ */
+router.get('/getcomments', Comment.getCommentsByArcId);
 module.exports = router;

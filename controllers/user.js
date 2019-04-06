@@ -9,12 +9,12 @@ const {
 
 const sign = require('./user_sign.js');
 
-/* 判断登录状态 跳转登录页 */
+/**判断登录状态 跳转登录页 */
 exports.isLogin = (req, res, next) => {
   if (!req.session.user) next(-9);
   next();
 }
-/* 更新用户头像 */
+/**更新用户头像 */
 exports.updateAvatar = (req, res, next) => {
   if (!req.session.user || !req.body.imgBase) {
     return res.json({
@@ -22,7 +22,9 @@ exports.updateAvatar = (req, res, next) => {
       msg: '失败'
     })
   }
+  //用户id
   let userid = req.session.user._id;
+  //图片数据
   let base = req.body.imgBase;
   uploadIMGMod.baseUpload(userid, base, '/images/upload/userAvatar/', (err, result) => {
     if (err) {
@@ -39,7 +41,7 @@ exports.updateAvatar = (req, res, next) => {
     });
   })
 }
-/* 显示用户页 */
+/**显示用户页 */
 exports.showUserHome = (req, res, next) => {
   function avatarFn(avatar) {
     if (avatar) {
@@ -86,9 +88,16 @@ exports.updateInfoCheck = [
   }).withMessage('账号长度错误')
   .matches(/^[\D]{1}([\u4e00-\u9fa5\-\w]){3,11}$/).withMessage('账号格式错误')
 ];
+
+/**
+ * 更改用户信息
+ */
 exports.updateInfo = (req, res, next) => {
+  //用户名
   let username = req.body.username;
+  //手机号
   let telnumber = req.body.telnumber;
+  //电子邮件
   let email = req.body.email;
   if (typeof username !== 'undefined' && !validator.matches(username, /^[\D]{1}([\u4e00-\u9fa5\-\w]){3,11}$/)) {
     return res.json({
@@ -108,6 +117,7 @@ exports.updateInfo = (req, res, next) => {
       msg: '邮箱格式不正确'
     })
   }
+  /**检查数据库是否存在此用户名 */
   let checkUserToDB = () => {
     return new Promise((resolve, reject) => {
       userMod.findUser(username, (err, result) => {
@@ -116,16 +126,15 @@ exports.updateInfo = (req, res, next) => {
       })
     })
   }
+  //用户id
   let userid = req.session.user._id;
   let fn = async () => {
-    if (typeof username !== 'undefined') {
-      let nameIsExists = await checkUserToDB();
-      if (nameIsExists) {
-        return res.json({
-          status: 0,
-          msg: '用户名已存在'
-        })
-      }
+    let nameIsExists = await checkUserToDB();
+    if (nameIsExists) {
+      return res.json({
+        status: 0,
+        msg: '用户名已存在'
+      })
     }
     try {
       await userMod.updateAccountInfo(userid, {
@@ -146,9 +155,13 @@ exports.updateInfo = (req, res, next) => {
   }
   fn();
 }
+/**
+ * 更改用户密码
+ */
 exports.updateUserPassword = (req, res, next) => {
-  req.session.user ? '' : next(-9);
+  //新密码
   let newPwd = req.body.new_password;
+  //效验格式
   if (!validator.matches(newPwd, /^\S{6,20}$/)) {
     return res.json({
       status: 0,

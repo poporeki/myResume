@@ -4,8 +4,10 @@ const request = require('request');
 
 
 const KEY = '9e8d5b997a9d41273bc648fb2fb4d968';
+/**
+ * 获取天气
+ */
 exports.getWeather = (location, cb) => {
-
   let getAdcode = () => {
     return new Promise((resolve, reject) => {
       if (location.ip) {

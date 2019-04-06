@@ -2,21 +2,31 @@ var moment = require('moment');
 var Tourists = require('../db/schema/addTourists');
 
 module.exports = {
+  /**
+   * 保存到数据库
+   */
   saveVistor: (pars, cb) => {
     Tourists.create(pars, cb);
   },
+  /**
+   * 获取当天访问ip信息列表
+   */
   getTheDayVistor: (cb) => {
     let nowDay = moment().format('YYYY-MM-DD');
     let reg = new RegExp(nowDay);
     Tourists.visitorOfTheDay(reg, cb);
   },
+  /**
+   * 获取当天访问数
+   */
   getTheDayVistorTotal: (cb) => {
     if (arguments.length === 2) {
 
     }
-    var nowDay = moment().format('YYYY-MM-DD');
+    let nowDay = moment().format('YYYY-MM-DD');
     Tourists.visitorTotalOfTheDay(nowDay, cb);
   },
+  /** 获取一段时间内的访问数 */
   getFewDaysVistor: function (days, cb) {
     const arr = [];
     (function week(i, arr) {

@@ -6,6 +6,9 @@ function rand(min, max) {
     return Math.random() * (max - min + 1) + min | 0; //特殊的技巧，|0可以强制转换为整数
 }
 
+/**生成验证码
+ * @param {Number} num 验证码位数
+ */
 function makeCapcha(num) {
     var result = {};
     var img = new BMP24(100, 40);
