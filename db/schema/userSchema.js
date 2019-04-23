@@ -31,11 +31,11 @@ var userSchema = new mongoose.Schema({
     ref: 'myweb_user'
   }
 }, {
-    timestamps: {
-      createdAt: 'create_time',
-      updatedAt: 'update_time'
-    }
-  });
+  timestamps: {
+    createdAt: 'create_time',
+    updatedAt: 'update_time'
+  }
+});
 
 userSchema.statics.findUserById = function (id, cb) {
   return this.findById(id).populate([{
@@ -45,12 +45,12 @@ userSchema.statics.findUserById = function (id, cb) {
   }]).exec(cb);
 }
 userSchema.statics.getUserList = function (pars, cb) {
-  var pop = {
+  var pop = [{
     path: 'avatar_path',
-    select: 'save_path,new_name'
-  };
+    select: 'save_path new_name'
+  }];
   return this
-    .find(pars.by)
+    .find(pars.by, 'user_name _id reg_time reg_ip')
     .limit(pars.limit)
     .skip(pars.skip)
     .sort(pars.sort)
@@ -73,19 +73,19 @@ userSchema.statics.updateUserPassword = function (pars, cb) {
     user_name: pars.name,
     password: pars.pwd
   }, {
-      $set: {
-        password: pars.newPwd
-      }
-    }, cb);
+    $set: {
+      password: pars.newPwd
+    }
+  }, cb);
 }
 userSchema.statics.pushLoginTime = function (pars, cb) {
   return this.updateOne({
     user_name: pars.name
   }, {
-      $push: {
-        login_time: pars.time
-      }
-    }, cb);
+    $push: {
+      login_time: pars.time
+    }
+  }, cb);
 }
 
 var User = mongoose.model('myweb_user', userSchema);

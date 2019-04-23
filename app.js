@@ -63,7 +63,7 @@ app.use(function (req, res, next) {
 /* session 配置 */
 app.use(
   session({
-    secret: "bears",
+    secret: "running",
     cookie: {
       maxAge: 1000 * 60 * 60 /* 1小时 */
     },

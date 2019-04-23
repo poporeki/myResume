@@ -17,7 +17,13 @@ function saves(req) {
     });
   };
   let fn = async () => {
-    let userAgent = req.headers["user-agent"] || "not";
+    let userAgent = {
+      browser: req.useragent.browser,
+      version: req.useragent.version,
+      os: req.useragent.os,
+      platform: req.useragent.platform,
+      source: req.useragent.source
+    }
     let host = req.headers["host"] || "not";
     let IPInfo = await IPMod.getClientGeoloInfo(req);
     var pars = {

@@ -1,5 +1,6 @@
 const uploadIMGMod = require('../modules/uploadIMG'),
-  userMod = require('../modules/User');
+  userMod = require('../modules/User'),
+  TouristsMod = require('../modules/Tourists');
 
 var validator = require('validator');
 const {
@@ -211,4 +212,31 @@ exports.auth = (req, res) => {
   res.json({
     auth
   });
+}
+
+exports.getUserList = (req, res, next) => {
+  userMod.getUserList(req.query, (err, result) => {
+    if (err) next(err);
+    res.json({
+      status: true,
+      data: {
+        pageTitle: '用户列表',
+        userlist: result
+      }
+    })
+  });
+}
+
+exports.getVistorList = (req, res, next) => {
+  TouristsMod.getTheDayVistor((err, result) => {
+    if (err) next(err);
+    return res.json({
+      status: true,
+      data: {
+        pageTitle: '今天的访问量',
+        username: res.locals.USER,
+        vistorList: result
+      }
+    })
+  })
 }

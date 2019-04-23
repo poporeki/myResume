@@ -68,7 +68,10 @@ module.exports = {
           if (err) return reject(err);
           if (result === null || !result) return reject(false);
           let data = result;
-          let avatarPath = data.save_path + data.new_name;
+          let avatarPath = result.has_thumbnail ?
+            `${data.save_path}thumbnail_${data.new_name}` :
+            `${data.save_path}${data.new_name}`;
+
           obj['avatar_path'] = avatarPath;
           return resolve(obj);
         })

@@ -4,7 +4,7 @@ var moment = require('moment');
 var userSchema = new mongoose.Schema({
   permissions: String,
   reg_ip: String,
-  reg_user_agent: String,
+  reg_user_agent: {},
   coming_time: Date,
   host: String
 }, {

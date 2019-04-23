@@ -29,3 +29,50 @@ exports.getPage = (req, res, next) => {
     return res.json(JSON.parse(body));
   })
 }
+
+exports.getDiscover = (req, res, next) => {
+  let requestURL = 'https://api.tuchong.com/discover-app';
+  request(requestURL, (err, result, body) => {
+    if (result.statusCode !== 200) return res.json({
+      status: false,
+      msg: '数据请求失败'
+    })
+    return res.json(JSON.parse(body));
+  })
+}
+
+exports.getCategory = (req, res, next) => {
+
+  let tag_id = req.query.tag_id;
+  if (!tag_id) return res.json({
+    status: false,
+    msg: '参数不能为空'
+  })
+  let requestURL = `https://api.tuchong.com/discover/${tag_id}/category`;
+  request(requestURL, (err, result, body) => {
+    if (result.statusCode !== 200) return res.json({
+      status: false,
+      msg: '数据请求失败'
+    })
+    return res.json(JSON.parse(body));
+  })
+}
+
+exports.getCategoryNew = (req, res, next) => {
+  let tag_name = req.query.tag_name;
+  let page = req.query.page || 1;
+  let count = req.query.count || 20;
+  if (!tag_name) return res.json({
+    status: false,
+    msg: '参数不能为空'
+  })
+  tag_name = encodeURI(tag_name);
+  let requestURL = `https://tuchong.com/rest/tags/${tag_name}/posts?page=${page}&count=${count}&order=weekly`;
+  request(requestURL, (err, result, body) => {
+    if (result.statusCode !== 200) return res.json({
+      status: false,
+      msg: '数据请求失败'
+    })
+    return res.json(JSON.parse(body));
+  })
+}

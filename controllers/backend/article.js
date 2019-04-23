@@ -132,7 +132,9 @@ exports.restoreArticleById = (req, res, next) => {
   })
 }
 
-/* 显示修改文章页面 */
+/**
+ * 显示修改文章页面 
+ */
 exports.showUpdateArticleById = (req, res, next) => {
 
   /* 获取文章信息 */
@@ -221,6 +223,12 @@ exports.showUpdateArticleById = (req, res, next) => {
         attribute: arcInfo.attribute
       }
     };
+    if (req.xhr) {
+      return res.json({
+        statue: true,
+        data: renObj
+      })
+    }
     res.render("./backend/addArticle", renObj);
   }
   fn().catch(err => {
@@ -230,21 +238,28 @@ exports.showUpdateArticleById = (req, res, next) => {
 /* 提交更改 */
 exports.submitUpdate = (req, res) => {
   let arcid = req.params.artid; /* id */
+  let body = req.body;
+  if (!body.arc_title || !arcid || !body.arc_type || !body.arc_tags) {
+    return res.json({
+      status: false,
+      msg: '提交内容不完整'
+    })
+  }
   let obj = {
-    title: req.body.arc_title,
+    title: body.arc_title,
     /* 标题 */
     attribute: {
-      carousel: req.body.arc_carousel === "on" ? true : false
+      carousel: body.arc_carousel === "on" ? true : false
     },
-    from: req.body.arc_reproduction,
+    from: body.arc_reproduction,
     is_delete: false,
     /*  */
-    type_id: req.body.arc_type,
-    tags_id: req.body.arc_tags,
+    type_id: body.arc_type,
+    tags_id: body.arc_tags,
     /* 分类 */
-    content: req.body.arc_content,
+    content: body.arc_content,
     /* Html内容 */
-    source: req.body.arc_conSource /* 纯文本 */
+    source: body.arc_conSource /* 纯文本 */
   };
   articleMod.updateArticle(arcid, obj, (err, result) => {
     if (err) {
@@ -283,6 +298,11 @@ exports.showAddTheArticle = (req, res) => {
   let fn = async () => {
     let getArcTypeInfo = await getArcType();
     let getArcTagsInfo = await getArcTags();
+    if (req.xhr) {
+      return res.json({
+
+      })
+    }
     let renObj = {
       pageTitle: '添加文章',
       submitURL: '/backend/art/addarticle',

@@ -24,7 +24,8 @@ router.post('/', (req, res) => {
   })
 });
 router.post('/toTrash', (req, res) => {
-  if (req.session.user.permissions !== 'admin') {
+  let per = ['admin', 'root'];
+  if (per.indexOf(req.session.user.permissions) === -1) {
     return res.json({
       status: 0,
       msg: '没有此操作权限'
