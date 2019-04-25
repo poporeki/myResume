@@ -244,6 +244,12 @@ module.exports = {
       .then((result) => cb(null, result))
       .catch((err) => cb(err, null));
   },
+  /**
+   * 通过名字查询登陆记录
+   * @method findUserLoginRecordByName
+   * @param {String} username 用户名
+   * @param {Function} cb 回调函数
+   */
   findUserLoginRecordByName: function (username, cb) {
     /* 获取用户id */
     let getUserID = () => {
@@ -273,10 +279,71 @@ module.exports = {
       .then(result => cb(null, result))
       .catch(err => cb(err, null));
   },
-  /* 获取所有用户登陆记录 */
+  /**
+   * 获取所有用户登陆记录 
+   * @method findUserLoginRecordById
+   * @param {Number} limit 查询数量
+   * @param {Number} page 当前页数
+   * @param {function} cb 回调
+   */
+  findUserLoginRecordById: function ({
+    userid,
+    limit,
+    page
+  }, cb) {
+    let by = {};
+    userid && (by['user_id'] = userid);
+    limit = limit || 10;
+    page = page || 1;
+    let skip = page === 1 ? 0 : page * limit;
+    //获取总数
+    let getRecordsCount = () => {
+      return new Promise((resolve, reject) => {
+        dbLoginRecord.find(by).countDocuments().exec((err, result) => {
+          if (err) return reject(err);
+          return resolve(result);
+        })
+      })
+    }
+    //获取列表
+    let getRecordsList = () => {
+      return new Promise((resolve, reject) => {
+        dbLoginRecord.find(by)
+          .limit(limit)
+          .skip(skip)
+          .sort({
+            'create_time': -1
+          })
+          .populate({
+            path: "user_id"
+          })
+          .exec((err, result) => {
+            if (err) return reject(err);
+            resolve(result);
+          });
+      })
+    }
+    let fn = async () => {
+      let [count, list] = await Promise.all([getRecordsCount(), getRecordsList()])
+      return cb(null, {
+        count,
+        list
+      });
+    }
+    fn().catch(err => {
+      return cb(err, null);
+    })
+  },
+  /**
+   * 获取所有用户登陆记录 
+   * @method findAllUserLoginRecord
+   * @param {Number} limit 查询数量
+   * @param {Number} page 当前页数
+   * @param {function} cb 回调
+   */
   findAllUserLoginRecord: function (limit, page, cb) {
-
-    let getCount = () => {
+    //获取总数
+    let getRecordsCount = () => {
       return new Promise((resolve, reject) => {
         dbLoginRecord.find({}).countDocuments().exec((err, result) => {
           if (err) return reject(err);
@@ -284,7 +351,8 @@ module.exports = {
         })
       })
     }
-    let getInfo = (count) => {
+    //获取列表
+    let getRecordsList = (count) => {
       return new Promise((resolve, reject) => {
         let lim = limit || 10;
 
@@ -307,16 +375,22 @@ module.exports = {
           });
       })
     }
-    getCount().then(getInfo)
-      .then((result) => {
-        return cb(null, result);
-      })
-      .catch((err) => cb(err, null));
+    let fn = async () => {
+      let [count, list] = await Promise.all([getRecordsCount(), getRecordsList()])
+      return cb(null, {
+        count,
+        list
+      });
+    }
+    fn().catch(err => {
+      return cb(err, null);
+    })
   },
   /**
    * 更新用户信息
+   * @method updateAccountInfo
    * @param {String} userid 用户id
-   * @param {Object} 更改的信息
+   * @param {Object} {username,telnumber,email} 更改的信息
    */
   updateAccountInfo: (userid, {
     username,

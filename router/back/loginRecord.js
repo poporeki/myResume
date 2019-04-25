@@ -17,9 +17,15 @@ router.post('/', function (req, res, next) {
   /* 获取登陆数据 */
   let getLoginDatas = () => {
     return new Promise((resolve, reject) => {
-      let limit = parseInt(req.body.limit);
-      let page = parseInt(req.body.page);
-      userMod.findAllUserLoginRecord(limit, page, (err, result) => {
+      let userid = req.body.userid || undefined;
+      let limit = parseInt(req.body.limit || 10);
+      let page = parseInt(req.body.page || 1);
+      let data = {
+        userid,
+        limit,
+        page
+      };
+      userMod.findUserLoginRecordById(data, (err, result) => {
         if (err) return reject(err);
         resolve(result);
       });
@@ -28,8 +34,9 @@ router.post('/', function (req, res, next) {
   getLoginDatas()
     .then((result) => {
       let arr = [];
-      for (let idx = 0, userLen = result.length; idx < userLen; idx++) {
-        let user = result[idx];
+      let list = result.list;
+      for (let idx = 0, userLen = list.length; idx < userLen; idx++) {
+        let user = list[idx];
 
         let username = user.user_id ? user.user_id.user_name : 'not',
           os = user.login_OS.name + ' \n ' + user.login_OS.version,
