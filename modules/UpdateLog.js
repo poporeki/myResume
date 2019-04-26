@@ -35,16 +35,28 @@ exports.delUpdateLogById = ({
   })
 }
 /**
+ * 获取更新日志总条数
+ * @method getUpdateLogTotal
+ */
+exports.getUpdateLogTotal = () => {
+  return new Promise((resolve, reject) => {
+    UpdateLogSchema.countDocuments().exec(function (err, count) {
+      if (err) return reject(err);
+      resolve(count);
+    })
+  })
+}
+/**
  * 获取日志列表
+ * @method getUpdateLogList
  * @param {Object} {skip,limit,sort} {跳过数量，查询数量,排序方式} 
  */
-exports.getAllUpdateLogList = function ({
+exports.getUpdateLogList = function ({
   skip,
   limit,
   sort
 }) {
   return new Promise((resolve, reject) => {
-
     UpdateLogSchema.find({}, (err, result) => {
       if (err) return reject(err);
       resolve(result);

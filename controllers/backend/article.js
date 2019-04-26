@@ -5,7 +5,9 @@ const articleMod = require('../../modules/Article/article'); /* 文章Module */
 const artCommMod = require('../../modules/Article/articleComments'); /* 文章评论Module */
 const arcTypeMod = require("../../modules/Article/articleType");
 const arcTagMod = require("../../modules/Article/articleTag");
-/* 显示文章列表 */
+/**
+ * 显示文章列表 
+ */
 exports.showArticleList = (req, res) => {
   res.render('./backend/articlelist', {
     isTrash: false,
@@ -16,7 +18,9 @@ exports.showArticleList = (req, res) => {
     ]
   });
 }
-/* 获取文章列表 */
+/**
+ * 获取文章列表 
+ */
 exports.getArticleList = (req, res) => {
   let isDel = false;
   let referer = req.headers['referer'];
@@ -100,7 +104,9 @@ exports.getArticleList = (req, res) => {
 
 }
 
-/* 删除文章到回收站 */
+/**
+ * 删除文章到回收站 
+ */
 exports.moveToTrash = (req, res, next) => {
   res.render('./backend/articlelist', {
     isTrash: true,
@@ -108,7 +114,9 @@ exports.moveToTrash = (req, res, next) => {
     modalTips: '确认删除吗，此操作无法恢复？！'
   })
 }
-/* 恢复文章 通过id*/
+/**
+ * 恢复文章 通过id
+ */
 
 exports.restoreArticleById = (req, res, next) => {
   if (req.session.user.permissions !== 'root') {
@@ -150,7 +158,7 @@ exports.showUpdateArticleById = (req, res, next) => {
   /* 获取文章分类 */
   let getArcType = () => {
     return new Promise((resolve, reject) => {
-      arcTypeMod.findArticleType({}, (err, result) => {
+      arcTypeMod.findArticleType((err, result) => {
         if (err) return reject(err);
         resolve(result);
       });
@@ -159,7 +167,7 @@ exports.showUpdateArticleById = (req, res, next) => {
   /* 获取文章tag标签 */
   let getArcTags = () => {
     return new Promise((resolve, reject) => {
-      arcTagMod.findArticleTags({}, (err, result) => {
+      arcTagMod.findArticleTags((err, result) => {
         if (err) return reject(err);
         resolve(result);
       });
@@ -235,8 +243,10 @@ exports.showUpdateArticleById = (req, res, next) => {
     return next(err);
   })
 }
-/* 提交更改 */
-exports.submitUpdate = (req, res) => {
+/**
+ * 提交更改
+ */
+exports.submitUpdate = (req, res, next) => {
   let arcid = req.params.artid; /* id */
   let body = req.body;
   if (!body.arc_title || !arcid || !body.arc_type || !body.arc_tags) {
@@ -275,12 +285,14 @@ exports.submitUpdate = (req, res) => {
   });
 }
 
-/* 显示添加文章页面 */
-exports.showAddTheArticle = (req, res) => {
+/**
+ * 显示添加文章页面 
+ */
+exports.showAddTheArticle = (req, res, next) => {
   /* 获取分类 */
   let getArcType = () => {
     return new Promise((resolve, reject) => {
-      arcTypeMod.findArticleType({}, (err, result) => {
+      arcTypeMod.findArticleType((err, result) => {
         if (err) return reject(err);
         resolve(result);
       });
@@ -289,7 +301,7 @@ exports.showAddTheArticle = (req, res) => {
   /* 获取tag标签 */
   let getArcTags = () => {
     return new Promise((resolve, reject) => {
-      arcTagMod.findArticleTags({}, (err, result) => {
+      arcTagMod.findArticleTags((err, result) => {
         if (err) return reject(err);
         resolve(result)
       })
@@ -317,7 +329,9 @@ exports.showAddTheArticle = (req, res) => {
   })
 
 }
-/* 提交新文章 */
+/**
+ * 提交新文章
+ */
 exports.submitNewArticle = (req, res, next) => {
   articleMod.addArticle(req, (err, result) => {
     if (err) {
@@ -329,4 +343,184 @@ exports.submitNewArticle = (req, res, next) => {
       status: true
     });
   });
+}
+
+/**
+ * 显示添加文章分类页
+ */
+exports.showPageArticleTypeAdd = (req, res, next) => {
+  res.render('./backend/add', {
+    isType: true,
+    pageTitle: '文章分类',
+    formAction: '/type/add',
+    userName: req.session.user.username
+  });
+}
+
+/**
+ * POST提交-添加文章分类
+ */
+exports.postArticleTypeAdd = (req, res, next) => {
+  if (req.session.user.permissions !== 'root') {
+    return next(-5);
+  }
+  if (!req.body.t_name && req.body.t_iconname) {
+    return next(-2);
+  }
+  let typeName = req.body.t_name;
+  let iconName = req.body.t_iconname;
+  arcTypeMod.addArticleType(typeName, iconName, (err, result) => {
+    if (err) return next(err);
+    if (req.xhr) {
+      return res.json({
+        status: 1,
+        msg: 'success'
+      })
+    }
+    res.redirect('/backend');
+  })
+}
+
+/**
+ * 显示文章分类列表页
+ */
+exports.showPageArticleTypeList = (req, res, next) => {
+  arcTypeMod.findArticleType((err, result) => {
+    if (err) return next(err);
+    let datas = [];
+    for (let i = 0; i < result.length; i++) {
+      let data = result[i];
+      let obj = {
+        id: data._id,
+        name: data.type_name,
+        timeCreate: moment(data.create_time).format('YYYY-MM-DD hh:mm:ss'),
+        timeUpdate: moment(data.create_update).format('YYYY-MM-DD hh:mm:ss')
+      }
+      datas.push(obj);
+    }
+    res.render('./backend/articleTypeList', {
+      pageTitle: '分类',
+      identity: 'type',
+      userName: req.session.user.username,
+      info: datas
+    });
+  })
+}
+
+/**
+ * 显示文章标签添加页面
+ */
+exports.showPageArticleTagAdd = (req, res, next) => {
+  res.render('./backend/add', {
+    pageTitle: 'Tag标签',
+    formAction: '/tag/add',
+    userName: req.session.user.username
+  })
+}
+/**
+ * POST提交-添加文章标签
+ */
+exports.postArticleTagAdd = (req, res, next) => {
+  arcTagMod.addArticleTag(req.body, (err, result) => {
+    if (err) return next(err);
+    if (req.xhr) {
+      return res.json({
+        status: 1,
+        msg: 'success',
+        data: result
+      })
+    }
+    res.redirect('/backend');
+  })
+}
+//文章标签列表
+exports.getArticleTagList = (req, res, next) => {
+  //获取标签列表
+  let getTagsList = () => {
+    return new Promise((resolve, reject) => {
+      arcTagMod.findArticleTags((err, result) => {
+        if (err) return reject(err);
+        resolve(result);
+      })
+    })
+  }
+  //格式化列表
+  let formatting = (target) => {
+    let arr = [];
+    for (let i = 0; i < target.length; i++) {
+      let data = target[i];
+      let obj = {
+        id: data._id,
+        name: data.tag_name,
+        timeCreate: moment(data.create_time).format('YYYY-MM-DD hh:mm:ss'),
+        timeUpdate: moment(data.create_update).format('YYYY-MM-DD hh:mm:ss')
+      }
+      arr.push(obj);
+    }
+    return arr;
+  }
+  let fn = async () => {
+    let taglist = await getTagsList();
+    let obj = formatting(taglist);
+    if (req.xhr) {
+      return res.json({
+        status: 1,
+        msg: 'success',
+        data: obj
+      })
+    }
+    res.render('./backend/articleTypeList', {
+      pageTitle: 'Tag标签',
+      identity: 'tag',
+      userName: req.session.user.username,
+      info: datas
+    });
+  }
+  fn().catch(err => {
+    next(err);
+  })
+}
+exports.updateArticleTagUpdate = async (req, res, next) => {
+  let tagid = req.body.tag_id;
+  let newTagName = req.body.new_tag_name;
+  let userid = req.session.user._id;
+  if (!newTagName || !tagid) {
+    return res.json({
+      status: 0,
+      msg: '参数不完整'
+    })
+  }
+  try {
+    await arcTagMod.updateArticleTagById(tagid, {
+      tag_name: newTagName
+    })
+    return res.json({
+      status: 1,
+      msg: 'success'
+    })
+  } catch (err) {
+    next(err);
+  }
+}
+exports.postArticleTypeUpdate = async (req, res, next) => {
+  let typeid = req.body.type_id;
+  let newTypeName = req.body.new_type_name;
+  let userid = req.session.user._id;
+  if (!newTypeName || !typeid) {
+    return res.json({
+      status: 0,
+      msg: '参数不完整'
+    })
+  }
+  try {
+    await arcTypeMod.updateArticleTypeById(typeid, {
+      type_name: newTypeName
+    })
+    return res.json({
+      status: 1,
+      msg: 'success'
+    })
+  } catch (err) {
+    next(err);
+  }
 }

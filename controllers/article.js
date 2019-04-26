@@ -535,7 +535,7 @@ exports.getArticleTypes = (req, res, next) => {
   /**获取文章分类 */
   let getArcType = () => {
     return new Promise((resolve, reject) => {
-      arcTypeMod.findArticleType('', (err, resTypeList) => {
+      arcTypeMod.findArticleType((err, resTypeList) => {
         if (err) return reject(err);
         resolve(resTypeList);
       });

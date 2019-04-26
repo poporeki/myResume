@@ -4,7 +4,7 @@ const updateLogMod = require('../modules/UpdateLog');
 
 //显示日志页
 exports.showUpdateLog = async (req, res, next) => {
-  let logList = await updateLogMod.getAllUpdateLogList({});
+  let logList = await updateLogMod.getUpdateLogList({});
   let arr = logList.map(val => {
     return {
       create_time: val.create_time = moment(val.create_time).format('YYYY-MM-DD'),
@@ -20,7 +20,7 @@ exports.showUpdateLog = async (req, res, next) => {
 exports.getUpdateLogList = async (req, res, next) => {
   let limit = parseInt(req.query.limit) || null;
   let skip = parseInt(req.query.skip) || null;
-  let logList = await updateLogMod.getAllUpdateLogList({
+  let logList = await updateLogMod.getUpdateLogList({
     limit,
     skip
   });
@@ -45,7 +45,7 @@ exports.showIncUpdateLog = (req, res, next) => {
 //添加日志
 exports.postIncUpdateLog = async (req, res, next) => {
   let userId = req.session.user._id;
-  let logCnt = req.body.log_content;
+  let logCnt = (req.body.log_content).trim();
   if (!logCnt || logCnt === '' || logCnt === null) {
     return res.json({
       status: false,
@@ -90,8 +90,38 @@ exports.postDelUpdateLog = async (req, res, next) => {
 }
 // 显示更新日志列表页
 exports.showUpdateLogList = async (req, res, next) => {
-  let logList = await updateLogMod.getAllUpdateLogList({});
-  res.render('backend/updateLogList', {
-    logList
-  })
+  let limit = req.query.limit || 10;
+  let page = req.query.page || 1;
+  let skip = page === 1 ? 0 : limit * (page - 1);
+  try {
+    let logTotal = await updateLogMod.getUpdateLogTotal();
+    let logList = await updateLogMod.getUpdateLogList({
+      limit,
+      skip
+    })
+    if (req.xhr) {
+      return res.json({
+        status: 1,
+        data: {
+          logTotal,
+          logList
+        }
+      })
+    }
+    res.render('backend/updateLogList', {
+      logList
+    })
+  } catch (err) {
+    next(err);
+  }
+
+  // try {
+  //   [logTotal, logList] = await Promise.all(updateLogMod.getUpdateLogTotal(), updateLogMod.getUpdateLogList({
+  //     limit,
+  //     skip
+  //   }))
+  // } catch (err) {
+  //   console.log(err);
+  // }
+
 }

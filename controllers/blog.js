@@ -32,7 +32,7 @@ let getArticleImgUrl = (str) => {
 
 exports.getHomeNavbarToLocals = (req, res, next) => {
   if (res.locals.NAV) next();
-  articleTypeMod.findArticleType("", (err, typeList) => {
+  articleTypeMod.findArticleType((err, typeList) => {
     if (err) return next(err);
     res.locals.NAV = typeList;
     next();
@@ -44,7 +44,7 @@ exports.getHomeNavbarToLocals = (req, res, next) => {
 exports.getHomeNavbar = async (req, res, next) => {
   let getTypeList = () => {
     return new Promise((resolve, reject) => {
-      articleTypeMod.findArticleType("", (err, typeList) => {
+      articleTypeMod.findArticleType((err, typeList) => {
         if (err) return reject(err);
         res.locals.NAV = typeList;
         resolve(res.locals.NAV);
@@ -63,7 +63,7 @@ exports.showHome = (req, res, next) => {
   /* 获取文章分类 */
   function getArcType() {
     return new Promise((resolve, reject) => {
-      articleTypeMod.findArticleType("", (err, resTypeList) => {
+      articleTypeMod.findArticleType((err, resTypeList) => {
         if (err) return reject(err);
         resolve(resTypeList);
       });
@@ -120,7 +120,7 @@ exports.showHome = (req, res, next) => {
       getArcTags(),
       getCommTop(),
       getArcList(),
-      updateLogMod.getAllUpdateLogList({
+      updateLogMod.getUpdateLogList({
         limit: 2
       })
     ])
