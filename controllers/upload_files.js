@@ -8,7 +8,7 @@ exports.updateArcImg = (req, res, next) => {
     return res.json({
       status: 1,
       errno: 0,
-      data: result
+      data: [result]
     })
   })
 }

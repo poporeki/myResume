@@ -12,9 +12,8 @@ const blogCtl = require('../../controllers/blog');
 /* 权限判断 */
 router.use('/', (req, res, next) => {
   if (!req.session.user) return next(-9);
-  if (req.session.user && req.session.user.permissions === 'admin' || req.session.user.permissions === 'root') {
-    next();
-  }
+  let perArr = ['admin', 'root'];
+  if (perArr.indexOf(req.session.user.permissions) !== -1) next();
 })
 
 
