@@ -70,21 +70,51 @@ router.get('/', (req, res, next) => {
       });
     })
   }
-
+  /* 获取文章总数 */
+  function getArcCount() {
+    let by = {
+      is_delete: false
+    }
+    return new Promise(function (resolve, reject) {
+      arcMod.getCount(by, (err, result) => {
+        if (err) return reject(err);
+        resolve(result);
+      });
+    })
+  }
   let fn = async () => {
     const renderObj = {
       pageTitle: '首页',
       userName: req.session.user.username
     }
     let userId = req.session.user._id;
-    let lastLogInfo = await getLastLoginInfo(userId)
-    let vistorTotal = await getVistorTotal();
-    let diskUsage = await getDiskUsage();
-    let arcTitle = await getArticleTitle();
+    let [lastLogInfo,
+      vistorTotal,
+      diskUsage,
+      arcTitle,
+      arcTotal
+    ] = await Promise.all([
+      getLastLoginInfo(userId),
+      getVistorTotal(),
+      getDiskUsage(),
+      getArticleTitle(),
+      getArcCount()
+    ])
+    // let lastLogInfo = await getLastLoginInfo(userId)
+    // let vistorTotal = await getVistorTotal();
+    // let diskUsage = await getDiskUsage();
+    // let arcTitle = await getArticleTitle();
     renderObj['lastLoginInfo'] = lastLogInfo;
     renderObj['vistorNum'] = vistorTotal;
     renderObj['diskUsage'] = diskUsage;
     renderObj['arclist'] = arcTitle;
+    renderObj['arcTotal'] = arcTotal;
+    if (req.xhr) {
+      return res.json({
+        status: 1,
+        data: renderObj
+      })
+    }
     res.render('./backend/index', renderObj);
   }
   fn().catch(err => {

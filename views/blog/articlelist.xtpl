@@ -23,7 +23,7 @@
             <div class="title"><h4>{{this.title}}</h4></div>
             <div class="time">{{this.create_time}}</div>
           </div>
-          <div class="thumbnail">{{this.source}}</div>
+          <div class="thumbnail">{{this.content}}</div>
         </div>
       </a>
       </li>

@@ -193,7 +193,8 @@ exports.logout = (req, res) => {
   req.session.destroy();
   if (req.xhr) {
     return res.json({
-      status: true
+      status: 1,
+      msg: 'success'
     })
   }
   res.redirect('/');

@@ -96,8 +96,8 @@ exports.showHome = (req, res, next) => {
             carousel: true
           }
         },
-        limit: parseInt(req.query.limit),
-        page: parseInt(req.query.page),
+        limit: parseInt(req.query.limit) || 10,
+        page: parseInt(req.query.page) || 1,
         sort: req.query.sort || {
           create_time: -1
         }
@@ -137,6 +137,21 @@ exports.showHome = (req, res, next) => {
         log_id: val._id
       }
     })
+    commList = commList.map(val => {
+      let returnObj = {};
+      if (val instanceof Object) {
+        for (let obj in val) {
+          if (val[obj] instanceof Array) {
+            returnObj[obj] = val[obj][0];
+          } else {
+            returnObj[obj] = val[obj]
+          }
+
+        }
+      }
+      return returnObj;
+
+    })
     let resObj = {
       typeList,
       tagList,
@@ -144,6 +159,7 @@ exports.showHome = (req, res, next) => {
       carouList,
       logList
     }
+    /*************这里有错误！！！******** */
     res.render('./blog/index', resObj);
   }
   fn().catch(err => {
@@ -153,13 +169,14 @@ exports.showHome = (req, res, next) => {
 
 exports.getArticleList = (req, res, next) => {
   var pars = {
-    by: req.query.by,
-    limit: parseInt(req.query.limit),
-    page: parseInt(req.query.page),
+    by: req.query.by || {},
+    limit: parseInt(req.query.limit) || 10,
+    page: parseInt(req.query.page) || 1,
     sort: req.query.sort || {
       create_time: -1
     }
   };
+  pars.by['is_delete'] = false;
   articleMod.showArticleList(pars, (err, resListSortTime) => {
     if (err) return next(err);
     res.json({

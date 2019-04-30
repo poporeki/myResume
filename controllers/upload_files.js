@@ -6,8 +6,9 @@ exports.updateArcImg = (req, res, next) => {
   uploadIMGMod.upLoadIMG(req, '/images/upload/article/', (err, result) => {
     if (err) return next(err);
     return res.json({
-      "errno": 0,
-      "data": [result]
+      status: 1,
+      errno: 0,
+      data: result
     })
   })
 }

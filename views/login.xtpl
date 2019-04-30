@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="/css/normalize.css">
 
   <link rel="stylesheet" href="/css/min/login/login.css">
-  <link rel="stylesheet" href="/css/min/login/iconfont.css">
+  <link rel="stylesheet" href="/css/login/iconfont.css">
   <style>
   </style>
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->

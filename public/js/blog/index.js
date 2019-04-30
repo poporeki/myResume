@@ -4,6 +4,7 @@ $(function () {
   weatherFn();
 
 });
+
 function isMobile() {
   if ((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)))
     return true;
@@ -95,7 +96,7 @@ function newArcFn() {
         /* 阅读数 */
         artAuthor_name = art.author.name,
         /* 作者 */
-        source = art.source,
+        content = art.content,
         typeName = art.type.name,
         /* html内容 */
         time_create = art.time_create; /* 发布时间 */
@@ -122,7 +123,7 @@ function newArcFn() {
         '<div class="card-body">' +
         '<div class="pic-box">' + artimg +
         '</div>' +
-        '<p>' + source +
+        '<p>' + content +
         '</p>' +
         '</div>' +
         '</div>' +
@@ -207,14 +208,14 @@ function weatherFn() {
     })
   }
   /* 获取地理位置信息 */
-  if(!isMobile()){
+  if (!isMobile()) {
     updateWeather(null);
-  }else{
+  } else {
     getGeolocation(function (err, geolo) {
       updateWeather(geolo);
     });
   }
-  
+
 
 
 }
@@ -245,6 +246,6 @@ function getGeolocation(cb) {
   }
 }
 
-function getCarouselData(){
-  
+function getCarouselData() {
+
 }

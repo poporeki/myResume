@@ -303,7 +303,7 @@ exports.getArticleTop = (req, res) => {
         artid: arc._id,
         title: arc.title,
         read: arc.read,
-        previewImage: getArticleImgUrl(arc.content),
+        previewImage: getArticleImgUrl(arc.source),
         timeCreate: moment(arc.create_time).fromNow()
       }
     })
@@ -367,6 +367,7 @@ exports.getArticleList = (req, res) => {
   if (typeof by === 'string') {
     typeof by === 'string' && by ? by = JSON.parse(by) : by = {};
   }
+  by['is_delete'] = false;
   // 查找数量默认10
   let limit = parseInt(req.query.num) || 10;
   // 当前页数
@@ -396,7 +397,7 @@ exports.getArticleList = (req, res) => {
             /* 文章标题 */
             title: arc.title,
             /* 文章html */
-            source: arc.source,
+            content: arc.content,
             /* 文章创建时间 */
             create_time: arc.time_create
           }
@@ -469,7 +470,7 @@ exports.getArticleListSSR = (req, res, next) => {
             /* 文章标题 */
             title: arc.title,
             /* 文章html */
-            source: arc.source,
+            content: arc.content,
             /* 文章创建时间 */
             create_time: arc.time_create
           }

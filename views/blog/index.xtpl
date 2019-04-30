@@ -127,21 +127,18 @@
           内容为空
           {{else}}
           {{#each(commList)}}
-          <a class='comm-lk' href="/blog/article/{{this.article[0]._id}}#comment">
-            <h6 class="arc-tit">{{this.article[0].title}}</h6>
-            {{!头像}}
-            {{set(avatar=this.avatar[0],
-            author=this.author[0])
-            }}
+          <a class='comm-lk' href="/blog/article/{{this.article._id}}#comment">
+            <h6 class="arc-tit">{{this.article.title}}</h6>
+
             {{!头像src}}
-            {{#if(avatar!==null)}}
-            {{set(avatarSrc=avatar.save_path+'thumbnail_'+avatar.new_name)}}
+            {{#if(this.avatar.save_path&&this.avatar.new_name)}}
+              {{set(avatarSrc=avatar.save_path+'thumbnail_'+avatar.new_name)}}
             {{else}}
-            {{set(avatarSrc='/images/user/avatars/default/1.png')}}
+              {{set(avatarSrc='/images/user/avatars/default/1.png')}}
             {{/if}}
             <div class="arc-comm">
               <img class="head-pic" src="{{avatarSrc}}" onerror="this.src='/images/default_writer_avatar.png'" alt="头像">
-              {{author.user_name}}: <span>{{this.comment_text}}</span>
+              {{this.author.user_name}}: <span>{{this.comment_text}}</span>
             </div>
           </a>
           {{/each}}

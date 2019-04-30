@@ -38,7 +38,7 @@ $(function () {
             title = conn.title,
             artid = conn.artid,
             timeCreate = conn.create_time,
-            source = conn.source;
+            content = conn.content;
           html +=
             '<li class="article-list-item">' +
             '<a href="/blog/article/' + artid + '">' +
@@ -49,10 +49,10 @@ $(function () {
             '</div>' +
             '<div class="time">' + timeCreate + '</div>' +
             '</div>' +
-            '<div class="thumbnail">' + source + '</div>' +
+            '<div class="thumbnail">' + content + '</div>' +
             '</div>' +
             '</a>' +
-            '</li>'
+            '</li>';
         }
         $artList.append(html);
       } else {

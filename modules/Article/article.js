@@ -7,22 +7,8 @@ const articleType = require("../../db/schema/article/ArticleType"),
 
 module.exports = {
   /* 添加文章 */
-  addArticle: function (req, cb) {
-    var pars = {
-      title: req.body.arc_title,
-      attribute: {
-        carousel: req.body.arc_carousel === "on" ? true : false
-      },
-      from: req.body.arc_reproduction,
-      type_id: req.body.arc_type.trim(),
-      tags_id: req.body.arc_tags,
-      is_delete: false,
-      read: 0,
-      content: req.body.arc_content,
-      source: req.body.arc_conSource,
-      support: 12,
-      author_id: req.session.user._id
-    };
+  addArticle: function (pars, cb) {
+
     articles.addArticle(pars, cb);
   },
   /**
@@ -46,10 +32,12 @@ module.exports = {
     by,
     isRoot
   }, cb) {
-    by = by || {};
-    !by["is_delete"] ? (by["is_delete"] = false) : "";
-    if (isRoot) {
-      by["is_delete"] ? delete by["is_delete"] : "";
+    if (by['is_delete']) {
+      if (isRoot && !by.is_delete) {
+        by["is_delete"] ? delete by["is_delete"] : "";
+      }
+    } else {
+      by['is_delete'] = false;
     }
     // 查找数量默认10
     limit = limit || 10;
@@ -58,7 +46,7 @@ module.exports = {
       create_time: 1
     };
     // 跳过数量
-    let skip = page ? (page - 1) * limit : 0;
+    let skip = page === 1 ? 0 : (page - 1) * limit;
 
     let pars = {
       by,
@@ -68,12 +56,9 @@ module.exports = {
     };
     let getSearchedName = async (by) => {
 
-      let result;
-      if (by.tags_id !== undefined) {
-        result = await getTagName(by.tags_id);
-      } else if (by.type_id !== undefined) {
-        result = await getTypeName(by.type_id);
-      }
+      let result = '';
+      by.tags_id !== undefined && (result = await getTagName(by.tags_id));
+      by.type_id !== undefined && (result = await getTypeName(by.type_id));
       return result;
     }
     // 获取分类名
@@ -299,8 +284,7 @@ module.exports = {
     }, cb);
   },
   /* 获得文章总数 */
-  getCount: function (req, cb) {
-    var by = req.body.by || req.query.by || {};
+  getCount: function (by, cb) {
     return articles.getCount(by, cb);
   },
   /**

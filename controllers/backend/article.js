@@ -24,7 +24,7 @@ exports.showArticleList = (req, res) => {
 exports.getArticleList = (req, res) => {
   let isDel = false;
   let referer = req.headers['referer'];
-  if (referer.indexOf('articleTrash') > 0) {
+  if (referer.indexOf('articleTrash') !== -1 || referer.indexOf('recycle') !== -1) {
     isDel = true;
   }
   let by = req.query.by || req.body.by || {};
@@ -53,7 +53,7 @@ exports.getArticleList = (req, res) => {
   /* 获取总数 */
   function getArcCount() {
     return new Promise(function (resolve, reject) {
-      articleMod.getCount(req, (err, result) => {
+      articleMod.getCount(by, (err, result) => {
         if (err) return reject(err);
         resolve(result);
       });
@@ -228,6 +228,7 @@ exports.showUpdateArticleById = (req, res, next) => {
         },
         from: arcInfo.from,
         content: arcInfo.content,
+        source: arcInfo.source,
         attribute: arcInfo.attribute
       }
     };
@@ -251,17 +252,21 @@ exports.submitUpdate = (req, res, next) => {
   let body = req.body;
   if (!body.arc_title || !arcid || !body.arc_type || !body.arc_tags) {
     return res.json({
-      status: false,
+      status: 0,
       msg: '提交内容不完整'
     })
   }
+  let from = body.arc_reproduction;
   let obj = {
     title: body.arc_title,
     /* 标题 */
     attribute: {
       carousel: body.arc_carousel === "on" ? true : false
     },
-    from: body.arc_reproduction,
+    from: {
+      link: from ? from.link : undefined,
+      name: from ? from.name : undefined
+    },
     is_delete: false,
     /*  */
     type_id: body.arc_type,
@@ -274,12 +279,12 @@ exports.submitUpdate = (req, res, next) => {
   articleMod.updateArticle(arcid, obj, (err, result) => {
     if (err) {
       return res.json({
-        status: false,
+        status: 0,
         msg: '修改失败'
       })
     }
     res.json({
-      status: true,
+      status: 1,
       href: "/backend/art/articlelist"
     });
   });
@@ -333,14 +338,56 @@ exports.showAddTheArticle = (req, res, next) => {
  * 提交新文章
  */
 exports.submitNewArticle = (req, res, next) => {
-  articleMod.addArticle(req, (err, result) => {
+  let reqBody = req.body;
+  if (!reqBody.arc_type || !reqBody.arc_tags || !reqBody.arc_content || !reqBody.arc_source) {
+    return res.json({
+      status: 0,
+      msg: '提交的文章参数不完整,请修改后重新提交'
+    })
+  }
+  let arcTitle = reqBody.arc_title.trim() || '未命名';
+  let arcAttrCarousel = reqBody.arc_carousel === 'on' ? true : false;
+  let arcFrom = reqBody.arc_reproduction || undefined;
+  let arcType = reqBody.arc_type;
+  let arcTags = reqBody.arc_tags;
+  let arcContent = reqBody.arc_content;
+  let arcSource = reqBody.arc_source;
+  let authorId = req.session.user._id;
+  if (typeof arcFrom === 'string') {
+    arcFrom['link'] = arcFrom['name'] = arcFrom;
+  } else if (arcFrom instanceof Object) {
+    if (!arcFrom.name && arcFrom.link) {
+      arcFrom.name = arcFrom.link;
+    }
+  }
+  let pars = {
+    title: arcTitle,
+    attribute: {
+      carousel: arcAttrCarousel
+    },
+    from: arcFrom,
+    type_id: arcType,
+    tags_id: arcTags,
+    is_delete: false,
+    read: 0,
+    content: arcContent,
+    source: arcSource,
+    support: 12,
+    author_id: authorId,
+    update_record: [{
+      user: authorId
+    }]
+  };
+  articleMod.addArticle(pars, (err, result) => {
     if (err) {
       return res.json({
-        status: false
+        status: 0,
+        msg: '添加失败'
       });
     }
     res.json({
-      status: true
+      status: 1,
+      msg: 'success'
     });
   });
 }

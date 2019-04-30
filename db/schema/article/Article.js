@@ -9,7 +9,10 @@ var articleSchema = new schema({
   title: String,
   attribute: {},
   read: Number,
-  from: String,
+  from: {
+    name: String,
+    link: String
+  },
   content: String,
   source: String,
   support: Number,
@@ -29,13 +32,23 @@ var articleSchema = new schema({
   tags_id: [{
     type: schema.Types.ObjectId,
     ref: 'arc_tag'
+  }],
+  update_record: [{
+    user: {
+      type: schema.Types.ObjectId,
+      ref: 'myweb_user'
+    },
+    update_time: {
+      type: Date,
+      default: Date.now
+    }
   }]
 }, {
-    timestamps: {
-      createdAt: 'create_time',
-      updatedAt: 'update_time'
-    }
-  });
+  timestamps: {
+    createdAt: 'create_time',
+    updatedAt: 'update_time'
+  }
+});
 
 /**
  * 
@@ -89,33 +102,37 @@ articleSchema.statics.incReadNum = function (artid, cb) {
   return this.updateOne({
     '_id': artid
   }, {
-      $inc: {
-        read: 1
-      }
-    }).exec(cb);
+    $inc: {
+      read: 1
+    }
+  }).exec(cb);
 }
 articleSchema.statics.updateOneArticle = function (artid, pars, cb) {
   return this.updateOne({
     "_id": artid
   }, {
-      $set: pars
-    }, cb);
+    $set: pars
+  }, cb);
 }
 articleSchema.statics.findOneNextArticleById = function (artid, cb) {
   return this.find({
-    '_id': { '$gt': artid }
-  }).sort({
-    _id: 1
-  })
+      '_id': {
+        '$gt': artid
+      }
+    }).sort({
+      _id: 1
+    })
     .limit(1)
     .exec(cb);
 }
 articleSchema.statics.findOnePrevArticleById = function (artid, cb) {
   return this.find({
-    '_id': { '$lt': artid }
-  }).sort({
-    _id: -1
-  })
+      '_id': {
+        '$lt': artid
+      }
+    }).sort({
+      _id: -1
+    })
     .limit(1)
     .exec(cb);
 }

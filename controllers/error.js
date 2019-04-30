@@ -1,6 +1,12 @@
+const express = require('express');
+var app = express();
 module.exports = (err, req, res, next) => {
+  if (app.get("env") === "development") {
+    console.error("Error", err);
+    next(err);
+  }
+
   if (req.method === 'OPTIONS') next();
-  console.log(err);
   if (res.headersSent) {
     return next(err);
   }
@@ -29,13 +35,13 @@ module.exports = (err, req, res, next) => {
       }
     case -1:
       {
+        res.status(500);
         if (req.xhr) {
           return res.json({
             status: -1,
             msg: '服务器错误'
           })
         }
-        res.status(500);
         res.render('error', {
           error: err
         });
@@ -54,26 +60,30 @@ module.exports = (err, req, res, next) => {
       }
     case 404:
       {
-        if (req.xhr) {
+        res.status(404);
+        if (req.xhr || req.url.indexOf('/images/') !== -1) {
           return res.json({
             status: 404,
             msg: '没有找到相关信息'
           })
         }
         res.render('404');
+
       }
     default:
       {
+        res.status(500);
         if (req.xhr) {
           return res.json({
             status: 500,
             msg: '服务器错误'
           })
         }
-        res.status(500);
+
         res.render('error', {
           error: err
         });
       }
   }
+  next();
 }

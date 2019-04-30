@@ -44,9 +44,20 @@
     {{!end 文章相关信息}}
     {{!start 文章内容主体}}
     <div class="article-body">
-      {{{arcInfo.content}}}
-      {{#if(arcInfo.from!==undefined&&arcInfo.from!==null&&arcInfo.from!=='')}}
-        原帖地址：<a href="{{arcInfo.from}}">{{arcInfo.from}}</a><br>
+      {{{arcInfo.source}}}
+      
+    </div>
+    <div class="article-source">
+      {{set(from=arcInfo.from)}}
+      {{#if(from&&(from.name||from.link))}}
+        {{# if(from.name)}}
+          原帖地址:<span>{{from.name}}</span>
+        {{else}}
+          原帖地址:<a href="{{from.link}}">{{from.link}}</a><br>
+        {{/if}}
+      {{/if}}
+      {{#if(from&&from.name&&from.link)}}
+        原帖地址：<a href="{{from.link}}">{{from.name}}</a><br>
       {{/if}}
     </div>
     {{!end 文章内容主体}}
@@ -226,13 +237,13 @@
 {{#block ('scripts')}}
 <script src="https://cdn.bootcss.com/highlight.js/9.13.1/highlight.min.js"></script>
 <script src="/js/min/blog/article.js"></script>
-{{! <script>
+<script>
 
 window.onload=function(){
-  document.querySelectorAll('code').forEach((block) => {
+  document.querySelectorAll('.ql-syntax').forEach((block) => {
   hljs.highlightBlock(block);
 });
 }
-</script> }}
+</script>
 <script>hljs.initHighlightingOnLoad();</script>
 {{/block}}

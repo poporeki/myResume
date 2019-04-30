@@ -53,16 +53,19 @@ function checkDb(hash, cb) {
 /**上传图片 */
 exports.upLoadIMG = function (req, uPath, cb) {
   let form = new formidable.IncomingForm();
-  uploadPath = uPath;
-  pathArr = [];
-  nowDate = new Date();
-  _year = nowDate.getFullYear();
-  _month = nowDate.getMonth() + 1;
-  _day = nowDate.getDate();
-  pathArr.push(_year, _month, _day);
-  /* path.sep */
-  mk();
-  uploadDir = pathUrl;
+  //上传路径
+  let uploadPath = uPath;
+  //保存的文件夹  -按上传日期保存  例：'17/2/3/img.jpg'
+  let destinationFolder = [];
+
+  let nowDate = new Date();
+  let _year = nowDate.getFullYear();
+  let _month = nowDate.getMonth() + 1;
+  let _day = nowDate.getDate();
+
+  destinationFolder.push(_year, _month, _day);
+  // 判断目标文件夹是否存在不存在即创建
+  let uploadDir = mk(destinationFolder, uploadPath);
   upfunc();
   /* 比对数据库上传图片MD5，有记录则返回路径 没有记录则上传文件夹并记录数据库，并返回路径 */
 
