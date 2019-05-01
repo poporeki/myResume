@@ -17,7 +17,7 @@ let pathUrl, uploadDir; */
 function mk(folderArr, uploadPath) {
   let pathUrl = '';
   (function (idx, folderArr) {
-    pathUrl = path.join(process.cwd(), "/public/" + uploadPath);
+    pathUrl = path.join(__dirname, "../public/" + uploadPath);
     mkdirs(idx, folderArr, pathUrl);
     return pathUrl;
   })(-1, folderArr);
