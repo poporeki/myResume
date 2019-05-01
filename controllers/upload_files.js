@@ -4,6 +4,7 @@ const uploadIMGMod = require('../modules/uploadIMG');
  */
 exports.updateArcImg = (req, res, next) => {
   uploadIMGMod.upLoadIMG(req, '/images/upload/article/', (err, result) => {
+    console.log(err);
     if (err) return next(err);
     return res.json({
       status: 1,
