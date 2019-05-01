@@ -56,7 +56,7 @@ app.use(function (req, res, next) {
   res.header("X-Powered-By", ' 3.2.1')
   //和客户端对应，必须设置以后，才能接收cookie.允许凭证,解决session跨域丢失问题
   res.header("Access-Control-Allow-Credentials", "true");
-  if (req.method === 'OPTIONS') return res.status(204);
+  // if (req.method === 'OPTIONS') return res.status(204);
   next();
 });
 /* session 配置 */
