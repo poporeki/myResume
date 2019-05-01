@@ -48,6 +48,7 @@ app.use(express.static(path.join(__dirname, "./public")));
 app.use("v", express.static(path.join(__dirname, "./dist")));
 //设置跨域访问
 app.use(function (req, res, next) {
+  console.log(req.headers.origin || req.headers.host);
   res.header("Access-Control-Allow-Origin", req.headers.origin || req.headers.host);
   res.header("Access-Control-Allow-Headers", "Authorization,Origin, X-Requested-With, Content-Type, Accept");
   // res.header("Access-Control-Allow-Headers", "X-Requested-With");
