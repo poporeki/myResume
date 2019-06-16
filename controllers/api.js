@@ -1,5 +1,6 @@
 const request = require('request');
 const querystring = require("querystring");
+const superagent = require('superagent');
 
 
 /**
@@ -57,3 +58,5 @@ exports.getPostCode = (req, res, next) => {
     })
   })
 }
+/**QQ音乐转发API */
+exports.qqmusic = require('./api_qqmusic');

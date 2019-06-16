@@ -30,6 +30,7 @@ module.exports = {
     page,
     sort,
     by,
+    keywords,
     isRoot
   }, cb) {
     if (by['is_delete']) {
@@ -304,7 +305,10 @@ module.exports = {
           }
         }]
       }, {
-        title: 1
+        source: 0,
+        like_this: 0,
+        attribute: 0,
+        is_delete: 0
       })
       .exec(cb);
   },

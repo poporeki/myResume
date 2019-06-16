@@ -48,7 +48,7 @@ exports.postIncUpdateLog = async (req, res, next) => {
   let logCnt = (req.body.log_content).trim();
   if (!logCnt || logCnt === '' || logCnt === null) {
     return res.json({
-      status: false,
+      status: 0,
       msg: '内容不能为空'
     })
   }
@@ -58,13 +58,32 @@ exports.postIncUpdateLog = async (req, res, next) => {
       logContent: logCnt
     });
     res.json({
-      status: true,
+      status: 1,
       msg: 'success'
     })
   } catch {
     res.json({
-      status: false,
+      status: 0,
       msg: 'error'
+    })
+  }
+}
+exports.postRemoveUpdateLog = async (req, res, next) => {
+  let logId = req.body.log_id;
+  if (!logId) return res.json({
+    status: 0,
+    msg: '数据错误'
+  });
+  try {
+    await updateLogMod.removeUpdateLogById(logId);
+    res.json({
+      status: 1,
+      msg: '移除成功'
+    })
+  } catch {
+    res.json({
+      status: 0,
+      msg: '删除失败'
     })
   }
 }
@@ -72,21 +91,48 @@ exports.postIncUpdateLog = async (req, res, next) => {
 exports.postDelUpdateLog = async (req, res, next) => {
   let logId = req.body.log_id;
   if (!logId) return res.json({
-    status: false,
+    status: 0,
     msg: '数据错误'
   });
   try {
     await updateLogMod.delUpdateLogById(logId);
     res.json({
-      status: true
+      status: 1
     })
   } catch {
     res.json({
-      status: false,
+      status: 0,
       msg: '删除失败'
     })
   }
 
+}
+//修改日志
+exports.postModifyUpdateLogById = async (req, res, next) => {
+  let userId = req.session.user._id;
+  let logId = req.body.log_id;
+  let logCnt = (req.body.log_content).trim();
+  if (!logId || !logCnt || logCnt === '' || logCnt === null) {
+    return res.json({
+      status: 0,
+      msg: '提交的内容不完整,修改失败'
+    })
+  }
+  try {
+    let result = await updateLogMod.modifyUpdateLogById(logId, logCnt);
+    if (result.ok === 1) {
+      return res.json({
+        status: 1,
+        msg: '修改成功'
+      })
+    }
+    res.json({
+      status: 0,
+      msg: '修改失败'
+    })
+  } catch (err) {
+    next(err);
+  }
 }
 // 显示更新日志列表页
 exports.showUpdateLogList = async (req, res, next) => {

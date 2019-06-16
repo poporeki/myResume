@@ -18,6 +18,23 @@ exports.insertOneUpdateLog = ({
     })
   })
 }
+/**修改日志显示状态 */
+exports.removeUpdateLogById = (logId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let result = await UpdateLogSchema.updateOne({
+        _id: logId
+      }, {
+        $set: {
+          is_delete: true
+        }
+      })
+      resolve(result);
+    } catch (err) {
+      reject(err);
+    }
+  })
+}
 /**
  * 删除一条升级日志
  * @param {Object} {logId} 日志id
@@ -32,6 +49,27 @@ exports.delUpdateLogById = ({
       if (err) return reject(false);
       resolve(true);
     })
+  })
+}
+/**修改更新日志
+ * @method modifyUpdateLogById
+ * @param {String} logId 日志id
+ * @param {String} logCnt 日志内容
+ */
+exports.modifyUpdateLogById = (logId, logCnt) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let result = await UpdateLogSchema.updateOne({
+        _id: logId
+      }, {
+        $set: {
+          log_content: logCnt
+        }
+      })
+      resolve(result);
+    } catch (err) {
+      reject(err);
+    }
   })
 }
 /**

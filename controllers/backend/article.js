@@ -41,13 +41,22 @@ exports.getArticleList = (req, res) => {
   let sort = req.body.sort || {
     'create_time': -1
   };
+  let keywords = req.body.keywords;
+  if (keywords && keywords !== null) {
+    by['$or'] = [{
+      title: {
+        $regex: new RegExp((keywords).trim(), 'i')
+      }
+    }]
+  }
   // req.body.by.tags_id ? req.body.by.tags_id = mongoose.Types.ObjectId(req.body.by.tags_id) : '';
   // req.body.by.type_id ? req.body.by.type_id = mongoose.Types.ObjectId(req.body.by.type_id) : '';
   let params = {
     by,
     limit,
     page,
-    sort
+    sort,
+    keywords
   };
 
   /* 获取总数 */
