@@ -6,9 +6,9 @@ const request = require('request');
  */
 exports.getTodayWallpaper = (req, res, next) => {
   let mainURL = 'https://cn.bing.com';
-  let requestUrl = 'https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1';
+  let requestUrl = 'https://bing.com/HPImageArchive.aspx?format=js&idx=0&n=1';
   request(requestUrl, (err, result, jss) => {
-    if (err && result.statusCode !== 200 && result.body === '') {
+    if (err || !result.statusCode || result.statusCode !== 200 || result.body === '') {
       return res.json({
         status: false,
         msg: '获取壁纸失败'

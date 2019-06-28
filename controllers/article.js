@@ -31,7 +31,16 @@ function traversalReply(reply) {
   let commReplyArr = [];
   for (let idx = 0, replylen = reply.length; idx < replylen; idx++) {
     let repUser = reply[idx].author_id;
-    let repAvatar = repUser.avatar_path ? repUser.avatar_path.save_path + 'thumbnail_' + repUser.avatar_path.new_name : "/images/my-head.png"
+    let uAvatarInfo = repUser.avatar_path;
+    let repAvatar;
+    if (uAvatarInfo) {
+      if (uAvatarInfo.is_qiniu) {
+        repAvatar = uAvatarInfo.save_path
+      } else {
+        repAvatar = uAvatarInfo.has_thumbnail ? uAvatarInfo.save_path + 'thumbnail_' + uAvatarInfo.new_name : '';
+      }
+    }
+
     let to = '';
     if (reply[idx].to) {
       let t = reply[idx].to;
@@ -153,11 +162,21 @@ let getArcComm = (limit, skip, arcid) => {
       let artComms = result.map((value, index) => {
         let comms = value;
         let commReps = traversalReply(comms.reply);
+        let uAvatarInfo = comms.author_id.avatar_path;
+        let uAvatarUrl;
+        if (uAvatarInfo) {
+          if (uAvatarInfo.is_qiniu) {
+            uAvatarUrl = uAvatarInfo.save_path
+          } else {
+            uAvatarUrl = uAvatarInfo.has_thumbnail ? uAvatarInfo.save_path + 'thumbnail_' + uAvatarInfo.new_name : '';
+          }
+        }
+
         return {
           id: comms._id,
           user: {
             name: comms.author_id.user_name,
-            avatar: comms.author_id.avatar_path ? comms.author_id.avatar_path.save_path + 'thumbnail_' + comms.author_id.avatar_path.new_name : "/images/my-head.png"
+            avatar: uAvatarUrl
           },
           submit_address: comms.submit_address,
           create_time: moment(comms.create_time).fromNow(),
@@ -298,6 +317,7 @@ exports.showArticleById = (req, res, next) => {
  */
 exports.getArticleTop = (req, res) => {
   function formatResult(resArclist) {
+    if (!resArclist || !resArclist instanceof Array) return;
     let arclist = resArclist.map(arc => {
       return {
         artid: arc._id,
@@ -563,11 +583,16 @@ exports.getArticleListOfCarousel = (req, res, next) => {
     return new Promise((resolve, reject) => {
       let by = {
         attribute: {
-          carousel: true
+          carousel: true,
+
         }
       };
+      let sort = {
+        create_time: -1
+      }
       articleMod.showArticleList({
-        by
+        by,
+        sort
       }, (err, result) => {
         if (err) return reject(err);
         resolve(result.arcList);
@@ -580,7 +605,7 @@ exports.getArticleListOfCarousel = (req, res, next) => {
     for (let j = 0, len = arclist.length; j < len; j++) {
       let obj = {};
       let item = arclist[j];
-      let src = getArticleImgUrl(item.content);
+      let src = getArticleImgUrl(item.source);
       obj['id'] = item.id;
       obj['title'] = item.title;
       obj['imgSrc'] = src;

@@ -10,6 +10,9 @@ const {
 
 const sign = require('./user_sign.js');
 
+const upLoadSchema = require("../db/schema/uploadFile"),
+  userSchema = require("../db/schema/userSchema");
+
 /**判断登录状态 跳转登录页 */
 exports.isLogin = (req, res, next) => {
   if (!req.session.user) next(-9);
@@ -42,6 +45,35 @@ exports.updateAvatar = (req, res, next) => {
     });
   })
 }
+/**更新头像图片信息到数据库 qiniu */
+exports.updateAvatarDB = async (req, res, next) => {
+  let savePath = req.body.a_url;
+  if (!savePath) return res.json({
+    status: false,
+    msg: '记录失败'
+  });
+
+  let userid = req.session.user._id;
+  let [resultSaved, resultUpdate] = ['', ''];
+  try {
+    resultSaved = await uploadIMGMod.saveImgInfo_Qiniu(userid, savePath);
+  } catch (err) {
+    next(err);
+  }
+  try {
+    resultUpdate = await userMod.updateAccountInfo(userid, {
+      avatar: resultSaved.id
+    });
+  } catch (err) {
+    next(err);
+  }
+  res.json({
+    status: 1,
+    data: resultSaved.url
+  })
+
+
+}
 /**显示用户页 */
 exports.showUserHome = (req, res, next) => {
   function avatarFn(avatar) {
@@ -58,7 +90,14 @@ exports.showUserHome = (req, res, next) => {
     return new Promise((resolve, reject) => {
       userMod.findUserById(req.session.user._id, (err, userInfo) => {
         if (err) return reject(err);
-        let avatarPath = avatarFn(userInfo.avatar_path);
+        let avatar = userInfo.avatar_path;
+        let avatarPath;
+        if (avatar.is_qiniu) {
+          avatarPath = avatar.save_path;
+        } else {
+          avatarPath = avatarFn(avatar);
+        }
+
         resolve({
           username: userInfo.user_name || '',
           avatar: avatarPath,

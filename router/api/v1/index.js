@@ -28,4 +28,5 @@ router.use('/bing', require('./bing'));
 router.use('/tuchong', require('./tuchong'))
 router.use('/tools', require('./tools'));
 router.use('/qqmusic', require('./QQMusic'));
+router.use('/qiniu', require('./qiniu'));
 module.exports = router;

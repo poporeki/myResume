@@ -389,3 +389,21 @@ exports.uploadFiles = function (dir) {
 //     }
 //   });
 // }
+
+/**保存到数据库 qiniu */
+exports.saveImgInfo_Qiniu = (userid, savedPath) => {
+  return new Promise((resolve, reject) => {
+    let params = {
+      is_qiniu: true,
+      save_path: savedPath,
+      author_id: userid
+    };
+    upLoadSchema.create(params, function (err, result) {
+      if (err) return reject(err);
+      resolve({
+        id: result._id,
+        url: savedPath
+      });
+    });
+  });
+}

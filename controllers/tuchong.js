@@ -67,7 +67,7 @@ exports.getCategoryNew = (req, res, next) => {
     msg: '参数不能为空'
   })
   tag_name = encodeURI(tag_name);
-  let requestURL = `https://tuchong.com/rest/tags/${tag_name}/posts?page=${page}&count=${count}&order=weekly`;
+  let requestURL = 'https://tuchong.com/rest/tags/' + tag_name + '/posts?page=' + page + '&count=' + count + '&order=weekly';
   request(requestURL, (err, result, body) => {
     if (result.statusCode !== 200) return res.json({
       status: false,

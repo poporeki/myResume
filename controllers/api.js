@@ -12,7 +12,7 @@ exports.getRegion = (req, res, next) => {
   let parent_id = req.query.parent_id || 0;
   requestURL += parent_id;
   request(requestURL, (err, result, body) => {
-    if (result.statusCode !== 200) {
+    if (!result || !result.statusCode || result.statusCode !== 200) {
       return res.json({
         status: false,
         msg: '获取数据失败'

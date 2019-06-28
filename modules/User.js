@@ -68,9 +68,15 @@ module.exports = {
           if (err) return reject(err);
           if (result === null || !result) return reject(false);
           let data = result;
-          let avatarPath = result.has_thumbnail ?
-            `${data.save_path}thumbnail_${data.new_name}` :
-            `${data.save_path}${data.new_name}`;
+          let avatarPath;
+          if (result.is_qiniu) {
+            avatarPath = result.save_path
+          } else {
+            avatarPath = result.has_thumbnail ?
+              `${data.save_path}thumbnail_${data.new_name}` :
+              `${data.save_path}${data.new_name}`;
+          }
+
 
           obj['avatar_path'] = avatarPath;
           return resolve(obj);
@@ -399,14 +405,15 @@ module.exports = {
   updateAccountInfo: (userid, {
     username,
     telnumber,
-    email
+    email,
+    avatar
   }) => {
     return new Promise((resolve, reject) => {
       let updateSet = {};
       username && username !== '' ? updateSet['user_name'] = username : '';
       telnumber && telnumber !== '' ? updateSet['tel_number'] = telnumber : '';
       email && email !== '' ? updateSet['email'] = email : '';
-
+      (avatar && avatar !== '') && (updateSet['avatar_path'] = avatar);
       userSchema.update({
         _id: userid
       }, {

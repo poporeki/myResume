@@ -277,11 +277,15 @@ exports.getCommentsByArcId = (req, res) => {
           let commlist = commsDatas.map(comm => {
             let commUser = comm.author_id;
             let commReps = traversalReply(comm.reply);
-            let commAvatar = commUser.avatar_path ?
-              commUser.avatar_path.save_path +
-              "thumbnail_" +
-              commUser.avatar_path.new_name :
-              "";
+            let uAvatarInfo = commUser.avatar_path;
+            let commAvatar;
+            if (uAvatarInfo) {
+              if (uAvatarInfo.is_qiniu) {
+                commAvatar = uAvatarInfo.save_path
+              } else {
+                commAvatar = uAvatarInfo.has_thumbnail ? uAvatarInfo.save_path + 'thumbnail_' + uAvatarInfo.new_name : uAvatarInfo.save_path + uAvatarInfo.new_name;
+              }
+            }
             return {
               // 评论id
               id: comm._id,
@@ -318,11 +322,30 @@ exports.getCommentsByArcId = (req, res) => {
     let commReplyArr = [];
     for (let idx = 0, replylen = reply.length; idx < replylen; idx++) {
       let repUser = reply[idx].author_id;
-      let repAvatar = repUser.avatar_path ? repUser.avatar_path.save_path + 'thumbnail_' + repUser.avatar_path.new_name : "/images/my-head.png"
+
+
+      let uAvatarInfo = repUser.avatar_path;
+      let repAvatar;
+      if (uAvatarInfo) {
+        if (uAvatarInfo.is_qiniu) {
+          repAvatar = uAvatarInfo.save_path
+        } else {
+          repAvatar = uAvatarInfo.has_thumbnail ? uAvatarInfo.save_path + 'thumbnail_' + uAvatarInfo.new_name : '';
+        }
+      }
       let to = '';
       if (reply[idx].to) {
         let t = reply[idx].to;
-        let toAvatar = t.avatar_path ? t.avatar_path.save_path + 'thumbnail_' + t.avatar_path.new_name : "/images/my-head.png"
+        let uAvatarInfo = t.avatar_path;
+        let toAvatar;
+        if (uAvatarInfo) {
+          if (uAvatarInfo.is_qiniu) {
+            toAvatar = uAvatarInfo.save_path
+          } else {
+            toAvatar = uAvatarInfo.has_thumbnail ? uAvatarInfo.save_path + 'thumbnail_' + uAvatarInfo.new_name : '';
+          }
+        }
+
         to = {
           user: {
             id: t.author_id._id,

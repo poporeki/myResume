@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var uploadFileSchema = new mongoose.Schema({
+  is_qiniu: Boolean,
   source_name: String,
   ext_name: String,
   new_name: String,
@@ -16,11 +17,11 @@ var uploadFileSchema = new mongoose.Schema({
   }]
 
 }, {
-    timestamps: {
-      createdAt: 'create_time',
-      updatedAt: 'update_time'
-    }
-  });
+  timestamps: {
+    createdAt: 'create_time',
+    updatedAt: 'update_time'
+  }
+});
 
 
 var User = mongoose.model('upload_file', uploadFileSchema);

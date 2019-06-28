@@ -562,6 +562,7 @@ exports.postArticleTypeUpdate = async (req, res, next) => {
   let typeid = req.body.type_id;
   let newTypeName = req.body.new_type_name;
   let userid = req.session.user._id;
+  let iconName = req.body.icon_name;
   if (!newTypeName || !typeid) {
     return res.json({
       status: 0,
@@ -570,7 +571,8 @@ exports.postArticleTypeUpdate = async (req, res, next) => {
   }
   try {
     await arcTypeMod.updateArticleTypeById(typeid, {
-      type_name: newTypeName
+      type_name: newTypeName,
+      icon_name: iconName
     })
     return res.json({
       status: 1,

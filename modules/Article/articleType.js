@@ -38,7 +38,8 @@ module.exports = {
    * @param {Object} param1 修改参数
    */
   updateArticleTypeById(typeid, {
-    type_name
+    type_name,
+    icon_name
   }) {
     return new Promise(async (resolve, reject) => {
       try {
@@ -46,7 +47,8 @@ module.exports = {
           _id: typeid
         }, {
           $set: {
-            type_name
+            type_name,
+            iconfont_name: icon_name
           }
         })
         result.ok === 1 ? resolve(result) : reject(0);
