@@ -11,9 +11,9 @@ var childProcess = require('../../common/child_process');
 const blogCtl = require('../../controllers/blog');
 /* 权限判断 */
 router.use('/', (req, res, next) => {
-  if (!req.session.user) return next(-9);
   let perArr = ['admin', 'root'];
-  if (perArr.indexOf(req.session.user.permissions) !== -1) next();
+  if (!req.session.user || perArr.indexOf(req.session.user.permissions) === -1) return next(-9);
+  next();
 })
 
 

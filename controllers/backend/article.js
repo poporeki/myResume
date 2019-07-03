@@ -536,6 +536,7 @@ exports.getArticleTagList = (req, res, next) => {
     next(err);
   })
 }
+/**修改文章标签 */
 exports.updateArticleTagUpdate = async (req, res, next) => {
   let tagid = req.body.tag_id;
   let newTagName = req.body.new_tag_name;
@@ -558,6 +559,7 @@ exports.updateArticleTagUpdate = async (req, res, next) => {
     next(err);
   }
 }
+/**修改文章分类 */
 exports.postArticleTypeUpdate = async (req, res, next) => {
   let typeid = req.body.type_id;
   let newTypeName = req.body.new_type_name;

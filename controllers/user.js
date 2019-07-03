@@ -92,10 +92,12 @@ exports.showUserHome = (req, res, next) => {
         if (err) return reject(err);
         let avatar = userInfo.avatar_path;
         let avatarPath;
-        if (avatar.is_qiniu) {
-          avatarPath = avatar.save_path;
-        } else {
-          avatarPath = avatarFn(avatar);
+        if (avatar) {
+          if (avatar.is_qiniu) {
+            avatarPath = avatar.save_path;
+          } else {
+            avatarPath = avatarFn(avatar);
+          }
         }
 
         resolve({
