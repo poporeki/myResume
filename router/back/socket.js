@@ -11,7 +11,7 @@ exports.prepareSocketIO = function (server) {
   io.sockets.on('connection', function (socket) {
 
     console.log('socket connecting');
-    /* 获取当前cpu使用率 每三秒查询一次*/
+    /* 获取当前cpu使用率 每3秒查询一次*/
     (function cpuAverage() {
       if (socket.disconnected) return;
       setTimeout(() => {

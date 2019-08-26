@@ -45,13 +45,13 @@ module.exports = {
    * @param {Function} cb 回调函数
    */
   insertOneComment: function ({
-      authorId,
-      commText,
-      arcid,
-      userAgent,
-      ip,
-      address
-    },
+    authorId,
+    commText,
+    arcid,
+    userAgent,
+    ip,
+    address
+  },
     cb
   ) {
     /* 获取当前文章评论总数量 */
@@ -151,15 +151,15 @@ module.exports = {
    * @param {Function} 回调函数
    */
   insertOneReplyInComment: ({
-      articleId,
-      authorId,
-      commentId,
-      commentContent,
-      to,
-      userAgent,
-      ip,
-      address
-    },
+    articleId,
+    authorId,
+    commentId,
+    commentContent,
+    to,
+    userAgent,
+    ip,
+    address
+  },
     cb
   ) => {
     let obj = {
@@ -203,10 +203,10 @@ module.exports = {
           .update({
             _id: commid
           }, {
-            $push: {
-              reply: savedRepid
-            }
-          })
+              $push: {
+                reply: savedRepid
+              }
+            })
           .exec((err, result) => {
             if (err) return reject(err);
             resolve(result);
@@ -254,28 +254,28 @@ module.exports = {
         _id: pars.commid
       })
       .populate([{
+        path: "author_id"
+      },
+      {
+        path: "reply",
+        options: {
+          sort: {
+            create_time: -1
+          },
+          limit: pars.reply.limit,
+          skip: pars.reply.skip
+        },
+        populate: [{
           path: "author_id"
         },
         {
-          path: "reply",
-          options: {
-            sort: {
-              create_time: -1
-            },
-            limit: pars.reply.limit,
-            skip: pars.reply.skip
-          },
-          populate: [{
-              path: "author_id"
-            },
-            {
-              path: "to",
-              populate: {
-                path: "author_id"
-              }
-            }
-          ]
+          path: "to",
+          populate: {
+            path: "author_id"
+          }
         }
+        ]
+      }
       ])
       .exec(cb);
   },
@@ -288,48 +288,48 @@ module.exports = {
   findCommentTop: cb => {
     commentSchema
       .aggregate([{
-          $sort: {
-            create_time: -1
-          }
-        },
-        {
-          $limit: 5
-        },
-        {
-          $lookup: {
-            from: "myweb_users",
-            localField: "author_id",
-            foreignField: "_id",
-            as: "author"
-          }
-        },
-        {
-          $lookup: {
-            from: "articles",
-            localField: "article_id",
-            foreignField: "_id",
-            as: "article"
-          }
-        },
-        {
-          $lookup: {
-            from: "upload_files",
-            localField: "author.avatar_path",
-            foreignField: "_id",
-            as: "avatar"
-          }
-        },
-        {
-          $project: {
-            _id: 0,
-            comment_text: 1,
-            "author.user_name": 1,
-            "avatar.new_name": 1,
-            "avatar.save_path": 1,
-            "article._id": 1,
-            "article.title": 1
-          }
+        $sort: {
+          create_time: -1
         }
+      },
+      {
+        $limit: 5
+      },
+      {
+        $lookup: {
+          from: "myweb_users",
+          localField: "author_id",
+          foreignField: "_id",
+          as: "author"
+        }
+      },
+      {
+        $lookup: {
+          from: "articles",
+          localField: "article_id",
+          foreignField: "_id",
+          as: "article"
+        }
+      },
+      {
+        $lookup: {
+          from: "upload_files",
+          localField: "author.avatar_path",
+          foreignField: "_id",
+          as: "avatar"
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          comment_text: 1,
+          "author.user_name": 1,
+          "avatar.new_name": 1,
+          "avatar.save_path": 1,
+          "article._id": 1,
+          "article.title": 1
+        }
+      }
       ])
       .exec(cb);
   },

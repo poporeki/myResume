@@ -106,10 +106,10 @@ module.exports = {
       .update(newPassword)
       .digest("hex");
     userSchema.updateUserPassword({
-        name: username,
-        pwd: password,
-        newPwd: newPassword
-      },
+      name: username,
+      pwd: password,
+      newPwd: newPassword
+    },
       cb
     );
   },
@@ -275,8 +275,8 @@ module.exports = {
     let getUserInfo = () => {
       return new Promise((resolve, reject) => {
         dbLoginRecord.find({
-            user_id: userID
-          },
+          user_id: userID
+        },
           (err, result) => {
             if (err) return reject(err);
             return resolve(result);
@@ -417,11 +417,11 @@ module.exports = {
       userSchema.update({
         _id: userid
       }, {
-        $set: updateSet
-      }, (err, result) => {
-        if (err) return reject(err);
-        resolve(result);
-      })
+          $set: updateSet
+        }, (err, result) => {
+          if (err) return reject(err);
+          resolve(result);
+        })
     })
   }
 };
