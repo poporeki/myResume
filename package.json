@@ -23,7 +23,7 @@
     "qiniu": "^7.2.2",
     "qs": "^6.7.0",
     "request": "^2.88.0",
-    "socket.io": "^2.2.0",
+    "socket.io": "^2.4.0",
     "superagent": "^5.0.5",
     "xtemplate": "^4.6.1",
     "xtpl": "^3.4.0"
